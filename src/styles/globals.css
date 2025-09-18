@@ -42,7 +42,10 @@
 	--color-gray-900: #111827;
 	--color-gray-950: #030712;
 
-	/* 커스텀 폰트 설정 */
+  /* 빨강 색상 */
+  --color-red-600: #dc2626;
+
+  /* 커스텀 폰트 설정 */
 
 	/* 사이즈 */
 	--text-xs: 12px;
@@ -62,6 +65,7 @@
 	--leading-2xl: 32px;
 	--leading-3xl: 36px;
 
+<<<<<<< HEAD
 	/* 굵기 */
 	--font-weight-light: 300;
 	--font-weight-regular: 400;
