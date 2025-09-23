@@ -1,8 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
 	/* font family */
-	--font-pretendard: "Pretendard", sans-serif;
+	--font-pretendard: 'Pretendard', sans-serif;
 
 	/* 기본 컬러색상 */
 	--color-black: #000000;
@@ -74,11 +74,11 @@
 
 /* input[type :"number"] 화살표 제거 */
 
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 }
 
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }

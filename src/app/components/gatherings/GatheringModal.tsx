@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import { useForm } from "react-hook-form";
-import { GatheringType } from "@/app/types/gatheringType";
+import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { GatheringType } from '@/app/types/gatheringType';
 
 export default function GatheringModal() {
 	const {
@@ -14,14 +14,14 @@ export default function GatheringModal() {
 		formState: { isSubmitting }
 	} = useForm<GatheringType>({
 		defaultValues: {
-			teamId: "5",
-			location: "",
-			type: "",
-			name: "",
-			dateTime: "",
+			teamId: '5',
+			location: '',
+			type: '',
+			name: '',
+			dateTime: '',
 			// capacity: 0,
-			image: "",
-			registrationEnd: ""
+			image: '',
+			registrationEnd: ''
 		}
 	});
 
@@ -42,32 +42,32 @@ export default function GatheringModal() {
 	const onSubmitForm = async (data: GatheringType) => {
 		const body = new FormData();
 
-		body.append("teamId", data.teamId);
-		body.append("location", data.location);
-		body.append("type", data.type);
-		body.append("name", data.name);
-		body.append("dateTime", data.dateTime);
-		body.append("capacity", String(data.capacity));
-		body.append("registrationEnd", data.registrationEnd);
+		body.append('teamId', data.teamId);
+		body.append('location', data.location);
+		body.append('type', data.type);
+		body.append('name', data.name);
+		body.append('dateTime', data.dateTime);
+		body.append('capacity', String(data.capacity));
+		body.append('registrationEnd', data.registrationEnd);
 
 		// 파일 첨부가 있을 때만 서버 전송
 		if (data.image instanceof File) {
-			body.append("image", data.image);
+			body.append('image', data.image);
 		}
 
-		console.log("전송할 폼 데이터:", body);
+		console.log('전송할 폼 데이터:', body);
 
 		try {
 			const response = await fetch(`https://fe-adv-project-together-dallaem.vercel.app/${data.teamId}/gatherings`, {
-				method: "POST",
+				method: 'POST',
 				body
 			});
 
 			if (!response.ok) {
-				throw new Error("게시글 생성 중 오류가 발생하였습니다.");
+				throw new Error('게시글 생성 중 오류가 발생하였습니다.');
 			}
 
-			alert("게시글이 생성되었습니다");
+			alert('게시글이 생성되었습니다');
 			reset();
 		} catch (error) {
 			console.log(error);
@@ -79,10 +79,10 @@ export default function GatheringModal() {
 			모임 만들기
 			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col">
 				<label htmlFor="gathering-name">모임 이름</label>
-				<input {...register("name")} id="gathering-name" type="text" className="border border-black" />
+				<input {...register('name')} id="gathering-name" type="text" className="border border-black" />
 
 				<label htmlFor="gathering-location">장소</label>
-				<select {...register("location")} id="gathering-location" className="border border-black">
+				<select {...register('location')} id="gathering-location" className="border border-black">
 					<option value="">장소를 선택해주세요</option>
 					<option value="건대입구">건대입구</option>
 					<option value="을지로3가">을지로3가</option>
@@ -102,12 +102,12 @@ export default function GatheringModal() {
 							onChange={e => {
 								const file = e.target.files?.[0];
 								if (file) {
-									setValue("image", file);
+									setValue('image', file);
 								}
 							}}
 						/>
 
-						<div className="flex-1">{watch("image") ? (watch("image") as File).name : "이미지를 첨부해주세요"}</div>
+						<div className="flex-1">{watch('image') ? (watch('image') as File).name : '이미지를 첨부해주세요'}</div>
 
 						{/* 오른쪽 버튼 */}
 						<button type="button" onClick={() => fileInputRef.current?.click()} className="">
@@ -122,12 +122,12 @@ export default function GatheringModal() {
 						<input
 							type="checkbox"
 							value="OFFICE_STRETCHING"
-							checked={watch("type") === "OFFICE_STRETCHING"}
+							checked={watch('type') === 'OFFICE_STRETCHING'}
 							onChange={e => {
 								if (e.target.checked) {
-									setValue("type", "OFFICE_STRETCHING");
+									setValue('type', 'OFFICE_STRETCHING');
 								} else {
-									setValue("type", ""); // 해제하면 빈 값
+									setValue('type', ''); // 해제하면 빈 값
 								}
 							}}
 						/>
@@ -138,12 +138,12 @@ export default function GatheringModal() {
 						<input
 							type="checkbox"
 							value="MINDFULNESS"
-							checked={watch("type") === "MINDFULNESS"}
+							checked={watch('type') === 'MINDFULNESS'}
 							onChange={e => {
 								if (e.target.checked) {
-									setValue("type", "MINDFULNESS");
+									setValue('type', 'MINDFULNESS');
 								} else {
-									setValue("type", "");
+									setValue('type', '');
 								}
 							}}
 						/>
@@ -154,12 +154,12 @@ export default function GatheringModal() {
 						<input
 							type="checkbox"
 							value="WORKATION"
-							checked={watch("type") === "WORKATION"}
+							checked={watch('type') === 'WORKATION'}
 							onChange={e => {
 								if (e.target.checked) {
-									setValue("type", "WORKATION");
+									setValue('type', 'WORKATION');
 								} else {
-									setValue("type", "");
+									setValue('type', '');
 								}
 							}}
 						/>
@@ -172,17 +172,17 @@ export default function GatheringModal() {
 				<div className="flex justify-between">
 					<div className="flex flex-col">
 						<label htmlFor="gathering-start-date">모임 날짜</label>
-						<input {...register("dateTime")} id="gathering-start-date" type="datetime-local" />
+						<input {...register('dateTime')} id="gathering-start-date" type="datetime-local" />
 					</div>
 					<div className="flex flex-col">
 						<label htmlFor="gathering-end-date">마감 날짜</label>
-						<input {...register("registrationEnd")} id="gathering-end-date" type="datetime-local" />
+						<input {...register('registrationEnd')} id="gathering-end-date" type="datetime-local" />
 					</div>
 				</div>
 
 				<label htmlFor="gathering-capacity">모집 정원</label>
 				<input
-					{...register("capacity", { valueAsNumber: true })}
+					{...register('capacity', { valueAsNumber: true })}
 					id="gathering-capacity"
 					placeholder="최소 5인 이상 입력해주세요"
 					type="number"
@@ -192,8 +192,8 @@ export default function GatheringModal() {
 				<button
 					type="submit"
 					disabled={!isFormFilled || isSubmitting}
-					className={`${isFormFilled ? "bg-blue-400" : ""}`}>
-					{isSubmitting ? "등록 중..." : "확인"}
+					className={`${isFormFilled ? 'bg-blue-400' : ''}`}>
+					{isSubmitting ? '등록 중...' : '확인'}
 				</button>
 			</form>
 		</div>
