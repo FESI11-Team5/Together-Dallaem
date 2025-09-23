@@ -18,18 +18,39 @@ function mergeOptions<T extends RequestInit>(defaultOpts: T, userOpts?: RequestI
 	};
 }
 
-/**
- * API 요청을 위한 래퍼 함수
- * @param path - API 경로 (상대 경로 또는 절대 경로)
- * @param options - 추가 요청 옵션
- * @returns Promise<Response>
- */
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
 
-const _fetch = (path: string, method: HttpMethod, data?: unknown, options?: RequestInit): Promise<Response> => {
+/**
+ * JSON 응답을 받는 fetch 함수
+ */
+const _fetch = async <T = unknown>(
+	path: string,
+	method: HttpMethod,
+	data?: unknown,
+	options?: RequestInit
+): Promise<T> => {
 	const url = `${BASE_URL}${path}`;
-	const mergedOptions = mergeOptions({ method }, options);
-	return fetch(url, mergedOptions);
+	let body: BodyInit | undefined;
+	const headers: HeadersInit = {};
+	// data가 있는 경우만 처리
+	if (data !== undefined) {
+		// 일반 객체인 경우 JSON으로 직렬화
+		if (
+			typeof data === "object" &&
+			data !== null &&
+			!(data instanceof FormData) &&
+			!(data instanceof Blob) &&
+			!(data instanceof ArrayBuffer)
+		) {
+			body = JSON.stringify(data);
+			headers["content-type"] = "application/json";
+		}
+	}
+	const mergedOptions = mergeOptions({ method, headers }, options);
+
+	const response = await fetch(url, { ...mergedOptions, ...(body !== undefined ? { body } : {}) });
+
+	return response.json();
 };
 
 export { _fetch as fetch, mergeOptions, type HttpMethod };
