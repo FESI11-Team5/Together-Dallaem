@@ -1,4 +1,4 @@
-import GatheringModal from '../components/gatherings/GatheringModal';
+import GatheringModal from '../../components/gatherings/GatheringModal';
 
 export default function Page() {
 	return (

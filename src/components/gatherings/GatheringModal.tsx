@@ -2,8 +2,9 @@
 
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { GatheringType } from '@/app/types/gatheringType';
+
 import GatheringDateTimePicker from './calendar/GatheringDateTimePicker';
+import { GatheringType } from '@/types/gatheringType';
 
 export default function GatheringModal() {
 	const {
