@@ -1,5 +1,5 @@
-import { BaseRequestProps, FetchProps, RequestWithDataProps } from '@/app/types/fetch';
-import { ApiError, deepMerge, toApiError } from '@/app/utils/fetch';
+import { BaseRequestProps, FetchProps, RequestWithDataProps } from '@/types/fetch';
+import { ApiError, deepMerge, toApiError } from '@/utils/fetch';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 const DEFAULT_TIMEOUT = 10000; // 기본 10초
