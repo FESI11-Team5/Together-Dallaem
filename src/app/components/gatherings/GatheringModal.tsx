@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { GatheringType } from '@/app/types/gatheringType';
+import GatheringDateTimePicker from './calendar/GatheringDateTimePicker';
 
 export default function GatheringModal() {
 	const {
@@ -172,11 +173,11 @@ export default function GatheringModal() {
 				<div className="flex justify-between">
 					<div className="flex flex-col">
 						<label htmlFor="gathering-start-date">모임 날짜</label>
-						<input {...register('dateTime')} id="gathering-start-date" type="datetime-local" />
+						<GatheringDateTimePicker />
 					</div>
 					<div className="flex flex-col">
 						<label htmlFor="gathering-end-date">마감 날짜</label>
-						<input {...register('registrationEnd')} id="gathering-end-date" type="datetime-local" />
+						<GatheringDateTimePicker />
 					</div>
 				</div>
 
