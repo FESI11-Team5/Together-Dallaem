@@ -1,20 +1,16 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import GatheringModal from './GatheringModal';
 
-// alert mock
-beforeAll(() => {
-	window.alert = jest.fn();
-});
+import GatheringModal from '../GatheringModal';
 
 describe('GatheringModal - 게시글 작성', () => {
-	beforeEach(() => {
-		(global.fetch as jest.Mock) = jest.fn();
-		(global.fetch as jest.Mock).mockReset();
-	});
+	test('게시글 작성이 200을 반환하는 경우', async () => {
+		// fetch mock
+		global.fetch = jest.fn();
+		// alert mock
+		window.alert = jest.fn();
 
-	test('게시글이 정상적으로 작성되는 경우', async () => {
 		// fetch 성공 응답 mock
-		(global.fetch as jest.Mock).mockResolvedValueOnce({
+		(global.fetch as jest.Mock).mockResolvedValue({
 			ok: true,
 			status: 200
 		});
