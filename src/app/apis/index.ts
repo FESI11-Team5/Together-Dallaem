@@ -12,6 +12,17 @@ class ApiError extends Error {
 	}
 }
 
+export interface NextFetchOptions extends RequestInit {
+	next?: {
+		tags?: string[];
+		revalidate?: number | false;
+	};
+	cache?: RequestCache;
+	timeout?: number;
+	// 느슨하게 타입을 풀었는데 나중에 수정 필요
+	[key: string]: unknown;
+}
+
 function toApiError(err: unknown): ApiError {
 	if (err instanceof ApiError) return err;
 	if (err instanceof Error) return new ApiError(0, err.message || 'Network Error');
@@ -23,17 +34,35 @@ function toApiError(err: unknown): ApiError {
  * 기본 옵션과 사용자 옵션을 안전하게 병합합니다.
  */
 // Todo: 필요 시 deepMerge로 변경
-function mergeOptions<T extends RequestInit>(defaultOpts: T, userOpts?: RequestInit): RequestInit {
-	if (!userOpts) return defaultOpts;
+function deepMerge(base: NextFetchOptions, overrides?: NextFetchOptions, lowerCase: boolean = false): NextFetchOptions {
+	if (!overrides) return base;
 
-	return {
-		...defaultOpts,
-		...userOpts,
-		headers: {
-			...defaultOpts.headers,
-			...userOpts.headers
+	const out: NextFetchOptions = { ...base };
+
+	for (const key in overrides) {
+		const normalizedKey = lowerCase ? key.toLowerCase() : key;
+		const baseValue = out[normalizedKey];
+		const overrideValue = overrides[key];
+
+		if (
+			baseValue &&
+			typeof baseValue === 'object' &&
+			!Array.isArray(baseValue) &&
+			overrideValue &&
+			typeof overrideValue === 'object' &&
+			!Array.isArray(overrideValue)
+		) {
+			out[normalizedKey] = deepMerge(
+				baseValue as NextFetchOptions,
+				overrideValue as NextFetchOptions,
+				normalizedKey === 'headers'
+			);
+		} else {
+			out[normalizedKey] = overrideValue;
 		}
-	};
+	}
+
+	return out;
 }
 
 export const getRequest = async <T = unknown>({
@@ -41,7 +70,7 @@ export const getRequest = async <T = unknown>({
 	options
 }: {
 	path: string;
-	options?: RequestInit & { timeout?: number };
+	options?: NextFetchOptions;
 }): Promise<T> => _fetch(path, 'GET', options);
 
 export const postRequest = async <T = unknown>({
@@ -51,7 +80,7 @@ export const postRequest = async <T = unknown>({
 }: {
 	path: string;
 	data?: unknown;
-	options?: RequestInit & { timeout?: number };
+	options?: NextFetchOptions;
 }): Promise<T> => _fetch(path, 'POST', options, data);
 
 export const putRequest = async <T = unknown>({
@@ -61,7 +90,7 @@ export const putRequest = async <T = unknown>({
 }: {
 	path: string;
 	data?: unknown;
-	options?: RequestInit & { timeout?: number };
+	options?: NextFetchOptions;
 }): Promise<T> => _fetch(path, 'PUT', options, data);
 
 export const deleteRequest = async <T = unknown>({
@@ -69,7 +98,7 @@ export const deleteRequest = async <T = unknown>({
 	options
 }: {
 	path: string;
-	options?: RequestInit & { timeout?: number };
+	options?: NextFetchOptions;
 }): Promise<T> => _fetch(path, 'DELETE', options);
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -80,7 +109,7 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 const _fetch = async <T = unknown>(
 	path: string,
 	method: HttpMethod,
-	options?: RequestInit & { timeout?: number },
+	options?: NextFetchOptions,
 	data?: unknown
 ): Promise<T> => {
 	const url = `${BASE_URL}${path}`;
@@ -88,7 +117,6 @@ const _fetch = async <T = unknown>(
 	const headers: HeadersInit = {};
 	// data가 있는 경우만 처리
 	if (data !== undefined) {
-		// 일반 객체인 경우 JSON으로 직렬화
 		if (
 			typeof data === 'object' &&
 			data !== null &&
@@ -107,7 +135,7 @@ const _fetch = async <T = unknown>(
 	const timeoutId = controller ? setTimeout(() => controller.abort(), timeoutMs) : undefined;
 
 	try {
-		const mergedOptions = mergeOptions({ method, headers }, options);
+		const mergedOptions = deepMerge({ method, headers }, options);
 		const response = await fetch(url, {
 			...mergedOptions,
 			...(body !== undefined ? { body } : {}),
@@ -129,5 +157,3 @@ const _fetch = async <T = unknown>(
 		if (timeoutId) clearTimeout(timeoutId);
 	}
 };
-
-export { _fetch as fetch, mergeOptions, type HttpMethod };
