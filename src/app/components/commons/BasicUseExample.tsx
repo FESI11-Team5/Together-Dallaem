@@ -4,6 +4,7 @@ import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
 import { useForm, Controller } from 'react-hook-form';
 import { useMemo } from 'react';
+import BasicTextBox from './BasicTextBox';
 
 export default function Home() {
 	const { control, handleSubmit, watch } = useForm();
@@ -30,6 +31,7 @@ export default function Home() {
 						/>
 					)}
 				/>
+				<BasicTextBox>같이달램</BasicTextBox>
 				<BasicButton
 					onClick={() => {
 						console.log('button clicked');
