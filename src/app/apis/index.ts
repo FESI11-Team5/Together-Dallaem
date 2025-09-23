@@ -1,5 +1,22 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
+class ApiError extends Error {
+	status: number;
+	body: unknown;
+
+	constructor(status: number, message: string, body?: unknown) {
+		super(message);
+		this.status = status;
+		this.body = body;
+	}
+}
+
+function toApiError(err: unknown): ApiError {
+	if (err instanceof ApiError) return err;
+	if (err instanceof Error) return new ApiError(0, err.message || "Network Error");
+	return new ApiError(0, "Unknown Error");
+}
+
 /**
  * 옵션을 병합하는 유틸리티 함수
  * 기본 옵션과 사용자 옵션을 안전하게 병합합니다.
@@ -43,14 +60,26 @@ const _fetch = async <T = unknown>(
 			!(data instanceof ArrayBuffer)
 		) {
 			body = JSON.stringify(data);
-			headers["content-type"] = "application/json";
+			headers["Content-Type"] = "application/json";
 		}
 	}
-	const mergedOptions = mergeOptions({ method, headers }, options);
 
-	const response = await fetch(url, { ...mergedOptions, ...(body !== undefined ? { body } : {}) });
+	try {
+		const mergedOptions = mergeOptions({ method, headers }, options);
+		const response = await fetch(url, {
+			...mergedOptions,
+			...(body !== undefined ? { body } : {})
+		});
 
-	return response.json();
+		if (!response.ok) {
+			const errorBody = await response.json().catch(() => null);
+			throw new ApiError(response.status, response.statusText, errorBody);
+		}
+
+		return response.json();
+	} catch (err: unknown) {
+		throw toApiError(err);
+	}
 };
 
 export { _fetch as fetch, mergeOptions, type HttpMethod };
