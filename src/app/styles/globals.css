@@ -1,73 +1,84 @@
 @import "tailwindcss";
 
 @theme {
-  /* font family */
-  --font-pretendard: "Pretendard", sans-serif;
+	/* font family */
+	--font-pretendard: "Pretendard", sans-serif;
 
-  /* 기본 컬러색상 */
-  --color-black: #000000;
-  --color-white: #ffffff;
+	/* 기본 컬러색상 */
+	--color-black: #000000;
+	--color-white: #ffffff;
 
-  /* 빨강 색상 */
-  --color-red-600: #dc2626;
+	/* 빨강 색상 */
+	--color-red-600: #dc2626;
 
-  /* 커스텀 컬러색상  */
+	/* 커스텀 컬러색상  */
 
-  /* 오렌지 색상 */
-  --color-orange-50: #fff7ed;
-  --color-orange-100: #ffedd5;
-  --color-orange-200: #fed7aa;
-  --color-orange-300: #fdba74;
-  --color-orange-400: #fb923c;
-  --color-orange-500: #f97316;
-  --color-orange-600: #ea580c;
-  --color-orange-700: #c2410c;
-  --color-orange-800: #9a3412;
-  --color-orange-900: #7c2d12;
-  --color-orange-950: #431407;
+	/* 오렌지 색상 */
+	--color-orange-50: #fff7ed;
+	--color-orange-100: #ffedd5;
+	--color-orange-200: #fed7aa;
+	--color-orange-300: #fdba74;
+	--color-orange-400: #fb923c;
+	--color-orange-500: #f97316;
+	--color-orange-600: #ea580c;
+	--color-orange-700: #c2410c;
+	--color-orange-800: #9a3412;
+	--color-orange-900: #7c2d12;
+	--color-orange-950: #431407;
 
-  /* 그레이 색상 */
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
-  --color-gray-950: #030712;
+	/* 그레이 색상 */
+	--color-gray-50: #f9fafb;
+	--color-gray-100: #f3f4f6;
+	--color-gray-200: #e5e7eb;
+	--color-gray-300: #d1d5db;
+	--color-gray-400: #9ca3af;
+	--color-gray-500: #6b7280;
+	--color-gray-600: #4b5563;
+	--color-gray-700: #374151;
+	--color-gray-800: #1f2937;
+	--color-gray-900: #111827;
+	--color-gray-950: #030712;
 
-  /* 커스텀 폰트 설정 */
+	/* 커스텀 폰트 설정 */
 
-  /* 사이즈 */
-  --text-xs: 12px;
-  --text-sm: 14px;
-  --text-base: 16px;
-  --text-lg: 18px;
-  --text-xl: 20px;
-  --text-2xl: 24px;
-  --text-3xl: 30px;
+	/* 사이즈 */
+	--text-xs: 12px;
+	--text-sm: 14px;
+	--text-base: 16px;
+	--text-lg: 18px;
+	--text-xl: 20px;
+	--text-2xl: 24px;
+	--text-3xl: 30px;
 
-  /* 라인 높이 */
-  --leading-xs: 16px;
-  --leading-sm: 20px;
-  --leading-base: 24px;
-  --leading-lg: 28px;
-  --leading-xl: 28px;
-  --leading-2xl: 32px;
-  --leading-3xl: 36px;
+	/* 라인 높이 */
+	--leading-xs: 16px;
+	--leading-sm: 20px;
+	--leading-base: 24px;
+	--leading-lg: 28px;
+	--leading-xl: 28px;
+	--leading-2xl: 32px;
+	--leading-3xl: 36px;
 
-  /* 굵기 */
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+	/* 굵기 */
+	--font-weight-light: 300;
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
 
-  /* 커스텀 반응형 디자인 */
-  --breakpoint-mb: 375px; /* 모바일 */
-  --breakpoint-tb: 744px; /* 태블릿 */
-  --breakpoint-pc: 1200px; /* 데스크탑 */
+	/* 커스텀 반응형 디자인 */
+	--breakpoint-mb: 375px; /* 모바일 */
+	--breakpoint-tb: 744px; /* 태블릿 */
+	--breakpoint-pc: 1200px; /* 데스크탑 */
+}
+
+/* input[type :"number"] 화살표 제거 */
+
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
