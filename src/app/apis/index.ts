@@ -1,4 +1,5 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const DEFAULT_TIMEOUT = 10000; // 기본 10초
 
 class ApiError extends Error {
 	status: number;
@@ -35,8 +36,13 @@ function mergeOptions<T extends RequestInit>(defaultOpts: T, userOpts?: RequestI
 	};
 }
 
-export const getRequest = async <T = unknown>({ path, options }: { path: string; options?: RequestInit }): Promise<T> =>
-	_fetch(path, 'GET', options);
+export const getRequest = async <T = unknown>({
+	path,
+	options
+}: {
+	path: string;
+	options?: RequestInit & { timeout?: number };
+}): Promise<T> => _fetch(path, 'GET', options);
 
 export const postRequest = async <T = unknown>({
 	path,
@@ -45,7 +51,7 @@ export const postRequest = async <T = unknown>({
 }: {
 	path: string;
 	data?: unknown;
-	options?: RequestInit;
+	options?: RequestInit & { timeout?: number };
 }): Promise<T> => _fetch(path, 'POST', options, data);
 
 export const putRequest = async <T = unknown>({
@@ -55,7 +61,7 @@ export const putRequest = async <T = unknown>({
 }: {
 	path: string;
 	data?: unknown;
-	options?: RequestInit;
+	options?: RequestInit & { timeout?: number };
 }): Promise<T> => _fetch(path, 'PUT', options, data);
 
 export const deleteRequest = async <T = unknown>({
@@ -63,7 +69,7 @@ export const deleteRequest = async <T = unknown>({
 	options
 }: {
 	path: string;
-	options?: RequestInit;
+	options?: RequestInit & { timeout?: number };
 }): Promise<T> => _fetch(path, 'DELETE', options);
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -74,7 +80,7 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 const _fetch = async <T = unknown>(
 	path: string,
 	method: HttpMethod,
-	options?: RequestInit,
+	options?: RequestInit & { timeout?: number },
 	data?: unknown
 ): Promise<T> => {
 	const url = `${BASE_URL}${path}`;
@@ -95,11 +101,17 @@ const _fetch = async <T = unknown>(
 		}
 	}
 
+	const controller = options?.signal ? null : new AbortController();
+	const signal = options?.signal ?? controller!.signal;
+	const timeoutMs = options?.timeout ?? DEFAULT_TIMEOUT;
+	const timeoutId = controller ? setTimeout(() => controller.abort(), timeoutMs) : undefined;
+
 	try {
 		const mergedOptions = mergeOptions({ method, headers }, options);
 		const response = await fetch(url, {
 			...mergedOptions,
-			...(body !== undefined ? { body } : {})
+			...(body !== undefined ? { body } : {}),
+			signal
 		});
 
 		if (!response.ok) {
@@ -109,7 +121,12 @@ const _fetch = async <T = unknown>(
 
 		return response.json();
 	} catch (err: unknown) {
+		if (err instanceof DOMException && err.name === 'AbortError') {
+			throw new ApiError(0, 'Request aborted (timeout or manual abort)');
+		}
 		throw toApiError(err);
+	} finally {
+		if (timeoutId) clearTimeout(timeoutId);
 	}
 };
 
