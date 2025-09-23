@@ -1,117 +1,88 @@
+import { BaseRequestProps, FetchProps, RequestWithDataProps } from '@/app/types/fetch';
+import { ApiError, deepMerge, toApiError } from '@/app/utils/fetch';
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 const DEFAULT_TIMEOUT = 10000; // 기본 10초
 
-class ApiError extends Error {
-	status: number;
-	body: unknown;
-
-	constructor(status: number, message: string, body?: unknown) {
-		super(message);
-		this.status = status;
-		this.body = body;
-	}
-}
-
-export interface NextFetchOptions extends RequestInit {
-	next?: {
-		tags?: string[];
-		revalidate?: number | false;
-	};
-	cache?: RequestCache;
-	timeout?: number;
-	// 느슨하게 타입을 풀었는데 나중에 수정 필요
-	[key: string]: unknown;
-}
-
-function toApiError(err: unknown): ApiError {
-	if (err instanceof ApiError) return err;
-	if (err instanceof Error) return new ApiError(0, err.message || 'Network Error');
-	return new ApiError(0, 'Unknown Error');
-}
+/**
+ * GET 요청을 수행합니다.
+ * @template T - 응답 데이터의 타입
+ * @param params - 요청 파라미터
+ * @param params.path - API 경로 (예: '/api/users')
+ * @param params.options - 추가 요청 옵션 (타임아웃, 헤더 등)
+ * @returns Promise<T> - 응답 데이터
+ * @throws {ApiError} 요청 실패 시 발생
+ *
+ */
+export const getRequest = async <T = unknown>({ path, options }: BaseRequestProps): Promise<T> =>
+	_fetch({ path, method: 'GET', options });
 
 /**
- * 옵션을 병합하는 유틸리티 함수
- * 기본 옵션과 사용자 옵션을 안전하게 병합합니다.
+ * POST 요청을 수행합니다.
+ * @template T - 응답 데이터의 타입
+ * @template TData - 요청 데이터의 타입
+ * @param params - 요청 파라미터
+ * @param params.path - API 경로 (예: '/api/users')
+ * @param params.data - 요청 본문 데이터 (객체인 경우 JSON으로 자동 변환)
+ * @param params.options - 추가 요청 옵션 (타임아웃, 헤더 등)
+ * @returns Promise<T> - 응답 데이터
+ * @throws {ApiError} 요청 실패 시 발생
  */
-// Todo: 필요 시 deepMerge로 변경
-function deepMerge(base: NextFetchOptions, overrides?: NextFetchOptions, lowerCase: boolean = false): NextFetchOptions {
-	if (!overrides) return base;
-
-	const out: NextFetchOptions = { ...base };
-
-	for (const key in overrides) {
-		const normalizedKey = lowerCase ? key.toLowerCase() : key;
-		const baseValue = out[normalizedKey];
-		const overrideValue = overrides[key];
-
-		if (
-			baseValue &&
-			typeof baseValue === 'object' &&
-			!Array.isArray(baseValue) &&
-			overrideValue &&
-			typeof overrideValue === 'object' &&
-			!Array.isArray(overrideValue)
-		) {
-			out[normalizedKey] = deepMerge(
-				baseValue as NextFetchOptions,
-				overrideValue as NextFetchOptions,
-				normalizedKey === 'headers'
-			);
-		} else {
-			out[normalizedKey] = overrideValue;
-		}
-	}
-
-	return out;
-}
-
-export const getRequest = async <T = unknown>({
-	path,
-	options
-}: {
-	path: string;
-	options?: NextFetchOptions;
-}): Promise<T> => _fetch(path, 'GET', options);
-
-export const postRequest = async <T = unknown>({
+export const postRequest = async <T = unknown, TData = unknown>({
 	path,
 	data,
 	options
-}: {
-	path: string;
-	data?: unknown;
-	options?: NextFetchOptions;
-}): Promise<T> => _fetch(path, 'POST', options, data);
+}: RequestWithDataProps<TData>): Promise<T> => _fetch({ path, method: 'POST', options, data });
 
-export const putRequest = async <T = unknown>({
+/**
+ * PUT 요청을 수행합니다.
+ * @template T - 응답 데이터의 타입
+ * @template TData - 요청 데이터의 타입
+ * @param params - 요청 파라미터
+ * @param params.path - API 경로 (예: '/api/users/123')
+ * @param params.data - 요청 본문 데이터 (객체인 경우 JSON으로 자동 변환)
+ * @param params.options - 추가 요청 옵션 (타임아웃, 헤더 등)
+ * @returns Promise<T> - 응답 데이터
+ * @throws {ApiError} 요청 실패 시 발생
+ */
+export const putRequest = async <T = unknown, TData = unknown>({
 	path,
 	data,
 	options
-}: {
-	path: string;
-	data?: unknown;
-	options?: NextFetchOptions;
-}): Promise<T> => _fetch(path, 'PUT', options, data);
-
-export const deleteRequest = async <T = unknown>({
-	path,
-	options
-}: {
-	path: string;
-	options?: NextFetchOptions;
-}): Promise<T> => _fetch(path, 'DELETE', options);
-
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+}: RequestWithDataProps<TData>): Promise<T> => _fetch({ path, method: 'PUT', options, data });
 
 /**
- * JSON 응답을 받는 fetch 함수
+ * DELETE 요청을 수행합니다.
+ * @template T - 응답 데이터의 타입
+ * @param params - 요청 파라미터
+ * @param params.path - API 경로 (예: '/api/users/123')
+ * @param params.options - 추가 요청 옵션 (타임아웃, 헤더 등)
+ * @returns Promise<T> - 응답 데이터
+ * @throws {ApiError} 요청 실패 시 발생
  */
-const _fetch = async <T = unknown>(
-	path: string,
-	method: HttpMethod,
-	options?: NextFetchOptions,
-	data?: unknown
-): Promise<T> => {
+export const deleteRequest = async <T = unknown>({ path, options }: BaseRequestProps): Promise<T> =>
+	_fetch({ path, method: 'DELETE', options });
+
+/**
+ * 내부 fetch 함수 - 모든 HTTP 요청의 공통 로직을 처리합니다.
+ *
+ * 주요 기능:
+ * - 자동 JSON 직렬화 (객체 데이터)
+ * - 타임아웃 처리 (기본 10초)
+ * - 에러 처리 및 변환
+ * - 헤더 병합
+ *
+ * @template T - 응답 데이터의 타입
+ * @param params - 요청 파라미터
+ * @param params.path - API 경로
+ * @param params.method - HTTP 메서드
+ * @param params.data - 요청 데이터 (선택적)
+ * @param params.options - 추가 요청 옵션
+ * @returns Promise<T> - 응답 데이터
+ * @throws {ApiError} 요청 실패 시 발생
+ * @private
+ */
+const _fetch = async <T = unknown>({ path, method, options, data }: FetchProps): Promise<T> => {
 	const url = `${BASE_URL}${path}`;
 	let body: BodyInit | undefined;
 	const headers: HeadersInit = {};
