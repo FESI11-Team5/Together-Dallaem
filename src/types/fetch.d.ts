@@ -21,3 +21,10 @@ export interface RequestWithDataProps<TData = unknown> extends BaseRequestProps 
 export interface FetchProps extends RequestWithDataProps {
 	method: HttpMethod;
 }
+
+export interface ApiErrorBody {
+	code?: string;
+	parameter?: string;
+	message?: string;
+	[key: string]: unknown;
+}

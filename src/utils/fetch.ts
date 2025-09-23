@@ -1,6 +1,6 @@
-import { NextFetchOptions } from '@/types/fetch';
+import { ApiErrorBody, NextFetchOptions } from '@/types/fetch';
 
-/**
+/*
  * API 요청 중 발생하는 에러를 나타내는 클래스입니다.
  * HTTP 상태 코드, 에러 메시지, 그리고 응답 본문을 포함합니다.
  *
@@ -10,18 +10,23 @@ export class ApiError extends Error {
 	/** HTTP 상태 코드 (0은 네트워크 에러를 의미) */
 	status: number;
 	/** 서버에서 반환한 에러 응답 본문 */
-	body: unknown;
-
+	body?: ApiErrorBody;
+	/** 서버가 내려준 에러 코드 (예: VALIDATION_ERROR, UNAUTHORIZED) */
+	code?: string;
+	/** 서버가 내려준 에러 파라미터 (예: "type" 필드 유효성 실패) */
+	parameter?: string;
 	/**
 	 * ApiError 인스턴스를 생성합니다.
 	 * @param status - HTTP 상태 코드
 	 * @param message - 에러 메시지
 	 * @param body - 서버 응답 본문 (선택적)
 	 */
-	constructor(status: number, message: string, body?: unknown) {
-		super(message);
+	constructor(status: number, message: string, body?: ApiErrorBody) {
+		super(body?.message || message);
 		this.status = status;
 		this.body = body;
+		this.code = body?.code;
+		this.parameter = body?.parameter;
 	}
 }
 
