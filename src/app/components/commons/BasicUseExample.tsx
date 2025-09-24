@@ -5,9 +5,12 @@ import BasicInput from './BasicInput';
 import { useForm, Controller } from 'react-hook-form';
 import { useMemo } from 'react';
 import BasicTextBox from './BasicTextBox';
+import BasicSelectBox from './BasicSelectBox';
 
 export default function Home() {
-	const { control, handleSubmit, watch } = useForm();
+	const { control, handleSubmit, watch, register } = useForm();
+
+	const selectedValue = watch('selectField');
 	const value = watch('myInputField') ?? '';
 	const isValid = useMemo(() => value.trim().length > 4, [value]);
 
@@ -17,6 +20,16 @@ export default function Home() {
 				onSubmit={handleSubmit(() => {
 					console.log('제출!!');
 				})}>
+				{/* register 또는 controller 둘 중 하나 방식으로 작성 selectbox:register input:controller로 각각의 예시 작성함 */}
+				<BasicSelectBox
+					options={[
+						{ value: 'option1', text: '옵션 1' },
+						{ value: 'option2', text: '옵션 2' }
+					]}
+					register={register('selectField')}
+					isLarge={false}
+					placeholder="선택"
+				/>
 				<Controller
 					name="myInputField"
 					control={control}
@@ -31,7 +44,7 @@ export default function Home() {
 						/>
 					)}
 				/>
-				<BasicTextBox>같이달램</BasicTextBox>
+				<BasicTextBox>{selectedValue}</BasicTextBox>
 				<BasicButton
 					onClick={() => {
 						console.log('button clicked');
