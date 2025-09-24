@@ -198,5 +198,6 @@ input[type='number']::-webkit-outer-spin-button {
 	}
 	body {
 		@apply bg-background text-foreground;
+		@apply font-pretendard;
 	}
 }
