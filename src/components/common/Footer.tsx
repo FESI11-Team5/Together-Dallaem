@@ -17,8 +17,8 @@ export default function Footer() {
 					</div>
 				</div>
 			) : (
-				<div className="pc:w-[1200px] tb:w-[744px] mb:w-[375px] max-mb:flex-col max-mb:items-start max-mb:gap-4 flex w-full items-center justify-between">
-					<div className="flex-1 pr-4">
+				<div className="pc:w-[1200px] tb:w-[744px] mb:w-[375px] max-mb:flex-col max-mb:gap-4 flex w-full items-center justify-between">
+					<div className="pr-4">
 						<h1 className="text-sm font-bold">더 건강한 나와 팀을 위한 프로그램 🏃🏻</h1>
 						<p className="text-xs text-gray-600">모임을 공유해서 더 많은 사람들이 참여할 수 있도록 독려해봐요</p>
 					</div>
