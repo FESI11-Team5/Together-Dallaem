@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
@@ -13,18 +11,20 @@ interface TimeSelection {
 
 interface DateTimePickerProps {
 	date: Date | undefined;
+	timeSelection: TimeSelection;
 	setDate: (date: Date) => void;
 	setIsOpen: (open: boolean) => void;
-	timeSelection: TimeSelection;
 	setTimeSelection: React.Dispatch<React.SetStateAction<TimeSelection>>;
+	onChange?: (date: Date) => void;
 }
 
 export default function DateTimePicker({
 	date,
+	timeSelection,
 	setDate,
 	setIsOpen,
-	timeSelection,
-	setTimeSelection
+	setTimeSelection,
+	onChange
 }: DateTimePickerProps) {
 	const hours = Array.from({ length: 12 }, (_, i) => i + 1);
 	const minutes = Array.from({ length: 12 }, (_, i) => i * 5);
@@ -41,6 +41,7 @@ export default function DateTimePicker({
 		newDate.setMinutes(parseInt(timeSelection.minute));
 
 		setDate(newDate);
+		onChange?.(newDate);
 		setIsOpen(false);
 	};
 

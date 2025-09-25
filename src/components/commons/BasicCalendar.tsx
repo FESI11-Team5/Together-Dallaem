@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 
 interface GatheringCalendarProps {
 	pageType?: 'search' | 'create';
+	onChange?: (date: Date) => void;
 }
 
 interface TimeSelection {
@@ -22,7 +23,7 @@ interface TimeSelection {
 	ampm?: string;
 }
 
-export default function BasicCalendar({ pageType }: GatheringCalendarProps) {
+export default function BasicCalendar({ pageType, onChange }: GatheringCalendarProps) {
 	const [date, setDate] = React.useState<Date>();
 	const [timeSelection, setTimeSelection] = React.useState<TimeSelection>({
 		hour: undefined,
@@ -35,6 +36,7 @@ export default function BasicCalendar({ pageType }: GatheringCalendarProps) {
 	const handleDateSelect = (selectedDate: Date | undefined) => {
 		if (selectedDate) {
 			setDate(selectedDate);
+			onChange?.(selectedDate);
 		}
 	};
 
@@ -77,6 +79,7 @@ export default function BasicCalendar({ pageType }: GatheringCalendarProps) {
 							setIsOpen={setIsOpen}
 							timeSelection={timeSelection}
 							setTimeSelection={setTimeSelection}
+							onChange={onChange}
 						/>
 					)}
 

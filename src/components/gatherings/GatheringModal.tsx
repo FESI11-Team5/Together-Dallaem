@@ -6,6 +6,8 @@ import BasicCalendar from '../commons/BasicCalendar';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { format } from 'date-fns';
+
 export default function GatheringModal() {
 	const {
 		watch,
@@ -21,7 +23,6 @@ export default function GatheringModal() {
 			type: '',
 			name: '',
 			dateTime: '',
-			// capacity: 0,
 			image: null,
 			registrationEnd: ''
 		}
@@ -39,7 +40,8 @@ export default function GatheringModal() {
 		formValues.type &&
 		formValues.dateTime &&
 		formValues.registrationEnd &&
-		formValues.capacity >= 5;
+		formValues.capacity >= 5 &&
+		formValues.capacity <= 20;
 
 	const onSubmitForm = async (data: Gathering) => {
 		const body = new FormData();
@@ -172,11 +174,19 @@ export default function GatheringModal() {
 				<div className="flex justify-between">
 					<div className="flex flex-col">
 						<label htmlFor="gathering-start-date">모임 날짜</label>
-						<BasicCalendar pageType="create" />
+
+						<BasicCalendar
+							pageType="create"
+							onChange={date => setValue('dateTime', format(date, "yyyy-MM-dd'T'HH:mm:ss"))}
+						/>
 					</div>
 					<div className="flex flex-col">
 						<label htmlFor="gathering-end-date">마감 날짜</label>
-						<BasicCalendar pageType="create" />
+
+						<BasicCalendar
+							pageType="create"
+							onChange={date => setValue('registrationEnd', format(date, "yyyy-MM-dd'T'HH:mm:ss"))}
+						/>
 					</div>
 				</div>
 
