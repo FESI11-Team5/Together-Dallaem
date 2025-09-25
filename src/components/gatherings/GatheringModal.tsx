@@ -1,11 +1,10 @@
 'use client';
 
+import { Gathering } from '@/types/response/gatherings';
 import BasicCalendar from '../commons/BasicCalendar';
 
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { GatheringType } from '@/types/gatheringType';
 
 export default function GatheringModal() {
 	const {
@@ -15,15 +14,15 @@ export default function GatheringModal() {
 		setValue,
 		reset,
 		formState: { isSubmitting }
-	} = useForm<GatheringType>({
+	} = useForm<Gathering>({
 		defaultValues: {
-			teamId: '5',
+			teamId: 5,
 			location: '',
 			type: '',
 			name: '',
 			dateTime: '',
 			// capacity: 0,
-			image: '',
+			image: null,
 			registrationEnd: ''
 		}
 	});
@@ -42,10 +41,10 @@ export default function GatheringModal() {
 		formValues.registrationEnd &&
 		formValues.capacity >= 5;
 
-	const onSubmitForm = async (data: GatheringType) => {
+	const onSubmitForm = async (data: Gathering) => {
 		const body = new FormData();
 
-		body.append('teamId', data.teamId);
+		body.append('teamId', String(data.teamId));
 		body.append('location', data.location);
 		body.append('type', data.type);
 		body.append('name', data.name);

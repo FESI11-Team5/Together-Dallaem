@@ -1,6 +1,5 @@
-import GatheringModal from '../GatheringModal';
-
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import GatheringModal from '../GatheringModal';
 
 // AAA방식 적용기
 
@@ -17,6 +16,7 @@ describe('GatheringModal - 게시글 작성', () => {
 		render(<GatheringModal />);
 
 		// 이름 입력
+
 		fireEvent.change(screen.getByLabelText('모임 이름'), {
 			target: { value: '테스트 모임' }
 		});
