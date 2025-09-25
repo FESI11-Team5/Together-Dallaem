@@ -10,11 +10,16 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-export default function GatheringDateTimePicker() {
+export default function GatheringCalendar() {
 	const [date, setDate] = React.useState<Date>();
+	const [hour, setHour] = React.useState<string>();
+	const [minute, setMinute] = React.useState<string>();
+	const [ampm, setAmpm] = React.useState<string>();
+
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+
 	const handleDateSelect = (selectedDate: Date | undefined) => {
 		if (selectedDate) {
 			setDate(selectedDate);
@@ -26,11 +31,14 @@ export default function GatheringDateTimePicker() {
 			const newDate = new Date(date);
 			if (type === 'hour') {
 				newDate.setHours((parseInt(value) % 12) + (newDate.getHours() >= 12 ? 12 : 0));
+				setHour(value);
 			} else if (type === 'minute') {
 				newDate.setMinutes(parseInt(value));
+				setMinute(value);
 			} else if (type === 'ampm') {
 				const currentHours = newDate.getHours();
 				newDate.setHours(value === 'PM' ? currentHours + 12 : currentHours - 12);
+				setAmpm(value);
 			}
 			setDate(newDate);
 		}
@@ -46,11 +54,21 @@ export default function GatheringDateTimePicker() {
 					{date ? format(date, 'MM/dd/yyyy hh:mm aa') : <span>MM/DD/YYYY hh:mm aa</span>}
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-auto p-0">
-				<div className="sm:flex">
-					<Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
-					<div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
-						<ScrollArea className="w-64 sm:w-auto">
+			<PopoverContent className="w-auto p-5" align="start">
+				<div className="w-auto sm:flex">
+					<Calendar
+						mode="single"
+						selected={date}
+						onSelect={handleDateSelect}
+						classNames={{
+							day: 'text-sm hover:bg-gray-100',
+							today: 'border border-orange-500 text-orange-500 rounded-md'
+						}}
+					/>
+
+					<div className="flex flex-col sm:h-[300px] sm:flex-row">
+						{/* Hour */}
+						<ScrollArea className="w-16 border-l">
 							<div className="flex p-2 sm:flex-col">
 								{hours.reverse().map(hour => (
 									<Button
@@ -59,13 +77,15 @@ export default function GatheringDateTimePicker() {
 										variant={date && date.getHours() % 12 === hour % 12 ? 'default' : 'ghost'}
 										className="aspect-square shrink-0 sm:w-full"
 										onClick={() => handleTimeChange('hour', hour.toString())}>
-										{hour}
+										{hour.toString().padStart(2, '0')}
 									</Button>
 								))}
 							</div>
 							<ScrollBar orientation="horizontal" className="sm:hidden" />
 						</ScrollArea>
-						<ScrollArea className="w-64 sm:w-auto">
+
+						{/* Minute */}
+						<ScrollArea className="w-16 border-l sm:w-16">
 							<div className="flex p-2 sm:flex-col">
 								{Array.from({ length: 12 }, (_, i) => i * 5).map(minute => (
 									<Button
@@ -74,13 +94,15 @@ export default function GatheringDateTimePicker() {
 										variant={date && date.getMinutes() === minute ? 'default' : 'ghost'}
 										className="aspect-square shrink-0 sm:w-full"
 										onClick={() => handleTimeChange('minute', minute.toString())}>
-										{minute}
+										{minute.toString().padStart(2, '0')}
 									</Button>
 								))}
 							</div>
 							<ScrollBar orientation="horizontal" className="sm:hidden" />
 						</ScrollArea>
-						<ScrollArea className="">
+
+						{/* AM/PM */}
+						<ScrollArea className="w-16 border-l sm:w-16">
 							<div className="flex p-2 sm:flex-col">
 								{['AM', 'PM'].map(ampm => (
 									<Button

@@ -50,6 +50,8 @@ function Calendar({
 					'size-(--cell-size) aria-disabled:opacity-50 p-0 select-none',
 					defaultClassNames.button_next
 				),
+				selected: cn('bg-orange-500 text-white', defaultClassNames.selected),
+
 				month_caption: cn(
 					'flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)',
 					defaultClassNames.month_caption
