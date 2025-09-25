@@ -175,11 +175,11 @@ export default function GatheringModal() {
 				<div className="flex justify-between">
 					<div className="flex flex-col">
 						<label htmlFor="gathering-start-date">모임 날짜</label>
-						<GatheringCalendar />
+						<GatheringCalendar pageType="create" />
 					</div>
 					<div className="flex flex-col">
 						<label htmlFor="gathering-end-date">마감 날짜</label>
-						<GatheringCalendar />
+						<GatheringCalendar pageType="create" />
 					</div>
 				</div>
 

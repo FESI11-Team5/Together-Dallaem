@@ -9,8 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { enUS } from 'date-fns/locale';
 
-export default function GatheringCalendar() {
+interface GatheringCalendarProps {
+	pageType?: 'search' | 'create';
+}
+
+export default function GatheringCalendar({ pageType }: GatheringCalendarProps) {
 	const [date, setDate] = React.useState<Date>();
 	const [hour, setHour] = React.useState<string>();
 	const [minute, setMinute] = React.useState<string>();
@@ -19,6 +24,8 @@ export default function GatheringCalendar() {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+	const minutes = Array.from({ length: 12 }, (_, i) => i * 5);
+	const ampmOptions = ['AM', 'PM'];
 
 	const handleDateSelect = (selectedDate: Date | undefined) => {
 		if (selectedDate) {
@@ -44,6 +51,20 @@ export default function GatheringCalendar() {
 		}
 	};
 
+	const handleApply = () => {
+		if (!date) return;
+		const adjustedDate = new Date(date);
+		if (hour) {
+			adjustedDate.setHours(parseInt(hour) % 12);
+		}
+		if (minute) {
+			adjustedDate.setMinutes(parseInt(minute));
+		}
+		setDate(adjustedDate);
+		setIsOpen(false);
+		console.log(adjustedDate);
+	};
+
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
@@ -51,76 +72,106 @@ export default function GatheringCalendar() {
 					variant="outline"
 					className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}>
 					{/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-					{date ? format(date, 'MM/dd/yyyy hh:mm aa') : <span>MM/DD/YYYY hh:mm aa</span>}
+					{pageType === 'create' && date
+						? format(date, 'MM/dd/yyyy hh:mm aa')
+						: pageType === 'search' && date
+							? format(date, 'MM/dd/yyyy')
+							: pageType === 'create'
+								? 'MM/DD/YYYY hh:mm aa'
+								: '날짜 선택'}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-auto p-5" align="start">
-				<div className="w-auto sm:flex">
+				<div className={`${pageType === 'create' ? 'mb:flex w-auto' : 'flex flex-col'}`}>
 					<Calendar
 						mode="single"
 						selected={date}
+						locale={enUS}
 						onSelect={handleDateSelect}
+						formatters={{
+							formatWeekdayName: (date, options) => format(date, 'EEE', { locale: options?.locale })
+						}}
 						classNames={{
 							day: 'text-sm hover:bg-gray-100',
-							today: 'border border-orange-500 text-orange-500 rounded-md'
+							today: 'text-orange-500 rounded-md',
+							weekday: 'font-bold text-black flex-1'
 						}}
 					/>
 
-					<div className="flex flex-col sm:h-[300px] sm:flex-row">
-						{/* Hour */}
-						<ScrollArea className="w-16 border-l">
-							<div className="flex p-2 sm:flex-col">
-								{hours.reverse().map(hour => (
-									<Button
-										key={hour}
-										size="icon"
-										variant={date && date.getHours() % 12 === hour % 12 ? 'default' : 'ghost'}
-										className="aspect-square shrink-0 sm:w-full"
-										onClick={() => handleTimeChange('hour', hour.toString())}>
-										{hour.toString().padStart(2, '0')}
-									</Button>
-								))}
-							</div>
-							<ScrollBar orientation="horizontal" className="sm:hidden" />
-						</ScrollArea>
+					{pageType === 'create' && (
+						<div className="mb:h-[300px] mb:flex-row mb:divide-x mb:w-full flex flex-col">
+							{/* Hour */}
+							<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
+								<div className="mb:flex-col mb:w-auto flex p-2">
+									{hours.reverse().map(hour => (
+										<Button
+											key={hour}
+											size="icon"
+											variant={date && date.getHours() % 12 === hour % 12 ? 'default' : 'ghost'}
+											className="mb:w-full aspect-square shrink-0"
+											onClick={() => handleTimeChange('hour', hour.toString())}>
+											{hour.toString().padStart(2, '0')}
+										</Button>
+									))}
+								</div>
+								<ScrollBar orientation="horizontal" className="mb:hidden" />
+							</ScrollArea>
 
-						{/* Minute */}
-						<ScrollArea className="w-16 border-l sm:w-16">
-							<div className="flex p-2 sm:flex-col">
-								{Array.from({ length: 12 }, (_, i) => i * 5).map(minute => (
-									<Button
-										key={minute}
-										size="icon"
-										variant={date && date.getMinutes() === minute ? 'default' : 'ghost'}
-										className="aspect-square shrink-0 sm:w-full"
-										onClick={() => handleTimeChange('minute', minute.toString())}>
-										{minute.toString().padStart(2, '0')}
-									</Button>
-								))}
-							</div>
-							<ScrollBar orientation="horizontal" className="sm:hidden" />
-						</ScrollArea>
+							{/* Minute */}
+							<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
+								<div className="mb:flex-col flex p-2">
+									{minutes.map(minute => (
+										<Button
+											key={minute}
+											size="icon"
+											variant={date && date.getMinutes() === minute ? 'default' : 'ghost'}
+											className="mb:w-full aspect-square shrink-0"
+											onClick={() => handleTimeChange('minute', minute.toString())}>
+											{minute.toString().padStart(2, '0')}
+										</Button>
+									))}
+								</div>
+								<ScrollBar orientation="horizontal" className="mb:hidden" />
+							</ScrollArea>
 
-						{/* AM/PM */}
-						<ScrollArea className="w-16 border-l sm:w-16">
-							<div className="flex p-2 sm:flex-col">
-								{['AM', 'PM'].map(ampm => (
-									<Button
-										key={ampm}
-										size="icon"
-										variant={
-											date && ((ampm === 'AM' && date.getHours() < 12) || (ampm === 'PM' && date.getHours() >= 12))
-												? 'default'
-												: 'ghost'
-										}
-										className="aspect-square shrink-0 sm:w-full"
-										onClick={() => handleTimeChange('ampm', ampm)}>
-										{ampm}
-									</Button>
-								))}
-							</div>
-						</ScrollArea>
-					</div>
+							{/* AM/PM */}
+							<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
+								<div className="mb:flex-col flex p-2">
+									{ampmOptions.map(ampm => (
+										<Button
+											key={ampm}
+											size="icon"
+											variant={
+												date && ((ampm === 'AM' && date.getHours() < 12) || (ampm === 'PM' && date.getHours() >= 12))
+													? 'default'
+													: 'ghost'
+											}
+											className="mb:w-full aspect-square shrink-0"
+											onClick={() => handleTimeChange('ampm', ampm)}>
+											{ampm}
+										</Button>
+									))}
+								</div>
+							</ScrollArea>
+						</div>
+					)}
+
+					{pageType === 'search' && (
+						<div className="flex gap-2">
+							<button
+								className={`flex-1 rounded-lg p-2 ${date ? 'cursor-pointer text-orange-400 outline outline-orange-400' : 'cursor-not-allowed text-gray-300 outline outline-gray-300'} `}
+								onClick={() => setDate(undefined)}
+								disabled={!date}>
+								초기화
+							</button>
+							<button
+								className={`flex-1 rounded-lg p-2 ${date ? 'cursor-pointer bg-orange-600 text-white' : 'cursor-not-allowed bg-gray-400 text-white'} `}
+								onClick={handleApply}
+								disabled={!date}>
+								적용
+							</button>
+						</div>
+					)}
 				</div>
 			</PopoverContent>
 		</Popover>
