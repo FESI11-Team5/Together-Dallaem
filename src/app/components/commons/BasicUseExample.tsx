@@ -1,14 +1,17 @@
 'use client';
 
+import { useMemo } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { useModal } from '@/app/hooks/useModal';
 import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
-import { useForm, Controller } from 'react-hook-form';
-import { useMemo } from 'react';
 import BasicTextBox from './BasicTextBox';
 import BasicSelectBox from './BasicSelectBox';
+import ExampleModal from './ExampleModal';
 
 export default function Home() {
 	const { control, handleSubmit, watch, register } = useForm();
+	const { openModal } = useModal();
 
 	const selectedValue = watch('selectField');
 	const value = watch('myInputField') ?? '';
@@ -54,6 +57,12 @@ export default function Home() {
 					생성하기
 				</BasicButton>
 			</form>
+			<BasicButton
+				onClick={() => {
+					openModal(<ExampleModal />);
+				}}>
+				모달 창 열기
+			</BasicButton>
 		</div>
 	);
 }
