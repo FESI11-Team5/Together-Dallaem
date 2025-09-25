@@ -1,8 +1,8 @@
 import GatheringNormalUserBtn from '../gatherings/button/GatheringNormalUserBtn';
 import GatheringOwnerUserBtn from '../gatherings/button/GatheringOwnerUserBtn';
 
-export default function Footer() {
-	const isNormalUser = true; // true: Normal User, false: Owner User
+export default function BasicFooter() {
+	const isNormalUser = true;
 	return (
 		<footer className="fixed right-2 bottom-0 left-0 z-10 m-auto flex w-full items-center justify-center border-3 border-t-black bg-white p-4">
 			{!isNormalUser ? (

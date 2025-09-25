@@ -1,19 +1,18 @@
+import GatheringModal from '../GatheringModal';
+
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import GatheringModal from '../GatheringModal';
+// AAA방식 적용기
 
 describe('GatheringModal - 게시글 작성', () => {
 	test('게시글 작성이 200을 반환하는 경우', async () => {
 		// fetch mock
-		global.fetch = jest.fn();
-		// alert mock
-		window.alert = jest.fn();
-
-		// fetch 성공 응답 mock
-		(global.fetch as jest.Mock).mockResolvedValue({
+		global.fetch = jest.fn().mockResolvedValue({
 			ok: true,
 			status: 200
 		});
+		// alert mock
+		window.alert = jest.fn();
 
 		render(<GatheringModal />);
 
@@ -45,11 +44,11 @@ describe('GatheringModal - 게시글 작성', () => {
 
 		// 이미지 mock 업로드
 		const file = new File(['dummy'], 'test.png', { type: 'image/png' });
-		const fileInput = screen.getByLabelText('이미지', { selector: 'input' });
+		const fileInput = screen.getByLabelText('이미지', { selector: 'input' }) as HTMLInputElement;
 		fireEvent.change(fileInput, { target: { files: [file] } });
 
-		expect((fileInput as HTMLInputElement).files?.[0].name).toBe('test.png');
-		expect((fileInput as HTMLInputElement).files?.[0]).toBeInstanceOf(File);
+		expect(fileInput.files?.[0].name).toBe('test.png');
+		expect(fileInput.files?.[0]).toBeInstanceOf(File);
 
 		// 제출
 		const submitButton = screen.getByRole('button', { name: '확인' });

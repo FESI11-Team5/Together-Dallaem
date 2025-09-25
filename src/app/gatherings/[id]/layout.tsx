@@ -1,10 +1,10 @@
-import Footer from '@/components/common/Footer';
+import BasicFooter from '@/components/commons/BasicFooter';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div>
 			{children}
-			<Footer />
+			<BasicFooter />
 		</div>
 	);
 }

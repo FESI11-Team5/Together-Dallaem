@@ -1,11 +1,11 @@
 'use client';
 
+import BasicCalendar from '../commons/BasicCalendar';
+
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { GatheringType } from '@/types/gatheringType';
-
-import GatheringCalendar from './calendar/GatheringCalendar';
 
 export default function GatheringModal() {
 	const {
@@ -170,16 +170,14 @@ export default function GatheringModal() {
 					</label>
 				</div>
 
-				{/* Shandcn/ui로 변경 예정 */}
-
 				<div className="flex justify-between">
 					<div className="flex flex-col">
 						<label htmlFor="gathering-start-date">모임 날짜</label>
-						<GatheringCalendar pageType="create" />
+						<BasicCalendar pageType="create" />
 					</div>
 					<div className="flex flex-col">
 						<label htmlFor="gathering-end-date">마감 날짜</label>
-						<GatheringCalendar pageType="create" />
+						<BasicCalendar pageType="create" />
 					</div>
 				</div>
 
