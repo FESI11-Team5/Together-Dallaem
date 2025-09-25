@@ -1,13 +1,10 @@
-//figma input component
-
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps {
 	placeholder: string;
-	value: string;
-	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onBlur?: () => void;
+	register?: UseFormRegisterReturn;
 	children?: React.ReactNode;
 	className?: string;
 	isPassword?: boolean;
@@ -20,55 +17,59 @@ export default function BasicInput({
 	children,
 	placeholder,
 	isPassword = false,
-	value = '',
-	onChange,
-	onBlur,
+	register,
 	className = '',
 	required = false,
 	isValid = true,
 	invalidText = ''
 }: InputProps) {
-	const [isTyping, setIsTyping] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
-	const [touched, setTouched] = useState(false);
+	const [touched, setTouched] = useState(false); //touched => 한번 포커스 하기 전까지는 invalid나 required 문구가 뜨지 않게 하기 위함
+	const [value, setValue] = useState('');
 
-	const handleBlur = () => {
-		setTouched(true);
-		setIsFocused(false);
-		setIsTyping(false);
-		onBlur?.();
-	};
+	const handleBlur = useCallback(
+		(e: React.FocusEvent<HTMLInputElement>) => {
+			setTouched(true);
+			setIsFocused(false);
+			register?.onBlur?.(e);
+		},
+		[register]
+	);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const val = e.target.value;
-		setIsTyping(val.length > 0);
-		onChange?.(e);
+	const handleChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			const newValue = e.target.value;
+			setValue(newValue);
+			register?.onChange?.(e);
+		},
+		[register]
+	);
+
+	// Border 상태값
+	const getBorderClass = () => {
+		if (!isValid && touched) return 'border-red-600';
+		if (required && touched && !value.trim()) return 'border-red-600';
+		if (value.trim()) return 'border-orange-600';
+		if (isFocused) return 'border-orange-300';
+		return 'border-gray-50';
 	};
 
 	return (
 		<div>
 			<div
-				// prettier-ignore
-				className={`
-          inputBox flex min-w-[402px] items-center justify-between
-          rounded-[12px] border-2 border-gray-50 bg-gray-50 px-[16px] 
-          py-[10px] placeholder-gray-400 focus:outline-none box-border
-          ${isTyping ? 'border-orange-600' : 'border-gray-50'} 
-          ${isFocused ? 'border-orange-300' : 'border-gray-50'} 
-          ${!isValid && touched ? 'border-red-600' : 'border-gray-50'} 
-          ${required && touched && value.length == 0 ? 'border-red-600' : 'border-gray-50'} 
-          ${className}
-        `}>
+				className={`inputBox box-border flex min-w-[402px] items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
 					placeholder={placeholder}
 					className="w-full bg-transparent outline-none"
-					onFocus={() => setIsFocused(true)}
-					onBlur={() => handleBlur()}
-					onChange={e => handleChange(e)}
 					value={value}
-					required={required}></input>
+					onFocus={() => setIsFocused(true)}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					{...register}
+					required={required}
+				/>
 				{isPassword ? (
 					<Image
 						src={`/icons/visibility_${isShowPw ? 'on' : 'off'}.svg`}
@@ -82,10 +83,10 @@ export default function BasicInput({
 			</div>
 
 			{touched && (
-				<>
-					{required && value.length == 0 && <div className="text-red-600"> 입력해주세요. </div>}
-					{value.length != 0 && !isValid && <div className="text-red-600">{invalidText}</div>}
-				</>
+				<div className="text-red-600">
+					{required && !value.trim() && '입력해주세요.'}
+					{value.trim() && !isValid && invalidText}
+				</div>
 			)}
 		</div>
 	);

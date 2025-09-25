@@ -8,14 +8,16 @@ import BasicInput from './BasicInput';
 import BasicTextBox from './BasicTextBox';
 import BasicSelectBox from './BasicSelectBox';
 import ExampleModal from './ExampleModal';
+import BasicTextArea from './BasicTextArea';
 
 export default function Home() {
-	const { control, handleSubmit, watch, register } = useForm();
+	const { handleSubmit, watch, register } = useForm();
 	const { openModal } = useModal();
 
 	const selectedValue = watch('selectField');
-	const value = watch('myInputField') ?? '';
-	const isValid = useMemo(() => value.trim().length > 4, [value]);
+	const textareaValue = watch('textareaField');
+	const inputValue = watch('inputField') ?? '';
+	const isValid = useMemo(() => inputValue.trim().length > 4, [inputValue]);
 
 	return (
 		<div className="flex h-screen flex-col items-start justify-start gap-6">
@@ -23,7 +25,7 @@ export default function Home() {
 				onSubmit={handleSubmit(() => {
 					console.log('제출!!');
 				})}>
-				{/* register 또는 controller 둘 중 하나 방식으로 작성 selectbox:register input:controller로 각각의 예시 작성함 */}
+				{/* react-hook-form의 register 방식으로 작성*/}
 				<BasicSelectBox
 					options={[
 						{ value: 'option1', text: '옵션 1' },
@@ -33,21 +35,15 @@ export default function Home() {
 					isLarge={false}
 					placeholder="선택"
 				/>
-				<Controller
-					name="myInputField"
-					control={control}
-					defaultValue=""
-					render={({ field }) => (
-						<BasicInput
-							{...field}
-							placeholder="할 일의 제목을 적어주세요."
-							required
-							isValid={isValid}
-							invalidText="5자 이상 입력해주세요"
-						/>
-					)}
+				<BasicInput
+					register={register('inputField')}
+					placeholder="할 일의 제목을 적어주세요."
+					required
+					isValid={isValid}
+					invalidText="5자 이상 입력해주세요"
 				/>
 				<BasicTextBox>{selectedValue}</BasicTextBox>
+				<BasicTextArea register={register('textareaField')}></BasicTextArea>
 				<BasicButton
 					onClick={() => {
 						console.log('button clicked');
