@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useState, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import { useModal } from '@/app/hooks/useModal';
 import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
@@ -13,18 +13,28 @@ import BasicTextArea from './BasicTextArea';
 export default function Home() {
 	const { handleSubmit, watch, register } = useForm();
 	const { openModal } = useModal();
+	const [isValid, setIsValid] = useState(true);
 
 	const selectedValue = watch('selectField');
 	const textareaValue = watch('textareaField');
 	const inputValue = watch('inputField') ?? '';
-	const isValid = useMemo(() => inputValue.trim().length > 4, [inputValue]);
+
+	const validation = useCallback(() => {
+		return inputValue.trim().length > 4;
+	}, [inputValue]);
+
+	const handleFormSubmit = useCallback(() => {
+		if (!validation()) {
+			setIsValid(false);
+			return;
+		}
+		setIsValid(true);
+		console.log('제출!!');
+	}, [inputValue, validation]);
 
 	return (
 		<div className="flex h-screen flex-col items-start justify-start gap-6">
-			<form
-				onSubmit={handleSubmit(() => {
-					console.log('제출!!');
-				})}>
+			<form onSubmit={handleSubmit(handleFormSubmit)}>
 				{/* react-hook-form의 register 방식으로 작성*/}
 				<BasicSelectBox
 					options={[
@@ -41,14 +51,15 @@ export default function Home() {
 					required
 					isValid={isValid}
 					invalidText="5자 이상 입력해주세요"
+					value={inputValue}
 				/>
 				<BasicTextBox>{selectedValue}</BasicTextBox>
 				<BasicTextArea register={register('textareaField')}></BasicTextArea>
 				<BasicButton
 					onClick={() => {
-						console.log('button clicked');
+						handleFormSubmit();
 					}}
-					isActive={isValid}
+					isActive={inputValue.length > 0}
 					outlined>
 					생성하기
 				</BasicButton>
