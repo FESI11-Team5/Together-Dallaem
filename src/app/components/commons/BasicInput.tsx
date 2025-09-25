@@ -11,6 +11,7 @@ interface InputProps {
 	required?: boolean;
 	isValid?: boolean;
 	invalidText?: string;
+	value?: string; // 외부에서 값을 전달받기 위한 prop
 }
 
 export default function BasicInput({
@@ -21,39 +22,50 @@ export default function BasicInput({
 	className = '',
 	required = false,
 	isValid = true,
-	invalidText = ''
+	invalidText = '',
+	value = ''
 }: InputProps) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
-	const [touched, setTouched] = useState(false); //touched => 한번 포커스 하기 전까지는 invalid나 required 문구가 뜨지 않게 하기 위함
-	const [value, setValue] = useState('');
+	const [touched, setTouched] = useState(false);
+
+	const handleFocus = useCallback(() => {
+		setIsFocused(true);
+	}, []);
 
 	const handleBlur = useCallback(
 		(e: React.FocusEvent<HTMLInputElement>) => {
 			setTouched(true);
 			setIsFocused(false);
-			register?.onBlur?.(e);
+
+			if (register?.onBlur) {
+				register.onBlur(e);
+			}
 		},
 		[register]
 	);
 
-	const handleChange = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
-			const newValue = e.target.value;
-			setValue(newValue);
-			register?.onChange?.(e);
-		},
-		[register]
-	);
-
-	// Border 상태값
 	const getBorderClass = () => {
-		if (!isValid && touched) return 'border-red-600';
-		if (required && touched && !value.trim()) return 'border-red-600';
-		if (value.trim()) return 'border-orange-600';
-		if (isFocused) return 'border-orange-300';
+		if (!isValid) return 'border-red-600';
+		else if (required && touched && value.length === 0)
+			return 'border-red-600'; // register가 없을 때만 체크
+		else if (isFocused) return 'border-orange-300';
 		return 'border-gray-50';
 	};
+
+	const getErrorMessage = useCallback(() => {
+		// required이고 값이 비어있는 경우
+		if (required && value.length === 0) {
+			return '입력해주세요.';
+		}
+		// 유효하지 않은 경우
+		else if (!isValid && invalidText) {
+			return invalidText;
+		}
+
+		// 에러가 없는 경우 아무것도 표시하지 않음
+		return null;
+	}, [required, value, isValid, invalidText]);
 
 	return (
 		<div>
@@ -63,31 +75,28 @@ export default function BasicInput({
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
 					placeholder={placeholder}
 					className="w-full bg-transparent outline-none"
-					value={value}
-					onFocus={() => setIsFocused(true)}
-					onBlur={handleBlur}
-					onChange={handleChange}
 					{...register}
+					onFocus={handleFocus}
+					onBlur={handleBlur}
 					required={required}
 				/>
-				{isPassword ? (
+				{isPassword && (
 					<Image
 						src={`/icons/visibility_${isShowPw ? 'on' : 'off'}.svg`}
 						width="20"
 						height="20"
 						alt="password visible button"
 						onClick={() => setIsShowPw(prev => !prev)}
+						className="cursor-pointer"
 					/>
-				) : null}
+				)}
 				{children}
 			</div>
 
-			{touched && (
-				<div className="text-red-600">
-					{required && !value.trim() && '입력해주세요.'}
-					{value.trim() && !isValid && invalidText}
-				</div>
-			)}
+			{(() => {
+				const errorMessage = getErrorMessage();
+				return touched && errorMessage && <div className="text-sm text-red-600">{errorMessage}</div>;
+			})()}
 		</div>
 	);
 }
