@@ -25,7 +25,18 @@ export default function BasicButton({
 			? `border-${mainColor} text-${mainColor} bg-white`
 			: `border-gray-400 text-gray-400 bg-white`;
 	} else {
-		classByStatus = isActive ? `bg-${mainColor} text-white` : `bg-gray-400 text-white`;
+		// tailwind css가 dynamic class를 인식하지 못하는 버그가 있어 prop별로 컬러 클래스 할당
+		if (isActive) {
+			if (mainColor === 'orange-600') {
+				classByStatus = isActive ? `bg-orange-600 text-white` : `bg-gray-400 text-white`;
+			} else if (mainColor === 'orange-700') {
+				classByStatus = isActive ? `bg-orange-700 text-white` : `bg-gray-400 text-white`;
+			} else if (mainColor === 'orange-800') {
+				classByStatus = isActive ? `bg-orange-800 text-white` : `bg-gray-400 text-white`;
+			}
+		} else {
+			classByStatus = `bg-gray-400 text-white`;
+		}
 	}
 
 	return (
