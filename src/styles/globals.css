@@ -1,10 +1,7 @@
 @import 'tailwindcss';
-<<<<<<< HEAD
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
-=======
->>>>>>> d7249da (Style : 색상 및 폰트 커스텀 + breakpoint  설정)
 
 @theme {
 	/* font family */
@@ -65,11 +62,6 @@
 	--leading-2xl: 32px;
 	--leading-3xl: 36px;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d7249da (Style : 색상 및 폰트 커스텀 + breakpoint  설정)
 	/* 굵기 */
 	--font-weight-light: 300;
 	--font-weight-regular: 400;
@@ -81,7 +73,6 @@
 	--breakpoint-mb: 375px; /* 모바일 */
 	--breakpoint-tb: 744px; /* 태블릿 */
 	--breakpoint-pc: 1200px; /* 데스크탑 */
-<<<<<<< HEAD
 }
 
 /* input[type :"number"] 화살표 제거 */
@@ -209,6 +200,4 @@ input[type='number']::-webkit-outer-spin-button {
 		@apply bg-background text-foreground;
 		@apply font-pretendard;
 	}
-=======
->>>>>>> d7249da (Style : 색상 및 폰트 커스텀 + breakpoint  설정)
 }
