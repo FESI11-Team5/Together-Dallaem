@@ -1,6 +1,7 @@
 'use client';
 
 import { useModalStore, ModalCloseContext } from '@/providers/ModalProvider';
+import { useEffect } from 'react';
 
 /**
  * 모달 관리를 위한 컨테이너 컴포넌트
@@ -28,6 +29,19 @@ export default function ModalContainer() {
 		modals: state.modals,
 		closeModal: state.closeModal
 	}));
+
+	useEffect(() => {
+		if (modals.length > 0) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'unset';
+		}
+
+		// cleanup function - 컴포넌트가 언마운트되거나 의존성이 변경될 때 실행
+		return () => {
+			document.body.style.overflow = 'unset';
+		};
+	}, [modals.length]);
 
 	if (modals.length === 0) return null;
 
