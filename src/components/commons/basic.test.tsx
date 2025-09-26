@@ -277,9 +277,19 @@ describe('BasicSelectBox', () => {
 		expect(screen.queryByRole('option', { name: '옵션 1' })).not.toBeInTheDocument();
 	});
 
-	test('isLarge prop true일 때 셀렉트박스가 부모 컴포넌트에 꽉 차게 적용되는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" isLarge />);
-		expect(screen.getByText('선택하세요').closest('div')).toHaveClass('w-full');
+	test('size=expanded일 때 셀렉트박스가 부모 컴포넌트에 꽉 차게 적용되는지 확인', () => {
+		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="expanded" />);
+		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-full');
+	});
+
+	test('size=large일 때 셀렉트박스 너비 120px 높이 40px 적용되는지 확인', () => {
+		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="large" />);
+		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[120px] h-[40px]');
+	});
+
+	test('size=small일 때 셀렉트박스 너비 110px 높이 36px 적용되는지 확인', () => {
+		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="small" />);
+		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[110px] h-[36px]');
 	});
 });
 
