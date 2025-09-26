@@ -14,8 +14,8 @@ interface OptionType {
 interface SelectProps {
 	/** 선택 항목들의 배열 */
 	options: OptionType[];
-	/** 부모 컨텐츠를 꽉 채울지 여부 */
-	isLarge?: boolean;
+	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
+	size?: 'expanded' | 'large' | 'small';
 	/** 추가할 커스텀 CSS 클래스명(너비, 높이 등 변경 가능) */
 	className?: string;
 	/** React Hook Form의 register 객체, 폼 관리시 사용 */
@@ -57,7 +57,7 @@ interface SelectProps {
  */
 
 const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
-	({ options = [], isLarge = true, className = '', register, placeholder = '선택하세요', disabled = false }, ref) => {
+	({ options = [], size = 'large', className = '', register, placeholder = '선택하세요', disabled = false }, ref) => {
 		const [isOpen, setIsOpen] = useState(false);
 		const [selectedValue, setSelectedValue] = useState<string | number>('');
 		const containerRef = useRef<HTMLDivElement>(null);
@@ -109,37 +109,57 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 			}
 		}, [disabled]);
 
-		const buttonClasses = useMemo(
-			() =>
-				`${
-					isLarge ? 'w-full border-none bg-gray-50' : 'w-[120px] border-2 border-gray-100 bg-white'
-				} rounded-[12px] px-[12px] py-[8px] font-medium text-gray-800 outline-none ${
-					disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-gray-100'
-				} flex items-center justify-between text-left`,
-			[isLarge, disabled]
-		);
+		const buttonClasses = useMemo(() => {
+			// 너비 및 높이 설정
+			const widthHeight =
+				size === 'expanded'
+					? 'w-full h-[44px] border-none'
+					: size === 'small'
+						? 'w-[110px] h-[36px] border-2 border-gray-100'
+						: 'w-[120px] h-[40px] border-2 border-gray-100';
+
+			// 패딩 설정 - small일 때만 py-[6px]
+			const padding = size === 'small' ? 'px-[12px] py-[6px]' : 'px-[12px] py-[8px]';
+
+			// 배경색 설정
+			const backgroundColor =
+				size === 'expanded'
+					? 'bg-gray-50 text-gray-800'
+					: selectedValue || displayValue
+						? 'bg-gray-900 text-white'
+						: 'bg-white text-gray-800';
+
+			return `${widthHeight} rounded-[12px] ${padding} font-medium outline-none ${
+				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+			} flex items-center justify-between text-left ${backgroundColor}`;
+		}, [size, disabled, selectedValue, displayValue]);
 
 		const arrowClasses = useMemo(
 			() =>
 				`h-[24px] w-[24px] bg-[url('/icons/arrow_down.svg')] bg-[length:24px_24px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
 					disabled ? 'hidden' : 'block'
-				} ${isOpen ? 'rotate-180' : 'rotate-0'}`,
-			[disabled, isOpen]
+				} ${isOpen ? 'rotate-180' : 'rotate-0'}
+				${selectedValue || displayValue ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`}
+				`,
+			[disabled, isOpen, selectedValue, displayValue]
 		);
 
 		return (
-			<div ref={ref} className={`relative ${isLarge ? 'w-full' : 'w-[120px]'} ${className}`}>
+			<div ref={ref} className={'relative'}>
 				{register && <input type="hidden" {...register} value={displayValue} readOnly />}
 
 				<button
 					type="button"
-					className={buttonClasses}
+					className={`${buttonClasses} ${className}`}
 					onClick={handleToggle}
 					disabled={disabled}
 					aria-expanded={isOpen}
 					aria-haspopup="listbox"
 					aria-label={selectedOption ? `선택됨: ${selectedOption.text}` : placeholder}>
-					<span className={selectedOption ? 'text-gray-800' : 'text-gray-500'}>
+					<span
+						className={
+							size === 'expanded' ? 'text-gray-800' : selectedValue || displayValue ? 'text-white' : 'text-gray-500'
+						}>
 						{selectedOption ? selectedOption.text : placeholder}
 					</span>
 					<div className={arrowClasses} />

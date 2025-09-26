@@ -56,7 +56,7 @@ export default function Home() {
 						{ value: 'option2', text: '옵션 2' }
 					]}
 					register={register('selectField')}
-					isLarge={false}
+					size="large"
 					placeholder="선택"
 				/>
 				<BasicInput
