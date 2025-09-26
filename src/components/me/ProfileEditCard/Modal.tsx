@@ -4,14 +4,29 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 
 interface ModalProps {
+	/** 모달을 닫는 함수 */
 	setModal: () => void;
 }
 
+/**
+ * `Modal` 컴포넌트
+ *
+ * 프로필 수정 모달을 렌더링합니다.
+ * - 모달 외부 클릭 시 모달이 닫힙니다.
+ * - 모달 내부 클릭 시 이벤트 전파를 막아 닫히지 않도록 처리
+ * - 모달이 열릴 때 스크롤을 막고, 닫히면 원래대로 복원
+ * - 회사명 입력 필드 및 취소/수정 버튼 포함
+ *
+ * @component
+ * @param {ModalProps} props - 모달 관련 props
+ * @param {() => void} props.setModal - 모달을 닫는 함수
+ * @returns {JSX.Element} 프로필 수정 모달 UI를 반환합니다.
+ */
 export default function Modal({ setModal }: ModalProps) {
 	// 모달 내부를 클릭했을 때, 모달 창이 꺼지는 것 방지
-	function preventOffModal(event: React.MouseEvent) {
+	const preventOffModal = (event: React.MouseEvent) => {
 		event.stopPropagation();
-	}
+	};
 
 	// 모달창이 뜬 상태에서는 뒤 화면 스크롤 방지
 	useEffect(() => {

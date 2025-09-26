@@ -6,15 +6,26 @@ import { useScreenSize } from './useScreenSize';
 import { profileAssets } from './ProfileAssets';
 import Modal from './Modal';
 
+/**
+ * `ProfileEditCard` 컴포넌트
+ *
+ * 사용자의 프로필 정보를 표시하고, 프로필 사진 및 회사명을 수정할 수 있는 UI를 제공합니다.
+ * - 프로필 카드 배경 이미지, 사진, 회사명, 이름, 이메일 표시
+ * - 화면 크기(screenSize)에 따라 다른 배경 이미지 및 버튼 이미지를 적용
+ * - 회사명 수정 버튼 클릭 시 Modal을 표시
+ *
+ * @component
+ * @returns {JSX.Element} 프로필 카드 UI 및 Modal을 렌더링합니다.
+ */
 export default function ProfileEditCard() {
 	// 프로필 사진 업로드 상태
 	const [modalStatus, setModalStatus] = useState(false); // Modal 상태
 	const screenSize = useScreenSize(); // 스크린 크기에 따라 모바일, 태블릿, 데스크탑 상태 관리
 
 	// 버튼을 누르면 Modal 상태 변화
-	function handleModalStatus() {
+	const handleModalStatus = () => {
 		setModalStatus(!modalStatus);
-	}
+	};
 
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
 

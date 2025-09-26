@@ -2,6 +2,16 @@
 
 import { useState } from 'react';
 
+/**
+ * `MyActivityContainer` 컴포넌트
+ *
+ * 사용자의 활동을 탭 형태로 보여주는 UI를 렌더링합니다.
+ * - "나의 모임", "나의 리뷰", "내가 만든 모임" 3개의 탭 메뉴 제공
+ * - 클릭 시 activeTab 상태를 변경하여 선택된 탭 스타일 적용
+ *
+ * @component
+ * @returns {JSX.Element} 사용자의 활동 탭 UI를 반환합니다.
+ */
 export default function MyActivityContainer() {
 	const [activeTab, setActiveTab] = useState('meeting');
 
