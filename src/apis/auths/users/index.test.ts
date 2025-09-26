@@ -42,7 +42,7 @@ describe('사용자 API 테스트', () => {
 			json: async () => mockUser
 		});
 
-		const result = await getUserInfo(mockTeamId);
+		const result = await getUserInfo();
 		expect(result).toEqual(mockUser);
 		expect(fetch).toHaveBeenCalledWith(expect.stringContaining(mockTeamId), expect.any(Object));
 	});
@@ -54,7 +54,7 @@ describe('사용자 API 테스트', () => {
 			json: async () => ({ code: 'UNAUTHORIZED', message: '인증이 필요합니다' })
 		});
 
-		await expect(getUserInfo(mockTeamId)).rejects.toThrow('인증이 필요합니다');
+		await expect(getUserInfo()).rejects.toThrow('인증이 필요합니다');
 
 		expect(fetch).toHaveBeenCalledWith(expect.stringContaining(mockTeamId), expect.any(Object));
 	});
@@ -66,7 +66,7 @@ describe('사용자 API 테스트', () => {
 			json: async () => ({ code: 'USER_NOT_FOUND', message: '사용자를 찾을 수 없습니다' })
 		});
 
-		await expect(getUserInfo(mockTeamId)).rejects.toThrow('사용자를 찾을 수 없습니다');
+		await expect(getUserInfo()).rejects.toThrow('사용자를 찾을 수 없습니다');
 
 		expect(fetch).toHaveBeenCalledWith(expect.stringContaining(mockTeamId), expect.any(Object));
 	});
@@ -81,13 +81,10 @@ describe('사용자 API 테스트', () => {
 			json: async () => updatedUser
 		});
 
-		const result = await updateUserInfo(mockTeamId, updatedData);
+		const result = await updateUserInfo(updatedData);
 
 		expect(result).toEqual(updatedUser);
-		expect(fetch).toHaveBeenCalledWith(
-			expect.stringContaining(mockTeamId),
-			expect.objectContaining({ method: 'PUT', body: JSON.stringify(updatedData) })
-		);
+		expect(fetch).toHaveBeenCalledWith(expect.objectContaining({ method: 'PUT', body: JSON.stringify(updatedData) }));
 	});
 
 	test('updateUserInfo는 400 에러 시 유효성 검사가 나오는지 확인', async () => {
@@ -103,7 +100,7 @@ describe('사용자 API 테스트', () => {
 			})
 		});
 
-		await expect(updateUserInfo(mockTeamId, updatedData)).rejects.toThrow('유효한 입력 값을 제공해야 합니다');
+		await expect(updateUserInfo(updatedData)).rejects.toThrow('유효한 입력 값을 제공해야 합니다');
 	});
 
 	test('updateUserInfo는 401 에러 시 인증 필요 메시지가 나오는지 확인', async () => {
@@ -118,7 +115,7 @@ describe('사용자 API 테스트', () => {
 			})
 		});
 
-		await expect(updateUserInfo(mockTeamId, updatedData)).rejects.toThrow('인증이 필요합니다');
+		await expect(updateUserInfo(updatedData)).rejects.toThrow('인증이 필요합니다');
 	});
 
 	test('updateUserInfo는 404 에러 시 사용자 없음 메시지가 나오는지 확인', async () => {
@@ -133,6 +130,6 @@ describe('사용자 API 테스트', () => {
 			})
 		});
 
-		await expect(updateUserInfo(mockTeamId, updatedData)).rejects.toThrow('사용자를 찾을 수 없습니다');
+		await expect(updateUserInfo(updatedData)).rejects.toThrow('사용자를 찾을 수 없습니다');
 	});
 });

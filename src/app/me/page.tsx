@@ -2,7 +2,7 @@
 import ProfileEditCard from '@/components/me/ProfileEditCard';
 
 /**
- * `Home` 컴포넌트
+ * `Me` 컴포넌트
  *
  * 마이페이지 화면을 렌더링합니다.
  * - 상단 제목("마이페이지")을 표시합니다.
