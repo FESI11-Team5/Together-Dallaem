@@ -15,7 +15,7 @@ jest.mock('next/image', () => ({
 }));
 
 // Mock useModal hook
-jest.mock('@/app/hooks/useModal', () => ({
+jest.mock('@/hooks/useModal', () => ({
 	useModal: () => ({
 		openModal: jest.fn(),
 		closeModal: jest.fn(),

@@ -2,7 +2,7 @@
 
 import BasicButton from './BasicButton';
 import BasicModal from './BasicModal';
-import { useModalClose } from '@/app/hooks/useModal';
+import { useModalClose } from '@/hooks/useModal';
 
 export default function ExampleModal() {
 	const closeModal = useModalClose();

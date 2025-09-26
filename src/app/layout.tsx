@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './styles/globals.css';
 import { ModalStoreProvider } from '@/providers/ModalProvider';
 import ModalContainer from '../components/commons/ModalContainer';
 import '@/styles/globals.css';
