@@ -3,16 +3,56 @@ import Image from 'next/image';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps {
+	/** 입력창의 placeholder 텍스트 */
 	placeholder: string;
+	/** React Hook Form의 register 객체, 폼 관리시 사용(value, onChange, onBlur 등) */
 	register?: UseFormRegisterReturn;
+	/** 입력창 내부에 추가될 자식 요소(아이콘 등) */
 	children?: React.ReactNode;
+	/** 커스텀 CSS 클래스 추가 가능 */
 	className?: string;
+	/** 비밀번호인지 여부 (비밀번호 표시/숨기기 기능) */
 	isPassword?: boolean;
+	/** 필수 입력값 여부(한번 focus 후 비어 있을 시 표시) */
 	required?: boolean;
+	/** 유효성 검사 통과 여부(false일 시 invalidText와 함께 빨간 테두리 표시) */
 	isValid?: boolean;
+	/** 유효하지 않을 때 표시할 에러 메시지 */
 	invalidText?: string;
-	value?: string; // 외부에서 값을 전달받기 위한 prop
+	/** input의 value */
+	value?: string; //register가 이미 있지만 required 체크를 위해 추가(register에서 직접 value를 불러올 방법이 없음)
 }
+
+/**
+ * 기본 입력창 컴포넌트
+ *
+ * 텍스트 입력, 비밀번호 입력, 유효성 검사, 에러 메시지 등의 기능을 포함합니다.
+ * React Hook Form과 호환됩니다.
+ *
+ * @param props - InputProps 객체
+ * @returns JSX.Element
+ *
+ * @example
+ * // 기본 입력창
+ * <BasicInput placeholder="이름을 입력하세요" />
+ *
+ * @example
+ * // 비밀번호 입력창
+ * <BasicInput
+ *   isPassword
+ *   placeholder="비밀번호를 입력하세요"
+ * />
+ *
+ * @example
+ * // React Hook Form register와 함께 사용
+ * <BasicInput
+ *   register={register('id')}
+ *   placeholder="아이디"
+ *   required
+ *   isValid={watch('id')?.length >= 3}
+ *   invalidText="아이디는 3글자 이상 입력해주세요"
+ * />
+ */
 
 export default function BasicInput({
 	children,
