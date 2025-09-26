@@ -23,3 +23,8 @@ export interface signinResponse {
 	/** Access Token */
 	token: string;
 }
+
+// TODO: 중복되는 리스폰스 정리하기
+export interface signoutResponse {
+	message: string;
+}
