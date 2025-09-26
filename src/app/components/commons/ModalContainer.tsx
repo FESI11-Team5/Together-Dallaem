@@ -1,6 +1,6 @@
 'use client';
 
-import { useModalStore, ModalCloseContext } from '@/app/providers/ModalProvider';
+import { useModalStore, ModalCloseContext } from '@/providers/ModalProvider';
 
 /**
  * 모달 관리를 위한 컨테이너 컴포넌트

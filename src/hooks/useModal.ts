@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
-import { useModalStore, ModalCloseContext } from '@/app/providers/ModalProvider';
+import { useModalStore, ModalCloseContext } from '@/providers/ModalProvider';
 
 /**
  * 모달 상태 관리 훅
