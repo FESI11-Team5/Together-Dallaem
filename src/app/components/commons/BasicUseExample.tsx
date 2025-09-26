@@ -2,13 +2,28 @@
 
 import { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useModal } from '@/app/hooks/useModal';
+import { useModal, useModalClose } from '@/app/hooks/useModal';
 import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
 import BasicTextBox from './BasicTextBox';
 import BasicSelectBox from './BasicSelectBox';
 import ExampleModal from './ExampleModal';
 import BasicTextArea from './BasicTextArea';
+import BasicModal from './BasicModal';
+
+// 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
+function SubmitCompleteModal() {
+	const closeModal = useModalClose();
+
+	return (
+		<BasicModal onClose={closeModal}>
+			<div className="mb-8 text-center">제출 완료 </div>
+			<BasicButton onClick={closeModal} isLarge>
+				확인
+			</BasicButton>
+		</BasicModal>
+	);
+}
 
 export default function Home() {
 	const { handleSubmit, watch, register } = useForm();
@@ -29,13 +44,12 @@ export default function Home() {
 			return;
 		}
 		setIsValid(true);
-		console.log('제출!!');
-	}, [inputValue, validation]);
+		openModal(<SubmitCompleteModal />);
+	}, [inputValue, validation, openModal]);
 
 	return (
 		<div className="flex h-screen flex-col items-start justify-start gap-6">
 			<form onSubmit={handleSubmit(handleFormSubmit)}>
-				{/* react-hook-form의 register 방식으로 작성*/}
 				<BasicSelectBox
 					options={[
 						{ value: 'option1', text: '옵션 1' },
@@ -55,12 +69,7 @@ export default function Home() {
 				/>
 				<BasicTextBox>{selectedValue}</BasicTextBox>
 				<BasicTextArea register={register('textareaField')}></BasicTextArea>
-				<BasicButton
-					onClick={() => {
-						handleFormSubmit();
-					}}
-					isActive={inputValue.length > 0}
-					outlined>
+				<BasicButton isActive={inputValue.length > 0} outlined>
 					생성하기
 				</BasicButton>
 			</form>
