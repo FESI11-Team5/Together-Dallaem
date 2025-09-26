@@ -60,7 +60,7 @@ export default function ProfileEditCard() {
 
 					{/* 회사명 수정 버튼 */}
 					<button title="modal-button" type="button" onClick={handleModalStatus} className="z-10 cursor-pointer">
-						<Image src="/images/edit_large.svg" alt="회사명 수정 이미지" width={32} height={32} />
+						<Image src="/images/companyName_edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
 					</button>
 				</div>
 
