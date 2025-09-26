@@ -1,10 +1,10 @@
 /**
- * 모임 타입을 나타내는 타입
+ * 모임 타입을 나타내는 타입 (스웨거 스펙 기반)
  */
 export type GatheringType = 'DALLAEMFIT' | 'OFFICE_STRETCHING' | 'MINDFULNESS' | 'WORKATION';
 
 /**
- * 모임 장소를 나타내는 타입
+ * 모임 장소를 나타내는 타입 (스웨거 스펙 기반)
  */
 export type GatheringLocation = '건대입구' | '을지로3가' | '신림' | '홍대입구';
 
@@ -17,9 +17,7 @@ export interface Gathering {
 	/** 모임 ID */
 	id: number;
 	/** 모임 타입 */
-	type: GatheringType | '';
-	/** 모임 장소 */
-	location: GatheringLocation | '';
+	type: GatheringType;
 	/** 모임명 */
 	name: string;
 	/** 모임 일시 (ISO 8601 형식 문자열) */
@@ -33,9 +31,18 @@ export interface Gathering {
 	/** 정원 */
 	capacity: number;
 	/** 모임 이미지 URL */
-	image: File | null;
+	image: string;
 	/** 생성자 ID */
 	createdBy: number;
 	/** 취소일시 (ISO 8601 형식 문자열, 취소되지 않은 경우 null) */
 	canceledAt: string | null;
+}
+
+interface CreateGathering extends Gathering {
+	/** 모임 이미지 (파일 또는 string) */
+	image: File | '';
+	/** 모임 위치 */
+	location: GatheringLocation | '';
+	/** 모임 타입 */
+	type: GatheringType | '';
 }

@@ -1,12 +1,27 @@
 'use client';
 
-import { Gathering } from '@/types/response/gatherings';
 import BasicCalendar from '../commons/BasicCalendar';
+
+import { CreateGathering } from '@/types/response/gatherings';
 
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { format } from 'date-fns';
+
+/**
+ *
+ * @returns GatheringModal 컴포넌트
+ * - 모임 생성 폼을 제공
+ * - react-hook-form을 사용하여 폼 상태 관리 및 유효성 검사
+ * - 이미지 업로드, 모임 이름, 장소, 서비스 선택, 날짜 및 정원 입력 기능 포함
+ * - 모든 필수 필드가 채워져야 제출 버튼 활성화
+ * - 제출 시 서버에 폼 데이터 전송
+ * - 제출 중에는 버튼 비활성화 및 로딩 상태 표시
+ * - 제출 성공 시 폼 초기화 및 알림 표시
+ * - 제출 실패 시 오류 콘솔 출력
+ *
+ */
 
 export default function GatheringModal() {
 	const {
@@ -16,14 +31,14 @@ export default function GatheringModal() {
 		setValue,
 		reset,
 		formState: { isSubmitting }
-	} = useForm<Gathering>({
+	} = useForm<CreateGathering>({
 		defaultValues: {
 			teamId: 5,
 			location: '',
 			type: '',
 			name: '',
 			dateTime: '',
-			image: null,
+			image: '',
 			registrationEnd: ''
 		}
 	});
@@ -43,7 +58,7 @@ export default function GatheringModal() {
 		formValues.capacity >= 5 &&
 		formValues.capacity <= 20;
 
-	const onSubmitForm = async (data: Gathering) => {
+	const onSubmitForm = async (data: CreateGathering) => {
 		const body = new FormData();
 
 		body.append('teamId', String(data.teamId));
@@ -53,8 +68,6 @@ export default function GatheringModal() {
 		body.append('dateTime', data.dateTime);
 		body.append('capacity', String(data.capacity));
 		body.append('registrationEnd', data.registrationEnd);
-
-		// 파일 첨부가 있을 때만 서버 전송
 		if (data.image instanceof File) {
 			body.append('image', data.image);
 		}
