@@ -3,6 +3,20 @@ import { UserInfo } from '@/types/user';
 
 global.fetch = jest.fn();
 
+/**
+ * 사용자 API 테스트
+ *
+ * - getUserInfo: 사용자 정보 조회 테스트
+ *   - 성공 시 데이터를 반환하는지
+ *   - 401 에러 시 인증 필요 메시지 확인
+ *   - 404 에러 시 사용자 없음 메시지 확인
+ *
+ * - updateUserInfo: 사용자 정보 수정 테스트
+ *   - PUT 요청으로 업데이트 후 데이터 반환 확인
+ *   - 400 에러 시 유효성 검사 메시지 확인
+ *   - 401 에러 시 인증 필요 메시지 확인
+ *   - 404 에러 시 사용자 없음 메시지 확인
+ */
 describe('사용자 API 테스트', () => {
 	const mockTeamId = 'team5';
 
