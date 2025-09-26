@@ -2,7 +2,7 @@
 
 interface ButtonProps {
 	children: React.ReactNode;
-	onClick: () => void;
+	onClick?: () => void;
 	mainColor?: 'orange-600' | 'orange-700' | 'orange-800';
 	isLarge?: boolean;
 	isActive?: boolean;
@@ -12,7 +12,7 @@ interface ButtonProps {
 
 export default function BasicButton({
 	children,
-	onClick,
+	onClick = () => {},
 	mainColor = 'orange-600',
 	isLarge = false,
 	isActive = true,
@@ -43,7 +43,15 @@ export default function BasicButton({
 		<button
 			onClick={onClick}
 			disabled={!isActive}
-			className={`font-pretendard font-weight-semibold box-border rounded-[12px] border-1 py-[10px] text-[16px] no-underline ${isLarge ? 'w-full' : 'w-[120px]'} ${classByStatus} ${isActive ? 'cursor-pointer' : 'cursor-default'} ${className}`}>
+			//prettier-ignore
+			className={`
+				font-pretendard font-weight-semibold box-border
+				rounded-[12px] border-1 py-[10px] text-[16px] no-underline 
+				${isLarge ? 'w-full' : 'w-[120px]'} 
+				${classByStatus} 
+				${isActive ? 'cursor-pointer' : 'cursor-default'} 
+				${className}
+			`}>
 			{children}
 		</button>
 	);
