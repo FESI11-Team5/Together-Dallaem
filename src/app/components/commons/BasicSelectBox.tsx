@@ -3,19 +3,58 @@
 import { useState, forwardRef, useRef, useEffect, useMemo, useCallback } from 'react';
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 
+/** 드롭다운되는 선택 항목들의 타입 */
 interface OptionType {
+	/** 옵션의 value (내부적으로 사용) */
 	value: string | number;
+	/** 사용자에게 표시될 텍스트 */
 	text: string;
 }
 
 interface SelectProps {
+	/** 선택 항목들의 배열 */
 	options: OptionType[];
+	/** 부모 컨텐츠를 꽉 채울지 여부 */
 	isLarge?: boolean;
+	/** 추가할 커스텀 CSS 클래스명(너비, 높이 등 변경 가능) */
 	className?: string;
+	/** React Hook Form의 register 객체, 폼 관리시 사용 */
 	register?: UseFormRegisterReturn;
+	/** 기본 placeholder 텍스트 */
 	placeholder?: string;
+	/** 셀렉트박스 비활성화 여부 */
 	disabled?: boolean;
 }
+
+/**
+ * 기본 셀렉트박스 컴포넌트
+ *
+ * 드롭다운 형태의 선택 박스로, React Hook Form과 호환됩니다.
+ * 외부 클릭시 자동으로 닫히는 기능을 포함합니다.
+ *
+ * @param props - SelectProps 객체
+ * @param ref - 포워드할 ref
+ * @returns JSX.Element
+ *
+ * @example
+ * // 기본 셀렉트박스
+ * <BasicSelectBox
+ *   options={[
+ *     { value: '1', text: '옵션 1' },
+ *     { value: '2', text: '옵션 2' }
+ *   ]}
+ *   placeholder="선택하세요"
+ * />
+ *
+ * @example
+ * // React Hook Form register와 함께 사용
+ * <BasicSelectBox
+ *   register={register('category')}
+ *   options={categoryOptions}
+ *   isLarge={false}
+ *   disabled={false}
+ * />
+ */
 
 const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 	({ options = [], isLarge = true, className = '', register, placeholder = '선택하세요', disabled = false }, ref) => {
