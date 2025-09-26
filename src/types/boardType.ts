@@ -1,1 +1,0 @@
-// boardType.ts
