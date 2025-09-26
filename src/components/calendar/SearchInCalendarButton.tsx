@@ -12,8 +12,8 @@
  */
 
 interface CalendarButtonProps {
-	date: Date | undefined;
-	setDate: (date: Date | undefined) => void;
+	date?: Date;
+	setDate: (date?: Date) => void;
 	setIsOpen: (open: boolean) => void;
 }
 
