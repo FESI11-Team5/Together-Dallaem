@@ -85,7 +85,7 @@ export default function BasicInput({
 						src={`/icons/visibility_${isShowPw ? 'on' : 'off'}.svg`}
 						width="20"
 						height="20"
-						alt="password visible button"
+						alt="password visible toggle button"
 						onClick={() => setIsShowPw(prev => !prev)}
 						className="cursor-pointer"
 					/>
