@@ -9,7 +9,7 @@ export default function Home() {
 	// 			const gatherings = await getGatherings();
 	// 			console.log('✅ 성공! 모임 목록:', gatherings);
 	// 			console.log(`📈 총 ${gatherings.length}개의 모임`);
-	// 		} catch (error) {
+	// 		} catch (error) {s
 	// 			if (error instanceof ApiError) {
 	// 				console.error('❌ 모임 API 에러:', error.message);
 	// 			}
