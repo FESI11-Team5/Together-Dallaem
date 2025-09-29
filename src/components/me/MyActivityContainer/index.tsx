@@ -2,6 +2,14 @@
 
 import { useState } from 'react';
 
+type TabKey = 'meeting' | 'review' | 'myMeeting';
+
+const TABS: { key: TabKey; label: string }[] = [
+	{ key: 'meeting', label: '나의 모임' },
+	{ key: 'review', label: '나의 리뷰' },
+	{ key: 'myMeeting', label: '내가 만든 모임' }
+];
+
 /**
  * `MyActivityContainer` 컴포넌트
  *
@@ -13,42 +21,27 @@ import { useState } from 'react';
  * @returns {JSX.Element} 사용자의 활동 탭 UI를 반환합니다.
  */
 export default function MyActivityContainer() {
-	const [activeTab, setActiveTab] = useState('meeting');
+	const [activeTab, setActiveTab] = useState<TabKey>('meeting');
 
 	return (
 		<div className="tb:px-6 border-t-2 border-gray-900 px-4 py-6">
 			{/* 나의 모임, 나의 리뷰, 내가 만든 모임 탭 메뉴 */}
 			<div className="mb-6 flex gap-3 text-lg font-semibold tracking-normal">
-				<button
-					type="button"
-					onClick={() => setActiveTab('meeting')}
-					className={
-						activeTab === 'meeting'
-							? 'border-b-2 border-gray-900 pb-1.5 text-gray-900'
-							: 'border-b-2 border-transparent pb-1.5 text-gray-400'
-					}>
-					나의 모임
-				</button>
-				<button
-					onClick={() => setActiveTab('review')}
-					type="button"
-					className={
-						activeTab === 'review'
-							? 'border-b-2 border-gray-900 pb-1.5 text-gray-900'
-							: 'border-b-2 border-transparent pb-1.5 text-gray-400'
-					}>
-					나의 리뷰
-				</button>
-				<button
-					type="button"
-					onClick={() => setActiveTab('myMeeting')}
-					className={
-						activeTab === 'myMeeting'
-							? 'border-b-2 border-gray-900 pb-1.5 text-gray-900'
-							: 'border-b-2 border-transparent pb-1.5 text-gray-400'
-					}>
-					내가 만든 모임
-				</button>
+				{TABS.map(({ key, label }) => {
+					const isActive = activeTab === key;
+
+					return (
+						<button
+							key={key}
+							type="button"
+							onClick={() => setActiveTab(key)}
+							className={`border-b-2 pb-1.5 transition-colors ${
+								isActive ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-400'
+							}`}>
+							{label}
+						</button>
+					);
+				})}
 			</div>
 		</div>
 	);

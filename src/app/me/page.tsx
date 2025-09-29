@@ -1,4 +1,5 @@
 // 마이페이지
+import MyActivityContainer from '@/components/me/MyActivityContainer';
 import ProfileEditCard from '@/components/me/ProfileEditCard';
 
 /**
@@ -17,6 +18,7 @@ export default function Me() {
 			<div className="tb:px-6 tb:pt-8 pc:max-w-300 pc:px-25 m-auto min-h-[100vh] bg-white px-4 pt-6">
 				<div className="mb-4 text-lg font-semibold text-gray-900">마이페이지</div>
 				<ProfileEditCard />
+				<MyActivityContainer />
 			</div>
 		</div>
 	);
