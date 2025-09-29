@@ -56,7 +56,7 @@ describe('token 관련 유틸 테스트', () => {
 			expect(result).toEqual('EXPIRED');
 		});
 
-		test('만료되지 않은 토큰이 thresholdSec(100s)만큼 남았다면 "IMMINENT"을 반환한다', () => {
+		test('토큰 만료까지 100초 이하로 남았다면 "IMMINENT"를 반환한다', () => {
 			Date.now = jest.fn(() => 1699999910000);
 
 			const result = isTokenExpried(token, 100);
