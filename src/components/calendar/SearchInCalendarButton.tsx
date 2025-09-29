@@ -24,16 +24,23 @@ export default function SearchInCalendarButton({ date, setDate, setIsOpen }: Cal
 		setIsOpen(false);
 	};
 
+	// 초기화 버튼 스타일링
+	const resetActiveButton = 'cursor-pointer border border-orange-400 text-orange-400';
+	const resetEnabledButton = 'cursor-not-allowed border border-gray-300 text-gray-300';
+
+	// 적용 버튼 스타일링
+	const applyAciveButton = 'cursor-pointer bg-orange-600 text-white';
+	const applyEnabledButton = 'cursor-not-allowed bg-gray-400 text-white';
 	return (
 		<div className="mt-2 flex gap-2">
 			<button
-				className={`flex-1 rounded-lg p-2 ${date ? 'cursor-pointer border border-orange-400 text-orange-400' : 'cursor-not-allowed border border-gray-300 text-gray-300'} `}
+				className={`flex-1 rounded-lg p-2 ${date ? resetActiveButton : resetEnabledButton} `}
 				onClick={() => setDate(undefined)}
 				disabled={!date}>
 				초기화
 			</button>
 			<button
-				className={`flex-1 rounded-lg p-2 ${date ? 'cursor-pointer bg-orange-600 text-white' : 'cursor-not-allowed bg-gray-400 text-white'} `}
+				className={`flex-1 rounded-lg p-2 ${date ? applyAciveButton : applyEnabledButton} `}
 				onClick={handleApply}
 				disabled={!date}>
 				적용
