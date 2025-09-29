@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface ModalProps {
 	/** 모달을 닫는 함수 */
 	setModal: () => void;
+	onSubmit: (companyName: string) => void;
+	currentCompanyName?: string;
 }
 
 /**
@@ -22,7 +24,13 @@ interface ModalProps {
  * @param {() => void} props.setModal - 모달을 닫는 함수
  * @returns {JSX.Element} 프로필 수정 모달 UI를 반환합니다.
  */
-export default function Modal({ setModal }: ModalProps) {
+export default function Modal({ setModal, onSubmit, currentCompanyName }: ModalProps) {
+	const [company, setCompany] = useState(currentCompanyName ?? '회사명');
+
+	useEffect(() => {
+		if (currentCompanyName) setCompany(currentCompanyName);
+	}, [currentCompanyName]);
+
 	// 모달 내부를 클릭했을 때, 모달 창이 꺼지는 것 방지
 	const preventOffModal = (event: React.MouseEvent) => {
 		event.stopPropagation();
@@ -36,6 +44,12 @@ export default function Modal({ setModal }: ModalProps) {
 		};
 	}, []);
 
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		if (!company.trim()) return;
+		onSubmit(company.trim());
+	};
+
 	return (
 		/* Modal 외부 */
 		<div
@@ -43,7 +57,7 @@ export default function Modal({ setModal }: ModalProps) {
 			onClick={setModal}>
 			{/* Modal 내부*/}
 			<div className="relative z-50 rounded-xl bg-white p-6" onClick={preventOffModal}>
-				<form className="text-base font-semibold">
+				<form className="text-base font-semibold" onSubmit={handleSubmit}>
 					<div className="mb-6 flex items-center justify-between">
 						<p className="text-lg text-gray-900">프로필 수정하기</p>
 						<button type="button" onClick={setModal} className="ml-2 cursor-pointer rounded p-1 text-sm">
@@ -57,7 +71,8 @@ export default function Modal({ setModal }: ModalProps) {
 							<input
 								id="company"
 								name="company"
-								placeholder="회사명"
+								value={company}
+								onChange={e => setCompany(e.target.value)}
 								className="w-full bg-gray-50 p-2.5 text-sm font-medium text-gray-800 placeholder-gray-400"
 							/>
 						</div>
@@ -71,7 +86,10 @@ export default function Modal({ setModal }: ModalProps) {
 							취소
 						</button>
 
-						<button className="tb:w-57 w-35 cursor-pointer rounded-xl bg-orange-600 py-[11px] text-white hover:bg-orange-700 active:bg-orange-800 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-white">
+						<button
+							type="submit"
+							className="tb:w-57 w-35 cursor-pointer rounded-xl bg-orange-600 py-[11px] text-white hover:bg-orange-700 active:bg-orange-800 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-white"
+							disabled={!company.trim()}>
 							수정하기
 						</button>
 					</div>

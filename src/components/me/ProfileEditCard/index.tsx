@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useScreenSize } from './useScreenSize';
 import { profileAssets } from './ProfileAssets';
 import Modal from './Modal';
+import { getUserInfo, updateUserInfo } from '@/apis/auths/users';
+import { UserInfo } from '@/types/user';
 
 /**
  * `ProfileEditCard` 컴포넌트
@@ -20,11 +22,37 @@ import Modal from './Modal';
 export default function ProfileEditCard() {
 	// 프로필 사진 업로드 상태
 	const [modalStatus, setModalStatus] = useState(false); // Modal 상태
+	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 	const screenSize = useScreenSize(); // 스크린 크기에 따라 모바일, 태블릿, 데스크탑 상태 관리
+
+	//초기 데이터 불러오기
+	useEffect(() => {
+		const fetchUserInfo = async () => {
+			try {
+				const data = await getUserInfo();
+				setUserInfo(data);
+			} catch (err) {
+				console.error('인증이 필요합니다', err);
+			}
+		};
+		fetchUserInfo();
+	}, []);
 
 	// 버튼을 누르면 Modal 상태 변화
 	const handleModalStatus = () => {
 		setModalStatus(!modalStatus);
+	};
+
+	// 회사명 업데이트
+	const handleUpdateCompany = async (newCompanyName: string) => {
+		try {
+			if (!userInfo) return;
+			const updatedUser = await updateUserInfo({ companyName: newCompanyName });
+			updateUserInfo(updatedUser);
+			setModalStatus(false);
+		} catch (err) {
+			console.error('회사명 수정 실패', err);
+		}
 	};
 
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
@@ -68,24 +96,26 @@ export default function ProfileEditCard() {
 				<div>
 					<div className="tb:pt-3 tb:pb-4 pt-3.5 pb-4.5 pl-23">
 						<div className="mb-2.5 text-gray-800">
-							<p className="text-base font-semibold">Name</p>
+							<p className="text-base font-semibold">{userInfo?.name || 'Name'}</p>
 						</div>
 
-						<div className="flex gap-1.5">
-							<p className="text-sm font-medium">company.</p>
-							<p className="text-sm font-normal text-gray-700">Company Name</p>
+						<div className="flex gap-1.5 text-sm">
+							<p className="font-medium">company.</p>
+							<p className="font-normal text-gray-700">{userInfo?.companyName || 'Company Name'}</p>
 						</div>
 
-						<div className="flex gap-1.5">
-							<p className="text-sm font-medium">E-mail.</p>
-							<p className="text-sm font-normal text-gray-700">Email</p>
+						<div className="flex gap-1.5 text-sm">
+							<p className="font-medium">E-mail.</p>
+							<p className="font-normal text-gray-700">{userInfo?.email || 'Email'}</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			{/* 회사명 수정 Modal */}
-			{modalStatus && <Modal setModal={handleModalStatus} />}
+			{modalStatus && (
+				<Modal setModal={handleModalStatus} onSubmit={handleUpdateCompany} currentCompanyName={userInfo?.companyName} />
+			)}
 		</>
 	);
 }
