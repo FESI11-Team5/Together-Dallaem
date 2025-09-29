@@ -49,7 +49,7 @@ export type ModalStore = ModalState & ModalActions;
  *
  * @param initState 초기 상태 (선택사항)
  * @returns 모달 관리 기능을 제공하는 스토어
- *;
+ *
  */
 export const createModalStore = (initState: ModalState = defaultInitState) => {
 	return createStore<ModalStore>()((set, get) => ({

@@ -78,7 +78,7 @@ export default function BasicTextArea({
 				className={`
           h-[120px] w-full resize-none rounded-[12px] border-2 border-gray-50 bg-gray-50 
           px-[16px] py-[10px] font-medium text-gray-800 outline-none box-border
-          // ${getBorderClass()} 
+          ${getBorderClass()} 
           ${className} 
         `}
 				{...register}
