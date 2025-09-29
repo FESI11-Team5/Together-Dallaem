@@ -3,35 +3,17 @@
 import BasicCalendar from '../commons/BasicCalendar';
 
 import { CreateGathering } from '@/types/response/gatherings';
-
-import { useRef } from 'react';
-import { useForm } from 'react-hook-form';
-
 import { format } from 'date-fns';
 
-/**
- *
- * @returns GatheringModal 컴포넌트
- * - 모임 생성 폼을 제공
- * - react-hook-form을 사용하여 폼 상태 관리 및 유효성 검사
- * - 이미지 업로드, 모임 이름, 장소, 서비스 선택, 날짜 및 정원 입력 기능 포함
- * - 모든 필수 필드가 채워져야 제출 버튼 활성화
- * - 제출 시 서버에 폼 데이터 전송
- * - 제출 중에는 버튼 비활성화 및 로딩 상태 표시
- * - 제출 성공 시 폼 초기화 및 알림 표시
- * - 제출 실패 시 오류 콘솔 출력
- *
- */
+import { useEffect, useRef } from 'react';
+import { useForm, UseFormReturn } from 'react-hook-form';
 
-export default function GatheringModal() {
-	const {
-		watch,
-		register,
-		handleSubmit,
-		setValue,
-		reset,
-		formState: { isSubmitting }
-	} = useForm<CreateGathering>({
+export default function GatheringModal({
+	onFormReady
+}: {
+	onFormReady?: (methods: UseFormReturn<CreateGathering>) => void;
+}) {
+	const methods = useForm<CreateGathering>({
 		defaultValues: {
 			teamId: 5,
 			location: '',
@@ -43,12 +25,18 @@ export default function GatheringModal() {
 		}
 	});
 
+	const {
+		watch,
+		register,
+		handleSubmit,
+		setValue,
+		reset,
+		formState: { isSubmitting }
+	} = methods;
+
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const formValues = watch(); // 버튼 활성화 모드를 위한 실시간 감지
-
-	console.log(formValues);
-
+	const formValues = watch();
 	const isFormFilled =
 		formValues.name &&
 		formValues.location &&
@@ -72,8 +60,6 @@ export default function GatheringModal() {
 			body.append('image', data.image);
 		}
 
-		console.log('전송할 폼 데이터:', body);
-
 		try {
 			const response = await fetch(`https://fe-adv-project-together-dallaem.vercel.app/${data.teamId}/gatherings`, {
 				method: 'POST',
@@ -90,6 +76,12 @@ export default function GatheringModal() {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		if (onFormReady) {
+			onFormReady(methods);
+		}
+	}, [onFormReady, methods]);
 
 	return (
 		<div className="flex flex-col">
@@ -126,7 +118,6 @@ export default function GatheringModal() {
 
 						<div className="flex-1">{watch('image') ? (watch('image') as File).name : '이미지를 첨부해주세요'}</div>
 
-						{/* 오른쪽 버튼 */}
 						<button type="button" onClick={() => fileInputRef.current?.click()} className="">
 							파일 찾기
 						</button>
@@ -144,7 +135,7 @@ export default function GatheringModal() {
 								if (e.target.checked) {
 									setValue('type', 'OFFICE_STRETCHING');
 								} else {
-									setValue('type', ''); // 해제하면 빈 값
+									setValue('type', '');
 								}
 							}}
 						/>
@@ -187,7 +178,6 @@ export default function GatheringModal() {
 				<div className="flex justify-between">
 					<div className="flex flex-col">
 						<label htmlFor="gathering-start-date">모임 날짜</label>
-
 						<BasicCalendar
 							pageType="create"
 							onChange={date => setValue('dateTime', format(date, "yyyy-MM-dd'T'HH:mm:ss"))}
@@ -195,7 +185,6 @@ export default function GatheringModal() {
 					</div>
 					<div className="flex flex-col">
 						<label htmlFor="gathering-end-date">마감 날짜</label>
-
 						<BasicCalendar
 							pageType="create"
 							onChange={date => setValue('registrationEnd', format(date, "yyyy-MM-dd'T'HH:mm:ss"))}

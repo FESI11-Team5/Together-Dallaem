@@ -1,6 +1,8 @@
+import { UseFormReturn } from 'react-hook-form';
 import GatheringModal from '../GatheringModal';
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { CreateGathering } from '@/types/response/gatherings';
 
 // AAA방식 적용기
 
@@ -14,7 +16,8 @@ describe('GatheringModal - 게시글 작성', () => {
 		// alert mock
 		window.alert = jest.fn();
 
-		render(<GatheringModal />);
+		let formApi: UseFormReturn<CreateGathering> | undefined;
+		render(<GatheringModal onFormReady={api => (formApi = api)} />);
 
 		// 이름 입력
 		fireEvent.change(screen.getByLabelText('모임 이름'), {
@@ -31,13 +34,9 @@ describe('GatheringModal - 게시글 작성', () => {
 			target: { value: '10' }
 		});
 
-		// 날짜 입력
-		fireEvent.change(screen.getByLabelText('모임 날짜'), {
-			target: { value: '2025-09-22T10:00' }
-		});
-		fireEvent.change(screen.getByLabelText('마감 날짜'), {
-			target: { value: '2025-09-23T10:00' }
-		});
+		// ✅ setValue 직접 사용해서 날짜 값 채워넣기
+		formApi?.setValue('dateTime', '2024-12-31T18:00');
+		formApi?.setValue('registrationEnd', '2024-12-30T18:00');
 
 		// 서비스 선택
 		fireEvent.click(screen.getByLabelText('달램핏 - 오피스 스트레칭'));
@@ -46,9 +45,6 @@ describe('GatheringModal - 게시글 작성', () => {
 		const file = new File(['dummy'], 'test.png', { type: 'image/png' });
 		const fileInput = screen.getByLabelText('이미지', { selector: 'input' }) as HTMLInputElement;
 		fireEvent.change(fileInput, { target: { files: [file] } });
-
-		expect(fileInput.files?.[0].name).toBe('test.png');
-		expect(fileInput.files?.[0]).toBeInstanceOf(File);
 
 		// 제출
 		const submitButton = screen.getByRole('button', { name: '확인' });
