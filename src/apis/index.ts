@@ -86,18 +86,28 @@ const _fetch = async <T = unknown>({ path, method, options, data }: FetchProps):
 	const url = `${BASE_URL}${path}`;
 	let body: BodyInit | undefined;
 	const headers: HeadersInit = {};
-	// data가 있는 경우만 처리
-	if (data !== undefined) {
-		if (
-			typeof data === 'object' &&
-			data !== null &&
-			!(data instanceof FormData) &&
-			!(data instanceof Blob) &&
-			!(data instanceof ArrayBuffer)
-		) {
-			body = JSON.stringify(data);
-			headers['Content-Type'] = 'application/json';
+
+	if (options?.withAuth) {
+		if (typeof window === 'undefined') {
+			throw new Error('withAuth 옵션은 클라이언트 환경에서만 사용할 수 있습니다.');
 		}
+		const token = localStorage.getItem('token');
+		if (!token) {
+			throw new ApiError(401, 'Unauthorized', { code: 'UNAUTHORIZED', message: 'Authorization 헤더가 필요합니다' });
+		}
+		headers['Authorization'] = `Bearer ${token}`;
+	}
+
+	if (
+		data !== undefined &&
+		typeof data === 'object' &&
+		!(data instanceof FormData) &&
+		!(data instanceof Blob) &&
+		!(data instanceof ArrayBuffer)
+	) {
+		// data가 있는 경우만 처리
+		body = JSON.stringify(data);
+		headers['Content-Type'] = 'application/json';
 	}
 
 	const controller = options?.signal ? null : new AbortController();
