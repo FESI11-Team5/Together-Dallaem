@@ -11,6 +11,7 @@ import BasicSelectBox from './BasicSelectBox';
 import ExampleModal from './ExampleModal';
 import BasicTextArea from './BasicTextArea';
 import BasicModal from './BasicModal';
+import ClassProgressBar from './ClassProgressBar';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -73,6 +74,7 @@ export default function Home() {
 				<BasicButton isActive={inputValue.length > 0} outlined>
 					생성하기
 				</BasicButton>
+				<ClassProgressBar isConfirmed data={{ totalNumber: 20, currentNumber: 11 }} linkTo="/me" />
 			</form>
 			<BasicButton
 				onClick={() => {
