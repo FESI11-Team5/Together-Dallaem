@@ -28,7 +28,7 @@ export const isTokenExpried = (token: string, thresholdSec = 0): TokenStatus => 
 	const exp = decodeToken(token)?.exp;
 	if (typeof exp !== 'number') return 'EXPIRED';
 
-	const now = new Date().getTime() / 1000;
+	const now = Math.floor(Date.now() / 1000);
 
 	if (exp < now) return 'EXPIRED';
 	if (exp < now + thresholdSec) return 'IMMINENT';
