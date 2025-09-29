@@ -20,26 +20,24 @@ describe('GatheringModal - 게시글 작성', () => {
 		render(<GatheringModal onFormReady={api => (formApi = api)} />);
 
 		// 이름 입력
-		fireEvent.change(screen.getByLabelText('모임 이름'), {
-			target: { value: '테스트 모임' }
-		});
+		const nameInput = screen.getByLabelText('모임 이름');
+		fireEvent.change(nameInput, { target: { value: '테스트 모임' } });
 
 		// 장소 선택
-		fireEvent.change(screen.getByLabelText('장소'), {
-			target: { value: '건대입구' }
-		});
+		const placeInput = screen.getByLabelText('장소');
+		fireEvent.change(placeInput, { target: { value: '건대입구' } });
 
 		// 모집 정원
-		fireEvent.change(screen.getByLabelText('모집 정원'), {
-			target: { value: '10' }
-		});
+		const capacityInput = screen.getByLabelText('모집 정원');
+		fireEvent.change(capacityInput, { target: { value: '10' } });
 
 		// ✅ setValue 직접 사용해서 날짜 값 채워넣기
 		formApi?.setValue('dateTime', '2024-12-31T18:00');
 		formApi?.setValue('registrationEnd', '2024-12-30T18:00');
 
 		// 서비스 선택
-		fireEvent.click(screen.getByLabelText('달램핏 - 오피스 스트레칭'));
+		const serviceInput = screen.getByLabelText('달램핏 - 오피스 스트레칭');
+		fireEvent.click(serviceInput);
 
 		// 이미지 mock 업로드
 		const file = new File(['dummy'], 'test.png', { type: 'image/png' });
