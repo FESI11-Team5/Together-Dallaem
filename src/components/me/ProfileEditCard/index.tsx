@@ -22,7 +22,15 @@ import { UserInfo } from '@/types/user';
 export default function ProfileEditCard() {
 	// 프로필 사진 업로드 상태
 	const [modalStatus, setModalStatus] = useState(false); // Modal 상태
-	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+	const [userInfo, setUserInfo] = useState<UserInfo>({
+		teamId: 5,
+		id: 5,
+		name: '코드잇',
+		companyName: '코드잇',
+		email: 'codeit@test.com',
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString()
+	});
 	const screenSize = useScreenSize(); // 스크린 크기에 따라 모바일, 태블릿, 데스크탑 상태 관리
 
 	//초기 데이터 불러오기
