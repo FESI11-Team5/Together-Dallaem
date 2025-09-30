@@ -65,3 +65,17 @@ export const isTokenExpried = (token: string, thresholdSec = 0): TokenStatus => 
 
 	return 'VALID';
 };
+
+/**
+ * 현재 사용자가 인증된 상태인지 확인합니다.
+ *
+ * @returns {boolean}
+ * - true: 로컬 스토리지에 토큰이 있고, 만료되지 않은 경우
+ * - false: 토큰이 없거나 만료된 경우
+ */
+export const isAuthenticated = (): boolean => {
+	const token = getToken();
+	if (!token) return false;
+
+	return isTokenExpried(token) !== 'EXPIRED';
+};
