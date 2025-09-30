@@ -82,7 +82,7 @@ export const deleteRequest = async <T = unknown>({ path, options }: BaseRequestP
  * @throws {ApiError} 요청 실패 시 발생
  * @private
  */
-const _fetch = async <T = unknown>({ path, method, options, data }: FetchProps): Promise<T> => {
+export const _fetch = async <T = unknown>({ path, method, options, data }: FetchProps): Promise<T> => {
 	const url = `${BASE_URL}${path}`;
 	let body: BodyInit | undefined;
 	const headers: HeadersInit = {};

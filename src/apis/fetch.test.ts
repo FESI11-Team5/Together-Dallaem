@@ -1,4 +1,5 @@
-import { deleteRequest, getRequest, postRequest, putRequest } from '@/apis';
+import { _fetch, deleteRequest, getRequest, postRequest, putRequest } from '@/apis';
+import { FetchProps } from '@/types/fetch';
 import { ApiError } from '@/utils/fetch';
 
 describe('API 요청 함수 테스트', () => {
@@ -95,6 +96,52 @@ describe('API 요청 함수 테스트', () => {
 			});
 
 			await expect(deleteRequest({ path: '/test/1' })).rejects.toBeInstanceOf(ApiError);
+		});
+	});
+
+	describe('_fetch 테스트', () => {
+		const props: FetchProps = {
+			path: '/',
+			method: 'GET',
+			options: {
+				withAuth: true
+			}
+		};
+
+		test('withAuth가 true일 때 토큰이 유효하면 헤더에 포함되어 있다', async () => {
+			const token = 'fake-jwt';
+			Storage.prototype.getItem = jest.fn(() => token);
+
+			const mockFetch = jest.fn().mockResolvedValue({
+				ok: true,
+				json: () => Promise.resolve({ withAuth: true })
+			});
+
+			global.fetch = mockFetch;
+
+			await _fetch(props);
+
+			expect(mockFetch).toHaveBeenCalledWith(
+				expect.any(String),
+				expect.objectContaining({
+					headers: expect.objectContaining({ Authorization: `Bearer ${token}` })
+				})
+			);
+		});
+
+		test('withAuth가 true일 때 토큰이 없으면 ApiError를 던전다', async () => {
+			Storage.prototype.getItem = jest.fn(() => null);
+
+			try {
+				await _fetch(props);
+				fail('_fetch가 정상적으로 실행되면 안됩니다.');
+			} catch (err) {
+				const e = err as ApiError;
+				expect(e).toBeInstanceOf(ApiError);
+				expect(e.status).toBe(401);
+				expect(e.code).toBe('UNAUTHORIZED');
+				expect(e.message).toBe('Authorization 헤더가 필요합니다');
+			}
 		});
 	});
 });
