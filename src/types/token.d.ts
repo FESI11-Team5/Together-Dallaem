@@ -7,8 +7,6 @@
  */
 export type TokenStatus = 'VALID' | 'IMMINENT' | 'EXPIRED';
 
-export type TokenStatus = 'VALID' | 'IMMINENT' | 'EXPIRED';
-
 export interface JWTPayload {
 	/** 팀 아이디 */
 	teamId: string;
