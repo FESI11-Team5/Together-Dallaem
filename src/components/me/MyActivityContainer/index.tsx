@@ -1,27 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import JoinedGatheringCard from './JoinedGatheringCard';
 
-type TabKey = 'meeting' | 'review' | 'myMeeting';
+type TabKey = 'joinedGathering' | 'review' | 'createdGathering';
 
 const TABS: { key: TabKey; label: string }[] = [
-	{ key: 'meeting', label: '나의 모임' },
+	{ key: 'joinedGathering', label: '나의 모임' },
 	{ key: 'review', label: '나의 리뷰' },
-	{ key: 'myMeeting', label: '내가 만든 모임' }
+	{ key: 'createdGathering', label: '내가 만든 모임' }
 ];
 
-/**
- * `MyActivityContainer` 컴포넌트
- *
- * 사용자의 활동을 탭 형태로 보여주는 UI를 렌더링합니다.
- * - "나의 모임", "나의 리뷰", "내가 만든 모임" 3개의 탭 메뉴 제공
- * - 클릭 시 activeTab 상태를 변경하여 선택된 탭 스타일 적용
- *
- * @component
- * @returns {JSX.Element} 사용자의 활동 탭 UI를 반환합니다.
- */
 export default function MyActivityContainer() {
-	const [activeTab, setActiveTab] = useState<TabKey>('meeting');
+	const [activeTab, setActiveTab] = useState<TabKey>('joinedGathering');
 
 	return (
 		<div className="tb:px-6 border-t-2 border-gray-900 px-4 py-6">
@@ -43,6 +34,9 @@ export default function MyActivityContainer() {
 					);
 				})}
 			</div>
+
+			{/* 각 탭 클릭 시 알맞는 컨텐츠 호출 */}
+			<div>{activeTab === 'joinedGathering' && <JoinedGatheringCard />}</div>
 		</div>
 	);
 }
