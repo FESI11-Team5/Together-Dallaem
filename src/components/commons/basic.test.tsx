@@ -7,6 +7,7 @@ import BasicModal from './BasicModal';
 import BasicSelectBox from './BasicSelectBox';
 import BasicTextArea from './BasicTextArea';
 import BasicTextBox from './BasicTextBox';
+import BasicPopup from './BasicPopup';
 
 // Mock Next.js Image component
 jest.mock('next/image', () => ({
@@ -370,5 +371,28 @@ describe('React Hook Form으로 컴포넌트 연동 잘 되는지 테스트', ()
 		expect(input).toBeInTheDocument();
 		expect(textarea).toBeInTheDocument();
 		expect(selectBox).toBeInTheDocument();
+	});
+});
+
+describe('BasicPopup', () => {
+	test('팝업 제목과 본문 메시지 잘 나타나는지 확인', () => {
+		const handleConfirm = jest.fn();
+		const handleCancel = jest.fn();
+
+		render(
+			<BasicPopup
+				title="팝업 제목"
+				subTitle="팝업 본문 메시지"
+				confirmText="확인"
+				cancelText="취소"
+				onConfirm={handleConfirm}
+				onCancel={handleCancel}
+			/>
+		);
+
+		expect(screen.getByText('팝업 제목')).toBeInTheDocument();
+		expect(screen.getByText('팝업 본문 메시지')).toBeInTheDocument();
+		expect(screen.getByText('확인')).toBeInTheDocument();
+		expect(screen.getByText('취소')).toBeInTheDocument();
 	});
 });
