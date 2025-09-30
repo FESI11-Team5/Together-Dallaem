@@ -2,8 +2,8 @@
 
 import { CreateGathering } from '@/types/response/gatherings';
 
-import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { useForm, UseFormReturn } from 'react-hook-form';
 
 import { format } from 'date-fns';
 import { POPUP_MESSAGE } from '@/constants/messages';
@@ -28,15 +28,12 @@ import BasicPopup from '../commons/BasicPopup';
  *
  */
 
-export default function GatheringModal() {
-	const {
-		watch,
-		register,
-		handleSubmit,
-		setValue,
-		reset,
-		formState: { isSubmitting }
-	} = useForm<CreateGathering>({
+export default function GatheringModal({
+	formReady
+}: {
+	formReady?: (methods: UseFormReturn<CreateGathering>) => void;
+}) {
+	const methods = useForm<CreateGathering>({
 		defaultValues: {
 			teamId: 5,
 			location: '',
@@ -47,6 +44,15 @@ export default function GatheringModal() {
 			registrationEnd: ''
 		}
 	});
+
+	const {
+		watch,
+		register,
+		handleSubmit,
+		setValue,
+		reset,
+		formState: { isSubmitting }
+	} = methods;
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -116,6 +122,13 @@ export default function GatheringModal() {
 			'create-gathering-popup'
 		);
 	};
+
+	useEffect(() => {
+		if (formReady) {
+			formReady(methods);
+		}
+	}, [methods, formReady]);
+
 	return (
 		<BasicModal onClose={handleCloseWithPopup} className="flex flex-col">
 			모임 만들기
