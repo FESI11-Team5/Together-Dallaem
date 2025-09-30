@@ -1,9 +1,22 @@
 import Image from 'next/image';
 
 interface CanceledOverlayProps {
+	/** 모임 취소일시, 취소되지 않은 경우 null */
 	canceledAt: string | null;
 }
 
+/**
+ * 취소된 모임 위에 표시되는 오버레이 컴포넌트입니다.
+ *
+ * - `canceledAt`이 null이면 아무것도 렌더링하지 않습니다.
+ * - 취소된 모임이면 검정 반투명 배경과 안내 문구, "모임 보내주기" 버튼을 표시합니다.
+ *
+ * @param {CanceledOverlayProps} props - 컴포넌트 props
+ * @returns {JSX.Element | null} 모임 취소 오버레이
+ *
+ * @example
+ * <CanceledOverlay canceledAt="2025-09-30T23:59:59Z" />
+ */
 export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 	if (!canceledAt) return null;
 

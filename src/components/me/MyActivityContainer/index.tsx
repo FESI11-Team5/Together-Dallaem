@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import JoinedGatheringCard from './JoinedGatheringCard';
+import JoinedGatherings from './JoinedGatherings';
 
 type TabKey = 'joinedGathering' | 'review' | 'createdGathering';
 
@@ -36,7 +36,7 @@ export default function MyActivityContainer() {
 			</div>
 
 			{/* 각 탭 클릭 시 알맞는 컨텐츠 호출 */}
-			<div>{activeTab === 'joinedGathering' && <JoinedGatheringCard />}</div>
+			<div>{activeTab === 'joinedGathering' && <JoinedGatherings />}</div>
 		</div>
 	);
 }

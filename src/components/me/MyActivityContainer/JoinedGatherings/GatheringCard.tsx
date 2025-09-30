@@ -1,34 +1,19 @@
 import Image from 'next/image';
-import { useState } from 'react';
 import { formatKoreanDate } from '@/utils/date';
 import { JoinedGathering } from '@/types/response/gatherings';
 import CanceledOverlay from './CanceledOverlay';
 import BasicButton from '@/components/commons/BasicButton';
 
-export default function JoinedGatheringCard() {
-	const [gathering, setGathering] = useState<JoinedGathering>({
-		teamId: 1,
-		id: 1,
-		type: 'DALLAEMFIT',
-		name: '달램핏',
-		dateTime: '2025-10-01T12:30:00Z',
-		registrationEnd: '2025-09-30T23:59:59Z',
-		location: '건대입구',
-		participantCount: 12,
-		capacity: 12,
-		image: '/stretching.png',
-		createdBy: 5,
-		canceledAt: '2025-09-30T23:59:59Z',
-		joinedAt: '2025-09-28T09:00:00Z',
-		isCompleted: false,
-		isReviewed: false
-	});
+interface GatheringProps {
+	gathering: JoinedGathering;
+}
 
+export default function GatheringCard({ gathering }: GatheringProps) {
 	const isFull = gathering.capacity === gathering.participantCount;
 	const isPast = new Date(gathering.dateTime) < new Date();
 
 	return (
-		<div className="mb-6 border-b-2 border-dashed border-gray-200">
+		<div key={gathering.id} className="mb-6 border-b-2 border-dashed border-gray-200">
 			<div className="tb:flex tb:gap-4 relative mb-6 items-center">
 				{/* 취소된 모임 Overlay */}
 				<CanceledOverlay canceledAt={gathering.canceledAt} />
