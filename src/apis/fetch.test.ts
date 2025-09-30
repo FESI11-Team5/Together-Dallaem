@@ -7,7 +7,7 @@ describe('API 요청 함수 테스트', () => {
 	});
 
 	describe('getRequest', () => {
-		it('성공 시 데이터를 반환한다', async () => {
+		test('성공 시 데이터를 반환한다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
 				json: () => Promise.resolve({ data: 'ok' })
@@ -17,7 +17,7 @@ describe('API 요청 함수 테스트', () => {
 			expect(result).toEqual({ data: 'ok' });
 		});
 
-		it('실패 시 ApiError를 던진다', async () => {
+		test('실패 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 404,
@@ -30,7 +30,7 @@ describe('API 요청 함수 테스트', () => {
 	});
 
 	describe('postRequest', () => {
-		it('성공 시 데이터를 반환한다', async () => {
+		test('성공 시 데이터를 반환한다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
 				json: () => Promise.resolve({ created: true })
@@ -40,7 +40,7 @@ describe('API 요청 함수 테스트', () => {
 			expect(result).toEqual({ created: true });
 		});
 
-		it('실패 시 ApiError를 던진다', async () => {
+		test('실패 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 400,
@@ -53,7 +53,7 @@ describe('API 요청 함수 테스트', () => {
 	});
 
 	describe('putRequest', () => {
-		it('성공 시 데이터를 반환한다', async () => {
+		test('성공 시 데이터를 반환한다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
 				json: () => Promise.resolve({ updated: true })
@@ -63,7 +63,7 @@ describe('API 요청 함수 테스트', () => {
 			expect(result).toEqual({ updated: true });
 		});
 
-		it('실패 시 ApiError를 던진다', async () => {
+		test('실패 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 500,
@@ -76,7 +76,7 @@ describe('API 요청 함수 테스트', () => {
 	});
 
 	describe('deleteRequest', () => {
-		it('성공 시 데이터를 반환한다', async () => {
+		test('성공 시 데이터를 반환한다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: true,
 				json: () => Promise.resolve({ deleted: true })
@@ -86,7 +86,7 @@ describe('API 요청 함수 테스트', () => {
 			expect(result).toEqual({ deleted: true });
 		});
 
-		it('실패 시 ApiError를 던진다', async () => {
+		test('실패 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 401,
