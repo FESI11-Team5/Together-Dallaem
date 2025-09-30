@@ -10,14 +10,14 @@ export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 	return (
 		<div className="tb:rounded-3xl absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-black/80">
 			<div>
-				<p className="text-sm font-medium text-white">
+				<p className="text-center text-sm font-medium text-white">
 					모집 취소된 모임이에요,
 					<br />
 					다음 기회에 만나요 🙏
 				</p>
-				<button className="mt-6 flex items-center justify-center gap-0.5 rounded-xl bg-orange-50 px-3 py-1.5 font-semibold text-orange-600">
+				<button className="tb:p-3 tb:rounded-full tb:absolute tb:top-0 tb:right-6 mt-6 flex items-center gap-0.5 rounded-xl bg-orange-50 px-3 py-1.5">
 					<Image src="/icons/bye.svg" alt="취소된 모임 오버레이 손바닥 아이콘" width={24} height={24} />
-					모임 보내주기
+					<p className="tb:hidden text-sm font-semibold text-orange-600">모임 보내주기</p>
 				</button>
 			</div>
 		</div>
