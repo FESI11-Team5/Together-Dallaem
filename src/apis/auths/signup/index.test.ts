@@ -7,7 +7,7 @@ describe('/auths/signup API 함수 테스트', () => {
 	});
 
 	describe('postSignup', () => {
-		it('성공 시 데이터를 반환한다', async () => {
+		test('성공 시 데이터를 반환한다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				status: 201,
 				ok: true,
@@ -30,7 +30,7 @@ describe('/auths/signup API 함수 테스트', () => {
 			});
 		});
 
-		it('유효한 이메일을 입력하지 않았을 시 ApiError를 던진다', async () => {
+		test('유효한 이메일을 입력하지 않았을 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 400,
@@ -63,7 +63,7 @@ describe('/auths/signup API 함수 테스트', () => {
 			}
 		});
 
-		it('비밀번호를 8자리 미만으로 입력 시 ApiError를 던진다', async () => {
+		test('비밀번호를 8자리 미만으로 입력 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 400,
@@ -97,7 +97,7 @@ describe('/auths/signup API 함수 테스트', () => {
 			}
 		});
 
-		it('이름을 입력하지 않을 시 ApiError를 던진다', async () => {
+		test('이름을 입력하지 않을 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 400,
@@ -131,7 +131,7 @@ describe('/auths/signup API 함수 테스트', () => {
 			}
 		});
 
-		it('존재하는 이메일을 입력 시 ApiError를 던진다', async () => {
+		test('존재하는 이메일을 입력 시 ApiError를 던진다', async () => {
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
 				ok: false,
 				status: 400,
