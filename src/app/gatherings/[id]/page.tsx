@@ -9,9 +9,8 @@ export default function Page() {
 				<GatheringInfoSection />
 				<GatheringReviewsSection />
 			</div>
-			<div>
-				<ReviewList />
-			</div>
+
+			<ReviewList />
 		</div>
 	);
 }
