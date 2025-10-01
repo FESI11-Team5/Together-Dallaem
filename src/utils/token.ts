@@ -54,7 +54,7 @@ export const decodeToken = (token: string): JWTPayload | null => {
  * - 'IMMINENT': 아직 만료되진 않았지만 thresholdSec 이내로 만료 예정
  * - 'VALID': 아직 충분히 유효한 상태
  */
-export const isTokenExpried = (token: string, thresholdSec = 0): TokenStatus => {
+export const isTokenExpired = (token: string, thresholdSec = 0): TokenStatus => {
 	const exp = decodeToken(token)?.exp;
 	if (typeof exp !== 'number') return 'EXPIRED';
 
@@ -77,5 +77,5 @@ export const isAuthenticated = (): boolean => {
 	const token = getToken();
 	if (!token) return false;
 
-	return isTokenExpried(token) !== 'EXPIRED';
+	return isTokenExpired(token) !== 'EXPIRED';
 };
