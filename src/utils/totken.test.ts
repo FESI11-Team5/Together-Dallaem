@@ -1,5 +1,4 @@
 import { decodeToken, isTokenExpired } from '@/utils/token';
-import { isToken } from 'typescript';
 
 describe('token 관련 유틸 테스트', () => {
 	describe('decodeToken 테스트', () => {
