@@ -1,4 +1,5 @@
-import { decodeToken, isTokenExpried } from '@/utils/token';
+import { decodeToken, isTokenExpired } from '@/utils/token';
+import { isToken } from 'typescript';
 
 describe('token 관련 유틸 테스트', () => {
 	describe('decodeToken 테스트', () => {
@@ -43,7 +44,7 @@ describe('token 관련 유틸 테스트', () => {
 		test('만료되지 않은 토큰을 넣으면 "VALID"를 반환한다', () => {
 			Date.now = jest.fn(() => 1700000000000);
 
-			const result = isTokenExpried(token);
+			const result = isTokenExpired(token);
 
 			expect(result).toEqual('VALID');
 		});
@@ -51,7 +52,7 @@ describe('token 관련 유틸 테스트', () => {
 		test('만료된 토큰을 넣으면 null을 반환한다', () => {
 			Date.now = jest.fn(() => 1800000000000);
 
-			const result = isTokenExpried(token);
+			const result = isTokenExpired(token);
 
 			expect(result).toEqual('EXPIRED');
 		});
@@ -59,7 +60,7 @@ describe('token 관련 유틸 테스트', () => {
 		test('토큰 만료까지 100초 이하로 남았다면 "IMMINENT"를 반환한다', () => {
 			Date.now = jest.fn(() => 1699999910000);
 
-			const result = isTokenExpried(token, 100);
+			const result = isTokenExpired(token, 100);
 
 			expect(result).toEqual('IMMINENT');
 		});
@@ -67,7 +68,7 @@ describe('token 관련 유틸 테스트', () => {
 		test('비정상 토큰을 넣으면 "EXPIRED"을 반환한다', () => {
 			const token = '비정상 토큰';
 
-			const result = isTokenExpried(token);
+			const result = isTokenExpired(token);
 
 			expect(result).toEqual('EXPIRED');
 		});
