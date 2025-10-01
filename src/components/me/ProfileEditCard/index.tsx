@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import { useModal } from '@/hooks/useModal';
 import { useScreenSize } from './useScreenSize';
 import { profileAssets } from './ProfileAssets';
 import Modal from './Modal';
@@ -20,8 +21,6 @@ import { UserInfo } from '@/types/user';
  * @returns {JSX.Element} 프로필 카드 UI 및 Modal을 렌더링합니다.
  */
 export default function ProfileEditCard() {
-	// 프로필 사진 업로드 상태
-	const [modalStatus, setModalStatus] = useState(false); // Modal 상태
 	const [userInfo, setUserInfo] = useState<UserInfo>({
 		teamId: 5,
 		id: 5,
@@ -31,7 +30,10 @@ export default function ProfileEditCard() {
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString()
 	});
-	const screenSize = useScreenSize(); // 스크린 크기에 따라 모바일, 태블릿, 데스크탑 상태 관리
+	const { openModal } = useModal();
+
+	const screenSize = useScreenSize();
+	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
 
 	//초기 데이터 불러오기
 	useEffect(() => {
@@ -46,24 +48,16 @@ export default function ProfileEditCard() {
 		fetchUserInfo();
 	}, []);
 
-	// 버튼을 누르면 Modal 상태 변화
-	const handleModalStatus = () => {
-		setModalStatus(!modalStatus);
-	};
-
 	// 회사명 업데이트
 	const handleUpdateCompany = async (newCompanyName: string) => {
 		try {
 			if (!userInfo) return;
 			const updatedUser = await updateUserInfo({ companyName: newCompanyName });
 			updateUserInfo(updatedUser);
-			setModalStatus(false);
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
 		}
 	};
-
-	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
 
 	return (
 		<>
@@ -72,7 +66,7 @@ export default function ProfileEditCard() {
 				<div className="relative flex items-center justify-between bg-orange-400 px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-0.5 before:w-full before:bg-orange-600 before:content-['']">
 					<Image
 						src={bg.src}
-						alt="프로필 배경 이미지"
+						alt="배경 이미지"
 						width={bg.width}
 						height={bg.height}
 						className="tb:right-[157px] pc:right-[155px] absolute right-15 bottom-[6.5px]"
@@ -84,7 +78,7 @@ export default function ProfileEditCard() {
 						className="absolute top-12.5 flex h-16 w-16 cursor-pointer items-center justify-center rounded-4xl bg-white">
 						<Image
 							src={edit.src}
-							alt="프로필 사진 수정 이미지"
+							alt="프로필 사진 이미지"
 							width={edit.width}
 							height={edit.height}
 							className="h-14 w-14 rounded-full object-cover"
@@ -95,7 +89,13 @@ export default function ProfileEditCard() {
 					<p className="text-pc z-10 font-semibold text-gray-900">내 프로필</p>
 
 					{/* 회사명 수정 버튼 */}
-					<button title="modal-button" type="button" onClick={handleModalStatus} className="z-10 cursor-pointer">
+					<button
+						title="modal-button"
+						type="button"
+						onClick={() =>
+							openModal(<Modal onSubmit={handleUpdateCompany} currentCompanyName={userInfo.companyName} />)
+						}
+						className="z-10 cursor-pointer">
 						<Image src="/images/companyName_edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
 					</button>
 				</div>
@@ -119,11 +119,6 @@ export default function ProfileEditCard() {
 					</div>
 				</div>
 			</div>
-
-			{/* 회사명 수정 Modal */}
-			{modalStatus && (
-				<Modal setModal={handleModalStatus} onSubmit={handleUpdateCompany} currentCompanyName={userInfo?.companyName} />
-			)}
 		</>
 	);
 }
