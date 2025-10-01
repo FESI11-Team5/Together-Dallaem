@@ -31,6 +31,10 @@ export default function ProfileEditCard() {
 		updatedAt: new Date().toISOString()
 	});
 	const { openModal } = useModal();
+<<<<<<< HEAD
+=======
+
+>>>>>>> f7e11d1 (TD-24 Fix: 기존 임시 모달을 BasicModal로 변경)
 	const screenSize = useScreenSize();
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
 
@@ -47,11 +51,20 @@ export default function ProfileEditCard() {
 		fetchUserInfo();
 	}, []);
 
+<<<<<<< HEAD
 	// 회사명 + 업데이트
 	const handleUpdateUserInfo = async (updated: { companyName?: string; image?: File }) => {
 		try {
 			const updatedUser = await updateUserInfo(updated);
 			setUserInfo(updatedUser);
+=======
+	// 회사명 업데이트
+	const handleUpdateCompany = async (newCompanyName: string) => {
+		try {
+			if (!userInfo) return;
+			const updatedUser = await updateUserInfo({ companyName: newCompanyName });
+			updateUserInfo(updatedUser);
+>>>>>>> f7e11d1 (TD-24 Fix: 기존 임시 모달을 BasicModal로 변경)
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
 		}
@@ -75,7 +88,11 @@ export default function ProfileEditCard() {
 						htmlFor="profile-image-upload"
 						className="absolute top-12.5 flex h-16 w-16 cursor-pointer items-center justify-center rounded-4xl bg-white">
 						<Image
+<<<<<<< HEAD
 							src={userInfo.image || edit.src}
+=======
+							src={edit.src}
+>>>>>>> f7e11d1 (TD-24 Fix: 기존 임시 모달을 BasicModal로 변경)
 							alt="프로필 사진 이미지"
 							width={edit.width}
 							height={edit.height}
@@ -87,6 +104,7 @@ export default function ProfileEditCard() {
 
 					{/* 회사명 수정 버튼 */}
 					<button
+<<<<<<< HEAD
 						type="button"
 						onClick={() =>
 							openModal(
@@ -96,6 +114,12 @@ export default function ProfileEditCard() {
 									onSubmit={handleUpdateUserInfo}
 								/>
 							)
+=======
+						title="modal-button"
+						type="button"
+						onClick={() =>
+							openModal(<Modal onSubmit={handleUpdateCompany} currentCompanyName={userInfo.companyName} />)
+>>>>>>> f7e11d1 (TD-24 Fix: 기존 임시 모달을 BasicModal로 변경)
 						}
 						className="z-10 cursor-pointer">
 						<Image src="/images/companyName_edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
