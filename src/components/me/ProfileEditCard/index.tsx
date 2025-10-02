@@ -31,7 +31,6 @@ export default function ProfileEditCard() {
 		updatedAt: new Date().toISOString()
 	});
 	const { openModal } = useModal();
-
 	const screenSize = useScreenSize();
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
 
@@ -48,11 +47,10 @@ export default function ProfileEditCard() {
 		fetchUserInfo();
 	}, []);
 
-	// 회사명 업데이트
-	const handleUpdateCompany = async (newCompanyName: string) => {
+	// 회사명 + 업데이트
+	const handleUpdateUserInfo = async (updated: { companyName?: string; image?: File }) => {
 		try {
-			if (!userInfo) return;
-			const updatedUser = await updateUserInfo({ companyName: newCompanyName });
+			const updatedUser = await updateUserInfo(updated);
 			setUserInfo(updatedUser);
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
@@ -77,23 +75,27 @@ export default function ProfileEditCard() {
 						htmlFor="profile-image-upload"
 						className="absolute top-12.5 flex h-16 w-16 cursor-pointer items-center justify-center rounded-4xl bg-white">
 						<Image
-							src={edit.src}
+							src={userInfo.image || edit.src}
 							alt="프로필 사진 이미지"
 							width={edit.width}
 							height={edit.height}
 							className="h-14 w-14 rounded-full object-cover"
 						/>
-						<input id="profile-image-upload" type="file" accept="image/*" className="hidden" />
 					</label>
 
 					<p className="text-pc z-10 font-semibold text-gray-900">내 프로필</p>
 
 					{/* 회사명 수정 버튼 */}
 					<button
-						title="modal-button"
 						type="button"
 						onClick={() =>
-							openModal(<ProfileEditModal onSubmit={handleUpdateCompany} currentCompanyName={userInfo.companyName} />)
+							openModal(
+								<ProfileEditModal
+									currentCompanyName={userInfo.companyName}
+									currentImage={userInfo.image}
+									onSubmit={handleUpdateUserInfo}
+								/>
+							)
 						}
 						className="z-10 cursor-pointer">
 						<Image src="/images/companyName_edit.svg" alt="회사명 수정 이미지" width={32} height={32} />

@@ -1,66 +1,93 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useModalClose } from '@/hooks/useModal';
 import BasicModal from '@/components/commons/BasicModal';
+import BasicInput from '@/components/commons/BasicInput';
 import BasicButton from '@/components/commons/BasicButton';
-import ProfileCompanyInput from './ProfileEditModal/ProfileCompanyInput';
-import ProfileImageUploader from './ProfileEditModal/ProfileImageUploader';
+import ProfileImageUploader from './ProfileImageUploader';
 
 interface ProfileEditModalProps {
 	currentImage?: string;
 	currentCompanyName?: string;
-	onSubmit: (newCompanyName: string, newFile?: File) => void;
+	onSubmit: (updated: { companyName?: string; image?: File }) => void;
 }
 
 interface FormValues {
-	company: string;
+	companyName: string;
 }
 
 export default function ProfileEditModal({ currentImage, currentCompanyName, onSubmit }: ProfileEditModalProps) {
 	const [file, setFile] = useState<File | null>(null);
 	const closeModal = useModalClose();
 
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors, isValid },
-		setValue
-	} = useForm<FormValues>({ mode: 'onChange', defaultValues: { company: currentCompanyName ?? '' } });
+	const { register, handleSubmit, watch, setValue } = useForm<FormValues>({
+		mode: 'onChange',
+		defaultValues: { companyName: currentCompanyName ?? '' }
+	});
 
 	useEffect(() => {
-		if (currentCompanyName) setValue('company', currentCompanyName);
+		if (currentCompanyName) {
+			setValue('companyName', currentCompanyName);
+		}
 	}, [currentCompanyName, setValue]);
 
-	const handleProfileImage = (selectedFile: File) => {
+	const companyNameValue = watch('companyName') ?? '';
+	const isCompanyNameValid = companyNameValue.trim().length >= 2;
+
+	const handleProfileImage = useCallback((selectedFile: File) => {
 		setFile(selectedFile);
-	};
+	}, []);
 
-	const onFormSubmit = (data: FormValues) => {
-		const trimmed = data.company.trim();
-		if (!trimmed) return;
+	const handleFormSubmit = useCallback(
+		(data: FormValues) => {
+			if (!isCompanyNameValid) return;
+			onSubmit({ companyName: data.companyName.trim(), image: file ?? undefined });
+			closeModal();
+		},
+		[file, onSubmit, closeModal, isCompanyNameValid]
+	);
 
-		onSubmit(trimmed, file ?? undefined);
-		closeModal();
-	};
+	useEffect(() => {
+		const handleKeydown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				closeModal();
+			} else if (e.key === 'Enter') {
+				e.preventDefault();
+				if (isCompanyNameValid) handleFormSubmit({ companyName: companyNameValue });
+			}
+		};
 
-	const companyValue = watch('company');
+		window.addEventListener('keydown', handleKeydown);
+		return () => {
+			window.removeEventListener('keydown', handleKeydown);
+		};
+	}, [closeModal, isCompanyNameValid, handleFormSubmit, companyNameValue]);
 
 	return (
 		<BasicModal onClose={closeModal} className="tb:min-w-118 min-w-[295px]">
-			<form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col items-start gap-6 self-stretch">
+			<form
+				onSubmit={e => {
+					e.preventDefault();
+					handleSubmit(handleFormSubmit)();
+				}}
+				className="flex flex-col items-start gap-6 self-stretch">
 				<div className="flex w-full flex-col items-start gap-6">
-					<ProfileImageUploader currentImage={currentImage} onChange={file => handleProfileImage(file)} />
+					<ProfileImageUploader currentImage={currentImage} onChange={handleProfileImage} />
 					<div className="text-base font-semibold text-gray-800">회사</div>
-					<ProfileCompanyInput register={register} errors={errors} value={companyValue} />
+					<BasicInput
+						placeholder="회사명"
+						register={register('companyName', { required: true })}
+						isValid={isCompanyNameValid}
+						invalidText="회사명을 입력해주세요"
+					/>
 				</div>
 
 				<div className="flex items-start gap-4 self-stretch">
-					<BasicButton onClick={closeModal} outlined isLarge>
+					<BasicButton onClick={closeModal} isLarge outlined>
 						취소
 					</BasicButton>
-					<BasicButton isActive={!!companyValue.trim() && isValid} isLarge>
+					<BasicButton isActive={isCompanyNameValid} isLarge onClick={handleSubmit(handleFormSubmit)}>
 						수정하기
 					</BasicButton>
 				</div>
