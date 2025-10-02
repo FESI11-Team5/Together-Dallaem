@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useModal } from '@/hooks/useModal';
 import { useScreenSize } from './useScreenSize';
 import { profileAssets } from './ProfileAssets';
-import Modal from './Modal';
+import ProfileEditModal from './ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/users';
 import { UserInfo } from '@/types/user';
 
@@ -53,7 +53,7 @@ export default function ProfileEditCard() {
 		try {
 			if (!userInfo) return;
 			const updatedUser = await updateUserInfo({ companyName: newCompanyName });
-			updateUserInfo(updatedUser);
+			setUserInfo(updatedUser);
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
 		}
@@ -93,7 +93,7 @@ export default function ProfileEditCard() {
 						title="modal-button"
 						type="button"
 						onClick={() =>
-							openModal(<Modal onSubmit={handleUpdateCompany} currentCompanyName={userInfo.companyName} />)
+							openModal(<ProfileEditModal onSubmit={handleUpdateCompany} currentCompanyName={userInfo.companyName} />)
 						}
 						className="z-10 cursor-pointer">
 						<Image src="/images/companyName_edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
