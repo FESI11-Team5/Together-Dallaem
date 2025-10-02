@@ -1,8 +1,8 @@
+import { ModalStoreProvider } from '@/providers/ModalProvider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { ModalStoreProvider } from '@/providers/ModalProvider';
 import ModalContainer from '../components/commons/ModalContainer';
-import '@/styles/globals.css';
+import './globals.css';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',

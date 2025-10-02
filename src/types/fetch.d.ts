@@ -7,6 +7,7 @@ export interface NextFetchOptions extends RequestInit {
 	};
 	cache?: RequestCache;
 	timeout?: number;
+	withAuth?: boolean;
 	[key: string]: unknown; // 느슨하게 타입을 풀었는데 필요시 추후에 수정
 }
 
