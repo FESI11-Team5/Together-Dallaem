@@ -11,6 +11,8 @@
  *
  */
 
+import { cn } from '@/utils/cn';
+
 interface CalendarButtonProps {
 	date?: Date;
 	setDate: (date?: Date) => void;
@@ -24,16 +26,28 @@ export default function SearchInCalendarButton({ date, setDate, setIsOpen }: Cal
 		setIsOpen(false);
 	};
 
+	// 버튼 스타일 개선
+	const buttonStyles = {
+		reset: {
+			active: 'cursor-pointer border border-orange-400 text-orange-400',
+			disabled: 'cursor-not-allowed border border-gray-300 text-gray-300'
+		},
+		apply: {
+			active: 'cursor-pointer bg-orange-600 text-white',
+			disabled: 'cursor-not-allowed bg-gray-400 text-white'
+		}
+	};
+
 	return (
 		<div className="mt-2 flex gap-2">
 			<button
-				className={`flex-1 rounded-lg p-2 ${date ? 'cursor-pointer border border-orange-400 text-orange-400' : 'cursor-not-allowed border border-gray-300 text-gray-300'} `}
+				className={cn('flex-1 rounded-lg p-2', date ? buttonStyles.reset.active : buttonStyles.reset.disabled)}
 				onClick={() => setDate(undefined)}
 				disabled={!date}>
 				초기화
 			</button>
 			<button
-				className={`flex-1 rounded-lg p-2 ${date ? 'cursor-pointer bg-orange-600 text-white' : 'cursor-not-allowed bg-gray-400 text-white'} `}
+				className={cn('flex-1 rounded-lg p-2', date ? buttonStyles.apply.active : buttonStyles.apply.disabled)}
 				onClick={handleApply}
 				disabled={!date}>
 				적용
