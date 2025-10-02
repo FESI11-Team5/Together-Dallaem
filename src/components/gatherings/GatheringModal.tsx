@@ -1,13 +1,10 @@
 'use client';
 
 import { CreateGathering } from '@/types/response/gatherings';
-<<<<<<< HEAD
-=======
 
 import { useEffect, useRef, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 
->>>>>>> TD-3
 import { format } from 'date-fns';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
@@ -17,15 +14,6 @@ import BasicModal from '../commons/BasicModal';
 import BasicButton from '../commons/BasicButton';
 import BasicPopup from '../commons/BasicPopup';
 
-<<<<<<< HEAD
-import { useEffect, useRef } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
-
-export default function GatheringModal({
-	onFormReady
-}: {
-	onFormReady?: (methods: UseFormReturn<CreateGathering>) => void;
-=======
 /**
  * GatheringModal 컴포넌트
  * @returns GatheringModal 컴포넌트
@@ -44,7 +32,6 @@ export default function GatheringModal({
 	formReady
 }: {
 	formReady?: (methods: UseFormReturn<CreateGathering>) => void;
->>>>>>> TD-3
 }) {
 	const methods = useForm<CreateGathering>({
 		defaultValues: {
@@ -69,17 +56,6 @@ export default function GatheringModal({
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-<<<<<<< HEAD
-	const formValues = watch();
-	const isFormFilled =
-		formValues.name &&
-		formValues.location &&
-		formValues.type &&
-		formValues.dateTime &&
-		formValues.registrationEnd &&
-		formValues.capacity >= 5 &&
-		formValues.capacity <= 20;
-=======
 	const formValues = watch(); // 버튼 활성화 모드를 위한 실시간 감지
 
 	console.log(formValues);
@@ -92,7 +68,6 @@ export default function GatheringModal({
 	// 	formValues.registrationEnd &&
 	// 	formValues.capacity >= 5 &&
 	// 	formValues.capacity <= 20;
->>>>>>> TD-3
 
 	const onSubmitForm = async (data: CreateGathering) => {
 		// const body = new FormData();
@@ -108,13 +83,6 @@ export default function GatheringModal({
 		// 	body.append('image', data.image);
 		// }
 
-<<<<<<< HEAD
-		try {
-			const response = await fetch(`https://fe-adv-project-together-dallaem.vercel.app/${data.teamId}/gatherings`, {
-				method: 'POST',
-				body
-			});
-=======
 		// console.log('전송할 폼 데이터:', body);
 
 		// try {
@@ -122,7 +90,6 @@ export default function GatheringModal({
 		// 		method: 'POST',
 		// 		body
 		// 	});
->>>>>>> TD-3
 
 		// 	if (!response.ok) {
 		// 		throw new Error('게시글 생성 중 오류가 발생하였습니다.');
@@ -136,13 +103,6 @@ export default function GatheringModal({
 		console.log('추후 API 연동 예정');
 	};
 
-<<<<<<< HEAD
-	useEffect(() => {
-		if (onFormReady) {
-			onFormReady(methods);
-		}
-	}, [onFormReady, methods]);
-=======
 	const { openModal } = useModal();
 	const closePopup = useModalClose(); // 자기 자신 닫기
 
@@ -168,7 +128,6 @@ export default function GatheringModal({
 			formReady(methods);
 		}
 	}, [methods, formReady]);
->>>>>>> TD-3
 
 	return (
 		<BasicModal onClose={handleCloseWithPopup} className="flex flex-col">
