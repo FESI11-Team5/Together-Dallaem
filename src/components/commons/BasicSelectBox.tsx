@@ -2,6 +2,7 @@
 
 import { useState, forwardRef, useRef, useEffect, useMemo, useCallback } from 'react';
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
+import BasicDropbox from './BasicDropbox';
 
 /** 드롭다운되는 선택 항목들의 타입 */
 interface OptionType {
@@ -24,6 +25,8 @@ interface SelectProps {
 	placeholder?: string;
 	/** 셀렉트박스 비활성화 여부 */
 	disabled?: boolean;
+	/** 셀렉트박스 내부에 삽입할 콘텐츠(sortSelectBox의 아이콘 같은 것) */
+	children?: React.ReactNode;
 }
 
 /**
@@ -57,7 +60,10 @@ interface SelectProps {
  */
 
 const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
-	({ options = [], size = 'large', className = '', register, placeholder = '선택하세요', disabled = false }, ref) => {
+	(
+		{ options = [], size = 'large', className = '', register, placeholder = '선택하세요', disabled = false, children },
+		ref
+	) => {
 		const [isOpen, setIsOpen] = useState(false);
 		const [selectedValue, setSelectedValue] = useState<string | number>('');
 		const containerRef = useRef<HTMLDivElement>(null);
@@ -116,7 +122,7 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 					? 'w-full h-[44px] border-none'
 					: size === 'small'
 						? 'w-[110px] h-[36px] border-2 border-gray-100'
-						: 'w-[120px] h-[40px] border-2 border-gray-100';
+						: 'w-[110px] h-[40px] border-2 border-gray-100';
 
 			// 패딩 설정 - small일 때만 py-[6px]
 			const padding = size === 'small' ? 'px-[12px] py-[6px]' : 'px-[12px] py-[8px]';
@@ -160,31 +166,20 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 						className={
 							size === 'expanded' ? 'text-gray-800' : selectedValue || displayValue ? 'text-white' : 'text-gray-500'
 						}>
+						{children}
 						{selectedOption ? selectedOption.text : placeholder}
 					</span>
 					<div className={arrowClasses} />
 				</button>
 
 				{isOpen && (
-					<div
-						ref={containerRef}
-						className="absolute top-full right-0 left-0 z-50 mt-1 max-h-60 overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl"
-						role="listbox"
-						aria-label="옵션 목록">
-						{options.map(option => (
-							<button
-								key={`${option.value}-${option.text}`}
-								type="button"
-								className={`w-full px-[12px] py-[8px] text-left text-gray-800 first:rounded-t-[12px] last:rounded-b-[12px] hover:bg-gray-100 ${
-									displayValue === option.value ? 'bg-gray-100 font-medium' : ''
-								}`}
-								onClick={() => handleSelect(option.value)}
-								role="option"
-								aria-selected={displayValue === option.value}>
-								{option.text}
-							</button>
-						))}
-					</div>
+					<BasicDropbox
+						ref={containerRef as React.RefObject<HTMLDivElement>}
+						options={options}
+						updateValue={handleSelect}
+						selectedValue={displayValue}
+						isLarge={size === 'expanded'}
+					/>
 				)}
 			</div>
 		);
