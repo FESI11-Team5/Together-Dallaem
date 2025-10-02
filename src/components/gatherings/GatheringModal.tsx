@@ -1,16 +1,21 @@
 'use client';
 
-import BasicCalendar from '../commons/BasicCalendar';
-
 import { CreateGathering } from '@/types/response/gatherings';
 
-import { useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { useForm, UseFormReturn } from 'react-hook-form';
 
 import { format } from 'date-fns';
+import { POPUP_MESSAGE } from '@/constants/messages';
+import { useModal, useModalClose } from '@/hooks/useModal';
+
+import BasicCalendar from '../commons/BasicCalendar';
+import BasicModal from '../commons/BasicModal';
+import BasicButton from '../commons/BasicButton';
+import BasicPopup from '../commons/BasicPopup';
 
 /**
- *
+ * GatheringModal 컴포넌트
  * @returns GatheringModal 컴포넌트
  * - 모임 생성 폼을 제공
  * - react-hook-form을 사용하여 폼 상태 관리 및 유효성 검사
@@ -23,15 +28,12 @@ import { format } from 'date-fns';
  *
  */
 
-export default function GatheringModal() {
-	const {
-		watch,
-		register,
-		handleSubmit,
-		setValue,
-		reset,
-		formState: { isSubmitting }
-	} = useForm<CreateGathering>({
+export default function GatheringModal({
+	formReady
+}: {
+	formReady?: (methods: UseFormReturn<CreateGathering>) => void;
+}) {
+	const methods = useForm<CreateGathering>({
 		defaultValues: {
 			teamId: 5,
 			location: '',
@@ -43,56 +45,92 @@ export default function GatheringModal() {
 		}
 	});
 
+	const {
+		watch,
+		register,
+		handleSubmit,
+		setValue,
+		reset,
+		formState: { isSubmitting }
+	} = methods;
+
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	const formValues = watch(); // 버튼 활성화 모드를 위한 실시간 감지
 
 	console.log(formValues);
 
-	const isFormFilled =
-		formValues.name &&
-		formValues.location &&
-		formValues.type &&
-		formValues.dateTime &&
-		formValues.registrationEnd &&
-		formValues.capacity >= 5 &&
-		formValues.capacity <= 20;
+	// const isFormFilled =
+	// 	formValues.name &&
+	// 	formValues.location &&
+	// 	formValues.type &&
+	// 	formValues.dateTime &&
+	// 	formValues.registrationEnd &&
+	// 	formValues.capacity >= 5 &&
+	// 	formValues.capacity <= 20;
 
 	const onSubmitForm = async (data: CreateGathering) => {
-		const body = new FormData();
+		// const body = new FormData();
 
-		body.append('teamId', String(data.teamId));
-		body.append('location', data.location);
-		body.append('type', data.type);
-		body.append('name', data.name);
-		body.append('dateTime', data.dateTime);
-		body.append('capacity', String(data.capacity));
-		body.append('registrationEnd', data.registrationEnd);
-		if (data.image instanceof File) {
-			body.append('image', data.image);
-		}
+		// body.append('teamId', String(data.teamId));
+		// body.append('location', data.location);
+		// body.append('type', data.type);
+		// body.append('name', data.name);
+		// body.append('dateTime', data.dateTime);
+		// body.append('capacity', String(data.capacity));
+		// body.append('registrationEnd', data.registrationEnd);
+		// if (data.image instanceof File) {
+		// 	body.append('image', data.image);
+		// }
 
-		console.log('전송할 폼 데이터:', body);
+		// console.log('전송할 폼 데이터:', body);
 
-		try {
-			const response = await fetch(`https://fe-adv-project-together-dallaem.vercel.app/${data.teamId}/gatherings`, {
-				method: 'POST',
-				body
-			});
+		// try {
+		// 	const response = await fetch(`https://fe-adv-project-together-dallaem.vercel.app/${data.teamId}/gatherings`, {
+		// 		method: 'POST',
+		// 		body
+		// 	});
 
-			if (!response.ok) {
-				throw new Error('게시글 생성 중 오류가 발생하였습니다.');
-			}
+		// 	if (!response.ok) {
+		// 		throw new Error('게시글 생성 중 오류가 발생하였습니다.');
+		// 	}
 
-			alert('게시글이 생성되었습니다');
-			reset();
-		} catch (error) {
-			console.log(error);
-		}
+		// 	alert('게시글이 생성되었습니다');
+		// 	reset();
+		// } catch (error) {
+		// 	console.log(error);
+		// }
+		console.log('추후 API 연동 예정');
 	};
 
+	const { openModal } = useModal();
+	const closePopup = useModalClose(); // 자기 자신 닫기
+
+	const handleCloseWithPopup = () => {
+		const title = POPUP_MESSAGE.CREATE.title;
+		const subTitle = POPUP_MESSAGE.CREATE.subTitle;
+
+		openModal(
+			<BasicPopup
+				title={title}
+				subTitle={subTitle}
+				onConfirm={() => {
+					closePopup(); // GatheringModal 닫기
+				}}
+				cancelText="취소"
+			/>,
+			'create-gathering-popup'
+		);
+	};
+
+	useEffect(() => {
+		if (formReady) {
+			formReady(methods);
+		}
+	}, [methods, formReady]);
+
 	return (
-		<div className="flex flex-col">
+		<BasicModal onClose={handleCloseWithPopup} className="flex flex-col">
 			모임 만들기
 			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col">
 				<label htmlFor="gathering-name">모임 이름</label>
@@ -212,13 +250,8 @@ export default function GatheringModal() {
 					className="border border-black"
 				/>
 
-				<button
-					type="submit"
-					disabled={!isFormFilled || isSubmitting}
-					className={`${isFormFilled ? 'bg-blue-400' : ''}`}>
-					{isSubmitting ? '등록 중...' : '확인'}
-				</button>
+				<BasicButton>확인</BasicButton>
 			</form>
-		</div>
+		</BasicModal>
 	);
 }
