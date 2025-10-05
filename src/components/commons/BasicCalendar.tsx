@@ -5,7 +5,7 @@ import * as React from 'react';
 import DateTimePicker from '../calendar/DateTimePicker';
 import SearchInCalendarButton from '../calendar/SearchInCalendarButton';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
