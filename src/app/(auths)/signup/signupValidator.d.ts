@@ -1,7 +1,7 @@
 export interface SignupFormValues {
 	email: string;
 	password: string;
-	confirmPassword: string;
+	confirm: string;
 	name: string;
 	companyName: string;
 }
