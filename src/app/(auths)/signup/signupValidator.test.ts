@@ -1,22 +1,19 @@
 import { SignupValidator } from './signupValidator';
+import { signupValidatorYup } from './signupValidator.yup';
 import { signupValidatorZod } from './signupValidator.zod';
 
-describe('SignupValidator 계약 테스트', () => {
-	let validator: SignupValidator;
+const defaultValues = {
+	email: 'viscacha@email.com',
+	password: 'viscacha88',
+	confirm: 'viscacha88',
+	name: 'viscacha',
+	companyName: 'codeit'
+};
 
-	const defaultValues = {
-		email: 'viscacha@email.com',
-		password: 'viscacha88',
-		confirm: 'viscacha88',
-		name: 'viscacha',
-		companyName: 'codeit'
-	};
-
-	beforeEach(() => {
-		validator = signupValidatorZod;
-		// validator = signupValidatorYup();
-	});
-
+describe.each([
+	['Zod', signupValidatorZod],
+	['Yup', signupValidatorYup]
+])('SignupValidator (%s) 계약 테스트', (_, validator: SignupValidator) => {
 	test('이름이 존재하지 않으면 "이름을 입력해 주세요" 메시지가 반환된다', () => {
 		const values = { ...defaultValues, name: '' };
 
