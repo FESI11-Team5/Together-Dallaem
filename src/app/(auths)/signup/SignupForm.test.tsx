@@ -1,5 +1,5 @@
 import { signupErrors } from '@/constants/error';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SignupForm } from './SignupForm';
 
 const defaultValues = {
@@ -11,7 +11,6 @@ const defaultValues = {
 };
 
 // TODO: fiberEvent를 userEvent로 리팩터링
-
 describe('SignupForm 통합 테스트', () => {
 	beforeEach(() => {
 		jest.useFakeTimers();
@@ -62,10 +61,10 @@ describe('SignupForm 통합 테스트', () => {
 			fireEvent.change(companyInput, { target: { value: defaultValues.companyName } });
 			fireEvent.change(passwordInput, { target: { value: defaultValues.password } });
 			fireEvent.change(passwordConfirmInput, { target: { value: defaultValues.confirm } });
+			fireEvent.blur(passwordConfirmInput);
 
-			expect(button).not.toBeDisabled();
-			// expect(await screen.findByText(/입력해 주세요|올바르지 않습니다|일치하지 않습니다/)).not.toBeInTheDocument();
 			await waitFor(() => {
+				expect(button).not.toBeDisabled();
 				expect(screen.queryByText(/입력해 주세요|올바르지 않습니다|일치하지 않습니다/)).not.toBeInTheDocument();
 			});
 		});
@@ -80,7 +79,9 @@ function runValidationScenarios(label: string, message: string, value = '', call
 		fireEvent.change(input, { target: { value } });
 		fireEvent.blur(input);
 
-		expect(await screen.findByText(message)).toBeInTheDocument();
+		await waitFor(() => {
+			expect(screen.getByText(message)).toBeInTheDocument();
+		});
 	});
 
 	test('1초간 입력 없음 (debounce)', async () => {
@@ -90,21 +91,25 @@ function runValidationScenarios(label: string, message: string, value = '', call
 		fireEvent.change(input, { target: { value } });
 		fireEvent.focus(input);
 
-		await act(async () => {
-			jest.advanceTimersByTime(1000);
-		});
+		jest.advanceTimersByTime(1000);
 
-		expect(await screen.findByText(message)).toBeInTheDocument();
+		await waitFor(() => {
+			expect(screen.getByText(message)).toBeInTheDocument();
+		});
 	});
 
-	test('회원가입 버튼 클릭 (submit)', async () => {
+	// TODO: 기본값이 disabled이기 때문에 테스트가 의미없어진 것 같아서 수정 필요
+	test('회원가입 버튼 클릭 방지 (submit)', async () => {
 		callBack?.();
 		const input = screen.getByLabelText(label);
 		const button = screen.getByRole('button', { name: '확인' });
 
 		fireEvent.change(input, { target: { value } });
-		fireEvent.click(button);
+		fireEvent.blur(input);
 
-		expect(await screen.findByText(message)).toBeInTheDocument();
+		await waitFor(() => {
+			expect(button).toBeDisabled();
+			expect(screen.getByText(message)).toBeInTheDocument();
+		});
 	});
 }

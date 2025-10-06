@@ -17,6 +17,7 @@ export function SignupForm() {
 	const {
 		register,
 		handleSubmit,
+		trigger,
 		formState: { errors, isSubmitting, isValid, isDirty }
 	} = useForm<SignupFormValues>({
 		resolver: zodResolver(zodSchema),
@@ -37,18 +38,23 @@ export function SignupForm() {
 					placeholder={signupPlaceholders.name}
 					register={register('name')}
 					invalidText={errors.name?.message}
-				/>
+					onDebouncedBlur={() => trigger('name')}
+					/>
 				<InputWithLabel
 					label={signupLabel.email}
 					placeholder={signupPlaceholders.email}
 					register={register('email')}
 					invalidText={errors.email?.message}
+					onDebouncedBlur={() => trigger('email')}
+
 				/>
 				<InputWithLabel
 					label={signupLabel.companyName}
 					placeholder={signupPlaceholders.companyName}
 					register={register('companyName')}
 					invalidText={errors.companyName?.message}
+					onDebouncedBlur={() => trigger('companyName')}
+
 				/>
 				<InputWithLabel
 					label={signupLabel.password}
@@ -56,6 +62,8 @@ export function SignupForm() {
 					isPassword
 					register={register('password')}
 					invalidText={errors.password?.message}
+					onDebouncedBlur={() => trigger('password')}
+
 				/>
 				<InputWithLabel
 					label={signupLabel.confirm}
@@ -63,6 +71,8 @@ export function SignupForm() {
 					isPassword
 					register={register('confirm')}
 					invalidText={errors.confirm?.message}
+					onDebouncedBlur={() => trigger('confirm')}
+
 				/>
 			</div>
 			<div className="flex flex-col gap-6">

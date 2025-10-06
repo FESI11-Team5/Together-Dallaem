@@ -1,5 +1,5 @@
-import type { InputProps } from '@/components/commons/BasicInput';
-import BasicInput from '@/components/commons/BasicInput';
+import type { InputProps } from './BasicInput';
+import BasicInput from './BasicInput';
 
 interface InputWithLabelProps extends InputProps {
 	/** 라벨명 */
@@ -22,25 +22,23 @@ export function InputWithLabel({
 	isPassword = false,
 	register,
 	className = '',
-	required = false,
-	isValid = true,
 	invalidText = '',
-	value = '',
-	label
+	label,
+	onDebouncedBlur
 }: InputWithLabelProps) {
 	return (
 		<div className="flex flex-col gap-2">
-			<label className='text-sm font-semibold' htmlFor={label}>{label}</label>
+			<label className="text-sm font-semibold" htmlFor={label}>
+				{label}
+			</label>
 			<BasicInput
 				id={label}
 				placeholder={placeholder}
 				isPassword={isPassword}
 				className={className}
 				register={register}
-				required={required}
-				isValid={isValid}
 				invalidText={invalidText}
-				value={value}>
+				onDebouncedBlur={onDebouncedBlur}>
 				{children}
 			</BasicInput>
 		</div>
