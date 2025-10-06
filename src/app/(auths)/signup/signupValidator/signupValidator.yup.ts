@@ -3,14 +3,14 @@ import * as yup from 'yup';
 import type { SignupValidator } from './signupValidator';
 
 export const yupSchema = yup.object({
+	name: yup.string().required(signupErrors.nameRequired),
 	email: yup.string().required().email(signupErrors.emailInvalid),
+	companyName: yup.string().required(signupErrors.companyRequired),
 	password: yup.string().required().min(8, signupErrors.passwordTooShort),
 	confirm: yup
 		.string()
-		.required()
-		.oneOf([yup.ref('password')], signupErrors.passwordMismatch),
-	name: yup.string().required(signupErrors.nameRequired),
-	companyName: yup.string().required(signupErrors.companyRequired)
+		.required(signupErrors.confirmRequired)
+		.oneOf([yup.ref('password')], signupErrors.passwordMismatch)
 });
 
 export const signupValidatorYup: SignupValidator = {

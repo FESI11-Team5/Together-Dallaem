@@ -4,11 +4,11 @@ import { SignupValidator } from './signupValidator';
 
 export const zodSchema = z
 	.object({
-		email: z.email({ error: signupErrors.emailInvalid }),
-		password: z.string().min(8, { error: signupErrors.passwordTooShort }),
-		confirm: z.string(),
 		name: z.string().min(1, { error: signupErrors.nameRequired }),
-		companyName: z.string().min(1, { error: signupErrors.companyRequired })
+		email: z.email({ error: signupErrors.emailInvalid }),
+		companyName: z.string().min(1, { error: signupErrors.companyRequired }),
+		password: z.string().min(8, { error: signupErrors.passwordTooShort }),
+		confirm: z.string().min(1, { error: signupErrors.confirmRequired })
 	})
 	.refine(data => data.password === data.confirm, {
 		path: ['confirm'],
@@ -23,4 +23,3 @@ export const signupValidatorZod: SignupValidator = {
 		return { fieldErrors };
 	}
 };
-
