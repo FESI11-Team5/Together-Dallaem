@@ -2,8 +2,8 @@
 
 import { useModalClose } from '@/hooks/useModal';
 
-import BasicModal from './BasicModal';
 import BasicButton from './BasicButton';
+import BasicModal from './BasicModal';
 
 interface BasicPopupProps {
 	/** 팝업 제목 */
@@ -51,14 +51,16 @@ export default function BasicPopup({
 				</div>
 				{cancelText ? (
 					<div className="flex w-full justify-center gap-3">
-						<BasicButton isActive={true} onClick={handleCancel} outlined={true}>
+						<BasicButton isActive={true} onClick={handleCancel} outlined={true} ariaLabel="팝업 취소">
 							{cancelText}
 						</BasicButton>
 						<BasicButton onClick={handleConfirm}>{confirmText}</BasicButton>
 					</div>
 				) : (
 					<div className="flex w-full justify-end">
-						<BasicButton onClick={handleConfirm}>{confirmText}</BasicButton>
+						<BasicButton onClick={handleConfirm} ariaLabel="팝업 확인">
+							{confirmText}
+						</BasicButton>
 					</div>
 				)}
 			</div>
