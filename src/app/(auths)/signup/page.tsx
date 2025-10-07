@@ -8,7 +8,7 @@ import SignupFailurePopup from './SignupFailurePopup';
 import { SignupForm, type SignupFormValues } from './SignupForm';
 import SignupSuccessPopup from './SignupSuccessPopup';
 
-// TODO: 반응형 추가 및 이미지 크기 조절 잘되는지 점검
+// TODO: 데스크톱 시 줄어들면 배경 여백이 좁아지는 현상 개선
 export default function SignupPage() {
 	const { openModal } = useModal();
 	const onSubmit = async (data: SignupFormValues) => {
@@ -23,12 +23,12 @@ export default function SignupPage() {
 	};
 
 	return (
-		<div className="flex h-screen w-full items-center justify-center gap-20 bg-gray-100">
+		<div className="tb:flex-row tb:h-screen tb:w-screen tb:gap-20 mb:px-16 flex w-full flex-col items-center justify-center gap-10 bg-gray-100 px-4 py-16">
 			<h1 className="sr-only">같이 달램 회원가입 페이지</h1>
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-col gap-2 text-center">
-					<h2 className="text-2xl font-semibold">Welcome to 같이 달램!</h2>
-					<p className="text-base font-medium whitespace-pre-line">
+					<h2 className="mb:text-2xl text-xl font-semibold">Welcome to 같이 달램!</h2>
+					<p className="mb:text-base text-sm font-medium whitespace-pre-line">
 						바쁜 일상 속 잠깐의 휴식,
 						<br />
 						이제는 같이 달램과 함께 해보세요
@@ -44,8 +44,8 @@ export default function SignupPage() {
 				/>
 			</div>
 
-			<section className="flex max-w-[510px] flex-1 flex-col gap-8 rounded-3xl bg-white px-[54px] py-8 whitespace-nowrap">
-				<h2 className="text-center text-2xl font-semibold">회원가입</h2>
+			<section className="mb:px-16 tb:px-[54px] flex max-w-[510px] flex-col gap-8 rounded-3xl bg-white px-4 py-8 whitespace-nowrap">
+				<h2 className="mb:text-2xl text-center text-xl font-semibold">회원가입</h2>
 				<SignupForm onSubmit={onSubmit} />
 			</section>
 		</div>
