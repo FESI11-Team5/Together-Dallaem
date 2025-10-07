@@ -1,12 +1,12 @@
 'use client';
 
 import { postSignup } from '@/apis/auths/signup';
+import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
 import SignupFailurePopup from '@/components/auth/SignupPopup/SignupFailurePopup';
 import SignupSuccessPopup from '@/components/auth/SignupPopup/SignupSuccessPopup';
 import { useModal } from '@/hooks/useModal';
 import { ApiError } from '@/utils/fetch';
 import Image from 'next/image';
-import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
 
 // TODO: 데스크톱 시 줄어들면 배경 여백이 좁아지는 현상 개선
 export default function SignupPage() {
@@ -43,7 +43,9 @@ export default function SignupPage() {
 					className="mb:max-w-[407px] tb:max-w-[588px] max-w-[290px]"
 				/>
 			</div>
-
+			{
+				// TODO: 이것까지 SignupForm으로 묶을지 결정
+			}
 			<section className="mb:px-16 tb:px-[54px] flex max-w-[510px] flex-col gap-8 rounded-3xl bg-white px-4 py-8 whitespace-nowrap">
 				<h2 className="mb:text-2xl text-center text-xl font-semibold">회원가입</h2>
 				<SignupForm onSubmit={onSubmit} />
