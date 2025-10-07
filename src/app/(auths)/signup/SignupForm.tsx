@@ -11,9 +11,15 @@ import { zodSchema } from './signupValidator/signupValidator.zod';
 // import { yupResolver } from '@hookform/resolvers/yup';
 // import type { SignupFormValues } from './signupValidator/signupValidator';
 
-type SignupFormValues = z.infer<typeof zodSchema>;
+export type SignupFormValues = z.infer<typeof zodSchema>;
 
-export function SignupForm() {
+interface SignupFormProps {
+	/** 제출 뭐시기 */
+	onSubmit: (data: SignupFormValues) => void;
+}
+
+// TODO: disabled이 해제되는 반응 더 빠르게 개선
+export function SignupForm({ onSubmit }: SignupFormProps) {
 	const {
 		register,
 		handleSubmit,
@@ -24,11 +30,6 @@ export function SignupForm() {
 		// resolver: yupResolver(yupSchema),
 		mode: 'onBlur'
 	});
-
-	// TODO: API 연동
-	const onSubmit = (data: SignupFormValues) => {
-		console.log(data);
-	};
 
 	return (
 		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>

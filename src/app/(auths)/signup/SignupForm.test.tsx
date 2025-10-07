@@ -14,7 +14,7 @@ const defaultValues = {
 describe('SignupForm 통합 테스트', () => {
 	beforeEach(() => {
 		jest.useFakeTimers();
-		render(<SignupForm />);
+		render(<SignupForm onSubmit={() => {}} />);
 	});
 
 	afterEach(() => {
@@ -54,7 +54,7 @@ describe('SignupForm 통합 테스트', () => {
 			const companyInput = screen.getByLabelText('회사명');
 			const passwordInput = screen.getByLabelText('비밀번호');
 			const passwordConfirmInput = screen.getByLabelText('비밀번호 확인');
-			const button = screen.getByRole('button', { name: '확인' });
+			const button = screen.getByRole('button', { name: '회원가입 확인' });
 
 			fireEvent.change(nameInput, { target: { value: defaultValues.name } });
 			fireEvent.change(emailInput, { target: { value: defaultValues.email } });
@@ -102,7 +102,7 @@ function runValidationScenarios(label: string, message: string, value = '', call
 	test('회원가입 버튼 클릭 방지 (submit)', async () => {
 		callBack?.();
 		const input = screen.getByLabelText(label);
-		const button = screen.getByRole('button', { name: '확인' });
+		const button = screen.getByRole('button', { name: '회원가입 확인' });
 
 		fireEvent.change(input, { target: { value } });
 		fireEvent.blur(input);
