@@ -1,6 +1,6 @@
 import { signupErrors } from '@/constants/error';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { SignupForm } from './SignupForm';
+import { SignupForm } from '.';
 
 const defaultValues = {
 	email: 'viscacha@email.com',

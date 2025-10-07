@@ -1,12 +1,12 @@
 'use client';
 
 import { postSignup } from '@/apis/auths/signup';
+import SignupFailurePopup from '@/components/auth/SignupPopup/SignupFailurePopup';
+import SignupSuccessPopup from '@/components/auth/SignupPopup/SignupSuccessPopup';
 import { useModal } from '@/hooks/useModal';
 import { ApiError } from '@/utils/fetch';
 import Image from 'next/image';
-import SignupFailurePopup from './SignupFailurePopup';
-import { SignupForm, type SignupFormValues } from './SignupForm';
-import SignupSuccessPopup from './SignupSuccessPopup';
+import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
 
 // TODO: 데스크톱 시 줄어들면 배경 여백이 좁아지는 현상 개선
 export default function SignupPage() {
