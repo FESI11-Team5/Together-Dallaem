@@ -1,10 +1,27 @@
 'use client';
 
+import { postSignup } from '@/apis/auths/signup';
+import { useModal } from '@/hooks/useModal';
+import { ApiError } from '@/utils/fetch';
 import Image from 'next/image';
-import { SignupForm } from './SignupForm';
+import SignupFailurePopup from './SignupFailurePopup';
+import { SignupForm, type SignupFormValues } from './SignupForm';
+import SignupSuccessPopup from './SignupSuccessPopup';
 
 // TODO: 반응형 추가 및 이미지 크기 조절 잘되는지 점검
 export default function SignupPage() {
+	const { openModal } = useModal();
+	const onSubmit = async (data: SignupFormValues) => {
+		try {
+			await postSignup(data);
+			openModal(<SignupSuccessPopup />);
+		} catch (error) {
+			if (error instanceof ApiError) {
+				openModal(<SignupFailurePopup />);
+			}
+		}
+	};
+
 	return (
 		<div className="flex h-screen w-full items-center justify-center gap-20 bg-gray-100">
 			<h1 className="sr-only">같이 달램 회원가입 페이지</h1>
@@ -29,7 +46,7 @@ export default function SignupPage() {
 
 			<section className="flex max-w-[510px] flex-1 flex-col gap-8 rounded-3xl bg-white px-[54px] py-8 whitespace-nowrap">
 				<h2 className="text-center text-2xl font-semibold">회원가입</h2>
-				<SignupForm />
+				<SignupForm onSubmit={onSubmit} />
 			</section>
 		</div>
 	);

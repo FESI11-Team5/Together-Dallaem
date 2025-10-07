@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import ModalContainer from '@/components/commons/ModalContainer';
+import { ModalStoreProvider } from '@/providers/ModalProvider';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { useRouter } from 'next/navigation';
 import SignupPage from './page';
@@ -49,7 +51,12 @@ describe('SignupPage 통합 테스트', () => {
 	beforeEach(() => {
 		user = userEvent.setup();
 		(useRouter as jest.Mock).mockReturnValue({ push: mockPush });
-		render(<SignupPage />);
+		render(
+			<ModalStoreProvider>
+				<SignupPage />
+				<ModalContainer />
+			</ModalStoreProvider>
+		);
 	});
 
 	afterEach(() => {
@@ -61,11 +68,11 @@ describe('SignupPage 통합 테스트', () => {
 			// 1. 입력 다 하고 확인 버튼 누르기
 			await fillAndSubmitForm(user);
 
-			// 2. 모달 뜨는 지 확인하고 모달 닫기
-			const successText = await screen.findByText(/회원가입이 완료되었습니다/i);
+			// 2. 팝업 뜨는지 확인하고 팝업 닫기
+			const successText = await screen.findByText(/가입이 완료되었습니다!/i);
 			expect(successText).toBeInTheDocument();
 
-			const modalConfirm = screen.getByRole('button', { name: '모달 확인' });
+			const modalConfirm = screen.getByRole('button', { name: '팝업 확인' });
 			await user.click(modalConfirm);
 
 			// 3. 로그인 페이지로 이동했는지 확인하기
@@ -97,18 +104,19 @@ describe('SignupPage 통합 테스트', () => {
 			const passwordConfirmInput = screen.getByLabelText('비밀번호 확인');
 			expect(passwordConfirmInput).toHaveFocus();
 			await user.type(passwordConfirmInput, defaultValues.confirm);
-			await user.tab();
 
 			// 2. 확인 버튼 누르기
 			const button = screen.getByRole('button', { name: '회원가입 확인' });
+			await waitFor(() => expect(button).toBeEnabled());
+			await user.tab();
 			expect(button).toHaveFocus();
 			await user.keyboard('{Enter}');
 
-			// 3. 모달 뜨는 지 확인하고 모달 닫기
-			const successText = await screen.findByText(/회원가입이 완료되었습니다/i);
+			// 3. 팝업 뜨는지 확인하고 팝업 닫기
+			const successText = await screen.findByText(/가입이 완료되었습니다!/i);
 			expect(successText).toBeInTheDocument();
 
-			const modalConfirm = screen.getByRole('button', { name: '모달 확인' });
+			const modalConfirm = screen.getByRole('button', { name: '팝업 확인' });
 			await user.click(modalConfirm);
 
 			// 4. 로그인 페이지로 이동했는지 확인하기
@@ -121,26 +129,26 @@ describe('SignupPage 통합 테스트', () => {
 		// 1. 입력 다 하고 확인 버튼 누르기
 		await fillAndSubmitForm(user, { ...defaultValues, email: 'duplicate@email.com' });
 
-		// 2. 중복 이메일 에러 경고 모달 뜨는 지 확인하고 모달 닫기
-		const warningText = await screen.findByText(/이미 등록된 이메일입니다/i);
+		// 2. 중복 이메일 에러 경고 팝업 뜨는지 확인하고 팝업 닫기
+		const warningText = await screen.findByText(/중복된 이메일입니다/i);
 		expect(warningText).toBeInTheDocument();
 
-		const modalConfirm = screen.getByRole('button', { name: '모달 확인' });
+		const modalConfirm = screen.getByRole('button', { name: '팝업 확인' });
 		await user.click(modalConfirm);
 
 		// 3. 회원가입 페이지로 돌아왔는지 확인하기
-		expect(screen.getByRole('heading', { name: /회원가입/i })).toBeInTheDocument();
+		const headings = await screen.findAllByRole('heading', { name: /회원가입/i });
+		expect(headings).toHaveLength(2);
 		expect(mockPush).not.toHaveBeenCalled();
 	});
 
 	test('이미 계정이 있는 경우, 로그인 링크를 클릭하면 로그인 페이지로 이동한다.', async () => {
 		// 1. 로그인 버튼 누르기
-		const button = screen.getByRole('link', { name: '로그인' });
-		await user.click(button);
+		const link = screen.getByRole('link', { name: '로그인' });
+		await user.click(link);
 
 		// 2. 로그인 페이지로 이동했는지 확인하기
-		expect(mockPush).toHaveBeenCalledWith('/login');
-		expect(mockPush).toHaveBeenCalledTimes(1);
+		expect(link).toHaveAttribute('href', '/login');
 	});
 });
 
@@ -150,5 +158,9 @@ async function fillAndSubmitForm(user: UserEvent, values = defaultValues) {
 	await user.type(screen.getByLabelText('회사명'), values.companyName);
 	await user.type(screen.getByLabelText('비밀번호'), values.password);
 	await user.type(screen.getByLabelText('비밀번호 확인'), values.confirm);
-	await user.click(screen.getByRole('button', { name: '회원가입 확인' }));
+
+	const button = screen.getByRole('button', { name: '회원가입 확인' });
+	await waitFor(() => expect(button).toBeEnabled());
+
+	await user.click(button);
 }
