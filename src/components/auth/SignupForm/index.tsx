@@ -14,7 +14,7 @@ import { InputWithLabel } from './InputWithLabel';
 export type SignupFormValues = z.infer<typeof zodSchema>;
 
 interface SignupFormProps {
-	/** 제출 뭐시기 */
+	/** 제출 시 실행되는 메서드 */
 	onSubmit: (data: SignupFormValues) => void;
 }
 
