@@ -39,14 +39,13 @@ export function SignupForm() {
 					register={register('name')}
 					invalidText={errors.name?.message}
 					onDebouncedBlur={() => trigger('name')}
-					/>
+				/>
 				<InputWithLabel
 					label={signupLabel.email}
 					placeholder={signupPlaceholders.email}
 					register={register('email')}
 					invalidText={errors.email?.message}
 					onDebouncedBlur={() => trigger('email')}
-
 				/>
 				<InputWithLabel
 					label={signupLabel.companyName}
@@ -54,7 +53,6 @@ export function SignupForm() {
 					register={register('companyName')}
 					invalidText={errors.companyName?.message}
 					onDebouncedBlur={() => trigger('companyName')}
-
 				/>
 				<InputWithLabel
 					label={signupLabel.password}
@@ -63,7 +61,6 @@ export function SignupForm() {
 					register={register('password')}
 					invalidText={errors.password?.message}
 					onDebouncedBlur={() => trigger('password')}
-
 				/>
 				<InputWithLabel
 					label={signupLabel.confirm}
@@ -72,11 +69,10 @@ export function SignupForm() {
 					register={register('confirm')}
 					invalidText={errors.confirm?.message}
 					onDebouncedBlur={() => trigger('confirm')}
-
 				/>
 			</div>
 			<div className="flex flex-col gap-6">
-				<BasicButton className="w-full" isActive={isValid && !isSubmitting && isDirty}>
+				<BasicButton className="w-full" isActive={isValid && !isSubmitting && isDirty} ariaLabel="회원가입 확인">
 					확인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">

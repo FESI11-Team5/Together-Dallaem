@@ -13,6 +13,8 @@ interface ButtonProps {
 	outlined?: boolean;
 	/** 추가할 커스텀 CSS 클래스명 */
 	className?: string;
+	/** aria-label */
+	ariaLabel?: string;
 }
 
 /**
@@ -54,7 +56,8 @@ export default function BasicButton({
 	isLarge = false,
 	isActive = true,
 	outlined = false,
-	className = ''
+	className = '',
+	ariaLabel = ''
 }: ButtonProps) {
 	let classByStatus = '';
 	if (outlined) {
@@ -88,7 +91,8 @@ export default function BasicButton({
 				${classByStatus}
 				${isActive ? 'cursor-pointer' : 'cursor-default'}
 				${className}
-			`}>
+			`}
+			aria-label={ariaLabel}>
 			{children}
 		</button>
 	);
