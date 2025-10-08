@@ -28,7 +28,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, rang
 	if (totalPages <= 1) return null;
 
 	return (
-		<div className="mt-6 flex items-center justify-center">
+		<div className="flex items-center justify-center">
 			<div className="flex w-[270px] items-center justify-center gap-2 md:w-[476px]">
 				{/* 이전 버튼 */}
 				<PaginationButton disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)}>
