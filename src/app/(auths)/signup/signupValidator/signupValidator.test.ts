@@ -1,14 +1,7 @@
+import { defaultSignupFormValues as defaultValues } from '@/constants/test';
 import { SignupValidator } from './signupValidator';
 import { signupValidatorYup } from './signupValidator.yup';
 import { signupValidatorZod } from './signupValidator.zod';
-
-const defaultValues = {
-	email: 'viscacha@email.com',
-	password: 'viscacha88',
-	confirm: 'viscacha88',
-	name: 'viscacha',
-	companyName: 'codeit'
-};
 
 describe.each([
 	['Zod', signupValidatorZod],

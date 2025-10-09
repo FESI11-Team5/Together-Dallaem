@@ -1,14 +1,7 @@
 import { signupErrors } from '@/constants/error';
+import { defaultSignupFormValues as defaultValues } from '@/constants/test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SignupForm } from '.';
-
-const defaultValues = {
-	email: 'viscacha@email.com',
-	password: 'viscacha88',
-	confirm: 'viscacha88',
-	name: 'viscacha',
-	companyName: 'codeit'
-};
 
 // TODO: fiberEvent를 userEvent로 리팩터링
 describe('SignupForm 통합 테스트', () => {

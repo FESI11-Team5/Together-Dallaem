@@ -1,4 +1,5 @@
 import ModalContainer from '@/components/commons/ModalContainer';
+import { defaultSignupFormValues as defaultValues } from '@/constants/test';
 import { ModalStoreProvider } from '@/providers/ModalProvider';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
@@ -8,14 +9,6 @@ import SignupPage from './page';
 jest.mock('next/navigation', () => ({
 	useRouter: jest.fn()
 }));
-
-const defaultValues = {
-	email: 'viscacha@email.com',
-	password: 'viscacha88',
-	confirm: 'viscacha88',
-	name: 'viscacha',
-	companyName: 'codeit'
-};
 
 beforeAll(() => {
 	global.fetch = jest.fn((url, options) => {

@@ -27,13 +27,3 @@ export const signupValidatorYup: SignupValidator = {
 		}
 	}
 };
-
-const defaultValues = {
-	email: 'viscacha@email.com',
-	password: 'viscacha88',
-	confirm: 'viscacha88',
-	name: 'viscacha',
-	companyName: 'codeit'
-};
-
-console.log(signupValidatorYup.validate({ ...defaultValues, email: '' }));
