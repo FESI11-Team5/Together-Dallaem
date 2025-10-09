@@ -22,6 +22,7 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 		title: '가입이 완료되었습니다!'
 	},
 
+	/** 회원가입 시 중복 이메일이면 띄우는 팝업창 메시지 */
 	DUPLICATED_EMAIL: {
 		title: '중복된 이메일입니다',
 		subTitle: '다른 이메일로 가입해 주세요'

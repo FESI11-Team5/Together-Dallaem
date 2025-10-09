@@ -1,3 +1,6 @@
+/**
+ * 회원가입 폼의 각 입력 필드 라벨
+ */
 export const signupLabel = {
 	name: '이름',
 	email: '이메일',
@@ -6,6 +9,9 @@ export const signupLabel = {
 	confirm: '비밀번호 확인'
 };
 
+/**
+ * 회원가입 폼의 각 입력 필드 placeholder
+ */
 export const signupPlaceholders = {
 	name: '이름을 입력해주세요',
 	email: '이메일을 입력해주세요',

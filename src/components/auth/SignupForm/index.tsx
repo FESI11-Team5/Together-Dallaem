@@ -1,16 +1,19 @@
 'use client';
+
+import { zodSchema } from '@/app/(auths)/signup/signupValidator/signupValidator.zod';
 import BasicButton from '@/components/commons/BasicButton';
 import { signupLabel, signupPlaceholders } from '@/constants/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodSchema } from '../../../app/(auths)/signup/signupValidator/signupValidator.zod';
 import { InputWithLabel } from './InputWithLabel';
 // import { yupSchema } from './signupValidator/signupValidator.yup';
 // import { yupResolver } from '@hookform/resolvers/yup';
-// import type { SignupFormValues } from './signupValidator/signupValidator';
 
+/**
+ * Zod 기반 회원가입 폼의 입력값 타입
+ */
 export type SignupFormValues = z.infer<typeof zodSchema>;
 
 interface SignupFormProps {
@@ -19,6 +22,17 @@ interface SignupFormProps {
 }
 
 // TODO: disabled이 해제되는 반응 더 빠르게 개선
+/**
+ * 회원가입 폼 컴포넌트
+ *
+ * @description
+ * - React Hook Form과 Zod Resolver를 사용하여 유효성 검증을 수행합니다.
+ * - 각 필드는 `InputWithLabel` 컴포넌트로 렌더링됩니다.
+ * - 유효성 통과 시 `onSubmit` 콜백을 실행합니다.
+ * - 모든 입력 필드에서 **blur 시점(onBlur)**에 검증이 트리거됩니다.
+ *
+ * @returns {JSX.Element} 회원가입 입력 폼 UI
+ */
 export function SignupForm({ onSubmit }: SignupFormProps) {
 	const {
 		register,
@@ -26,8 +40,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 		trigger,
 		formState: { errors, isSubmitting, isValid, isDirty }
 	} = useForm<SignupFormValues>({
-		resolver: zodResolver(zodSchema),
-		// resolver: yupResolver(yupSchema),
+		resolver: zodResolver(zodSchema), // resolver: yupResolver(yupSchema),
 		mode: 'onBlur'
 	});
 
