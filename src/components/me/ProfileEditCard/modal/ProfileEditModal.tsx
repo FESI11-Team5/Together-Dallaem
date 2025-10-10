@@ -5,7 +5,8 @@ import { useModalClose } from '@/hooks/useModal';
 import BasicModal from '@/components/commons/BasicModal';
 import BasicInput from '@/components/commons/BasicInput';
 import BasicButton from '@/components/commons/BasicButton';
-import ProfileImageUploader from './ProfileImageUploader';
+import ProfileImageUploader from '../ProfileImageUploader';
+import { useKeyActions } from '@/hooks/useKeyActions';
 
 interface ProfileEditModalProps {
 	currentImage?: string;
@@ -48,24 +49,16 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 		[file, onSubmit, closeModal, isCompanyNameValid]
 	);
 
-	useEffect(() => {
-		const handleKeydown = (e: KeyboardEvent) => {
-			if (e.key === 'Escape') {
-				closeModal();
-			} else if (e.key === 'Enter') {
-				e.preventDefault();
-				if (isCompanyNameValid) handleFormSubmit({ companyName: companyNameValue });
-			}
-		};
-
-		window.addEventListener('keydown', handleKeydown);
-		return () => {
-			window.removeEventListener('keydown', handleKeydown);
-		};
-	}, [closeModal, isCompanyNameValid, handleFormSubmit, companyNameValue]);
+	useKeyActions({
+		onEscape: closeModal,
+		onEnter: () => {
+			if (isCompanyNameValid) handleFormSubmit({ companyName: companyNameValue });
+		},
+		enabled: true
+	});
 
 	return (
-		<BasicModal onClose={closeModal} className="tb:min-w-118 min-w-[295px]">
+		<BasicModal onClose={closeModal} className="tb:min-w-118 !p-0">
 			<form
 				onSubmit={e => {
 					e.preventDefault();
@@ -75,12 +68,15 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 				<div className="flex w-full flex-col items-start gap-6">
 					<ProfileImageUploader currentImage={currentImage} onChange={handleProfileImage} />
 					<div className="text-base font-semibold text-gray-800">회사</div>
-					<BasicInput
-						placeholder="회사명"
-						register={register('companyName', { required: true })}
-						isValid={isCompanyNameValid}
-						invalidText="회사명을 입력해주세요"
-					/>
+					<div className="w-full">
+						<BasicInput
+							placeholder="회사명"
+							register={register('companyName', { required: true })}
+							isValid={isCompanyNameValid}
+							invalidText="회사명을 입력해주세요"
+							className="!min-w-0"
+						/>
+					</div>
 				</div>
 
 				<div className="flex items-start gap-4 self-stretch">

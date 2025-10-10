@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useModal } from '@/hooks/useModal';
 import { useScreenSize } from './useScreenSize';
 import { profileAssets } from './ProfileAssets';
-import ProfileEditModal from './ProfileEditModal';
+import ProfileEditModal from './modal/ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/users';
 import { UserInfo } from '@/types/user';
 

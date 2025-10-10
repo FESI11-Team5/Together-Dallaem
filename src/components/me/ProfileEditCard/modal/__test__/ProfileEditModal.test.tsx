@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ProfileEditModal from '../ProfileEditModal';
+import ProfileEditModal from '../modal/ProfileEditModal';
 
 /**
  * useModalClose 훅을 모킹
