@@ -69,7 +69,7 @@ describe('SignupPage 통합 테스트', () => {
 			await user.click(modalConfirm);
 
 			// 3. 로그인 페이지로 이동했는지 확인하기
-			expect(mockPush).toHaveBeenCalledWith('/login');
+			expect(mockPush).toHaveBeenCalledWith('/signin');
 			expect(mockPush).toHaveBeenCalledTimes(1);
 		});
 
@@ -113,7 +113,7 @@ describe('SignupPage 통합 테스트', () => {
 			await user.click(modalConfirm);
 
 			// 4. 로그인 페이지로 이동했는지 확인하기
-			expect(mockPush).toHaveBeenCalledWith('/login');
+			expect(mockPush).toHaveBeenCalledWith('/signin');
 			expect(mockPush).toHaveBeenCalledTimes(1);
 		});
 	});
@@ -141,7 +141,7 @@ describe('SignupPage 통합 테스트', () => {
 		await user.click(link);
 
 		// 2. 로그인 페이지로 이동했는지 확인하기
-		expect(link).toHaveAttribute('href', '/login');
+		expect(link).toHaveAttribute('href', '/signin');
 	});
 });
 
