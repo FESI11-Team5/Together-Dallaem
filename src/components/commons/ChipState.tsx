@@ -1,7 +1,31 @@
+/**
+ * ChipState 컴포넌트의 Props 인터페이스
+ */
 interface ChipStateProps {
+	/**
+	 * 상태 타입
+	 * - scheduled: 이용 예정
+	 * - done: 이용 완료
+	 * - waiting: 개설 대기
+	 * - confirmed: 개설 확정
+	 */
 	state: 'scheduled' | 'done' | 'waiting' | 'confirmed';
 }
 
+/**
+ * 모임의 상태를 표시하는 칩 컴포넌트
+ *
+ * @description
+ * - 4가지 상태를 시각적으로 구분하여 표시
+ * - 각 상태에 맞는 배경색과 텍스트 색상 자동 적용
+ * - 개설 확정 상태에는 체크 아이콘 표시
+ *
+ * @example
+ * ```tsx
+ * <ChipState state="confirmed" />
+ * <ChipState state="scheduled" />
+ * ```
+ */
 export default function ChipState({ state = 'waiting' }: ChipStateProps) {
 	const stateText = {
 		scheduled: '이용 예정',

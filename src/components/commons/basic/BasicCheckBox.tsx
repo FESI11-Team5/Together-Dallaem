@@ -2,15 +2,41 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
+/**
+ * BasicCheckBox 컴포넌트의 Props 인터페이스
+ */
 interface BasicCheckBoxProps {
+	/** 체크박스의 초기 체크 상태 */
 	checked?: boolean;
+	/** 체크 상태 변경 시 호출되는 콜백 함수 */
 	onChange?: (checked: boolean) => void;
+	/** 체크박스 상단에 표시될 제목 */
 	title?: string;
+	/** 체크박스 하단에 표시될 설명 텍스트 */
 	content?: string;
+	/** 체크박스의 크기 여부 (true: 큰 사이즈, false: 작은 사이즈) */
 	isLarge?: boolean;
+	/** React Hook Form의 register 객체 */
 	register?: UseFormRegisterReturn;
 }
 
+/**
+ * 커스터마이징 가능한 체크박스 컴포넌트
+ *
+ * @description
+ * - 단독 사용 또는 React Hook Form과 통합 가능
+ * - 제목과 설명 텍스트를 함께 표시 가능
+ * - 체크 상태에 따라 스타일이 자동으로 변경됨
+ *
+ * @example
+ * ```tsx
+ * <BasicCheckBox
+ *   title="약관 동의"
+ *   content="서비스 이용약관에 동의합니다"
+ *   onChange={(checked) => console.log(checked)}
+ * />
+ * ```
+ */
 export default function BasicCheckBox({
 	checked = false,
 	onChange,
