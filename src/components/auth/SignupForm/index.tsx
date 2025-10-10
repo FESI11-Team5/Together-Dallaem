@@ -86,7 +86,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 				/>
 			</div>
 			<div className="flex flex-col gap-6">
-				<BasicButton className="w-full" isActive={isValid && !isSubmitting && isDirty} ariaLabel="회원가입 확인">
+				<BasicButton isLarge isActive={isValid && !isSubmitting && isDirty} ariaLabel="회원가입 확인">
 					확인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
