@@ -2,10 +2,10 @@
 
 import { CreateGathering } from '@/types/response/gatherings';
 
+import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 
-import { format } from 'date-fns';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
 
@@ -13,6 +13,8 @@ import BasicCalendar from '../commons/BasicCalendar';
 import BasicModal from '../commons/BasicModal';
 import BasicButton from '../commons/BasicButton';
 import BasicPopup from '../commons/BasicPopup';
+import BasicInput from '../commons/BasicInput';
+import BasicSelectBox from '../commons/BasicSelectBox';
 
 /**
  * GatheringModal 컴포넌트
@@ -130,43 +132,64 @@ export default function GatheringModal({
 	}, [methods, formReady]);
 
 	return (
-		<BasicModal onClose={handleCloseWithPopup} className="flex flex-col">
-			모임 만들기
-			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col">
-				<label htmlFor="gathering-name">모임 이름</label>
-				<input {...register('name')} id="gathering-name" type="text" className="border border-black" />
+		<BasicModal onClose={handleCloseWithPopup} className="relative w-full">
+			<div className="absolute top-0 left-0 translate-y-[-25px]">
+				<h2 className="leading-lg text-lg font-semibold">모임 만들기</h2>
+			</div>
 
-				<label htmlFor="gathering-location">장소</label>
-				<select {...register('location')} id="gathering-location" className="border border-black">
-					<option value="">장소를 선택해주세요</option>
-					<option value="건대입구">건대입구</option>
-					<option value="을지로3가">을지로3가</option>
-					<option value="신림">신림</option>
-					<option value="홍대">홍대</option>
-				</select>
+			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col items-start gap-6">
+				<div className="mt-6 flex w-full flex-col gap-3">
+					<label htmlFor="gathering-name" className="flex items-start">
+						모임 이름
+					</label>
+					<BasicInput placeholder="모임 이름을 작성해주세요" className="w-full" />
+				</div>
 
-				<div className="flex flex-col">
-					<label htmlFor="gathering-image">이미지</label>
-					<div className="flex items-center gap-2">
-						<input
-							id="gathering-image"
-							type="file"
-							accept="image/*"
-							className="hidden"
-							ref={fileInputRef}
-							onChange={e => {
-								const file = e.target.files?.[0];
-								if (file) {
-									setValue('image', file);
-								}
-							}}
-						/>
+				<div className="mt-6 flex w-full flex-col gap-3">
+					<label htmlFor="gathering-location" className="flex items-start">
+						장소
+					</label>
+					<BasicSelectBox
+						options={[
+							{ value: '건대입구', text: '건대입구' },
+							{ value: '을지로3가', text: '을지로3가' },
+							{ value: '신림', text: '신림' },
+							{ value: '홍대', text: '홍대' }
+						]}
+						size="expanded"
+						placeholder="장소를 선택해주세요"
+						className="w-full"
+					/>
+				</div>
 
-						<div className="flex-1">{watch('image') ? (watch('image') as File).name : '이미지를 첨부해주세요'}</div>
+				<div className="mt-6 flex w-full flex-col gap-3">
+					<label htmlFor="gathering-image" className="flex items-start">
+						이미지
+					</label>
+					<div className="flex flex-col">
+						<div className="flex gap-3">
+							<input
+								id="gathering-image"
+								type="file"
+								accept="image/*"
+								className="hidden"
+								ref={fileInputRef}
+								onChange={e => {
+									const file = e.target.files?.[0];
+									if (file) {
+										setValue('image', file);
+									}
+								}}
+							/>
 
-						<button type="button" onClick={() => fileInputRef.current?.click()} className="">
-							파일 찾기
-						</button>
+							<div className="leading-base flex flex-1 items-start rounded-[12px] bg-gray-50 px-4 py-2.5 text-base font-medium text-gray-400">
+								{watch('image') ? (watch('image') as File).name : '이미지를 첨부해주세요'}
+							</div>
+
+							<BasicButton onClick={() => fileInputRef.current?.click()} outlined={true}>
+								파일 찾기
+							</BasicButton>
+						</div>
 					</div>
 				</div>
 
@@ -221,33 +244,38 @@ export default function GatheringModal({
 					</label>
 				</div>
 
-				<div className="flex justify-between">
-					<div className="flex flex-col">
-						<label htmlFor="gathering-start-date">모임 날짜</label>
+				<div className="flex w-full justify-between">
+					<div className="flex flex-col gap-3">
+						<label htmlFor="gathering-start-date" className="flex items-start">
+							모임 날짜
+						</label>
 						<BasicCalendar
 							pageType="create"
-							onChange={date => setValue('dateTime', format(date, "yyyy-MM-dd'T'HH:mm:ss"))}
+							className="px-4 py-2.5"
+							onChange={date => setValue('dateTime', format(date, 'yyyy-MM-dd HH:mm a'))}
 						/>
 					</div>
-					<div className="flex flex-col">
-						<label htmlFor="gathering-end-date">마감 날짜</label>
+					<div className="flex flex-col gap-3">
+						<label htmlFor="gathering-end-date" className="flex items-start">
+							마감 날짜
+						</label>
 						<BasicCalendar
 							pageType="create"
-							onChange={date => setValue('registrationEnd', format(date, "yyyy-MM-dd'T'HH:mm:ss"))}
+							onChange={date => setValue('registrationEnd', format(date, 'yyyy-MM-dd HH:mm a'))}
 						/>
 					</div>
 				</div>
 
-				<label htmlFor="gathering-capacity">모집 정원</label>
-				<input
-					{...register('capacity', { valueAsNumber: true })}
-					id="gathering-capacity"
-					placeholder="최소 5인 이상 입력해주세요"
-					type="number"
-					className="border border-black"
-				/>
+				<div className="mt-6 flex w-full flex-col gap-3">
+					<label htmlFor="gathering-capacity" className="flex items-start">
+						모집 정원
+					</label>
+					<BasicInput placeholder="최소 5인 이상 입력해주세요" />
+				</div>
 
-				<BasicButton>확인</BasicButton>
+				<div className="w-full">
+					<BasicButton className="w-full">확인</BasicButton>
+				</div>
 			</form>
 		</BasicModal>
 	);
