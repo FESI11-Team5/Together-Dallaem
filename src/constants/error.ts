@@ -21,3 +21,10 @@ export const signupErrors = {
 	/** 비밀번호 확인 입력란이 비어 있을 때 표시되는 메시지 */
 	confirmRequired: '비밀번호를 한 번 더 입력해 주세요'
 };
+
+export const loginErrors = {
+	/** 이메일 형식이 유효하지 않을 때 표시되는 메시지 */
+	emailInvalid: signupErrors.emailInvalid,
+	/** 비밀번호 길이가 8자 미만일 때 표시되는 메시지 */
+	passwordTooShort: signupErrors.passwordTooShort
+};
