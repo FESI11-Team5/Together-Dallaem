@@ -24,7 +24,7 @@ export const SIGNUP_ERRORS = {
 
 export const SIGNIN_ERRORS = {
 	/** 아이디(이메일) 형식이 유효하지 않을 때 표시되는 메시지 */
-	INVALID_ID: SIGNUP_ERRORS.INVALID_EMAIL,
+	INVALID_EMAIL: SIGNUP_ERRORS.INVALID_EMAIL,
 	/** 비밀번호 길이가 8자 미만일 때 표시되는 메시지 */
 	TOO_SHORT_PASSWORD: SIGNUP_ERRORS.TOO_SHORT_PASSWORD,
 	/** 아이디가 존재하지 않을 때 표시되는 메시지 */

@@ -1,3 +1,5 @@
+'use client';
+
 import DebouncedInput from '@/components/auth/SignupForm/DebouncedInput';
 import BasicButton from '@/components/commons/BasicButton';
 import { SIGNIN_LABEL, SIGNIN_PLACEHOLDERS } from '@/constants/form';
@@ -35,9 +37,9 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 				<DebouncedInput
 					label={SIGNIN_LABEL.id}
 					placeholder={SIGNIN_PLACEHOLDERS.id}
-					register={register('id')}
-					invalidText={errors.id?.message}
-					onDebouncedBlur={() => trigger('id')}
+					register={register('email')}
+					invalidText={errors.email?.message}
+					onDebouncedBlur={() => trigger('email')}
 				/>
 				<DebouncedInput
 					label={SIGNIN_LABEL.password}

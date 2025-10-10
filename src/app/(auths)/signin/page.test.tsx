@@ -111,7 +111,7 @@ describe('SigninPage 통합 테스트', () => {
 			json: () =>
 				Promise.resolve({
 					code: 'INVALID_CREDENTIALS',
-					message: SIGNIN_ERRORS.INVALID_ID
+					message: SIGNIN_ERRORS.INVALID_EMAIL
 				})
 		});
 
@@ -120,7 +120,7 @@ describe('SigninPage 통합 테스트', () => {
 
 		// 2. 에러 메시지 뜨는지 확인하기
 		await waitFor(() => {
-			expect(screen.getByText(SIGNIN_ERRORS.INVALID_ID)).toBeInTheDocument();
+			expect(screen.getByText(SIGNIN_ERRORS.INVALID_EMAIL)).toBeInTheDocument();
 		});
 	});
 
