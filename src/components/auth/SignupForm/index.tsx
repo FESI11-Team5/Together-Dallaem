@@ -92,7 +92,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
 					<p className="text-base font-medium">{AUTH_GUIDE_MESSAGES.EXISTING_MEMBER}</p>
-					<Link href="/login" className="text-orange-600 underline">
+					<Link href="/signin" className="text-orange-600 underline">
 						로그인
 					</Link>
 				</div>
