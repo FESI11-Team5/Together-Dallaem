@@ -3,7 +3,14 @@ export interface PopupMessage {
 	subTitle?: string;
 }
 
-export type PopupMessageKey = 'CREATE' | 'NOT_LOGIN' | 'SIGNUP' | 'DUPLICATED_EMAIL' | 'UPDATE_PROFILE' | 'REVIEWS';
+export type PopupMessageKey =
+	| 'CREATE'
+	| 'NOT_LOGIN'
+	| 'SIGNUP'
+	| 'DUPLICATED_EMAIL'
+	| 'UPDATE_PROFILE'
+	| 'REVIEWS'
+	| 'SERVER_ERROR';
 
 export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	/** 게시글 작성페이지에서 나갈 시 띄우는 팝업창 메세지 */
@@ -36,6 +43,12 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	/** 리뷰 작성 완료 후 띄우는 팝업창 메세지 */
 	REVIEWS: {
 		title: '리뷰가 성공적으로 등록되었습니다!'
+	},
+
+	/** 서버 에러 시 띄우는 팝업창 메시지 */
+	SERVER_ERROR: {
+		title: '서버 오류가 발생했습니다.',
+		subTitle: '다시 시도해 주세요.'
 	}
 
 	/* 추가 메시지 유형은 여기에 추가 */
