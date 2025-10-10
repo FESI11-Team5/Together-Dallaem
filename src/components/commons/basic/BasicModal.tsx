@@ -42,7 +42,7 @@ export default function BasicModal({ children, onClose, className, width }: Basi
 			className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
 			onClick={closeModalOnBackgroundClick}>
 			<div
-				className={`relative min-w-[300px] rounded-lg bg-white p-[24px] shadow-xl`}
+				className={`relative min-w-[300px] rounded-lg bg-white shadow-xl`}
 				style={{ width: width }}
 				onClick={e => e.stopPropagation()}>
 				<button
