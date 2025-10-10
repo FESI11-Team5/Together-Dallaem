@@ -21,7 +21,10 @@ export interface InputProps {
 	invalidText?: string;
 	/** input의 value */
 	value?: string; //register가 이미 있지만 required 체크를 위해 추가(register에서 직접 value를 불러올 방법이 없음)
-	id?: string;
+	/** input의 id */
+	id: string;
+	/** input의 label */
+	label: string;
 }
 
 /**
@@ -65,7 +68,8 @@ export default function BasicInput({
 	isValid = true,
 	invalidText = '',
 	value = '',
-	id = ''
+	id = '',
+	label = ''
 }: InputProps) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
@@ -111,6 +115,9 @@ export default function BasicInput({
 
 	return (
 		<div className="flex flex-col gap-2">
+			<label className="mb-[4px] text-[16px] font-[600] text-gray-800" htmlFor={id}>
+				{label}
+			</label>
 			<div
 				className={`inputBox box-border flex items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input

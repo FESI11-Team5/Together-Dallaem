@@ -84,6 +84,8 @@ export default function Home() {
 					isValid={isValid}
 					invalidText="5자 이상 입력해주세요"
 					value={inputValue}
+					id="할일"
+					label="할 일"
 				/>
 				<BasicTextBox>{selectedValue}</BasicTextBox>
 				<BasicTextArea register={register('textareaField')}></BasicTextArea>
