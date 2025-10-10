@@ -39,7 +39,7 @@ export const Desktop: Story = {
 		</ModalStoreProvider>
 	),
 	globals: {
-		viewport: { value: 'Desktop', isRotated: false }
+		viewport: { value: 'desktop', isRotated: false }
 	}
 };
 
@@ -54,7 +54,7 @@ export const Tablet: Story = {
 		</ModalStoreProvider>
 	),
 	globals: {
-		viewport: { value: 'Tablet', isRotated: false }
+		viewport: { value: 'tablet', isRotated: false }
 	}
 };
 
@@ -69,6 +69,6 @@ export const Mobile: Story = {
 		</ModalStoreProvider>
 	),
 	globals: {
-		viewport: { value: 'Mobile', isRotated: false }
+		viewport: { value: 'mobile', isRotated: false }
 	}
 };
