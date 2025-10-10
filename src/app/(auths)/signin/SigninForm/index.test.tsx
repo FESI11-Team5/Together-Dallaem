@@ -1,5 +1,5 @@
 import { SIGNIN_ERRORS } from '@/constants/error';
-import { defaultSigninFormValues as defaultValues } from '@/constants/test';
+import { DEFAULT_SIGNIN_FORM_VALUES as DEFAULT_VALUES } from '@/constants/test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SigninForm } from '.';
 
@@ -28,8 +28,8 @@ describe('SigninForm 통합 테스트', () => {
 			const passwordInput = screen.getByLabelText('비밀번호');
 			const button = screen.getByRole('button', { name: '로그인' });
 
-			fireEvent.change(idInput, { target: { value: defaultValues.id } });
-			fireEvent.change(passwordInput, { target: { value: defaultValues.password } });
+			fireEvent.change(idInput, { target: { value: DEFAULT_VALUES.id } });
+			fireEvent.change(passwordInput, { target: { value: DEFAULT_VALUES.password } });
 			fireEvent.blur(passwordInput);
 
 			await waitFor(() => {

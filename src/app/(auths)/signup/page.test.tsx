@@ -1,5 +1,5 @@
 import ModalContainer from '@/components/commons/ModalContainer';
-import { defaultSignupFormValues as defaultValues } from '@/constants/test';
+import { DEFAULT_SIGNUP_FORM_VALUES as DEFAULT_VALUES } from '@/constants/test';
 import { ModalStoreProvider } from '@/providers/ModalProvider';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
@@ -76,27 +76,27 @@ describe('SignupPage 통합 테스트', () => {
 		test('tab 키로 이동하여 form을 입력하고 제출한다', async () => {
 			// 1. 입력 다 하기
 			const nameInput = screen.getByLabelText('이름');
-			await user.type(nameInput, defaultValues.name);
+			await user.type(nameInput, DEFAULT_VALUES.name);
 			await user.tab();
 
 			const emailInput = screen.getByLabelText('이메일');
 			expect(emailInput).toHaveFocus();
-			await user.type(emailInput, defaultValues.email);
+			await user.type(emailInput, DEFAULT_VALUES.email);
 			await user.tab();
 
 			const companyInput = screen.getByLabelText('회사명');
 			expect(companyInput).toHaveFocus();
-			await user.type(companyInput, defaultValues.companyName);
+			await user.type(companyInput, DEFAULT_VALUES.companyName);
 			await user.tab();
 
 			const passwordInput = screen.getByLabelText('비밀번호');
 			expect(passwordInput).toHaveFocus();
-			await user.type(passwordInput, defaultValues.password);
+			await user.type(passwordInput, DEFAULT_VALUES.password);
 			await user.tab();
 
 			const passwordConfirmInput = screen.getByLabelText('비밀번호 확인');
 			expect(passwordConfirmInput).toHaveFocus();
-			await user.type(passwordConfirmInput, defaultValues.confirm);
+			await user.type(passwordConfirmInput, DEFAULT_VALUES.confirm);
 
 			// 2. 확인 버튼 누르기
 			const button = screen.getByRole('button', { name: '회원가입 확인' });
@@ -120,7 +120,7 @@ describe('SignupPage 통합 테스트', () => {
 
 	test('이미 등록된 이메일일 경우(400), 중복 이메일 경고 메시지를 표시한다.', async () => {
 		// 1. 입력 다 하고 확인 버튼 누르기
-		await fillAndSubmitForm(user, { ...defaultValues, email: 'duplicate@email.com' });
+		await fillAndSubmitForm(user, { ...DEFAULT_VALUES, email: 'duplicate@email.com' });
 
 		// 2. 중복 이메일 에러 경고 팝업 뜨는지 확인하고 팝업 닫기
 		const warningText = await screen.findByText(/중복된 이메일입니다/i);
@@ -145,7 +145,7 @@ describe('SignupPage 통합 테스트', () => {
 	});
 });
 
-async function fillAndSubmitForm(user: UserEvent, values = defaultValues) {
+async function fillAndSubmitForm(user: UserEvent, values = DEFAULT_VALUES) {
 	await user.type(screen.getByLabelText('이름'), values.name);
 	await user.type(screen.getByLabelText('이메일'), values.email);
 	await user.type(screen.getByLabelText('회사명'), values.companyName);

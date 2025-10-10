@@ -1,5 +1,5 @@
 import { SIGNUP_ERRORS } from '@/constants/error';
-import { defaultSignupFormValues as defaultValues } from '@/constants/test';
+import { DEFAULT_SIGNUP_FORM_VALUES as DEFAULT_VALUES } from '@/constants/test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SignupForm } from '.';
 
@@ -34,7 +34,7 @@ describe('SignupForm 통합 테스트', () => {
 	describe('비밀번호와 비밀번호 확인란이 다르면 "비밀번호가 일치하지 않습니다"라는 에러 메시지가 표시된다', () => {
 		const setupPassword = () => {
 			const passwordInput = screen.getByLabelText('비밀번호');
-			fireEvent.change(passwordInput, { target: { value: defaultValues.password } });
+			fireEvent.change(passwordInput, { target: { value: DEFAULT_VALUES.password } });
 		};
 
 		runValidationScenarios('비밀번호 확인', SIGNUP_ERRORS.MISMATCH_PASSWORD, '8888', setupPassword);
@@ -49,11 +49,11 @@ describe('SignupForm 통합 테스트', () => {
 			const passwordConfirmInput = screen.getByLabelText('비밀번호 확인');
 			const button = screen.getByRole('button', { name: '회원가입 확인' });
 
-			fireEvent.change(nameInput, { target: { value: defaultValues.name } });
-			fireEvent.change(emailInput, { target: { value: defaultValues.email } });
-			fireEvent.change(companyInput, { target: { value: defaultValues.companyName } });
-			fireEvent.change(passwordInput, { target: { value: defaultValues.password } });
-			fireEvent.change(passwordConfirmInput, { target: { value: defaultValues.confirm } });
+			fireEvent.change(nameInput, { target: { value: DEFAULT_VALUES.name } });
+			fireEvent.change(emailInput, { target: { value: DEFAULT_VALUES.email } });
+			fireEvent.change(companyInput, { target: { value: DEFAULT_VALUES.companyName } });
+			fireEvent.change(passwordInput, { target: { value: DEFAULT_VALUES.password } });
+			fireEvent.change(passwordConfirmInput, { target: { value: DEFAULT_VALUES.confirm } });
 			fireEvent.blur(passwordConfirmInput);
 
 			await waitFor(() => {
