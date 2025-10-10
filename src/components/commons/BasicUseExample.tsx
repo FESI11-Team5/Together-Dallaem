@@ -14,6 +14,8 @@ import BasicModal from './BasicModal';
 import ClassProgressBar from './ClassProgressBar';
 import BasicCheckBox from './BasicCheckBox';
 import SortButton from './SortButton';
+import Tab from './Tab';
+import Chip from './Chip';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -33,6 +35,7 @@ export default function Home() {
 	const { handleSubmit, watch, register } = useForm();
 	const { openModal } = useModal();
 	const [isValid, setIsValid] = useState(true);
+	const [activeTab, setActiveTab] = useState('option1');
 
 	const selectedValue = watch('selectField');
 	const textareaValue = watch('textareaField');
@@ -97,6 +100,18 @@ export default function Home() {
 				}}>
 				모달 창 열기
 			</BasicButton>
+			<Tab
+				options={[
+					{ value: 'option1', text: '달램핏', icon: '/icons/dalaemfit.svg' },
+					{ value: 'option2', text: '워케이션', icon: '/icons/workation.svg' }
+				]}
+				selectedTab={activeTab}
+				onTabChange={(tabId: string) => {
+					setActiveTab(tabId);
+				}}
+			/>
+			{activeTab === 'option1' && <Chip text="전체" isActive={true} />}
+			<div>{activeTab}</div>
 		</div>
 	);
 }
