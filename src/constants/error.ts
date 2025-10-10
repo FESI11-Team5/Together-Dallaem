@@ -22,7 +22,7 @@ export const signupErrors = {
 	confirmRequired: '비밀번호를 한 번 더 입력해 주세요'
 };
 
-export const loginErrors = {
+export const signinErrors = {
 	/** 이메일 형식이 유효하지 않을 때 표시되는 메시지 */
 	emailInvalid: signupErrors.emailInvalid,
 	/** 비밀번호 길이가 8자 미만일 때 표시되는 메시지 */
