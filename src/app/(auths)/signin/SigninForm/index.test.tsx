@@ -1,4 +1,4 @@
-import { signinErrors } from '@/constants/error';
+import { SIGNIN_ERRORS } from '@/constants/error';
 import { defaultSigninFormValues as defaultValues } from '@/constants/test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SigninForm } from '.';
@@ -14,12 +14,12 @@ describe('SigninForm 통합 테스트', () => {
 	});
 
 	describe('아이디 형식이 맞지 않으면 "이메일 형식이 올바르지 않습니다"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('아이디', signinErrors.idInvalid);
-		runValidationScenarios('아이디', signinErrors.idInvalid, 'viscacha@');
+		runValidationScenarios('아이디', SIGNIN_ERRORS.INVALID_ID);
+		runValidationScenarios('아이디', SIGNIN_ERRORS.INVALID_ID, 'viscacha@');
 	});
 
 	describe('비밀번호가 8자 이상이 아니면 "비밀번호가 8자 이상이 되도록 해 주세요"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('비밀번호', signinErrors.passwordTooShort, '8888');
+		runValidationScenarios('비밀번호', SIGNIN_ERRORS.TOO_SHORT_PASSWORD, '8888');
 	});
 
 	describe('정상적으로 입력하면 에러 메시지가 표시되지 않는다', () => {
