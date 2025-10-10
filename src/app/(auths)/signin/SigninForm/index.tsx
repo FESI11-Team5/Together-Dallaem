@@ -1,6 +1,6 @@
 import DebouncedInput from '@/components/auth/SignupForm/DebouncedInput';
 import BasicButton from '@/components/commons/BasicButton';
-import { signinLabel, signinPlaceholders } from '@/constants/form';
+import { SIGNIN_LABEL, SIGNIN_PLACEHOLDERS } from '@/constants/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm, type UseFormSetError } from 'react-hook-form';
@@ -32,15 +32,15 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(data => onSubmit(data, setError))}>
 			<div className="flex flex-col gap-6">
 				<DebouncedInput
-					label={signinLabel.id}
-					placeholder={signinPlaceholders.id}
+					label={SIGNIN_LABEL.id}
+					placeholder={SIGNIN_PLACEHOLDERS.id}
 					register={register('id')}
 					invalidText={errors.id?.message}
 					onDebouncedBlur={() => trigger('id')}
 				/>
 				<DebouncedInput
-					label={signinLabel.password}
-					placeholder={signinPlaceholders.password}
+					label={SIGNIN_LABEL.password}
+					placeholder={SIGNIN_PLACEHOLDERS.password}
 					isPassword
 					register={register('password')}
 					invalidText={errors.password?.message}

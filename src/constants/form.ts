@@ -1,7 +1,7 @@
 /**
  * 회원가입 폼의 각 입력 필드 라벨
  */
-export const signupLabel = {
+export const SIGNUP_LABEL = {
 	name: '이름',
 	email: '이메일',
 	companyName: '회사명',
@@ -12,7 +12,7 @@ export const signupLabel = {
 /**
  * 회원가입 폼의 각 입력 필드 placeholder
  */
-export const signupPlaceholders = {
+export const SIGNUP_PLACEHOLDERS = {
 	name: '이름을 입력해주세요',
 	email: '이메일을 입력해주세요',
 	companyName: '회사명을 입력해주세요',
@@ -23,7 +23,7 @@ export const signupPlaceholders = {
 /**
  * 로그인 폼의 각 입력 필드 라벨
  */
-export const signinLabel = {
+export const SIGNIN_LABEL = {
 	id: '아이디',
 	password: '비밀번호',
 };
@@ -31,7 +31,7 @@ export const signinLabel = {
 /**
  * 로그인 폼의 각 입력 필드 placeholder
  */
-export const signinPlaceholders = {
+export const SIGNIN_PLACEHOLDERS = {
 	id: '아이디를 입력해주세요',
 	password: '비밀번호를 입력해주세요',
 };
