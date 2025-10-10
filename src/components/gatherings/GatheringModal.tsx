@@ -3,7 +3,7 @@
 import { CreateGathering } from '@/types/response/gatherings';
 
 import { format } from 'date-fns';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 
 import { POPUP_MESSAGE } from '@/constants/messages';
@@ -15,6 +15,24 @@ import BasicButton from '../commons/BasicButton';
 import BasicPopup from '../commons/BasicPopup';
 import BasicInput from '../commons/BasicInput';
 import BasicSelectBox from '../commons/BasicSelectBox';
+
+interface GatheringFormFieldProps {
+	label: string;
+	htmlFor: string;
+	className?: string;
+	children: React.ReactNode;
+}
+
+function GatheringFormField({ label, htmlFor, children, className }: GatheringFormFieldProps) {
+	return (
+		<div className={`flex w-full flex-col gap-3 ${className}`}>
+			<label htmlFor={htmlFor} className="leading-base flex items-start text-base font-semibold text-gray-800">
+				{label}
+			</label>
+			{children}
+		</div>
+	);
+}
 
 /**
  * GatheringModal 컴포넌트
@@ -132,21 +150,20 @@ export default function GatheringModal({
 	}, [methods, formReady]);
 
 	return (
-		<BasicModal onClose={handleCloseWithPopup} className="relative w-full">
+		<BasicModal onClose={handleCloseWithPopup} className="relative">
 			<div className="absolute top-0 left-0 translate-y-[-25px]">
 				<h2 className="leading-lg text-lg font-semibold">모임 만들기</h2>
 			</div>
 
 			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col items-start gap-6">
-				<div className="mt-6 flex w-full flex-col gap-3">
-					<label htmlFor="gathering-name" className="flex items-start">
-						모임 이름
-					</label>
-					<BasicInput placeholder="모임 이름을 작성해주세요" className="w-full" />
-				</div>
+				<GatheringFormField label="모임 이름" htmlFor="gathering-name" className="mt-6">
+					<BasicInput placeholder="모임 이름을 작성해주세요" className="w-full" register={register('name')} />
+				</GatheringFormField>
 
-				<div className="mt-6 flex w-full flex-col gap-3">
-					<label htmlFor="gathering-location" className="flex items-start">
+				<div className="flex w-full flex-col gap-3">
+					<label
+						htmlFor="gathering-location"
+						className="leading-base flex items-start text-base font-semibold text-gray-800">
 						장소
 					</label>
 					<BasicSelectBox
@@ -159,13 +176,11 @@ export default function GatheringModal({
 						size="expanded"
 						placeholder="장소를 선택해주세요"
 						className="w-full"
+						register={register('location')}
 					/>
 				</div>
 
-				<div className="mt-6 flex w-full flex-col gap-3">
-					<label htmlFor="gathering-image" className="flex items-start">
-						이미지
-					</label>
+				<GatheringFormField label="이미지" htmlFor="gathering-image">
 					<div className="flex flex-col">
 						<div className="flex gap-3">
 							<input
@@ -191,8 +206,9 @@ export default function GatheringModal({
 							</BasicButton>
 						</div>
 					</div>
-				</div>
+				</GatheringFormField>
 
+				{/* 공통 컴포넌트로 변경예정 */}
 				<label>선택 서비스</label>
 				<div className="flex gap-4">
 					<label>
@@ -244,34 +260,33 @@ export default function GatheringModal({
 					</label>
 				</div>
 
-				<div className="flex w-full justify-between">
+				<div className="max-mb:flex-col max-mb:gap-2 max-mb:w-auto flex w-full justify-between">
 					<div className="flex flex-col gap-3">
-						<label htmlFor="gathering-start-date" className="flex items-start">
+						<label
+							htmlFor="gathering-start-date"
+							className="leading-base flex items-start text-base font-semibold text-gray-800">
 							모임 날짜
 						</label>
 						<BasicCalendar
 							pageType="create"
-							className="px-4 py-2.5"
 							onChange={date => setValue('dateTime', format(date, 'yyyy-MM-dd HH:mm a'))}
 						/>
 					</div>
-					<div className="flex flex-col gap-3">
-						<label htmlFor="gathering-end-date" className="flex items-start">
-							마감 날짜
-						</label>
+
+					<label
+						htmlFor="gathering-end-date"
+						className="leading-base flex flex-col items-start gap-3 text-base font-semibold text-gray-800">
+						마감 날짜
 						<BasicCalendar
 							pageType="create"
 							onChange={date => setValue('registrationEnd', format(date, 'yyyy-MM-dd HH:mm a'))}
 						/>
-					</div>
+					</label>
 				</div>
 
-				<div className="mt-6 flex w-full flex-col gap-3">
-					<label htmlFor="gathering-capacity" className="flex items-start">
-						모집 정원
-					</label>
-					<BasicInput placeholder="최소 5인 이상 입력해주세요" />
-				</div>
+				<GatheringFormField label="모집 정원" htmlFor="gathering-participant">
+					<BasicInput placeholder="최소 5인 이상 입력해주세요" register={register('participantCount')} />
+				</GatheringFormField>
 
 				<div className="w-full">
 					<BasicButton className="w-full">확인</BasicButton>

@@ -26,7 +26,6 @@ import Image from 'next/image';
 
 interface GatheringCalendarProps {
 	pageType?: 'search' | 'create';
-	className?: string;
 	onChange?: (date: Date) => void;
 }
 
@@ -55,7 +54,7 @@ interface TimeSelection {
  * - 반응형 디자인 적용
  *
  */
-export default function BasicCalendar({ pageType, className, onChange }: GatheringCalendarProps) {
+export default function BasicCalendar({ pageType, onChange }: GatheringCalendarProps) {
 	const [date, setDate] = React.useState<Date>();
 	const [timeSelection, setTimeSelection] = React.useState<TimeSelection>({
 		hour: undefined,
@@ -79,7 +78,7 @@ export default function BasicCalendar({ pageType, className, onChange }: Gatheri
 					variant="outline"
 					className={cn(
 						'h-[40px] w-full justify-start rounded-md border-gray-300 text-left font-normal',
-						className,
+
 						!date && 'text-gray-400'
 					)}>
 					{date

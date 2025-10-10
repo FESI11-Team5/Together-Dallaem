@@ -7,16 +7,21 @@ import Image from 'next/image';
 
 /** 임시 Mock 데이터 */
 /** 추후 실제 데이터 타입으로 변환예정 */
-interface Review {
+interface ReviewProps {
+	/** 게시글 번호 */
 	id: number;
+	/** 좋아요 개수 */
 	heartCount: number;
+	/** 리뷰 내용 */
 	content: string;
+	/** 작성자 */
 	author: string;
+	/** 작성일 */
 	createdAt: string;
 }
 
 // 👇 Mock 데이터
-const mockReviews: Review[] = [
+const mockReviews: ReviewProps[] = [
 	{
 		id: 1,
 		heartCount: 5,
