@@ -27,7 +27,7 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 		setError,
 		formState: { errors, isSubmitting, isValid, isDirty }
 	} = useForm<SigninFormValues>({
-		resolver: zodResolver(signinSchema), // resolver: yupResolver(yupSchema),
+		resolver: zodResolver(signinSchema),
 		mode: 'onBlur'
 	});
 

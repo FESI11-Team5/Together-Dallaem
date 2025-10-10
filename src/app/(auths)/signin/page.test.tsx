@@ -5,11 +5,12 @@ import { DEFAULT_SIGNIN_FORM_VALUES as DEFAULT_VALUES } from '@/constants/test';
 import { ModalStoreProvider } from '@/providers/ModalProvider';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SigninPage from './page';
 
 jest.mock('next/navigation', () => ({
-	useRouter: jest.fn()
+	useRouter: jest.fn(),
+	useSearchParams: jest.fn()
 }));
 
 describe('SigninPage 통합 테스트', () => {
@@ -31,7 +32,7 @@ describe('SigninPage 통합 테스트', () => {
 		mockPush.mockClear();
 	});
 
-	describe('모든 입력값이 유효하면 로그인 요청(200)이 성공하고 메인 페이지로 이동한다.', () => {
+	describe('모든 입력값이 유효하면 로그인 요청(200)이 성공하고 홈 페이지로 이동한다.', () => {
 		test('마우스로 클릭하여 form을 제출한다', async () => {
 			renderSigninPage();
 			(global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -46,7 +47,7 @@ describe('SigninPage 통합 테스트', () => {
 			// 1. 입력 다 하고 확인 버튼 누르기
 			await fillAndSubmitForm(user);
 
-			// 2. 로그인 페이지로 이동했는지 확인하기
+			// 2. 홈 페이지로 이동했는지 확인하기
 			expect(mockPush).toHaveBeenCalledWith('/');
 			expect(mockPush).toHaveBeenCalledTimes(1);
 		});
@@ -79,11 +80,15 @@ describe('SigninPage 통합 테스트', () => {
 			await user.tab();
 			expect(button).toHaveFocus();
 			await user.keyboard('{Enter}');
+
+			// 3. 홈 페이지로 이동했는지 확인하기
+			expect(mockPush).toHaveBeenCalledWith('/');
+			expect(mockPush).toHaveBeenCalledTimes(1);
 		});
 	});
 
 	test('모든 입력값이 유효하면 로그인 요청(200)이 성공하고 이전 페이지로 이동한다.', async () => {
-		renderSigninPage({ next: '/prev' });
+		renderSigninPage('/prev');
 		(global.fetch as jest.Mock).mockResolvedValueOnce({
 			status: 201,
 			ok: true,
@@ -103,7 +108,6 @@ describe('SigninPage 통합 테스트', () => {
 
 	test('잘못된 비밀번호일 경우(401), 비밀번호 불일치 경고 메시지를 표시한다.', async () => {
 		renderSigninPage();
-
 		(global.fetch as jest.Mock).mockResolvedValueOnce({
 			ok: false,
 			status: 401,
@@ -173,6 +177,17 @@ describe('SigninPage 통합 테스트', () => {
 		expect(headings).toHaveLength(2);
 		expect(mockPush).not.toHaveBeenCalled();
 	});
+
+	test('계정이 없는 경우, 회원가입 링크를 클릭하면 회원가입 페이지로 이동한다.', async () => {
+		renderSigninPage();
+
+		// 1. 회원가입 버튼 누르기
+		const link = screen.getByRole('link', { name: '회원가입' });
+		await user.click(link);
+
+		// 2. 회원가입 페이지로 이동했는지 확인하기
+		expect(link).toHaveAttribute('href', '/signup');
+	});
 });
 
 /**
@@ -192,12 +207,16 @@ async function fillAndSubmitForm(user: UserEvent, values = DEFAULT_VALUES) {
 
 /**
  * SigninPage 렌더
- * @param params
+ * @param next 이전 페이지 path
  */
-function renderSigninPage(params?: { next?: string }) {
+function renderSigninPage(next?: string) {
+	(useSearchParams as jest.Mock).mockReturnValue({
+		get: jest.fn().mockReturnValue(next ?? null)
+	});
+
 	render(
 		<ModalStoreProvider>
-			<SigninPage searchParams={params ?? {}} />
+			<SigninPage />
 			<ModalContainer />
 		</ModalStoreProvider>
 	);
