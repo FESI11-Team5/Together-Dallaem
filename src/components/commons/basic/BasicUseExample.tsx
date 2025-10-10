@@ -65,17 +65,17 @@ export default function Home() {
 						{ value: 'option2', text: '옵션 2' }
 					]}
 					register={register('selectField')}
-					size="large"
+					size="expanded"
 					placeholder="선택"
 				/>
 				<BasicSelectBox
 					options={[
-						{ value: 'option1', text: '마감임박' },
-						{ value: 'option2', text: '참여 인원 순' }
+						{ value: 'option1', text: '전체' },
+						{ value: 'option2', text: '을지로 3가' }
 					]}
 					register={register('selectField')}
 					size="small"
-					placeholder="선택"
+					defaultValue="option1"
 				/>
 				<BasicInput
 					register={register('inputField')}
