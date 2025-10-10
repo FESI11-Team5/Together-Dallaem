@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
 import Image from 'next/image';
+import { useCallback, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-interface InputProps {
+export interface InputProps {
 	/** 입력창의 placeholder 텍스트 */
 	placeholder: string;
 	/** React Hook Form의 register 객체, 폼 관리시 사용(value, onChange, onBlur 등) */
@@ -21,6 +21,7 @@ interface InputProps {
 	invalidText?: string;
 	/** input의 value */
 	value?: string; //register가 이미 있지만 required 체크를 위해 추가(register에서 직접 value를 불러올 방법이 없음)
+	id?: string;
 }
 
 /**
@@ -63,7 +64,8 @@ export default function BasicInput({
 	required = false,
 	isValid = true,
 	invalidText = '',
-	value = ''
+	value = '',
+	id = ''
 }: InputProps) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
@@ -108,10 +110,11 @@ export default function BasicInput({
 	}, [required, value, isValid, invalidText]);
 
 	return (
-		<div>
+		<div className="flex flex-col gap-2">
 			<div
 				className={`inputBox box-border flex min-w-[402px] items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
+					id={id}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
 					placeholder={placeholder}
 					className="w-full bg-transparent outline-none"
