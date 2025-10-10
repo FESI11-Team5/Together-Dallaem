@@ -59,3 +59,11 @@ export const FOOTER_MESSAGE = {
 	title: '더 건강한 나와 팀을 위한 프로그램 🏃🏻',
 	subTitle: '모임을 공유해서 더 많은 사람들이 참여할 수 있도록 독려해봐요'
 };
+
+/**
+ * form 하단에 들어가는 Auth 가이드 메시지
+ */
+export const AUTH_GUIDE_MESSAGES = {
+	EXISTING_MEMBER: '이미 회원이신가요?',
+	NEW_MEMBER: '같이 달램이 처음이신가요?'
+};

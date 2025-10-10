@@ -1,6 +1,7 @@
 import DebouncedInput from '@/components/auth/SignupForm/DebouncedInput';
 import BasicButton from '@/components/commons/BasicButton';
 import { SIGNIN_LABEL, SIGNIN_PLACEHOLDERS } from '@/constants/form';
+import { AUTH_GUIDE_MESSAGES } from '@/constants/messages';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm, type UseFormSetError } from 'react-hook-form';
@@ -52,7 +53,7 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 					로그인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
-					<p className="text-base font-medium">같이 달램이 처음이신가요?</p>
+					<p className="text-base font-medium">{AUTH_GUIDE_MESSAGES.NEW_MEMBER}</p>
 					<Link href="/signup" className="text-orange-600 underline">
 						회원가입
 					</Link>

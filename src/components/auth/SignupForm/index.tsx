@@ -3,6 +3,7 @@
 import { zodSchema } from '@/app/(auths)/signup/signupValidator/signupValidator.zod';
 import BasicButton from '@/components/commons/BasicButton';
 import { SIGNUP_LABEL, SIGNUP_PLACEHOLDERS } from '@/constants/form';
+import { AUTH_GUIDE_MESSAGES } from '@/constants/messages';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -90,7 +91,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 					확인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
-					<p className="text-base font-medium">이미 회원이신가요?</p>
+					<p className="text-base font-medium">{AUTH_GUIDE_MESSAGES.EXISTING_MEMBER}</p>
 					<Link href="/login" className="text-orange-600 underline">
 						로그인
 					</Link>
