@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 /** 드롭다운되는 선택 항목들의 타입 */
-interface OptionType {
+export interface OptionType {
 	/** 옵션의 value (내부적으로 사용) */
 	value: string | number;
 	/** 사용자에게 표시될 텍스트 */

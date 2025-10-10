@@ -2,15 +2,7 @@
 
 import { useState, forwardRef, useRef, useEffect, useMemo, useCallback } from 'react';
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
-import BasicDropbox from './BasicDropbox';
-
-/** 드롭다운되는 선택 항목들의 타입 */
-interface OptionType {
-	/** 옵션의 value (내부적으로 사용) */
-	value: string | number;
-	/** 사용자에게 표시될 텍스트 */
-	text: string;
-}
+import BasicDropbox, { OptionType } from './BasicDropbox';
 
 interface SelectProps {
 	/** 선택 항목들의 배열 */
