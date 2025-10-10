@@ -13,6 +13,7 @@ import BasicTextArea from './BasicTextArea';
 import BasicModal from './BasicModal';
 import ClassProgressBar from './ClassProgressBar';
 import BasicCheckBox from './BasicCheckBox';
+import SortButton from './SortButton';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -37,6 +38,7 @@ export default function Home() {
 	const textareaValue = watch('textareaField');
 	const inputValue = watch('inputField') ?? '';
 	const checkBoxValue = watch('checkBoxField');
+	const sortedValue = watch('sortField');
 
 	const validation = useCallback(() => {
 		return inputValue.trim().length > 4;
@@ -52,8 +54,8 @@ export default function Home() {
 	}, [inputValue, validation, openModal]);
 
 	return (
-		<div className="flex h-screen flex-col items-start justify-start gap-6">
-			<form onSubmit={handleSubmit(handleFormSubmit)}>
+		<div className="flex h-screen w-screen flex-col items-start justify-start gap-6">
+			<form className="w-full" onSubmit={handleSubmit(handleFormSubmit)}>
 				<BasicSelectBox
 					options={[
 						{ value: 'option1', text: '옵션 1' },
@@ -79,6 +81,16 @@ export default function Home() {
 				<ClassProgressBar isConfirmed data={{ totalNumber: 20, currentNumber: 11 }} linkTo="/me" />
 				<BasicCheckBox register={register('checkBoxField')} title="달램핏" content="오피스 스트레칭" isLarge={false} />
 			</form>
+			<SortButton
+				options={[
+					{ value: 'option1', text: '최신순' },
+					{ value: 'option2', text: '리뷰 많은 순' },
+					{ value: 'option3', text: '참여 인원 순' }
+				]}
+				register={register('sortField')}
+				defaultValue="option1"
+			/>
+			선택한 필터 값:{sortedValue}
 			<BasicButton
 				onClick={() => {
 					openModal(<ExampleModal />);
