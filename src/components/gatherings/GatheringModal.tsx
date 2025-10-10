@@ -12,7 +12,7 @@ import { useModal, useModalClose } from '@/hooks/useModal';
 import BasicCalendar from '../commons/basic/BasicCalendar';
 import BasicModal from '../commons/basic/BasicModal';
 import BasicButton from '../commons/basic/BasicButton';
-import BasicPopup from '../commons/BasicPopup';
+import BasicPopup from '../commons/basic/BasicPopup';
 
 /**
  * GatheringModal 컴포넌트
