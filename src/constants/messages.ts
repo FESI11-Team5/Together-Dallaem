@@ -3,7 +3,7 @@ export interface PopupMessage {
 	subTitle?: string;
 }
 
-export type PopupMessageKey = 'CREATE' | 'NOT_LOGIN' | 'SIGNUP' | 'UPDATE_PROFILE' | 'REVIEWS';
+export type PopupMessageKey = 'CREATE' | 'NOT_LOGIN' | 'SIGNUP' | 'DUPLICATED_EMAIL' | 'UPDATE_PROFILE' | 'REVIEWS';
 
 export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	/** 게시글 작성페이지에서 나갈 시 띄우는 팝업창 메세지 */
@@ -20,6 +20,12 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	/** 회원가입 완료 후 띄우는 팝업창 메세지 */
 	SIGNUP: {
 		title: '가입이 완료되었습니다!'
+	},
+
+	/** 회원가입 시 중복 이메일이면 띄우는 팝업창 메시지 */
+	DUPLICATED_EMAIL: {
+		title: '중복된 이메일입니다',
+		subTitle: '다른 이메일로 가입해 주세요'
 	},
 
 	/** 프로필 수정 완료 후 띄우는 팝업창 메세지 */
