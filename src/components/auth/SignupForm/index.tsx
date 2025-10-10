@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { InputWithLabel } from './InputWithLabel';
+import DebouncedInput from './DebouncedInput';
 // import { yupSchema } from './signupValidator/signupValidator.yup';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -47,28 +47,28 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 	return (
 		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>
 			<div className="flex flex-col gap-6">
-				<InputWithLabel
+				<DebouncedInput
 					label={signupLabel.name}
 					placeholder={signupPlaceholders.name}
 					register={register('name')}
 					invalidText={errors.name?.message}
 					onDebouncedBlur={() => trigger('name')}
 				/>
-				<InputWithLabel
+				<DebouncedInput
 					label={signupLabel.email}
 					placeholder={signupPlaceholders.email}
 					register={register('email')}
 					invalidText={errors.email?.message}
 					onDebouncedBlur={() => trigger('email')}
 				/>
-				<InputWithLabel
+				<DebouncedInput
 					label={signupLabel.companyName}
 					placeholder={signupPlaceholders.companyName}
 					register={register('companyName')}
 					invalidText={errors.companyName?.message}
 					onDebouncedBlur={() => trigger('companyName')}
 				/>
-				<InputWithLabel
+				<DebouncedInput
 					label={signupLabel.password}
 					placeholder={signupPlaceholders.password}
 					isPassword
@@ -76,7 +76,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 					invalidText={errors.password?.message}
 					onDebouncedBlur={() => trigger('password')}
 				/>
-				<InputWithLabel
+				<DebouncedInput
 					label={signupLabel.confirm}
 					placeholder={signupPlaceholders.confirm}
 					isPassword

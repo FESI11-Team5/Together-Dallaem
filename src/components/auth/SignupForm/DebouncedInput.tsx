@@ -16,21 +16,21 @@ export interface InputProps {
 	isPassword?: boolean;
 	/** 유효하지 않을 때 표시할 에러 메시지 */
 	invalidText?: string;
-	/** id */
-	id?: string;
 	/** 디바운스 블러일 시 실행될 콜백 */
 	onDebouncedBlur?: () => void;
+	/** 라벨명 */
+	label?: string;
 }
 
-export default function BasicInput({
+export default function DebouncedInput({
 	children,
 	placeholder,
 	isPassword = false,
 	register,
 	className = '',
 	invalidText = '',
-	id = '',
-	onDebouncedBlur
+	onDebouncedBlur,
+	label = ''
 }: InputProps) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
@@ -71,10 +71,13 @@ export default function BasicInput({
 
 	return (
 		<div className="flex flex-col gap-2">
+			<label className="text-sm font-semibold" htmlFor={label}>
+				{label}
+			</label>
 			<div
 				className={`inputBox box-border flex min-w-[402px] items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
-					id={id}
+					id={label}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
 					placeholder={placeholder}
 					className="w-full bg-transparent outline-none"
