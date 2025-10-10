@@ -21,7 +21,7 @@ const meta: Meta<typeof SignupPage> = {
 		}
 	},
 	globals: {
-		viewport: { value: 'Desktop', isRotated: false }
+		viewport: { value: 'desktop', isRotated: false }
 	}
 };
 
