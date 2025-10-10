@@ -112,7 +112,7 @@ export default function BasicInput({
 	return (
 		<div className="flex flex-col gap-2">
 			<div
-				className={`inputBox box-border flex min-w-[402px] items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
+				className={`inputBox box-border flex items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					id={id}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
