@@ -23,8 +23,8 @@ export const signupErrors = {
 };
 
 export const signinErrors = {
-	/** 이메일 형식이 유효하지 않을 때 표시되는 메시지 */
-	emailInvalid: signupErrors.emailInvalid,
+	/** 아이디(이메일) 형식이 유효하지 않을 때 표시되는 메시지 */
+	idInvalid: signupErrors.emailInvalid,
 	/** 비밀번호 길이가 8자 미만일 때 표시되는 메시지 */
 	passwordTooShort: signupErrors.passwordTooShort
 };

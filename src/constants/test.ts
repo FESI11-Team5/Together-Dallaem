@@ -12,3 +12,12 @@ export const defaultSignupFormValues = {
 	name: 'viscacha',
 	companyName: 'codeit'
 };
+
+
+/**
+ * 로그인 폼의 기본값
+ */
+export const defaultSigninFormValues = {
+	id: 'viscacha@email.com',
+	password: 'viscacha88'
+};
