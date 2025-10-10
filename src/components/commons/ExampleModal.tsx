@@ -1,7 +1,7 @@
 'use client';
 
-import BasicButton from './BasicButton';
-import BasicModal from './BasicModal';
+import BasicButton from './basic/BasicButton';
+import BasicModal from './basic/BasicModal';
 import { useModalClose } from '@/hooks/useModal';
 
 export default function ExampleModal() {

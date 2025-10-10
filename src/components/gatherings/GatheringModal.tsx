@@ -9,9 +9,9 @@ import { format } from 'date-fns';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
 
-import BasicCalendar from '../commons/BasicCalendar';
-import BasicModal from '../commons/BasicModal';
-import BasicButton from '../commons/BasicButton';
+import BasicCalendar from '../commons/basic/BasicCalendar';
+import BasicModal from '../commons/basic/BasicModal';
+import BasicButton from '../commons/basic/BasicButton';
 import BasicPopup from '../commons/BasicPopup';
 
 /**

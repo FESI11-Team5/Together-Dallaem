@@ -8,14 +8,14 @@ import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
 import BasicTextBox from './BasicTextBox';
 import BasicSelectBox from './BasicSelectBox';
-import ExampleModal from './ExampleModal';
+import ExampleModal from '../ExampleModal';
 import BasicTextArea from './BasicTextArea';
 import BasicModal from './BasicModal';
-import ClassProgressBar from './ClassProgressBar';
+import ClassProgressBar from '../ClassProgressBar';
 import BasicCheckBox from './BasicCheckBox';
-import SortButton from './SortButton';
-import Tab from './Tab';
-import Chip from './Chip';
+import SortButton from '../SortButton';
+import Tab from '../Tab';
+import Chip from '../Chip';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -66,6 +66,15 @@ export default function Home() {
 					]}
 					register={register('selectField')}
 					size="large"
+					placeholder="선택"
+				/>
+				<BasicSelectBox
+					options={[
+						{ value: 'option1', text: '마감임박' },
+						{ value: 'option2', text: '참여 인원 순' }
+					]}
+					register={register('selectField')}
+					size="small"
 					placeholder="선택"
 				/>
 				<BasicInput

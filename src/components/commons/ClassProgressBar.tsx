@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import BasicProgressBar from './BasicProgressBar';
+import BasicProgressBar from './basic/BasicProgressBar';
 import { useRouter } from 'next/navigation';
 
-interface ProgressBarProps {
+interface ClassProgressBarProps {
 	data: {
 		totalNumber: number;
 		currentNumber: number;
@@ -11,7 +11,7 @@ interface ProgressBarProps {
 	linkTo?: string;
 }
 
-export default function ProgressBar({ data, isConfirmed, linkTo }: ProgressBarProps) {
+export default function ClassProgressBar({ data, isConfirmed, linkTo }: ClassProgressBarProps) {
 	const router = useRouter();
 	const progressPercentage = (data.currentNumber / data.totalNumber) * 100;
 	const isFull = progressPercentage === 100;
