@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { signinSchema } from '../signinSchema';
+import { signinSchema } from '@/utils/schema';
 
 /**
  * Zod 기반 로그인 폼의 입력값 타입
