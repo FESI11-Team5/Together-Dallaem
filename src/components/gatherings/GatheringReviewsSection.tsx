@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import Pagination from '../commons/BasicPagnation';
 import Image from 'next/image';
+import Pagination from '../commons/BasicPagnation';
 
 /** 임시 Mock 데이터 */
 /** 추후 실제 데이터 타입으로 변환예정 */
@@ -177,45 +177,55 @@ export default function GatheringReviewSection() {
 	const currentReviews = mockReviews.slice(startIndex, startIndex + pageSize);
 
 	return (
-		<section className="inline-flex border-t-2 border-gray-200 bg-white p-[24px]">
-			<div className="flex w-full flex-col justify-center gap-[24px]">
-				<h2 className="leading-lg text-lg font-semibold text-gray-900">이용자들은 이 프로그램을 이렇게 느꼈어요!</h2>
+		<section className="w-full border-t-2 border-gray-200 bg-white p-6">
+			<div className="flex w-full max-w-[1200px] flex-col justify-center">
+				<h2 className="mb:text-base tb:text-base pc:text-lg leading-lg mb-4 font-semibold text-gray-900">
+					이용자들은 이 프로그램을 이렇게 느꼈어요!
+				</h2>
 
-				<ul className="flex flex-col items-start gap-[16px]">
+				{/* 리뷰 리스트 */}
+				<ul className="flex flex-col items-start gap-4">
 					{currentReviews.map((review, idx) => (
-						<li
-							key={idx}
-							className="flex w-full flex-[1_0_0] flex-col gap-[10px] border-b border-dashed border-gray-200 pb-[16px]">
-							<div>
-								<div className="flex flex-col gap-[10px]">
-									<div className="flex gap-[2px]">
-										{Array.from({ length: 5 }).map((_, i) => {
-											return (
-												<Image
-													key={i}
-													src={i < review.heartCount ? '/icons/heart_active.svg' : '/icons/heart.svg'}
-													alt="heart"
-													width={16}
-													height={16}
-												/>
-											);
-										})}
-									</div>
-									<p>{review.content}</p>
+						<li key={idx} className="flex w-full flex-col gap-2.5 border-b border-dashed border-gray-200 pb-4">
+							<div className="flex flex-col gap-2.5">
+								{/* 하트 5개 */}
+								<div className="flex gap-0.5">
+									{Array.from({ length: 5 }).map((_, i) => (
+										<Image
+											key={i}
+											src={i < review.heartCount ? '/icons/heart_active.svg' : '/icons/heart.svg'}
+											alt="heart"
+											width={16}
+											height={16}
+										/>
+									))}
 								</div>
-								<div className="flex items-center gap-[12px]">
-									<Image src="/images/profile_edit.svg" alt={review.author} width={24} height={24} />
-									<span className="leading-xs text-xs font-medium text-gray-700">{review.author}</span>
-									<span className="leading-xs text-xs font-medium text-gray-700"> | </span>
-									<span className="leading-xs text-xs font-medium text-gray-500">{review.createdAt}</span>
-								</div>
+
+								{/* 리뷰 내용 */}
+								<p className="mb:text-sm tb:text-base pc:text-base text-gray-800">{review.content}</p>
+							</div>
+
+							{/* 작성자 정보 */}
+							<div className="flex items-center gap-2.5">
+								<Image
+									src="/images/profile_edit.svg"
+									alt={review.author}
+									width={24}
+									height={24}
+									className="mb:w-[20px] mb:h-[20px]"
+								/>
+								<span className="text-xs font-medium text-gray-700">{review.author}</span>
+								<span className="text-xs font-medium text-gray-700"> | </span>
+								<span className="text-xs font-medium text-gray-500">{review.createdAt}</span>
 							</div>
 						</li>
 					))}
 				</ul>
 
 				{/* 페이지네이션 */}
-				<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+				<div className="mt-6 flex justify-center">
+					<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+				</div>
 			</div>
 		</section>
 	);

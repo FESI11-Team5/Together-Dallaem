@@ -20,9 +20,9 @@ function GatheringOwnerUserBtn() {
 export default function BasicFooter() {
 	const isNormalUser = true;
 	return (
-		<footer className="fixed right-2 bottom-0 left-0 z-10 m-auto flex w-full items-center justify-center border-3 border-t-black bg-white p-4">
+		<footer className="fixed right-2 bottom-0 left-0 z-10 m-auto flex w-full items-center justify-center border-3 border-t-black bg-white px-4 py-5">
 			{!isNormalUser ? (
-				<div className="pc:w-[1200px] tb:w-[744px] mb:w-[375px] flex items-center justify-between">
+				<div className="flex w-[996px] items-center justify-between">
 					<div className="flex-1 pr-4">
 						<h1 className="text-sm font-bold">{FOOTER_MESSAGE.title}</h1>
 						<p className="text-xs text-gray-600">{FOOTER_MESSAGE.subTitle}</p>
@@ -33,7 +33,7 @@ export default function BasicFooter() {
 					</div>
 				</div>
 			) : (
-				<div className="pc:w-[1200px] tb:w-[744px] mb:w-[375px] max-mb:flex-col max-mb:gap-4 flex w-full items-center justify-between">
+				<div className="max-mb:w-[696px] max-mb:flex-col flex w-[996px] flex-row items-center justify-between">
 					<div className="pr-4">
 						<h1 className="text-sm font-bold">{FOOTER_MESSAGE.title}</h1>
 						<p className="text-xs text-gray-600">{FOOTER_MESSAGE.subTitle}</p>

@@ -1,13 +1,15 @@
 'use client';
 
-import { CreateGathering } from '@/types/response/gatherings';
-
 import { format } from 'date-fns';
-import { useEffect, useRef } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useRef } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
+import { CreateGathering } from '@/types/response/createGathering';
+import type { GatheringLocation, GatheringType } from '@/types/response/gatherings';
 
 import BasicCalendar from '../commons/BasicCalendar';
 import BasicModal from '../commons/BasicModal';
@@ -16,6 +18,7 @@ import BasicPopup from '../commons/BasicPopup';
 import BasicInput from '../commons/BasicInput';
 import BasicSelectBox from '../commons/BasicSelectBox';
 
+/** Input 태그를 사용하는 Form 필드 */
 interface GatheringFormFieldProps {
 	label: string;
 	htmlFor: string;
@@ -48,31 +51,27 @@ function GatheringFormField({ label, htmlFor, children, className }: GatheringFo
  *
  */
 
-export default function GatheringModal({
-	formReady
-}: {
-	formReady?: (methods: UseFormReturn<CreateGathering>) => void;
-}) {
-	const methods = useForm<CreateGathering>({
-		defaultValues: {
-			teamId: 5,
-			location: '',
-			type: '',
-			name: '',
-			dateTime: '',
-			image: '',
-			registrationEnd: ''
-		}
-	});
-
+export default function GatheringModal() {
 	const {
 		watch,
 		register,
 		handleSubmit,
 		setValue,
 		reset,
-		formState: { isSubmitting }
-	} = methods;
+		control,
+		formState: { errors, isSubmitting }
+	} = useForm<GatheringSchemaType>({
+		resolver: zodResolver(CreateGatheringSchema),
+		defaultValues: {
+			teamId: 5,
+			name: '',
+			location: '' as GatheringLocation,
+			type: '' as GatheringType,
+			dateTime: '',
+			registrationEnd: '',
+			image: ''
+		}
+	});
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -143,21 +142,30 @@ export default function GatheringModal({
 		);
 	};
 
-	useEffect(() => {
-		if (formReady) {
-			formReady(methods);
-		}
-	}, [methods, formReady]);
+	// useEffect(() => {
+	// 	if (formReady) {
+	// 		formReady(methods);
+	// 	}
+	// }, [methods, formReady]);
 
 	return (
-		<BasicModal onClose={handleCloseWithPopup} className="relative">
+		<BasicModal onClose={handleCloseWithPopup} className="relative max-w-[472px]">
 			<div className="absolute top-0 left-0 translate-y-[-25px]">
 				<h2 className="leading-lg text-lg font-semibold">모임 만들기</h2>
 			</div>
 
-			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col items-start gap-6">
+			{/* 반복되는 필드를 컴포넌트로 묶어서 새로운 컴포넌트로 만들 예정입니다. */}
+			<form onSubmit={handleSubmit(onSubmitForm)} className="flex w-full flex-col items-start gap-6">
 				<GatheringFormField label="모임 이름" htmlFor="gathering-name" className="mt-6">
-					<BasicInput placeholder="모임 이름을 작성해주세요" className="w-full" register={register('name')} />
+					<BasicInput
+						id="gathering-name"
+						placeholder="모임 이름을 작성해주세요"
+						className="w-full"
+						register={register('name')}
+					/>
+					{errors.name && (
+						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.name.message}</p>
+					)}
 				</GatheringFormField>
 
 				<div className="flex w-full flex-col gap-3">
@@ -175,13 +183,15 @@ export default function GatheringModal({
 						]}
 						size="expanded"
 						placeholder="장소를 선택해주세요"
-						className="w-full"
 						register={register('location')}
 					/>
+					{errors.location && (
+						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.location.message}</p>
+					)}
 				</div>
 
 				<GatheringFormField label="이미지" htmlFor="gathering-image">
-					<div className="flex flex-col">
+					<div className="flex w-full flex-col">
 						<div className="flex gap-3">
 							<input
 								id="gathering-image"
@@ -190,22 +200,26 @@ export default function GatheringModal({
 								className="hidden"
 								ref={fileInputRef}
 								onChange={e => {
-									const file = e.target.files?.[0];
-									if (file) {
-										setValue('image', file);
-									}
+									const file = e.target.files?.[0]?.name || '';
+									setValue('image', file, { shouldValidate: true });
 								}}
 							/>
 
-							<div className="leading-base flex flex-1 items-start rounded-[12px] bg-gray-50 px-4 py-2.5 text-base font-medium text-gray-400">
-								{watch('image') ? (watch('image') as File).name : '이미지를 첨부해주세요'}
-							</div>
+							<BasicInput
+								placeholder={watch('image') ? watch('image') : '이미지를 첨부해주세요'}
+								register={register('image')}
+								className="w-full"
+								readOnly
+							/>
 
 							<BasicButton onClick={() => fileInputRef.current?.click()} outlined={true}>
 								파일 찾기
 							</BasicButton>
 						</div>
 					</div>
+					{errors.image && (
+						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.image.message}</p>
+					)}
 				</GatheringFormField>
 
 				{/* 공통 컴포넌트로 변경예정 */}
@@ -262,35 +276,71 @@ export default function GatheringModal({
 
 				<div className="max-mb:flex-col max-mb:gap-2 max-mb:w-auto flex w-full justify-between">
 					<div className="flex flex-col gap-3">
-						<label
-							htmlFor="gathering-start-date"
-							className="leading-base flex items-start text-base font-semibold text-gray-800">
-							모임 날짜
-						</label>
-						<BasicCalendar
-							pageType="create"
-							onChange={date => setValue('dateTime', format(date, 'yyyy-MM-dd HH:mm a'))}
+						<Controller
+							name="dateTime"
+							control={control}
+							render={({ field }) => (
+								<div className="flex flex-col gap-3">
+									<label
+										htmlFor="gathering-start-date"
+										className="leading-base flex items-start text-base font-semibold text-gray-800">
+										모임 날짜
+									</label>
+									<BasicCalendar
+										pageType="create"
+										onChange={date => {
+											const formatted = format(date, 'yyyy-MM-dd HH:mm a');
+											field.onChange(formatted);
+										}}
+									/>
+									{errors.dateTime && (
+										<p className="leading-sm text-start text-sm font-semibold text-red-600">
+											{errors.dateTime.message}
+										</p>
+									)}
+								</div>
+							)}
 						/>
 					</div>
 
-					<label
-						htmlFor="gathering-end-date"
-						className="leading-base flex flex-col items-start gap-3 text-base font-semibold text-gray-800">
-						마감 날짜
-						<BasicCalendar
-							pageType="create"
-							onChange={date => setValue('registrationEnd', format(date, 'yyyy-MM-dd HH:mm a'))}
-						/>
-					</label>
+					<Controller
+						name="registrationEnd"
+						control={control}
+						render={({ field }) => (
+							<div className="flex flex-col gap-3">
+								<label
+									htmlFor="gathering-end-date"
+									className="leading-base flex items-start text-base font-semibold text-gray-800">
+									마감 날짜
+								</label>
+								<BasicCalendar
+									pageType="create"
+									onChange={date => {
+										const formatted = format(date, 'yyyy-MM-dd HH:mm a');
+										field.onChange(formatted);
+									}}
+								/>
+								{errors.registrationEnd && (
+									<p className="leading-sm text-start text-sm font-semibold text-red-600">
+										{errors.registrationEnd.message}
+									</p>
+								)}
+							</div>
+						)}
+					/>
 				</div>
 
 				<GatheringFormField label="모집 정원" htmlFor="gathering-participant">
-					<BasicInput placeholder="최소 5인 이상 입력해주세요" register={register('participantCount')} />
+					<BasicInput
+						placeholder="최소 5인 이상 입력해주세요"
+						register={register('capacity', { valueAsNumber: true })}
+					/>
+					{errors.capacity && (
+						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.capacity.message}</p>
+					)}
 				</GatheringFormField>
 
-				<div className="w-full">
-					<BasicButton className="w-full">확인</BasicButton>
-				</div>
+				<BasicButton className="w-full">확인</BasicButton>
 			</form>
 		</BasicModal>
 	);

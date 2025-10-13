@@ -21,9 +21,8 @@ export interface InputProps {
 	invalidText?: string;
 	/** input의 value */
 	value?: string; //register가 이미 있지만 required 체크를 위해 추가(register에서 직접 value를 불러올 방법이 없음)
-	id?: string;
 }
-
+type Input = InputProps & React.InputHTMLAttributes<HTMLInputElement>;
 /**
  * 기본 입력창 컴포넌트
  *
@@ -65,8 +64,8 @@ export default function BasicInput({
 	isValid = true,
 	invalidText = '',
 	value = '',
-	id = ''
-}: InputProps) {
+	...rest
+}: Input) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
 	const [touched, setTouched] = useState(false);
@@ -114,7 +113,6 @@ export default function BasicInput({
 			<div
 				className={`inputBox box-border flex min-w-[402px] items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
-					id={id}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
 					placeholder={placeholder}
 					className="w-full bg-transparent outline-none"
@@ -122,6 +120,7 @@ export default function BasicInput({
 					onFocus={handleFocus}
 					onBlur={handleBlur}
 					required={required}
+					{...rest}
 				/>
 				{isPassword && (
 					<Image
