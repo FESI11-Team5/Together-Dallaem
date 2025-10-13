@@ -102,7 +102,7 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 					<BasicButton onClick={closeModal} isLarge outlined type="button">
 						취소
 					</BasicButton>
-					<BasicButton isActive={isCompanyNameValid} isLarge onClick={handleSubmit(handleFormSubmit)}>
+					<BasicButton isActive={isCompanyNameValid} isLarge type="submit">
 						수정하기
 					</BasicButton>
 				</div>
