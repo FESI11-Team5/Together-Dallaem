@@ -3,7 +3,7 @@
 import { usePagination } from '@/hooks/usePagination';
 
 import Image from 'next/image';
-import PaginationButton from '../pagination/PaginationButton';
+import PaginationButton from '../../pagination/PaginationButton';
 
 interface PaginationProps {
 	/** 현재 페이지 번호 */

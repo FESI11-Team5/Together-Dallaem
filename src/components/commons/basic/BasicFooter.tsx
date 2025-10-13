@@ -1,7 +1,7 @@
 import { FOOTER_MESSAGE } from '@/constants/messages';
 
-import GatheringNormalUserBtn from '../gatherings/button/GatheringNormalUserBtn';
-import GatheringOwnerUserBtn from '../gatherings/button/GatheringOwnerUserBtn';
+import GatheringNormalUserBtn from '../../gatherings/button/GatheringNormalUserBtn';
+import GatheringOwnerUserBtn from '../../gatherings/button/GatheringOwnerUserBtn';
 
 export default function BasicFooter() {
 	const isNormalUser = true;

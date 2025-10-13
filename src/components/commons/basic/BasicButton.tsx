@@ -49,6 +49,8 @@ interface ButtonProps {
  * </BasicButton>
  */
 
+type button = ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
 export default function BasicButton({
 	children,
 	onClick = () => {},
@@ -57,8 +59,9 @@ export default function BasicButton({
 	isActive = true,
 	outlined = false,
 	className = '',
-	ariaLabel = ''
-}: ButtonProps) {
+	ariaLabel = '',
+	...rest
+}: button) {
 	let classByStatus = '';
 	if (outlined) {
 		classByStatus = isActive
@@ -83,6 +86,7 @@ export default function BasicButton({
 		<button
 			onClick={onClick}
 			disabled={!isActive}
+			{...rest}
 			//prettier-ignore
 			className={`
 				font-pretendard font-weight-semibold box-border
