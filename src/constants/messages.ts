@@ -21,7 +21,7 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 
 	/** 로그인하지 않은 상태에서 특정 기능을 사용하려고 할 때 띄우는 팝업창 메세지 */
 	REQUIRED_LOGIN: {
-		title: '로그인이 필요해요'
+		title: '로그인이 필요해요!'
 	},
 
 	/** 회원가입 완료 후 띄우는 팝업창 메세지 */
