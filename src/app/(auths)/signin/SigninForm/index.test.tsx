@@ -26,7 +26,7 @@ describe('SigninForm 통합 테스트', () => {
 		test('모든 필드가 유효하면 폼이 제출된다', async () => {
 			const idInput = screen.getByLabelText('아이디');
 			const passwordInput = screen.getByLabelText('비밀번호');
-			const button = screen.getByRole('button', { name: '로그인' });
+			const button = screen.getByRole('button', { name: '로그인 확인' });
 
 			fireEvent.change(idInput, { target: { value: DEFAULT_VALUES.id } });
 			fireEvent.change(passwordInput, { target: { value: DEFAULT_VALUES.password } });
@@ -71,7 +71,7 @@ function runValidationScenarios(label: string, message: string, value = '', call
 	test('로그인 버튼 클릭 방지 (submit)', async () => {
 		callBack?.();
 		const input = screen.getByLabelText(label);
-		const button = screen.getByRole('button', { name: '로그인' });
+		const button = screen.getByRole('button', { name: '로그인 확인' });
 
 		fireEvent.change(input, { target: { value } });
 		fireEvent.blur(input);

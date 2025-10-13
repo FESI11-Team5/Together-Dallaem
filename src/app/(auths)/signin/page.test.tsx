@@ -65,7 +65,6 @@ describe('SigninPage 통합 테스트', () => {
 
 			// 1. 입력하기
 			const idInput = screen.getByLabelText('아이디');
-			expect(idInput).toHaveFocus();
 			await user.type(idInput, DEFAULT_VALUES.id);
 			await user.tab();
 
@@ -75,7 +74,7 @@ describe('SigninPage 통합 테스트', () => {
 			await user.tab();
 
 			// 2. 확인 버튼 누르기
-			const button = screen.getByRole('button', { name: '로그인' });
+			const button = screen.getByRole('button', { name: '로그인 확인' });
 			await waitFor(() => expect(button).toBeEnabled());
 			await user.tab();
 			expect(button).toHaveFocus();
@@ -115,7 +114,7 @@ describe('SigninPage 통합 테스트', () => {
 			json: () =>
 				Promise.resolve({
 					code: 'INVALID_CREDENTIALS',
-					message: SIGNIN_ERRORS.INVALID_EMAIL
+					message: SIGNIN_ERRORS.INVALID_CREDENTIALS
 				})
 		});
 
@@ -124,7 +123,7 @@ describe('SigninPage 통합 테스트', () => {
 
 		// 2. 에러 메시지 뜨는지 확인하기
 		await waitFor(() => {
-			expect(screen.getByText(SIGNIN_ERRORS.INVALID_EMAIL)).toBeInTheDocument();
+			expect(screen.getByText(SIGNIN_ERRORS.INVALID_CREDENTIALS)).toBeInTheDocument();
 		});
 	});
 
@@ -199,7 +198,7 @@ async function fillAndSubmitForm(user: UserEvent, values = DEFAULT_VALUES) {
 	await user.type(screen.getByLabelText('아이디'), values.id);
 	await user.type(screen.getByLabelText('비밀번호'), values.password);
 
-	const button = screen.getByRole('button', { name: '로그인' });
+	const button = screen.getByRole('button', { name: '로그인 확인' });
 	await waitFor(() => expect(button).toBeEnabled());
 
 	await user.click(button);

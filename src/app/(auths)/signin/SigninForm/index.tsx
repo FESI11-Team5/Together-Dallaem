@@ -79,7 +79,7 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 				/>
 			</div>
 			<div className="flex flex-col gap-6">
-				<BasicButton isLarge isActive={isValid && !isSubmitting && isDirty} ariaLabel="로그인">
+				<BasicButton isLarge isActive={isValid && !isSubmitting && isDirty} ariaLabel="로그인 확인">
 					로그인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
