@@ -96,17 +96,17 @@ describe('BasicButton', () => {
 
 describe('BasicInput', () => {
 	test('placeholder 잘 적용되는지 확인', () => {
-		render(<BasicInput placeholder="입력하세요" />);
+		render(<BasicInput placeholder="입력하세요" label="입력" id="입력" />);
 		expect(screen.getByPlaceholderText('입력하세요')).toBeInTheDocument();
 	});
 
 	test('isPassword prop true일 때 비밀번호 토글 버튼 잘 적용되는지 확인', () => {
-		render(<BasicInput placeholder="비밀번호" isPassword />);
+		render(<BasicInput placeholder="비밀번호" isPassword label="비밀번호" id="비밀번호" />);
 		expect(screen.getByAltText('password visible toggle button')).toBeInTheDocument();
 	});
 
 	test('비밀번호 토글버튼 클릭시 버튼 이미지 변경 잘 되는지 확인', () => {
-		render(<BasicInput placeholder="비밀번호" isPassword />);
+		render(<BasicInput placeholder="비밀번호" isPassword label="비밀번호" id="비밀번호" />);
 		const toggleButton = screen.getByAltText('password visible toggle button');
 
 		// Initially should show password (visibility_off)
@@ -117,7 +117,7 @@ describe('BasicInput', () => {
 	});
 
 	test('비밀번호 토글버튼 클릭시 input type 변경 잘 되는지 확인', () => {
-		render(<BasicInput placeholder="비밀번호" isPassword />);
+		render(<BasicInput placeholder="비밀번호" isPassword label="비밀번호" id="비밀번호" />);
 		const toggleButton = screen.getByAltText('password visible toggle button');
 
 		expect(screen.getByPlaceholderText('비밀번호')).toHaveAttribute('type', 'password');
@@ -127,7 +127,7 @@ describe('BasicInput', () => {
 	});
 
 	test('isValid prop false일 때 border red로 바뀌고 에러 메시지 나타나는지 확인', () => {
-		render(<BasicInput placeholder="입력" isValid={false} invalidText="에러 메시지" value="" />);
+		render(<BasicInput placeholder="입력" isValid={false} invalidText="에러 메시지" value="" label="입력" id="입력" />);
 
 		// 한번 focus 해야만 invalidText가 뜨기 때문에 focus 후 blur
 		const input = screen.getByPlaceholderText('입력');
@@ -139,7 +139,7 @@ describe('BasicInput', () => {
 	});
 
 	test('required이고 입력한 텍스트가 없을때 border red로 바뀌고 필수 메시지 나타나는지 확인', () => {
-		render(<BasicInput placeholder="필수 입력" required value="" />);
+		render(<BasicInput placeholder="필수 입력" required value="" label="필수 입력" id="필수 입력" />);
 
 		const input = screen.getByPlaceholderText('필수 입력');
 		fireEvent.focus(input);
@@ -150,7 +150,7 @@ describe('BasicInput', () => {
 	});
 
 	test('focus 되었을 때 border 색상 잘 바뀌는지 확인', () => {
-		render(<BasicInput placeholder="입력" />);
+		render(<BasicInput placeholder="입력" label="입력" id="입력" />);
 		const input = screen.getByPlaceholderText('입력');
 
 		fireEvent.focus(input);
@@ -283,9 +283,9 @@ describe('BasicSelectBox', () => {
 		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-full');
 	});
 
-	test('size=large일 때 셀렉트박스 너비 120px 높이 40px 적용되는지 확인', () => {
+	test('size=large일 때 셀렉트박스 너비 110px 높이 40px 적용되는지 확인', () => {
 		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="large" />);
-		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[120px] h-[40px]');
+		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[110px] h-[40px]');
 	});
 
 	test('size=small일 때 셀렉트박스 너비 110px 높이 36px 적용되는지 확인', () => {
@@ -347,7 +347,13 @@ describe('React Hook Form으로 컴포넌트 연동 잘 되는지 테스트', ()
 
 		return (
 			<form>
-				<BasicInput register={register('testInput')} placeholder="테스트 입력" value={inputValue} />
+				<BasicInput
+					register={register('testInput')}
+					placeholder="테스트 입력"
+					value={inputValue}
+					label="테스트 입력"
+					id="테스트 입력"
+				/>
 				<BasicTextArea register={register('testTextArea')} placeholder="테스트 텍스트영역" />
 				<BasicSelectBox
 					register={register('testSelect')}
