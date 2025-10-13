@@ -54,8 +54,8 @@ export default function BasicCheckBox({
 
 		if (register?.onChange) {
 			const syntheticEvent = {
-				target: { checked: newChecked, value: newChecked.toString() },
-				currentTarget: { checked: newChecked, value: newChecked.toString() }
+				target: { checked: newChecked },
+				currentTarget: { checked: newChecked }
 			} as React.ChangeEvent<HTMLInputElement>;
 			register.onChange(syntheticEvent);
 		}
@@ -65,7 +65,7 @@ export default function BasicCheckBox({
 		<div
 			className={`flex h-[70px] w-full max-w-[160px] cursor-pointer items-start gap-2 rounded-[8px] ${isChecked ? 'bg-gray-900' : 'bg-gray-50'} ${isLarge ? 'pt-[12px] pr-[20px] pb-[16px] pl-[16px]' : 'pt-[6px] pr-[20px] pb-[30px] pl-[6px]'}`}
 			onClick={handleClick}>
-			<input type="checkbox" className="hidden" checked={isChecked} onChange={() => {}} {...register} />
+			<input type="checkbox" className="hidden" checked={isChecked} {...register} />
 			<div
 				className={`m-[3px] box-border flex h-[18px] w-[18px] items-center justify-center rounded-sm border-1 bg-white ${
 					isChecked ? 'border-white' : 'border-gray-200'
