@@ -40,7 +40,6 @@ export function withGuard<T extends WithAuthGuardProps>(Component: ComponentType
 		const pathname = usePathname();
 
 		const handleClick = () => {
-			// TODO: 현재는 바로 로그인 페이지로 이동하지만, 추후 모달 등으로 확장
 			if (!isAuthenticated()) {
 				openModal(<RequiredLoginPopup next={pathname} />);
 			}
