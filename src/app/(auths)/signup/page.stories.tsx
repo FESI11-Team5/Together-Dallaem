@@ -1,3 +1,4 @@
+import AuthLayout from '@/app/(auths)/layout';
 import ModalContainer from '@/components/commons/ModalContainer';
 import { ModalStoreProvider } from '@/providers/ModalProvider';
 import type { Meta, StoryObj } from '@storybook/nextjs';
@@ -12,11 +13,12 @@ const meta: Meta<typeof SignupPage> = {
 		docs: {
 			description: {
 				component: `### 🧾 SignupPage
-					회원가입 전체 페이지입니다.
-					- 구성 요소: \`SignupForm\` + \`SignupSuccessPopup\` + \`SignupFailurePopup\`
-					- 모달 상태 관리는 \`ModalStoreProvider\` / 실제 렌더링은 \`ModalContainer\`
-					- 반응형 테스트: Desktop, Tablet, Mobile 각각 확인 가능
-					`
+				회원가입 전체 페이지입니다.
+
+				- 구성 요소: \`SignupForm\` + \`SignupSuccessPopup\` + \`SignupFailurePopup\`
+				- 모달 상태 관리는 \`ModalStoreProvider\` / 실제 렌더링은 \`ModalContainer\`
+				- 반응형 테스트: Desktop, Tablet, Mobile 각각 확인 가능
+				`
 			}
 		}
 	},
@@ -34,7 +36,9 @@ type Story = StoryObj<typeof SignupPage>;
 export const Desktop: Story = {
 	render: () => (
 		<ModalStoreProvider>
-			<SignupPage />
+			<AuthLayout>
+				<SignupPage />
+			</AuthLayout>
 			<ModalContainer />
 		</ModalStoreProvider>
 	),
@@ -49,7 +53,9 @@ export const Desktop: Story = {
 export const Tablet: Story = {
 	render: () => (
 		<ModalStoreProvider>
-			<SignupPage />
+			<AuthLayout>
+				<SignupPage />
+			</AuthLayout>{' '}
 			<ModalContainer />
 		</ModalStoreProvider>
 	),
@@ -64,7 +70,9 @@ export const Tablet: Story = {
 export const Mobile: Story = {
 	render: () => (
 		<ModalStoreProvider>
-			<SignupPage />
+			<AuthLayout>
+				<SignupPage />
+			</AuthLayout>{' '}
 			<ModalContainer />
 		</ModalStoreProvider>
 	),

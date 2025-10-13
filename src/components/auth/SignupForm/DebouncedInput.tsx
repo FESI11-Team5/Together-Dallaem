@@ -70,12 +70,12 @@ export default function DebouncedInput({
 	}, [debouncedBlur]);
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex w-full flex-col gap-2">
 			<label className="text-sm font-semibold" htmlFor={label}>
 				{label}
 			</label>
 			<div
-				className={`inputBox box-border flex min-w-[402px] items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
+				className={`inputBox box-border flex w-full items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					id={label}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}

@@ -47,7 +47,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 
 	return (
 		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>
-			<div className="flex flex-col gap-6">
+			<div className="flex w-full flex-col gap-6">
 				<DebouncedInput
 					label={SIGNUP_LABEL.name}
 					placeholder={SIGNUP_PLACEHOLDERS.name}
@@ -86,7 +86,7 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 					onDebouncedBlur={() => trigger('confirm')}
 				/>
 			</div>
-			<div className="flex flex-col gap-6">
+			<div className="flex w-full flex-col gap-6">
 				<BasicButton isLarge isActive={isValid && !isSubmitting && isDirty} ariaLabel="회원가입 확인">
 					확인
 				</BasicButton>
