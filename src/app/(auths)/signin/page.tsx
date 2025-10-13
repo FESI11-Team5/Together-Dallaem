@@ -4,7 +4,7 @@ import { postSignin } from '@/apis/auths/signin';
 import { useModal } from '@/hooks/useModal';
 import { ApiError } from '@/utils/fetch';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ServerErrorPopup from './ServerErrorPopup';
+import ServerErrorPopup from '@/components/auth/Popup/ServerErrorPopup';
 import { SigninForm, type SigninFormValues } from './SigninForm';
 
 export default function SigninPage() {

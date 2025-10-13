@@ -2,8 +2,8 @@
 
 import { postSignup } from '@/apis/auths/signup';
 import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
-import SignupFailurePopup from '@/components/auth/SignupPopup/SignupFailurePopup';
-import SignupSuccessPopup from '@/components/auth/SignupPopup/SignupSuccessPopup';
+import SignupFailurePopup from '@/components/auth/Popup/SignupFailurePopup';
+import SignupSuccessPopup from '@/components/auth/Popup/SignupSuccessPopup';
 import { useModal } from '@/hooks/useModal';
 import { ApiError } from '@/utils/fetch';
 
