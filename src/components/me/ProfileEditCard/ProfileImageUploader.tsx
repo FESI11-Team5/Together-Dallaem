@@ -4,10 +4,28 @@ import Image from 'next/image';
 import { useState, useRef } from 'react';
 
 interface ProfileImageUploaderProps {
+	/** 현재 프로필 이미지 URL (기존 이미지 미리보기용) */
 	currentImage?: string;
+	/** 이미지 변경 시 호출되는 콜백 — 선택된 파일과 미리보기 URL을 전달 */
 	onChange: (file: File, preview: string) => void;
 }
 
+/**
+ * 프로필 이미지를 업로드하고 미리보기를 제공하는 컴포넌트입니다.
+ *
+ * - 클릭 시 파일 선택 창이 열리며, 선택한 이미지를 즉시 미리보기로 표시합니다.
+ * - 업로드된 파일(`File`)과 base64 미리보기 URL(`string`)을 함께 `onChange`로 반환합니다.
+ * - 기본 이미지(`/images/profile_edit.svg`)를 제공하며, 기존 프로필 이미지를 표시할 수 있습니다.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <ProfileImageUploader
+ *   currentImage="/images/user1.png"
+ *   onChange={(file, preview) => console.log(file, preview)}
+ * />
+ * ```
+ */
 export default function ProfileImageUploader({ currentImage, onChange }: ProfileImageUploaderProps) {
 	const defaultImage = '/images/profile_edit.svg';
 	const [preview, setPreview] = useState(currentImage);

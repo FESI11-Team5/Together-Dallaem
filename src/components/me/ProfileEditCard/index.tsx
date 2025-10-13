@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useModal } from '@/hooks/useModal';
-import { useScreenSize } from './useScreenSize';
-import { profileAssets } from './ProfileAssets';
-import ProfileEditModal from './modal/ProfileEditModal';
+import { useScreenSize } from './hooks/useScreenSize';
+import { profileAssets } from './assets/ProfileAssets';
+import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/users';
 import { UserInfo } from '@/types/user';
 
