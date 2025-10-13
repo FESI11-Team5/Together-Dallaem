@@ -77,6 +77,7 @@ describe('SigninPage 통합 테스트', () => {
 			const button = screen.getByRole('button', { name: '로그인 확인' });
 			await waitFor(() => expect(button).toBeEnabled());
 			await user.tab();
+			// TODO: 갑자기 포커스 안잡히는 문제 해결
 			expect(button).toHaveFocus();
 			await user.keyboard('{Enter}');
 
