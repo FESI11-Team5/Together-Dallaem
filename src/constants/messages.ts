@@ -5,7 +5,7 @@ export interface PopupMessage {
 
 export type PopupMessageKey =
 	| 'CREATE'
-	| 'NOT_LOGIN'
+	| 'REQUIRED_LOGIN'
 	| 'SIGNUP'
 	| 'DUPLICATED_EMAIL'
 	| 'UPDATE_PROFILE'
@@ -20,7 +20,7 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	},
 
 	/** 로그인하지 않은 상태에서 특정 기능을 사용하려고 할 때 띄우는 팝업창 메세지 */
-	NOT_LOGIN: {
+	REQUIRED_LOGIN: {
 		title: '로그인이 필요해요'
 	},
 
