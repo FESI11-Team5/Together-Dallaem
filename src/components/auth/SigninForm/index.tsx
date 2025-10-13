@@ -1,16 +1,16 @@
 'use client';
 
-import DebouncedInput from '@/components/auth/SignupForm/DebouncedInput';
+import DebouncedInput from '@/components/auth/DebouncedInput';
 import BasicButton from '@/components/commons/BasicButton';
 import { SIGNIN_ERRORS } from '@/constants/error';
 import { SIGNIN_LABEL, SIGNIN_PLACEHOLDERS } from '@/constants/form';
 import { AUTH_GUIDE_MESSAGES } from '@/constants/messages';
 import { ApiError } from '@/utils/fetch';
+import { signinSchema } from '@/utils/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { signinSchema } from '@/utils/schema';
 
 /**
  * Zod 기반 로그인 폼의 입력값 타입

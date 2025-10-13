@@ -1,6 +1,7 @@
 'use client';
 
 import { zodSchema } from '@/app/(auths)/signup/signupValidator/signupValidator.zod';
+import DebouncedInput from '@/components/auth/DebouncedInput';
 import BasicButton from '@/components/commons/BasicButton';
 import { SIGNUP_LABEL, SIGNUP_PLACEHOLDERS } from '@/constants/form';
 import { AUTH_GUIDE_MESSAGES } from '@/constants/messages';
@@ -8,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import DebouncedInput from './DebouncedInput';
 // import { yupSchema } from './signupValidator/signupValidator.yup';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
