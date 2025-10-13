@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useModal } from '@/hooks/useModal';
 import { useScreenSize } from './hooks/useScreenSize';
-import { profileAssets } from './assets/ProfileAssets';
+import { profileAssets } from './assets/profileAssets';
 import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/users';
 import { UserInfo } from '@/types/user';
