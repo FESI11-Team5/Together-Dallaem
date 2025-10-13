@@ -61,7 +61,7 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 
 	return (
 		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(handleFormSubmit)}>
-			<div className="flex flex-col gap-6">
+			<div className="flex w-full flex-col gap-6">
 				<DebouncedInput
 					label={SIGNIN_LABEL.id}
 					placeholder={SIGNIN_PLACEHOLDERS.id}
@@ -78,7 +78,7 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 					onDebouncedBlur={() => trigger('password')}
 				/>
 			</div>
-			<div className="flex flex-col gap-6">
+			<div className="flex w-full flex-col gap-6">
 				<BasicButton isLarge isActive={isValid && !isSubmitting && isDirty} ariaLabel="로그인 확인">
 					로그인
 				</BasicButton>
