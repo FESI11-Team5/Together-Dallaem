@@ -2,14 +2,7 @@
 
 import { useState, forwardRef, useRef, useEffect, useMemo, useCallback } from 'react';
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
-
-/** 드롭다운되는 선택 항목들의 타입 */
-interface OptionType {
-	/** 옵션의 value (내부적으로 사용) */
-	value: string | number;
-	/** 사용자에게 표시될 텍스트 */
-	text: string;
-}
+import BasicDropbox, { OptionType } from './BasicDropbox';
 
 interface SelectProps {
 	/** 선택 항목들의 배열 */
@@ -24,6 +17,10 @@ interface SelectProps {
 	placeholder?: string;
 	/** 셀렉트박스 비활성화 여부 */
 	disabled?: boolean;
+	/** 기본 선택 값 */
+	defaultValue?: string;
+	/** 셀렉트박스 내부에 삽입할 콘텐츠(sortSelectBox의 아이콘 같은 것) */
+	children?: React.ReactNode;
 }
 
 /**
@@ -57,16 +54,30 @@ interface SelectProps {
  */
 
 const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
-	({ options = [], size = 'large', className = '', register, placeholder = '선택하세요', disabled = false }, ref) => {
+	(
+		{
+			options = [],
+			size = 'large',
+			className = '',
+			register,
+			placeholder = '선택하세요',
+			disabled = false,
+			children,
+			defaultValue
+		},
+		ref
+	) => {
 		const [isOpen, setIsOpen] = useState(false);
 		const [selectedValue, setSelectedValue] = useState<string | number>('');
 		const containerRef = useRef<HTMLDivElement>(null);
 		const formContext = useFormContext();
-		const currentValue = register?.name ? formContext?.watch(register.name) : '';
+		const currentValue = register?.name ? formContext?.watch(register.name) : defaultValue;
+
+		//TODO: small selectBox와 expandedSelectBox를 아예 나누어야할 지 고민중입니다... defaultValue와 Placeholder가 동시에 있는게 좀 복잡하게 보이네요.
 
 		const displayValue = useMemo(() => selectedValue || currentValue || '', [selectedValue, currentValue]);
 		const selectedOption = useMemo(
-			() => options.find(option => option.value === displayValue),
+			() => options.find(option => (displayValue ? option.value === displayValue : option.value === defaultValue)),
 			[options, displayValue]
 		);
 
@@ -116,7 +127,7 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 					? 'w-full h-[44px] border-none'
 					: size === 'small'
 						? 'w-[110px] h-[36px] border-2 border-gray-100'
-						: 'w-[120px] h-[40px] border-2 border-gray-100';
+						: 'w-[110px] h-[40px] border-2 border-gray-100';
 
 			// 패딩 설정 - small일 때만 py-[6px]
 			const padding = size === 'small' ? 'px-[12px] py-[6px]' : 'px-[12px] py-[8px]';
@@ -124,19 +135,19 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 			// 배경색 설정
 			const backgroundColor =
 				size === 'expanded'
-					? 'bg-gray-50 text-gray-800'
+					? 'bg-gray-50'
 					: selectedValue || displayValue
-						? 'bg-gray-900 text-white'
+						? 'bg-gray-900 text-white border-none'
 						: 'bg-white text-gray-800';
 
-			return `${widthHeight} rounded-[12px] ${padding} font-medium outline-none ${
+			return `${widthHeight} rounded-[12px] ${padding} font-medium outline-none box-border ${
 				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
 			} flex items-center justify-between text-left ${backgroundColor}`;
 		}, [size, disabled, selectedValue, displayValue]);
 
 		const arrowClasses = useMemo(
 			() =>
-				`h-[24px] w-[24px] bg-[url('/icons/arrow_down.svg')] bg-[length:24px_24px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
+				`h-[24px] w-[24px] bg-[url('/icons/arrow_down.svg')] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
 					disabled ? 'hidden' : 'block'
 				} ${isOpen ? 'rotate-180' : 'rotate-0'}
 				${selectedValue || displayValue ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`}
@@ -157,34 +168,29 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 					aria-haspopup="listbox"
 					aria-label={selectedOption ? `선택됨: ${selectedOption.text}` : placeholder}>
 					<span
-						className={
-							size === 'expanded' ? 'text-gray-800' : selectedValue || displayValue ? 'text-white' : 'text-gray-500'
-						}>
+						className={` ${
+							size === 'expanded'
+								? selectedValue || displayValue
+									? 'text-gray-800'
+									: 'text-gray-400'
+								: selectedValue || displayValue
+									? 'text-white'
+									: 'text-gray-800'
+						} text-[14px]`}>
+						{children}
 						{selectedOption ? selectedOption.text : placeholder}
 					</span>
 					<div className={arrowClasses} />
 				</button>
 
 				{isOpen && (
-					<div
-						ref={containerRef}
-						className="absolute top-full right-0 left-0 z-50 mt-1 max-h-60 overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl"
-						role="listbox"
-						aria-label="옵션 목록">
-						{options.map(option => (
-							<button
-								key={`${option.value}-${option.text}`}
-								type="button"
-								className={`w-full px-[12px] py-[8px] text-left text-gray-800 first:rounded-t-[12px] last:rounded-b-[12px] hover:bg-gray-100 ${
-									displayValue === option.value ? 'bg-gray-100 font-medium' : ''
-								}`}
-								onClick={() => handleSelect(option.value)}
-								role="option"
-								aria-selected={displayValue === option.value}>
-								{option.text}
-							</button>
-						))}
-					</div>
+					<BasicDropbox
+						ref={containerRef as React.RefObject<HTMLDivElement>}
+						options={options}
+						updateValue={handleSelect}
+						selectedValue={displayValue}
+						isLarge={size === 'expanded'}
+					/>
 				)}
 			</div>
 		);

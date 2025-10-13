@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 
-import DateTimePicker from '../calendar/DateTimePicker';
-import SearchInCalendarButton from '../calendar/SearchInCalendarButton';
+import DateTimePicker from '../../calendar/DateTimePicker';
+import SearchInCalendarButton from '../../calendar/SearchInCalendarButton';
 
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
