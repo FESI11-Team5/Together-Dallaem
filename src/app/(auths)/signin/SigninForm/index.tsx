@@ -2,13 +2,16 @@
 
 import DebouncedInput from '@/components/auth/SignupForm/DebouncedInput';
 import BasicButton from '@/components/commons/BasicButton';
+import { SIGNIN_ERRORS } from '@/constants/error';
 import { SIGNIN_LABEL, SIGNIN_PLACEHOLDERS } from '@/constants/form';
 import { AUTH_GUIDE_MESSAGES } from '@/constants/messages';
+import { ApiError } from '@/utils/fetch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useForm, type UseFormSetError } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signinSchema } from '../signinSchema';
+
 /**
  * Zod 기반 로그인 폼의 입력값 타입
  */
@@ -16,7 +19,7 @@ export type SigninFormValues = z.infer<typeof signinSchema>;
 
 interface SigninFormProps {
 	/** 제출 시 실행되는 메서드 */
-	onSubmit: (data: SigninFormValues, setError: UseFormSetError<SigninFormValues>) => void;
+	onSubmit: (data: SigninFormValues) => void;
 }
 
 export function SigninForm({ onSubmit }: SigninFormProps) {
@@ -31,8 +34,33 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 		mode: 'onBlur'
 	});
 
+	/**
+	 * 서버 에러를 폼 에러로 변환하는 핸들러
+	 */
+	const handleServerError = (error: unknown) => {
+		if (error instanceof ApiError) {
+			if (error.status === 401) {
+				setError('password', { type: 'server', message: SIGNIN_ERRORS.INVALID_CREDENTIALS });
+			}
+			if (error.status === 404) {
+				setError('email', { type: 'server', message: SIGNIN_ERRORS.USER_NOT_FOUND });
+			}
+		}
+	};
+
+	/**
+	 * 폼 제출 핸들러
+	 */
+	const handleFormSubmit = async (data: SigninFormValues) => {
+		try {
+			await onSubmit(data);
+		} catch (error) {
+			handleServerError(error);
+		}
+	};
+
 	return (
-		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(data => onSubmit(data, setError))}>
+		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(handleFormSubmit)}>
 			<div className="flex flex-col gap-6">
 				<DebouncedInput
 					label={SIGNIN_LABEL.id}
