@@ -72,9 +72,6 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 
 	useKeyActions({
 		onEscape: closeModal,
-		onEnter: () => {
-			if (isCompanyNameValid) handleFormSubmit({ companyName: companyNameValue });
-		},
 		enabled: true
 	});
 
@@ -102,7 +99,7 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 				</div>
 
 				<div className="flex items-start gap-4 self-stretch">
-					<BasicButton onClick={closeModal} isLarge outlined>
+					<BasicButton onClick={closeModal} isLarge outlined type="button">
 						취소
 					</BasicButton>
 					<BasicButton isActive={isCompanyNameValid} isLarge onClick={handleSubmit(handleFormSubmit)}>
