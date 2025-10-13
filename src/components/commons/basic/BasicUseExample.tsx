@@ -16,6 +16,7 @@ import BasicCheckBox from './BasicCheckBox';
 import SortButton from '../SortButton';
 import Tab from '../Tab';
 import Chip from '../Chip';
+import Badge from '../Badge';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -86,11 +87,19 @@ export default function Home() {
 					value={inputValue}
 					id="할일"
 					label="할 일"
+					type="number"
 				/>
 				<BasicTextBox>{selectedValue}</BasicTextBox>
 				<BasicTextArea register={register('textareaField')}></BasicTextArea>
 				<BasicButton isActive={inputValue.length > 0} outlined>
 					생성하기
+				</BasicButton>
+				<BasicButton
+					onClick={() => {
+						openModal(<ExampleModal />);
+					}}
+					type="button">
+					모달 창 열기
 				</BasicButton>
 				<ClassProgressBar isConfirmed data={{ totalNumber: 20, currentNumber: 11 }} linkTo="/me" />
 				<BasicCheckBox register={register('checkBoxField')} title="달램핏" content="오피스 스트레칭" isLarge={false} />
@@ -121,7 +130,12 @@ export default function Home() {
 					setActiveTab(tabId);
 				}}
 			/>
-			{activeTab === 'option1' && <Chip text="전체" isActive={true} />}
+			{activeTab === 'option1' && (
+				<div>
+					<Chip text="전체" isActive={true} />
+					<Badge num={1999} />
+				</div>
+			)}
 			<div>{activeTab}</div>
 		</div>
 	);

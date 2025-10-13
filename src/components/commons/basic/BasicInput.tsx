@@ -58,6 +58,8 @@ export interface InputProps {
  * />
  */
 
+type input = InputProps & React.InputHTMLAttributes<HTMLInputElement>;
+
 export default function BasicInput({
 	children,
 	placeholder,
@@ -69,8 +71,9 @@ export default function BasicInput({
 	invalidText = '',
 	value = '',
 	id = '',
-	label = ''
-}: InputProps) {
+	label = '',
+	...rest
+}: input) {
 	const [isFocused, setIsFocused] = useState(false);
 	const [isShowPw, setIsShowPw] = useState(false);
 	const [touched, setTouched] = useState(false);
@@ -129,6 +132,7 @@ export default function BasicInput({
 					onFocus={handleFocus}
 					onBlur={handleBlur}
 					required={required}
+					{...rest}
 				/>
 				{isPassword && (
 					<Image
