@@ -11,12 +11,12 @@ import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
 import { CreateGathering } from '@/types/response/createGathering';
 import type { GatheringLocation, GatheringType } from '@/types/response/gatherings';
 
-import BasicCalendar from '../commons/BasicCalendar';
-import BasicModal from '../commons/BasicModal';
-import BasicButton from '../commons/BasicButton';
-import BasicPopup from '../commons/BasicPopup';
-import BasicInput from '../commons/BasicInput';
-import BasicSelectBox from '../commons/BasicSelectBox';
+import BasicModal from '../commons/basic/BasicModal';
+import BasicInput from '../commons/basic/BasicInput';
+import BasicSelectBox from '../commons/basic/BasicSelectBox';
+import BasicButton from '../commons/basic/BasicButton';
+import BasicCalendar from '../commons/basic/BasicCalendar';
+import BasicPopup from '../commons/basic/BasicPopup';
 
 /** Input 태그를 사용하는 Form 필드 */
 interface GatheringFormFieldProps {
@@ -158,6 +158,7 @@ export default function GatheringModal() {
 			<form onSubmit={handleSubmit(onSubmitForm)} className="flex w-full flex-col items-start gap-6">
 				<GatheringFormField label="모임 이름" htmlFor="gathering-name" className="mt-6">
 					<BasicInput
+						label="모임 이름"
 						id="gathering-name"
 						placeholder="모임 이름을 작성해주세요"
 						className="w-full"
@@ -206,6 +207,8 @@ export default function GatheringModal() {
 							/>
 
 							<BasicInput
+								id="gathering-image"
+								label="이미지"
 								placeholder={watch('image') ? watch('image') : '이미지를 첨부해주세요'}
 								register={register('image')}
 								className="w-full"
@@ -332,6 +335,8 @@ export default function GatheringModal() {
 
 				<GatheringFormField label="모집 정원" htmlFor="gathering-participant">
 					<BasicInput
+						id="gathering-participant"
+						label="모집 정원"
 						placeholder="최소 5인 이상 입력해주세요"
 						register={register('capacity', { valueAsNumber: true })}
 					/>

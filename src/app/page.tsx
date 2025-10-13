@@ -2,7 +2,7 @@
 
 import { useModal } from '@/hooks/useModal';
 
-import BasicButton from '@/components/commons/BasicButton';
+import BasicButton from '@/components/commons/basic/BasicButton';
 import GatheringModal from '@/components/gatherings/GatheringModal';
 import { useRouter } from 'next/navigation';
 

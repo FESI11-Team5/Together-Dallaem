@@ -1,7 +1,7 @@
 'use client';
 
 import { zodSchema } from '@/app/(auths)/signup/signupValidator/signupValidator.zod';
-import BasicButton from '@/components/commons/BasicButton';
+import BasicButton from '@/components/commons/basic/BasicButton';
 import { signupLabel, signupPlaceholders } from '@/constants/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
