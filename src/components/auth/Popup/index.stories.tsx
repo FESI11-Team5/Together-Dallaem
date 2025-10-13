@@ -1,4 +1,4 @@
-import BasicButton from '@/components/commons/BasicButton';
+import BasicButton from '@/components/commons/basic/BasicButton';
 import ModalContainer from '@/components/commons/ModalContainer';
 import { useModal } from '@/hooks/useModal';
 import { ModalStoreProvider } from '@/providers/ModalProvider';

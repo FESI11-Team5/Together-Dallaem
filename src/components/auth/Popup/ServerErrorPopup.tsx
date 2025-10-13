@@ -1,6 +1,6 @@
 'use client';
 
-import BasicPopup from '@/components/commons/BasicPopup';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModalClose } from '@/hooks/useModal';
 
