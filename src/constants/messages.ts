@@ -3,7 +3,14 @@ export interface PopupMessage {
 	subTitle?: string;
 }
 
-export type PopupMessageKey = 'CREATE' | 'NOT_LOGIN' | 'SIGNUP' | 'DUPLICATED_EMAIL' | 'UPDATE_PROFILE' | 'REVIEWS';
+export type PopupMessageKey =
+	| 'CREATE'
+	| 'REQUIRED_LOGIN'
+	| 'SIGNUP'
+	| 'DUPLICATED_EMAIL'
+	| 'UPDATE_PROFILE'
+	| 'REVIEWS'
+	| 'SERVER_ERROR';
 
 export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	/** 게시글 작성페이지에서 나갈 시 띄우는 팝업창 메세지 */
@@ -13,8 +20,8 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	},
 
 	/** 로그인하지 않은 상태에서 특정 기능을 사용하려고 할 때 띄우는 팝업창 메세지 */
-	NOT_LOGIN: {
-		title: '로그인이 필요해요'
+	REQUIRED_LOGIN: {
+		title: '로그인이 필요해요!'
 	},
 
 	/** 회원가입 완료 후 띄우는 팝업창 메세지 */
@@ -36,6 +43,12 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 	/** 리뷰 작성 완료 후 띄우는 팝업창 메세지 */
 	REVIEWS: {
 		title: '리뷰가 성공적으로 등록되었습니다!'
+	},
+
+	/** 서버 에러 시 띄우는 팝업창 메시지 */
+	SERVER_ERROR: {
+		title: '서버 오류가 발생했습니다.',
+		subTitle: '다시 시도해 주세요.'
 	}
 
 	/* 추가 메시지 유형은 여기에 추가 */
@@ -45,4 +58,12 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 export const FOOTER_MESSAGE = {
 	title: '더 건강한 나와 팀을 위한 프로그램 🏃🏻',
 	subTitle: '모임을 공유해서 더 많은 사람들이 참여할 수 있도록 독려해봐요'
+};
+
+/**
+ * form 하단에 들어가는 Auth 가이드 메시지
+ */
+export const AUTH_GUIDE_MESSAGES = {
+	EXISTING_MEMBER: '이미 회원이신가요?',
+	NEW_MEMBER: '같이 달램이 처음이신가요?'
 };

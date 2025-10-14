@@ -1,13 +1,14 @@
 'use client';
 
 import { zodSchema } from '@/app/(auths)/signup/signupValidator/signupValidator.zod';
+import DebouncedInput from '@/components/auth/DebouncedInput';
 import BasicButton from '@/components/commons/basic/BasicButton';
-import { signupLabel, signupPlaceholders } from '@/constants/form';
+import { SIGNUP_LABEL, SIGNUP_PLACEHOLDERS } from '@/constants/form';
+import { AUTH_GUIDE_MESSAGES } from '@/constants/messages';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import DebouncedInput from './DebouncedInput';
 // import { yupSchema } from './signupValidator/signupValidator.yup';
 // import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -46,52 +47,52 @@ export function SignupForm({ onSubmit }: SignupFormProps) {
 
 	return (
 		<form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>
-			<div className="flex flex-col gap-6">
+			<div className="flex w-full flex-col gap-6">
 				<DebouncedInput
-					label={signupLabel.name}
-					placeholder={signupPlaceholders.name}
+					label={SIGNUP_LABEL.name}
+					placeholder={SIGNUP_PLACEHOLDERS.name}
 					register={register('name')}
 					invalidText={errors.name?.message}
 					onDebouncedBlur={() => trigger('name')}
 				/>
 				<DebouncedInput
-					label={signupLabel.email}
-					placeholder={signupPlaceholders.email}
+					label={SIGNUP_LABEL.email}
+					placeholder={SIGNUP_PLACEHOLDERS.email}
 					register={register('email')}
 					invalidText={errors.email?.message}
 					onDebouncedBlur={() => trigger('email')}
 				/>
 				<DebouncedInput
-					label={signupLabel.companyName}
-					placeholder={signupPlaceholders.companyName}
+					label={SIGNUP_LABEL.companyName}
+					placeholder={SIGNUP_PLACEHOLDERS.companyName}
 					register={register('companyName')}
 					invalidText={errors.companyName?.message}
 					onDebouncedBlur={() => trigger('companyName')}
 				/>
 				<DebouncedInput
-					label={signupLabel.password}
-					placeholder={signupPlaceholders.password}
+					label={SIGNUP_LABEL.password}
+					placeholder={SIGNUP_PLACEHOLDERS.password}
 					isPassword
 					register={register('password')}
 					invalidText={errors.password?.message}
 					onDebouncedBlur={() => trigger('password')}
 				/>
 				<DebouncedInput
-					label={signupLabel.confirm}
-					placeholder={signupPlaceholders.confirm}
+					label={SIGNUP_LABEL.confirm}
+					placeholder={SIGNUP_PLACEHOLDERS.confirm}
 					isPassword
 					register={register('confirm')}
 					invalidText={errors.confirm?.message}
 					onDebouncedBlur={() => trigger('confirm')}
 				/>
 			</div>
-			<div className="flex flex-col gap-6">
+			<div className="flex w-full flex-col gap-6">
 				<BasicButton isLarge isActive={isValid && !isSubmitting && isDirty} ariaLabel="회원가입 확인">
 					확인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
-					<p className="text-base font-medium">이미 회원이신가요?</p>
-					<Link href="/login" className="text-orange-600 underline">
+					<p className="text-base font-medium">{AUTH_GUIDE_MESSAGES.EXISTING_MEMBER}</p>
+					<Link href="/signin" className="text-orange-600 underline">
 						로그인
 					</Link>
 				</div>
