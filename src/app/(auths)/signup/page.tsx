@@ -45,7 +45,7 @@ export default function SignupPage() {
 			openModal(<SignupSuccessPopup />);
 		} catch (error) {
 			if (error instanceof ApiError) {
-				openModal(<SignupFailurePopup />);
+				openModal(<SignupFailurePopup error={error} />);
 			}
 		}
 	};
