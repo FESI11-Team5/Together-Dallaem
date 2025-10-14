@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
-import { useScreenSize } from './useScreenSize';
-import { profileAssets } from './ProfileAssets';
-import Modal from './Modal';
+import { useModal } from '@/hooks/useModal';
+import { useScreenSize } from './hooks/useScreenSize';
+import { profileAssets } from './assets/profileAssets';
+import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
+import { getUserInfo, updateUserInfo } from '@/apis/auths/user';
+import { UserInfo } from '@/types/user';
 
 /**
  * `ProfileEditCard` 컴포넌트
@@ -18,16 +21,41 @@ import Modal from './Modal';
  * @returns {JSX.Element} 프로필 카드 UI 및 Modal을 렌더링합니다.
  */
 export default function ProfileEditCard() {
-	// 프로필 사진 업로드 상태
-	const [modalStatus, setModalStatus] = useState(false); // Modal 상태
-	const screenSize = useScreenSize(); // 스크린 크기에 따라 모바일, 태블릿, 데스크탑 상태 관리
-
-	// 버튼을 누르면 Modal 상태 변화
-	const handleModalStatus = () => {
-		setModalStatus(!modalStatus);
-	};
-
+	const [userInfo, setUserInfo] = useState<UserInfo>({
+		teamId: 5,
+		id: 5,
+		name: '코드잇',
+		companyName: '코드잇',
+		email: 'codeit@test.com',
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString()
+	});
+	const { openModal } = useModal();
+	const screenSize = useScreenSize();
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
+
+	//초기 데이터 불러오기
+	useEffect(() => {
+		const fetchUserInfo = async () => {
+			try {
+				const data = await getUserInfo();
+				setUserInfo(data);
+			} catch (err) {
+				console.error('인증이 필요합니다', err);
+			}
+		};
+		fetchUserInfo();
+	}, []);
+
+	// 회사명 + 업데이트
+	const handleUpdateUserInfo = async (updated: { companyName?: string; image?: File }) => {
+		try {
+			const updatedUser = await updateUserInfo(updated);
+			setUserInfo(updatedUser);
+		} catch (err) {
+			console.error('회사명 수정 실패', err);
+		}
+	};
 
 	return (
 		<>
@@ -36,7 +64,7 @@ export default function ProfileEditCard() {
 				<div className="relative flex items-center justify-between bg-orange-400 px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-0.5 before:w-full before:bg-orange-600 before:content-['']">
 					<Image
 						src={bg.src}
-						alt="프로필 배경 이미지"
+						alt="배경 이미지"
 						width={bg.width}
 						height={bg.height}
 						className="tb:right-[157px] pc:right-[155px] absolute right-15 bottom-[6.5px]"
@@ -47,20 +75,30 @@ export default function ProfileEditCard() {
 						htmlFor="profile-image-upload"
 						className="absolute top-12.5 flex h-16 w-16 cursor-pointer items-center justify-center rounded-4xl bg-white">
 						<Image
-							src={edit.src}
-							alt="프로필 사진 수정 이미지"
+							src={userInfo.image || edit.src}
+							alt="프로필 사진 이미지"
 							width={edit.width}
 							height={edit.height}
 							className="h-14 w-14 rounded-full object-cover"
 						/>
-						<input id="profile-image-upload" type="file" accept="image/*" className="hidden" />
 					</label>
 
 					<p className="text-pc z-10 font-semibold text-gray-900">내 프로필</p>
 
 					{/* 회사명 수정 버튼 */}
-					<button title="modal-button" type="button" onClick={handleModalStatus} className="z-10 cursor-pointer">
-						<Image src="/images/companyName_edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
+					<button
+						type="button"
+						onClick={() =>
+							openModal(
+								<ProfileEditModal
+									currentCompanyName={userInfo.companyName}
+									currentImage={userInfo.image}
+									onSubmit={handleUpdateUserInfo}
+								/>
+							)
+						}
+						className="z-10 cursor-pointer">
+						<Image src="/icons/edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
 					</button>
 				</div>
 
@@ -68,24 +106,21 @@ export default function ProfileEditCard() {
 				<div>
 					<div className="tb:pt-3 tb:pb-4 pt-3.5 pb-4.5 pl-23">
 						<div className="mb-2.5 text-gray-800">
-							<p className="text-base font-semibold">Name</p>
+							<p className="text-base font-semibold">{userInfo?.name || 'Name'}</p>
 						</div>
 
-						<div className="flex gap-1.5">
-							<p className="text-sm font-medium">company.</p>
-							<p className="text-sm font-normal text-gray-700">Company Name</p>
+						<div className="flex gap-1.5 text-sm">
+							<p className="font-medium">company.</p>
+							<p className="font-normal text-gray-700">{userInfo?.companyName || 'Company Name'}</p>
 						</div>
 
-						<div className="flex gap-1.5">
-							<p className="text-sm font-medium">E-mail.</p>
-							<p className="text-sm font-normal text-gray-700">Email</p>
+						<div className="flex gap-1.5 text-sm">
+							<p className="font-medium">E-mail.</p>
+							<p className="font-normal text-gray-700">{userInfo?.email || 'Email'}</p>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			{/* 회사명 수정 Modal */}
-			{modalStatus && <Modal setModal={handleModalStatus} />}
 		</>
 	);
 }
