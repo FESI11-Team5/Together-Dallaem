@@ -125,10 +125,11 @@ export const _fetch = async <T = unknown>({ path, method, options, data }: Fetch
 
 		if (!response.ok) {
 			const errorBody = await response.json().catch(() => null);
+
 			if (response.status === 401) {
 				localStorage.removeItem('token');
-				if (typeof window !== 'undefined') {
-					window.location.href = '/login?next=' + encodeURIComponent(window.location.pathname);
+				if (typeof window !== 'undefined' && window.location.pathname !== '/signin') {
+					window.location.href = '/signin?next=' + encodeURIComponent(window.location.pathname);
 				}
 			}
 			throw new ApiError(response.status, response.statusText, errorBody);
