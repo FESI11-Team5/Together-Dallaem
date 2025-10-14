@@ -1,19 +1,18 @@
+'use client';
+
 import Image from 'next/image';
+import Tag from '../commons/Tag';
+import ChipInfo from '../commons/ChipInfo';
+import BasicProgressBar from '../commons/basic/BasicProgressBar';
 
 /**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage() {
 	return (
 		<div className="relative h-full w-full rounded-[24px]">
 			<Image src="/images/example.jpg" alt="사진" fill className="object-cover" />
-			<div className="absolute top-0 right-0 z-50 flex items-center justify-center gap-[4px] rounded-[0_22px_0_12px] bg-orange-600 p-[4px_16px_4px_8px]">
-				<Image
-					src="/icons/alarm_clock.svg"
-					width={24}
-					height={24}
-					alt="알람"
-					className="flex items-center justify-center p-[5px_4px_5.667px_5px]"
-				/>
-				<span className="leading-xs text-center text-xs font-medium text-white">오늘 21시 마감</span>
+
+			<div className="absolute top-0 right-0 z-50">
+				<Tag text="오늘 21시 마감" isLarge />
 			</div>
 		</div>
 	);
@@ -29,13 +28,12 @@ function GatheringMainInfo() {
 						<h1 className="leading-lg text-lg font-semibold text-black">달램핏 오피스 스트레칭</h1>
 						<div className="leading-sm text-sm font-medium text-gray-700">을지로 3가</div>
 					</div>
+
 					<div className="flex gap-2">
-						<span className="leading-sm rounded-[4px] bg-gray-900 px-2 py-1 text-center text-sm font-medium text-white">
-							1월 7일
-						</span>
-						<span className="leading-sm rounded-[4px] bg-gray-900 px-2 py-1 text-center text-sm font-medium text-orange-600">
-							17:30
-						</span>
+						<div className="flex gap-2">
+							<ChipInfo text="1월 7일" textColor="white" />
+							<ChipInfo text="17:30" textColor="orange" />
+						</div>
 					</div>
 				</div>
 
@@ -54,6 +52,7 @@ function GatheringSubInfo() {
 			<div className="flex items-end justify-between">
 				<div className="flex items-center gap-3">
 					<p className="leading-sm text-sm font-semibold">모집 정원 16명</p>
+					{/* TODO : 참가인원 프로필 사진 컴포넌트로 교제 예정 */}
 					<p>사진들</p>
 				</div>
 				<div className="flex">
@@ -62,7 +61,7 @@ function GatheringSubInfo() {
 				</div>
 			</div>
 			<div className="flex w-full flex-col items-start gap-2">
-				<div className="h-1 w-full rounded-full bg-orange-600"></div>
+				<BasicProgressBar data={{ totalNumber: 20, currentNumber: 16 }} />
 				<div className="flex w-full justify-between">
 					<p className="leading-xs text-xs font-medium text-gray-700">최소인원 5명</p>
 					<p className="leading-xs text-xs font-medium text-gray-700">최대인원 20명</p>

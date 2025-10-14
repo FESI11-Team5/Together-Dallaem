@@ -57,9 +57,7 @@ export default function BasicCheckBox({
 
 	const handleClick = () => {
 		const newChecked = !isChecked;
-
 		setIsChecked(newChecked);
-
 		onChange?.(newChecked);
 
 		if (register?.onChange) {
