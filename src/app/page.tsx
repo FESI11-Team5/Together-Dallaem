@@ -4,8 +4,10 @@ import { useModal } from '@/hooks/useModal';
 
 import BasicButton from '@/components/commons/basic/BasicButton';
 import GatheringModal from '@/components/gatherings/GatheringModal';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+	const router = useRouter();
 	// useEffect(() => {
 	// 	// 모임 API 테스트
 	// 	const testGatherings = async () => {
@@ -30,6 +32,7 @@ export default function Home() {
 				TEAM5 화이팅 !!
 			</h1>
 			<BasicButton onClick={() => openModal(<GatheringModal />)}>모임 만들기</BasicButton>
+			<button onClick={() => router.push('/gatherings/1')}>게시글 상세페이지 이동 버튼</button>
 		</div>
 	);
 }

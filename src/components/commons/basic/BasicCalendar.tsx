@@ -12,6 +12,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 import { format } from 'date-fns';
 
+import Image from 'next/image';
+
 /**
  * BasicCalendar 컴포넌트
  * - pageType에 따라 날짜 또는 날짜와 시간 선택 가능
@@ -75,14 +77,19 @@ export default function BasicCalendar({ pageType, onChange }: GatheringCalendarP
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
-					className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}>
+					className={cn(
+						'h-[40px] w-full justify-start rounded-md border-gray-300 text-left font-normal',
+
+						!date && 'text-gray-400'
+					)}>
 					{date
 						? pageType === 'create'
-							? format(date, 'MM/dd/yyyy hh:mm aa')
-							: format(date, 'MM/dd/yyyy')
+							? format(date, 'yyyy-MM-dd HH:mm a')
+							: format(date, 'yyyy-MM-dd')
 						: pageType === 'create'
-							? 'MM/DD/YYYY hh:mm aa'
+							? 'yyyy-MM-dd HH:mm a'
 							: '날짜 선택'}
+					{pageType === 'create' && <Image src="/icons/calendar.svg" alt="calendar" width={18} height={20} />}
 				</Button>
 			</PopoverTrigger>
 
