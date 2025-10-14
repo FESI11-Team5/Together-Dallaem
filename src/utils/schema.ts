@@ -15,16 +15,18 @@ export const CreateGatheringSchema = z.object({
 		error: '모임 장소를 선택해주세요.'
 	}),
 
-	type: z.custom<GatheringType>(val => typeof val === 'string' && val.length > 0, {
-		error: '모임 유형을 선택해주세요.'
-	}),
+	type: z
+		.custom<GatheringType>(val => typeof val === 'string' && val.length > 0, {
+			error: '모임 유형을 선택해주세요.'
+		})
+		.nullable(),
 
 	dateTime: z.iso.datetime({ error: '모임 날짜를 입력해주세요' }),
 
 	registrationEnd: z.iso.datetime({ error: '마감 날짜를 입력해주세요' }),
 
 	capacity: z
-		.number({ error: '정원은 숫자만 입력하여야 합니다.' })
+		.number({ error: '모집 정원을 입력해주세요' })
 		.min(5, { error: '최소 5명 이상이어야 합니다.' })
 		.max(20, { error: '최대 20명 이하이어야 합니다.' }),
 

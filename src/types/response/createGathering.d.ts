@@ -8,7 +8,7 @@ export interface CreateGathering {
 	/** 모임 장소 */
 	location: GatheringLocation;
 	/** 모임 타입 */
-	type: GatheringType;
+	type: GatheringType | null;
 	/** 모임 일시 */
 	dateTime: string;
 	/** 등록 마감일시 */

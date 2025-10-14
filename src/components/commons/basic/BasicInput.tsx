@@ -26,7 +26,7 @@ export interface InputProps {
 	/** input의 label */
 	label: string;
 }
-type Input = InputProps & React.InputHTMLAttributes<HTMLInputElement>;
+
 /**
  * 기본 입력창 컴포넌트
  *
@@ -124,6 +124,7 @@ export default function BasicInput({
 			<div
 				className={`inputBox box-border flex items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
+					id={id}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
 					placeholder={placeholder}
 					className="w-full bg-transparent outline-none"
