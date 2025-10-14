@@ -55,7 +55,7 @@ export const Tablet: Story = {
 		<ModalStoreProvider>
 			<AuthLayout>
 				<SignupPage />
-			</AuthLayout>{' '}
+			</AuthLayout>
 			<ModalContainer />
 		</ModalStoreProvider>
 	),
@@ -72,7 +72,7 @@ export const Mobile: Story = {
 		<ModalStoreProvider>
 			<AuthLayout>
 				<SignupPage />
-			</AuthLayout>{' '}
+			</AuthLayout>
 			<ModalContainer />
 		</ModalStoreProvider>
 	),
