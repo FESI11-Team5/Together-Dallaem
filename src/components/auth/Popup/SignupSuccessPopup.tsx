@@ -11,7 +11,7 @@ export default function SignupSuccessPopup() {
 
 	const onConfirm = () => {
 		closeModal();
-		router.push('/login');
+		router.push('/signin');
 	};
 
 	return <BasicPopup title={POPUP_MESSAGE.SIGNUP.title} onConfirm={onConfirm} />;

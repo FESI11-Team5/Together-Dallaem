@@ -1,5 +1,5 @@
-import { signupErrors } from '@/constants/error';
-import { defaultSignupFormValues as defaultValues } from '@/constants/test';
+import { SIGNUP_ERRORS } from '@/constants/error';
+import { DEFAULT_SIGNUP_FORM_VALUES as DEFAULT_VALUES } from '@/constants/test';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SignupForm } from '.';
 
@@ -15,29 +15,29 @@ describe('SignupForm 통합 테스트', () => {
 	});
 
 	describe('이름을 입력하지 않으면 "이름을 입력해 주세요"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('이름', signupErrors.nameRequired);
+		runValidationScenarios('이름', SIGNUP_ERRORS.REQUIRED_NAME);
 	});
 
 	describe('이메일 형식이 맞지 않으면 "이메일 형식이 올바르지 않습니다"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('이메일', signupErrors.emailInvalid);
-		runValidationScenarios('이메일', signupErrors.emailInvalid, 'viscacha@');
+		runValidationScenarios('이메일', SIGNUP_ERRORS.INVALID_EMAIL);
+		runValidationScenarios('이메일', SIGNUP_ERRORS.INVALID_EMAIL, 'viscacha@');
 	});
 
 	describe('회사명을 입력하지 않으면 "회사명을 입력해 주세요"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('회사명', signupErrors.companyRequired);
+		runValidationScenarios('회사명', SIGNUP_ERRORS.REQUIRED_COMPANY_NAME);
 	});
 
 	describe('비밀번호가 8자 이상이 아니면 "비밀번호가 8자 이상이 되도록 해 주세요"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('비밀번호', signupErrors.passwordTooShort, '8888');
+		runValidationScenarios('비밀번호', SIGNUP_ERRORS.TOO_SHORT_PASSWORD, '8888');
 	});
 
 	describe('비밀번호와 비밀번호 확인란이 다르면 "비밀번호가 일치하지 않습니다"라는 에러 메시지가 표시된다', () => {
 		const setupPassword = () => {
 			const passwordInput = screen.getByLabelText('비밀번호');
-			fireEvent.change(passwordInput, { target: { value: defaultValues.password } });
+			fireEvent.change(passwordInput, { target: { value: DEFAULT_VALUES.password } });
 		};
 
-		runValidationScenarios('비밀번호 확인', signupErrors.passwordMismatch, '8888', setupPassword);
+		runValidationScenarios('비밀번호 확인', SIGNUP_ERRORS.MISMATCH_PASSWORD, '8888', setupPassword);
 	});
 
 	describe('정상적으로 입력하면 에러 메시지가 표시되지 않는다', () => {
@@ -49,11 +49,11 @@ describe('SignupForm 통합 테스트', () => {
 			const passwordConfirmInput = screen.getByLabelText('비밀번호 확인');
 			const button = screen.getByRole('button', { name: '회원가입 확인' });
 
-			fireEvent.change(nameInput, { target: { value: defaultValues.name } });
-			fireEvent.change(emailInput, { target: { value: defaultValues.email } });
-			fireEvent.change(companyInput, { target: { value: defaultValues.companyName } });
-			fireEvent.change(passwordInput, { target: { value: defaultValues.password } });
-			fireEvent.change(passwordConfirmInput, { target: { value: defaultValues.confirm } });
+			fireEvent.change(nameInput, { target: { value: DEFAULT_VALUES.name } });
+			fireEvent.change(emailInput, { target: { value: DEFAULT_VALUES.email } });
+			fireEvent.change(companyInput, { target: { value: DEFAULT_VALUES.companyName } });
+			fireEvent.change(passwordInput, { target: { value: DEFAULT_VALUES.password } });
+			fireEvent.change(passwordConfirmInput, { target: { value: DEFAULT_VALUES.confirm } });
 			fireEvent.blur(passwordConfirmInput);
 
 			await waitFor(() => {

@@ -1,12 +1,13 @@
 'use client';
 
+import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
+import { useModal } from '@/hooks/useModal';
 import { isAuthenticated } from '@/utils/token';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ComponentType } from 'react';
 
 interface WithAuthGuardProps {
 	onClick?: () => void;
-	// TODO: 필요시 타입 확장
 }
 
 /**
@@ -35,14 +36,12 @@ interface WithAuthGuardProps {
  */
 export function withGuard<T extends WithAuthGuardProps>(Component: ComponentType<T>) {
 	return function AuthGuarded(props: T) {
-		const router = useRouter();
+		const { openModal } = useModal();
 		const pathname = usePathname();
 
 		const handleClick = () => {
-			// TODO: 현재는 바로 로그인 페이지로 이동하지만, 추후 모달 등으로 확장
 			if (!isAuthenticated()) {
-				router.push('/login?next=' + encodeURIComponent(pathname));
-				return;
+				openModal(<RequiredLoginPopup next={pathname} />);
 			}
 
 			props.onClick?.();

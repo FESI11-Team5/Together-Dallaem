@@ -1,4 +1,4 @@
-import { signupErrors } from '@/constants/error';
+import { SIGNUP_ERRORS } from '@/constants/error';
 import * as z from 'zod';
 import { SignupValidator } from './signupValidator';
 
@@ -14,15 +14,15 @@ import { SignupValidator } from './signupValidator';
  */
 export const zodSchema = z
 	.object({
-		name: z.string().min(1, { error: signupErrors.nameRequired }),
-		email: z.email({ error: signupErrors.emailInvalid }),
-		companyName: z.string().min(1, { error: signupErrors.companyRequired }),
-		password: z.string().min(8, { error: signupErrors.passwordTooShort }),
-		confirm: z.string().min(1, { error: signupErrors.confirmRequired })
+		name: z.string().min(1, { error: SIGNUP_ERRORS.REQUIRED_NAME }),
+		email: z.email({ error: SIGNUP_ERRORS.INVALID_EMAIL }),
+		companyName: z.string().min(1, { error: SIGNUP_ERRORS.REQUIRED_COMPANY_NAME }),
+		password: z.string().min(8, { error: SIGNUP_ERRORS.TOO_SHORT_PASSWORD }),
+		confirm: z.string().min(1, { error: SIGNUP_ERRORS.REQUIRED_CONFIRM })
 	})
 	.refine(data => data.password === data.confirm, {
 		path: ['confirm'],
-		message: signupErrors.passwordMismatch
+		message: SIGNUP_ERRORS.MISMATCH_PASSWORD
 	});
 
 /**

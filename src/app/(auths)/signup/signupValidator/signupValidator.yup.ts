@@ -1,4 +1,4 @@
-import { signupErrors } from '@/constants/error';
+import { SIGNUP_ERRORS } from '@/constants/error';
 import * as yup from 'yup';
 import type { SignupValidator } from './signupValidator';
 
@@ -13,14 +13,14 @@ import type { SignupValidator } from './signupValidator';
  * - `confirm`: 필수 입력 + password와 동일해야 함
  */
 export const yupSchema = yup.object({
-	name: yup.string().required(signupErrors.nameRequired),
-	email: yup.string().required().email(signupErrors.emailInvalid),
-	companyName: yup.string().required(signupErrors.companyRequired),
-	password: yup.string().required().min(8, signupErrors.passwordTooShort),
+	name: yup.string().required(SIGNUP_ERRORS.REQUIRED_NAME),
+	email: yup.string().required().email(SIGNUP_ERRORS.INVALID_EMAIL),
+	companyName: yup.string().required(SIGNUP_ERRORS.REQUIRED_COMPANY_NAME),
+	password: yup.string().required().min(8, SIGNUP_ERRORS.TOO_SHORT_PASSWORD),
 	confirm: yup
 		.string()
-		.required(signupErrors.confirmRequired)
-		.oneOf([yup.ref('password')], signupErrors.passwordMismatch)
+		.required(SIGNUP_ERRORS.REQUIRED_CONFIRM)
+		.oneOf([yup.ref('password')], SIGNUP_ERRORS.MISMATCH_PASSWORD)
 });
 
 /**
