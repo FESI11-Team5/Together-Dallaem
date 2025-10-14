@@ -6,15 +6,15 @@
 // import { usePathname } from 'next/navigation';
 // import { useEffect } from 'react';
 
-// export default function MeLayout({ children }: { children: React.ReactNode }) {
-// 	const pathname = usePathname();
-// 	const { openModal } = useModal();
+export default function MeLayout({ children }: { children: React.ReactNode }) {
+	// 	const pathname = usePathname();
+	// 	const { openModal } = useModal();
 
-// 	useEffect(() => {
-// 		if (!isAuthenticated()) {
-// 			openModal(<RequiredLoginPopup next={pathname} />);
-// 		}
-// 	}, [pathname]);
+	// 	useEffect(() => {
+	// 		if (!isAuthenticated()) {
+	// 			openModal(<RequiredLoginPopup next={pathname} />);
+	// 		}
+	// 	}, [pathname]);
 
-// 	return <>{children}</>;
-// }
+	return <>{children}</>;
+}
