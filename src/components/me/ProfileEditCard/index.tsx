@@ -6,7 +6,7 @@ import { useModal } from '@/hooks/useModal';
 import { useScreenSize } from './hooks/useScreenSize';
 import { profileAssets } from './assets/profileAssets';
 import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
-import { getUserInfo, updateUserInfo } from '@/apis/auths/users';
+import { getUserInfo, updateUserInfo } from '@/apis/auths/user';
 import { UserInfo } from '@/types/user';
 
 /**
