@@ -37,12 +37,3 @@ export interface Gathering {
 	/** 취소일시 (ISO 8601 형식 문자열, 취소되지 않은 경우 null) */
 	canceledAt: string | null;
 }
-
-interface CreateGathering extends Gathering {
-	/** 모임 이미지 (파일 또는 string) */
-	image: File | '';
-	/** 모임 위치 */
-	location: GatheringLocation | '';
-	/** 모임 타입 */
-	type: GatheringType | '';
-}

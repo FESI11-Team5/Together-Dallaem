@@ -28,12 +28,12 @@ describe('GatheringModal - 게시글 작성', () => {
 		// alert mock
 		window.alert = jest.fn();
 
-		let formAPI: UseFormReturn<CreateGathering>;
-		render(
-			<ModalStoreProvider>
-				<GatheringModal formReady={api => (formAPI = api)} />
-			</ModalStoreProvider>
-		);
+		// let formAPI: UseFormReturn<CreateGathering>;
+		// render(
+		// 	<ModalStoreProvider>
+		// 		<GatheringModal formReady={api => (formAPI = api)} />
+		// 	</ModalStoreProvider>
+		// );
 
 		// 이름 입력
 		const nameInput = screen.getByLabelText('모임 이름');
@@ -49,12 +49,12 @@ describe('GatheringModal - 게시글 작성', () => {
 
 		// 날짜 선택 - 달력 컴포넌트가 react-hook-form과 연동되어 있지 않아 setValue로 직접 설정
 		// waitFor을 사용하여 formAPI가 할당될 때까지 대기
-		await waitFor(() => {
-			// 모임 날짜 선택
-			formAPI.setValue('dateTime', '2024-12-25T10:00');
-			// 마감 날짜 선택
-			formAPI.setValue('registrationEnd', '2024-12-20T10:00');
-		});
+		// await waitFor(() => {
+		// 	// 모임 날짜 선택
+		// 	formAPI.setValue('dateTime', '2024-12-25T10:00');
+		// 	// 마감 날짜 선택
+		// 	formAPI.setValue('registrationEnd', '2024-12-20T10:00');
+		// });
 
 		// 서비스 선택
 		const serviceSelect = screen.getByLabelText('달램핏 - 오피스 스트레칭');
