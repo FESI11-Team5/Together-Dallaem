@@ -57,7 +57,7 @@ export default function GatheringModal() {
 	});
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
-
+	console.log(watch('type'));
 	const onSubmitForm = async (data: CreateGathering) => {
 		// const body = new FormData();
 
@@ -119,13 +119,13 @@ export default function GatheringModal() {
 	// }, [methods, formReady]);
 
 	return (
-		<BasicModal onClose={handleCloseWithPopup} className="relative">
+		<BasicModal onClose={handleCloseWithPopup} className="relative" width="520px">
 			<div className="absolute top-0 left-0">
 				<h2 className="leading-lg text-lg font-semibold">모임 만들기</h2>
 			</div>
 
 			{/* 반복되는 필드를 컴포넌트로 묶어서 새로운 컴포넌트로 만들 예정입니다. */}
-			<form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col items-start gap-6 self-stretch">
+			<form onSubmit={handleSubmit(onSubmitForm)} className="mb:max-w-[472px] flex flex-col items-start gap-6">
 				<div className="mt-12 flex w-full flex-col gap-3">
 					<BasicInput
 						id="gathering-name"
@@ -134,6 +134,7 @@ export default function GatheringModal() {
 						className="w-full"
 						register={register('name')}
 					/>
+
 					{errors.name && (
 						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.name.message}</p>
 					)}
@@ -158,7 +159,6 @@ export default function GatheringModal() {
 						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.location.message}</p>
 					)}
 				</div>
-
 				<div className="flex w-full justify-between">
 					<input
 						id="gathering-image"
@@ -196,32 +196,35 @@ export default function GatheringModal() {
 					name="type"
 					control={control}
 					render={({ field }) => (
-						<div className="flex w-full justify-between gap-3">
-							<BasicCheckBox
-								title="달램핏"
-								content="오피스 트레이닝"
-								value={'OFFICE_STRETCHING'}
-								onChange={checked => field.onChange(checked ? 'OFFICE_STRETCHING' : '')}
-							/>
+						<div className="flex w-full flex-col justify-between gap-3">
+							<label className="font-semibold text-gray-900">선택 서비스</label>
+							<div className="flex gap-3">
+								<BasicCheckBox
+									title="달램핏"
+									content="오피스 트레이닝"
+									checked={field.value === 'OFFICE_STRETCHING'}
+									onChange={() => field.onChange(field.value === 'OFFICE_STRETCHING' ? '' : 'OFFICE_STRETCHING')}
+								/>
 
-							<BasicCheckBox
-								title="달램핏"
-								content="마인드풀니스"
-								value={'MINDFULNESS'}
-								onChange={checked => field.onChange(checked ? 'MINDFULNESS' : '')}
-							/>
+								<BasicCheckBox
+									title="달램핏"
+									content="마인드풀니스"
+									checked={field.value === 'MINDFULNESS'}
+									onChange={() => field.onChange(field.value === 'MINDFULNESS' ? '' : 'MINDFULNESS')}
+								/>
 
-							<BasicCheckBox
-								title="위케이션"
-								value={'WORKATION'}
-								onChange={checked => field.onChange(checked ? 'WORKATION' : '')}
-							/>
+								<BasicCheckBox
+									title="위케이션"
+									checked={field.value === 'WORKATION'}
+									onChange={() => field.onChange(field.value === 'WORKATION' ? '' : 'WORKATION')}
+								/>
+							</div>
+							{errors.type && (
+								<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.type.message}</p>
+							)}
 						</div>
 					)}
 				/>
-				{errors.type && (
-					<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.type.message}</p>
-				)}
 
 				<div className="max-mb:flex-col max-mb:gap-2 max-mb:w-auto flex w-full justify-between">
 					<div className="flex flex-col gap-3">
@@ -289,6 +292,7 @@ export default function GatheringModal() {
 						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.capacity.message}</p>
 					)}
 				</div>
+
 				<BasicButton className="w-full">확인</BasicButton>
 			</form>
 		</BasicModal>

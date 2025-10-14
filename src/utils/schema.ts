@@ -9,7 +9,7 @@ export const CreateGatheringSchema = z.object({
 		.string()
 		.min(4, { error: '모임 이름은 최소 4자 이상이어야 합니다.' })
 		.max(20, { error: '모임 이름은 최대 20자 이하이어야 합니다.' })
-		.regex(/^[ㄱ-ㅎ가-힣a-zA-Z0-9]{4,30}$/, '모임 이름은 한글, 영어, 숫자만 사용할 수 있습니다.'),
+		.regex(/^[ㄱ-ㅎ가-힣a-zA-Z0-9]{4,20}$/, '모임 이름은 한글, 영어, 숫자만 사용할 수 있습니다.'),
 
 	location: z.custom<GatheringLocation>(val => typeof val === 'string' && val.length > 0, {
 		error: '모임 장소를 선택해주세요.'

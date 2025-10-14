@@ -3,7 +3,7 @@ import Image from 'next/image';
 /**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage() {
 	return (
-		<div className="relative h-full w-full overflow-hidden rounded-[24px]">
+		<div className="relative h-full w-full rounded-[24px]">
 			<Image src="/images/example.jpg" alt="사진" fill className="object-cover" />
 			<div className="absolute top-0 right-0 z-50 flex items-center justify-center gap-[4px] rounded-[0_22px_0_12px] bg-orange-600 p-[4px_16px_4px_8px]">
 				<Image
@@ -22,7 +22,7 @@ function GatheringMainImage() {
 /**모임 상세페에지 - 메인정보 (제목, 위치, 날짜, 찜)*/
 function GatheringMainInfo() {
 	return (
-		<div className="flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6 pb-[43px]">
+		<div className="tb:pb-[43px] max-tb:pb-[20px] flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">
 			<div className="flex justify-between">
 				<div className="flex flex-col gap-3">
 					<div className="flex flex-col gap-0.5">
@@ -52,7 +52,7 @@ function GatheringSubInfo() {
 	return (
 		<div className="flex w-full flex-col justify-center gap-2.5 px-6">
 			<div className="flex items-end justify-between">
-				<div className="flex items-center gap-[12px]">
+				<div className="flex items-center gap-3">
 					<p className="leading-sm text-sm font-semibold">모집 정원 16명</p>
 					<p>사진들</p>
 				</div>
@@ -74,15 +74,15 @@ function GatheringSubInfo() {
 
 export default function GatheringInfoSection() {
 	return (
-		<section className="max-mb:flex-col flex items-center gap-6">
+		<section className="tb:flex-row max-mb:flex-col flex items-center justify-center gap-6">
 			{/* 이미지정보 */}
-			<div className="relative h-[270px] w-[486px] overflow-hidden rounded-[24px] border-2 border-gray-200">
+			<div className="max-tb:w-[340px] max-tb:h-[240px] tb:w-[486px] tb:h-[270px] max-mb:w-[343px] max-mb:h-[180px] relative overflow-hidden rounded-[24px] border-2 border-gray-200">
 				<GatheringMainImage />
 			</div>
 
 			{/* 모임정보 */}
-			<div className="flex w-[486px] flex-col items-start gap-2.5 rounded-[24px] border-2 border-gray-200 py-6">
-				<div className="flex flex-col items-start gap-6 self-stretch">
+			<div className="max-mb:w-[343px] max-tb:w-[340px] max-tb:h-[240px] tb:w-[486px] tb:h-[270px] flex flex-col items-start gap-2.5 rounded-[24px] border-2 border-gray-200 py-6">
+				<div className="tb:gap-6 max-tb:gap-3 flex flex-col items-start self-stretch">
 					<GatheringMainInfo />
 					<GatheringSubInfo />
 				</div>

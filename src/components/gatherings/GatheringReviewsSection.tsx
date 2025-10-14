@@ -178,8 +178,8 @@ export default function GatheringReviewSection() {
 
 	return (
 		<section className="w-full border-t-2 border-gray-200 bg-white p-6">
-			<div className="flex w-full max-w-[1200px] flex-col justify-center">
-				<h2 className="mb:text-base tb:text-base pc:text-lg leading-lg mb-4 font-semibold text-gray-900">
+			<div className="flex flex-col justify-center">
+				<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">
 					이용자들은 이 프로그램을 이렇게 느꼈어요!
 				</h2>
 
@@ -202,7 +202,7 @@ export default function GatheringReviewSection() {
 								</div>
 
 								{/* 리뷰 내용 */}
-								<p className="mb:text-sm tb:text-base pc:text-base text-gray-800">{review.content}</p>
+								<p className="text-sm text-gray-800">{review.content}</p>
 							</div>
 
 							{/* 작성자 정보 */}
@@ -223,7 +223,7 @@ export default function GatheringReviewSection() {
 				</ul>
 
 				{/* 페이지네이션 */}
-				<div className="mt-6 flex justify-center">
+				<div className="flex justify-center">
 					<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 				</div>
 			</div>
