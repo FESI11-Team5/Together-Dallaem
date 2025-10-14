@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useScreenSize } from '../useScreenSize';
+import { useScreenSize } from '../hooks/useScreenSize';
 
 /**
  * useScreenSize 훅 테스트
