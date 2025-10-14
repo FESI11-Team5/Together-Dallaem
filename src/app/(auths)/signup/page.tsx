@@ -1,9 +1,9 @@
 'use client';
 
 import { postSignup } from '@/apis/auths/signup';
-import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
 import SignupFailurePopup from '@/components/auth/Popup/SignupFailurePopup';
 import SignupSuccessPopup from '@/components/auth/Popup/SignupSuccessPopup';
+import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
 import { useModal } from '@/hooks/useModal';
 import { ApiError } from '@/utils/fetch';
 
@@ -39,11 +39,13 @@ export default function SignupPage() {
 	 */
 	const onSubmit = async (data: SignupFormValues) => {
 		try {
-			await postSignup(data);
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { confirm, ...signupData } = data;
+			await postSignup(signupData);
 			openModal(<SignupSuccessPopup />);
 		} catch (error) {
 			if (error instanceof ApiError) {
-				openModal(<SignupFailurePopup />);
+				openModal(<SignupFailurePopup error={error} />);
 			}
 		}
 	};

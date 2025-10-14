@@ -3,15 +3,18 @@
 import BasicPopup from '@/components/commons/basic/BasicPopup';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModalClose } from '@/hooks/useModal';
+import { ApiError } from '@/utils/fetch';
 
-export default function SignupFailurePopup() {
+interface SignupFailurePopupProps {
+	/** API 에러 */
+	error: ApiError;
+}
+
+export default function SignupFailurePopup({ error }: SignupFailurePopupProps) {
 	const closeModal = useModalClose();
 
-	return (
-		<BasicPopup
-			title={POPUP_MESSAGE.DUPLICATED_EMAIL.title}
-			subTitle={POPUP_MESSAGE.DUPLICATED_EMAIL.subTitle}
-			onConfirm={closeModal}
-		/>
-	);
+	const { title, subTitle } =
+		error.parameter === 'email' ? POPUP_MESSAGE.DUPLICATED_EMAIL : { title: error.message, subTitle: '' };
+
+	return <BasicPopup title={title} subTitle={subTitle} onConfirm={closeModal} />;
 }
