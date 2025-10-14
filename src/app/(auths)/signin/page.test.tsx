@@ -119,6 +119,8 @@ describe('SigninPage 통합 테스트', () => {
 				})
 		});
 
+		const initialUrl = window.location.href;
+
 		// 1. 입력 다 하고 확인 버튼 누르기
 		await fillAndSubmitForm(user);
 
@@ -126,6 +128,9 @@ describe('SigninPage 통합 테스트', () => {
 		await waitFor(() => {
 			expect(screen.getByText(SIGNIN_ERRORS.INVALID_CREDENTIALS)).toBeInTheDocument();
 		});
+
+		// 3. 로그인 요청 후 url이 바뀌지 않았는지 확인하기
+		expect(window.location.href).toBe(initialUrl);
 	});
 
 	test('존재하지 않는 아이디일 경우(404), 존재하지 않는 아이디 경고 메시지를 표시한다.', async () => {
@@ -140,6 +145,7 @@ describe('SigninPage 통합 테스트', () => {
 					message: SIGNIN_ERRORS.USER_NOT_FOUND
 				})
 		});
+		const initialUrl = window.location.href;
 
 		// 1. 입력 다 하고 확인 버튼 누르기
 		await fillAndSubmitForm(user);
@@ -148,6 +154,9 @@ describe('SigninPage 통합 테스트', () => {
 		await waitFor(() => {
 			expect(screen.getByText(SIGNIN_ERRORS.USER_NOT_FOUND)).toBeInTheDocument();
 		});
+
+		// 3. 로그인 요청 후 url이 바뀌지 않았는지 확인하기
+		expect(window.location.href).toBe(initialUrl);
 	});
 
 	test('서버 오류일 경우(500), 재로그인을 부탁하는 안내 메시지를 표시한다.', async () => {
