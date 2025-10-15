@@ -48,7 +48,7 @@ export const updateUserInfo = async (updatedData: UpdateUserInfoProps) => {
 	if (updatedData.companyName) formData.append('companyName', updatedData.companyName);
 	if (updatedData.image) formData.append('image', updatedData.image);
 
-	return putRequest<UserInfo, FormData>({
+	return await putRequest<UserInfo, FormData>({
 		path: `/auths/user`,
 		data: formData,
 		options: { withAuth: true }

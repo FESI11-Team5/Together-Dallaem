@@ -35,6 +35,7 @@ export default function ProfileEditCard() {
 				setUserInfo(data);
 			} catch (err) {
 				console.error('인증이 필요합니다', err);
+				// TODO: 인증 실패 시 로그인 안내 모달을 띄우도록 구현
 			}
 		};
 		fetchUserInfo();
@@ -47,6 +48,7 @@ export default function ProfileEditCard() {
 			setUserInfo(updatedUser);
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
+			// TODO: 실패 시 사용자에게 알림 모달을 띄우도록 구현
 		}
 	};
 	console.log({ userInfo });
