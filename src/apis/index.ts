@@ -98,16 +98,15 @@ export const _fetch = async <T = unknown>({ path, method, options, data }: Fetch
 		headers['Authorization'] = `Bearer ${token}`;
 	}
 
-	if (
-		data !== undefined &&
-		typeof data === 'object' &&
-		!(data instanceof FormData) &&
-		!(data instanceof Blob) &&
-		!(data instanceof ArrayBuffer)
-	) {
-		// data가 있는 경우만 처리
-		body = JSON.stringify(data);
-		headers['Content-Type'] = 'application/json';
+	if (data !== undefined) {
+		if (data instanceof FormData) {
+			body = data; // Content-Type 자동 처리됨
+		} else if (data instanceof Blob || data instanceof ArrayBuffer) {
+			body = data;
+		} else if (typeof data === 'object') {
+			body = JSON.stringify(data);
+			headers['Content-Type'] = 'application/json';
+		}
 	}
 
 	const controller = options?.signal ? null : new AbortController();
