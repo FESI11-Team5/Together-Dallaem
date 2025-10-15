@@ -76,3 +76,11 @@ export const LIKED_GATHERING_MESSAGE = {
 	subTitle: '마감되기 전에 지금 바로 참여해보세요👀',
 	noData: '	아직 찜한 모임이 없어요'
 };
+
+/**
+ * 마감된 모임 카드 메세지
+ */
+export const CLOSED_GATHERING_MESSAGE = {
+	title: '마감된 챌린지예요,',
+	subTitle: '다음 기회에 만나요 🙏'
+};

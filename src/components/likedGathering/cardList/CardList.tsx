@@ -1,4 +1,5 @@
 import type { Gathering } from '@/types/response/gatherings';
+import { CLOSED_GATHERING_MESSAGE } from '@/constants/messages';
 
 import Image from 'next/image';
 import ChipInfo from '@/components/commons/ChipInfo';
@@ -76,12 +77,12 @@ export default function CardList({ data }: CardListProps) {
 			{isClosed && (
 				<div className="absolute inset-0 flex flex-col items-center justify-center rounded-[24px] bg-black/80 text-white">
 					<p className="leading-sm text-center text-sm font-medium">
-						마감된 챌린지예요,
+						{CLOSED_GATHERING_MESSAGE.title}
 						<br />
-						다음 기회에 만나요 🙏
+						{CLOSED_GATHERING_MESSAGE.subTitle}
 					</p>
 					<div className="absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
-						<Image src="/icons/bye_bye.svg" alt="마감 완료" width={24} height={24} />
+						<Image src="/icons/bye.svg" alt="마감 완료" width={24} height={24} />
 					</div>
 				</div>
 			)}
