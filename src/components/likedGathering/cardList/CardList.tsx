@@ -15,16 +15,15 @@ interface CardListProps {
  */
 export default function CardList({ data }: CardListProps) {
 	const date = new Date(data.dateTime);
+
 	// TODO : 지금은 참가인원 수로 결정하지만, 추후에 마감날짜를 기준으로 변경
 	const isClosed = data.participantCount >= data.capacity;
 
+	// TODO : 실제 API 의 데이터에 맞게 포맷 변경 필요 22 ~ 25 줄
 	const formattedDate = `${date.getMonth() + 1}월 ${date.getDate()}일`;
-
 	const hours = date.getHours().toString().padStart(2, '0');
 	const formattedTimeTag = `${hours}시`;
 	const formattedTimeChip = `${date.getHours()} ${String(date.getMinutes()).padStart(2, '0')}`;
-
-	if (!data) return null;
 
 	return (
 		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-[24px] mb:rounded-r-[24px] max-mb:rounded-t-[24px] max-mb:rounded-b-[24px] relative flex flex-row items-center overflow-hidden border-2 border-gray-100">
