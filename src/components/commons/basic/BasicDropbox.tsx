@@ -17,13 +17,15 @@ interface BasicDropboxProps {
 	/** 드롭다운에 표시될 옵션 목록 */
 	options: OptionType[];
 	/** 옵션 선택 시 호출되는 콜백 함수 */
-	updateValue: (value: string | number) => void;
+	callbackOnclick: (value: string | number) => void;
 	/** 드롭박스 컨테이너의 ref 객체 */
 	ref?: React.RefObject<HTMLDivElement>;
 	/** 드롭박스의 크기 여부 (true: 전체 너비, false: 110px 고정) */
 	isLarge?: boolean;
 	/** 현재 선택된 옵션의 value */
 	selectedValue?: string | number;
+	/** 드롭박스의 클래스명 */
+	className?: string;
 }
 
 /**
@@ -41,29 +43,30 @@ interface BasicDropboxProps {
  *     { value: 'newest', text: '최신순' },
  *     { value: 'oldest', text: '오래된순' }
  *   ]}
- *   updateValue={(value) => console.log(value)}
+ *   callbackOnclick={(value) => console.log(value)}
  *   selectedValue="newest"
  * />
  * ```
  */
 export default function BasicDropbox({
 	options = [],
-	updateValue,
+	callbackOnclick,
 	ref,
 	isLarge = false,
-	selectedValue = ''
+	selectedValue = '',
+	className
 }: BasicDropboxProps) {
 	const handleSelect = useCallback(
 		(optionValue: string | number) => {
-			updateValue(optionValue);
+			callbackOnclick(optionValue);
 		},
-		[updateValue]
+		[callbackOnclick]
 	);
 
 	return (
 		<div
 			ref={ref}
-			className={`absolute top-full right-0 left-0 z-50 mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl`}
+			className={`absolute right-0 left-0 z-50 mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl ${className}`}
 			role="listbox"
 			aria-label="옵션 목록">
 			{options.map(option => (
