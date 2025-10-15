@@ -10,6 +10,7 @@ interface ChipProps {
 	isLarge?: boolean;
 	/** 칩의 활성화 상태 여부 (true: 어두운 배경, false: 밝은 배경) */
 	isActive?: boolean;
+	onClick?: () => void;
 }
 
 /**
@@ -25,10 +26,11 @@ interface ChipProps {
  * <Chip text="달램핏" isActive={true} isLarge={false} />
  * ```
  */
-export default function Chip({ text, isLarge = false, isActive = false }: ChipProps) {
+export default function Chip({ text, isLarge = false, isActive = false, onClick }: ChipProps) {
 	return (
 		<div
-			className={`rounded-[12px] ${isLarge ? 'px-[16px] py-[10px]' : 'px-[12px] py-[8px]'} ${isActive ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-900'}`}>
+			className={`cursor-pointer rounded-[12px] ${isLarge ? 'px-[16px] py-[10px]' : 'px-[12px] py-[8px]'} ${isActive ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-900'}`}
+			onClick={onClick}>
 			<span className={`text-sm font-medium`}>{text}</span>
 		</div>
 	);

@@ -17,6 +17,7 @@ import SortButton from '../SortButton';
 import Tab from '../Tab';
 import Chip from '../Chip';
 import Badge from '../Badge';
+import BasicDropbox from './BasicDropbox';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -58,7 +59,7 @@ export default function Home() {
 	}, [inputValue, validation, openModal]);
 
 	return (
-		<div className="flex h-screen w-screen flex-col items-start justify-start gap-6">
+		<div className="relative flex h-screen w-screen flex-col items-start justify-start gap-6">
 			<form className="w-full" onSubmit={handleSubmit(handleFormSubmit)}>
 				<BasicSelectBox
 					options={[
@@ -137,6 +138,35 @@ export default function Home() {
 				</div>
 			)}
 			<div>{activeTab}</div>
+			<div className="relative">
+				<BasicDropbox
+					options={[
+						{
+							value: 'reviews',
+							text: '리뷰'
+						},
+						{
+							value: 'me',
+							text: '마이페이지'
+						},
+						{
+							value: 'signin',
+							text: '로그인'
+						}
+					]}
+					callbackOnclick={value => {
+						if (value === 'reviews') {
+							window.location.href = '/reviews';
+						} else if (value === 'me') {
+							window.location.href = '/me';
+						} else if (value === 'signin') {
+							window.location.href = '/signin';
+						}
+					}}
+					selectedValue={selectedValue}
+					className="top-full right-0"
+				/>
+			</div>
 		</div>
 	);
 }

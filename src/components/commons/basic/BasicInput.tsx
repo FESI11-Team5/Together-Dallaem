@@ -70,8 +70,8 @@ export default function BasicInput({
 	isValid = true,
 	invalidText = '',
 	value = '',
-	id = '',
-	label = '',
+	id,
+	label,
 	...rest
 }: input) {
 	const [isFocused, setIsFocused] = useState(false);
