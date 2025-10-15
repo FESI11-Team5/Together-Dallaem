@@ -35,7 +35,7 @@ const mockGatherings: Gathering[] = [
 		location: '건대입구',
 		participantCount: 14,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 1,
 		canceledAt: null
 	},
@@ -49,7 +49,7 @@ const mockGatherings: Gathering[] = [
 		location: '홍대입구',
 		participantCount: 7,
 		capacity: 20,
-		image: '/images/example3.png',
+		image: '/images/example1.jpg',
 		createdBy: 2,
 		canceledAt: null
 	},
@@ -77,7 +77,7 @@ const mockGatherings: Gathering[] = [
 		location: '신림',
 		participantCount: 18,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 1,
 		canceledAt: null
 	},
@@ -91,7 +91,7 @@ const mockGatherings: Gathering[] = [
 		location: '건대입구',
 		participantCount: 20,
 		capacity: 20,
-		image: '/images/example3.png',
+		image: '/images/example1.jpg',
 		createdBy: 2,
 		canceledAt: null
 	},
@@ -119,7 +119,7 @@ const mockGatherings: Gathering[] = [
 		location: '을지로3가',
 		participantCount: 16,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 4,
 		canceledAt: null
 	},
@@ -133,7 +133,7 @@ const mockGatherings: Gathering[] = [
 		location: '신림',
 		participantCount: 11,
 		capacity: 20,
-		image: '/images/example3.png',
+		image: '/images/example1.jpg',
 		createdBy: 2,
 		canceledAt: null
 	},
@@ -161,7 +161,7 @@ const mockGatherings: Gathering[] = [
 		location: '홍대입구',
 		participantCount: 13,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 5,
 		canceledAt: null
 	},
@@ -175,7 +175,7 @@ const mockGatherings: Gathering[] = [
 		location: '을지로3가',
 		participantCount: 1,
 		capacity: 20,
-		image: '/images/example3.png',
+		image: '/images/example1.jpg',
 		createdBy: 3,
 		canceledAt: null
 	},
@@ -203,7 +203,7 @@ const mockGatherings: Gathering[] = [
 		location: '을지로3가',
 		participantCount: 10,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 4,
 		canceledAt: null
 	},
@@ -217,7 +217,7 @@ const mockGatherings: Gathering[] = [
 		location: '건대입구',
 		participantCount: 6,
 		capacity: 20,
-		image: '/images/example3.png',
+		image: '/images/example1.jpg',
 		createdBy: 4,
 		canceledAt: null
 	},
@@ -245,7 +245,7 @@ const mockGatherings: Gathering[] = [
 		location: '홍대입구',
 		participantCount: 10,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 2,
 		canceledAt: null
 	},
@@ -259,7 +259,7 @@ const mockGatherings: Gathering[] = [
 		location: '신림',
 		participantCount: 8,
 		capacity: 20,
-		image: '/images/example3.png',
+		image: '/images/example1.jpg',
 		createdBy: 6,
 		canceledAt: null
 	},
@@ -287,7 +287,7 @@ const mockGatherings: Gathering[] = [
 		location: '홍대입구',
 		participantCount: 12,
 		capacity: 20,
-		image: '/images/example2.png',
+		image: '/images/example1.jpg',
 		createdBy: 8,
 		canceledAt: null
 	}
