@@ -51,7 +51,7 @@ export default function ProfileEditCard() {
 			// TODO: 실패 시 사용자에게 알림 모달을 띄우도록 구현
 		}
 	};
-	console.log({ userInfo });
+
 	return (
 		<>
 			<div className="pc:mb-7.5 mb-4 overflow-hidden rounded-3xl border-2 border-gray-200">

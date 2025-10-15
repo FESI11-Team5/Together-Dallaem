@@ -2,13 +2,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useModalClose } from '@/hooks/useModal';
 import BasicModal from '@/components/commons/basic/BasicModal';
 import BasicInput from '@/components/commons/basic/BasicInput';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import ProfileImageUploader from '../ProfileEditCard/ProfileImageUploader';
 import { useKeyActions } from '@/hooks/useKeyActions';
+import { profileEditSchema, ProfileEditSchemaType } from '@/utils/schema';
 
 interface ProfileEditModalProps {
 	/** 현재 사용자의 프로필 이미지 URL */
@@ -18,12 +18,6 @@ interface ProfileEditModalProps {
 	/** 수정 완료 시 호출되는 콜백 함수 — 새 회사명과 이미지 파일을 반환 */
 	onSubmit: (updated: { companyName?: string; image?: File }) => void;
 }
-
-const profileEditSchema = z.object({
-	companyName: z.string().min(2, { message: '회사명을 입력해주세요.' })
-});
-
-type FormValues = z.infer<typeof profileEditSchema>;
 
 /**
  * `ProfileEditModal` 컴포넌트
@@ -53,7 +47,7 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 	const [file, setFile] = useState<File | null>(null);
 	const closeModal = useModalClose();
 
-	const { register, handleSubmit, setValue, formState } = useForm<FormValues>({
+	const { register, handleSubmit, setValue, formState } = useForm<ProfileEditSchemaType>({
 		mode: 'onChange',
 		resolver: zodResolver(profileEditSchema),
 		defaultValues: { companyName: currentCompanyName ?? '' }
@@ -69,7 +63,7 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 		setFile(selectedFile);
 	}, []);
 
-	const handleFormSubmit = async (data: FormValues) => {
+	const handleFormSubmit = async (data: ProfileEditSchemaType) => {
 		onSubmit({ companyName: data.companyName.trim(), image: file ?? undefined });
 		closeModal();
 	};
