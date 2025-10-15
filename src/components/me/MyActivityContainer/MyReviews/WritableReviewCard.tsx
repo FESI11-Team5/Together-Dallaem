@@ -9,7 +9,7 @@ interface GatheringProps {
 	onSuccess: () => void;
 }
 
-export default function MyReviewCard({ gathering, onSuccess }: GatheringProps) {
+export default function WritableReviewCard({ gathering, onSuccess }: GatheringProps) {
 	const { openModal } = useModal();
 
 	const handleClick = () => {

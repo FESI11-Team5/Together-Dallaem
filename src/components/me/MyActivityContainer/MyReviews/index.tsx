@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { JoinedGathering } from '@/types/response/gatherings';
-import MyReviewCard from './ReviewCard';
+import WritableReviewCard from './WritableReviewCard';
+import WrittenReviewCard from './WrittenReviewCard';
 import BasicButton from '@/components/commons/basic/BasicButton';
 
 export default function MyReviews() {
@@ -96,9 +97,17 @@ export default function MyReviews() {
 					작성한 리뷰
 				</BasicButton>
 			</div>
-			{displayedReviews.map(gathering => (
-				<MyReviewCard key={gathering.id} gathering={gathering} onSuccess={() => handleReviewSuccess(gathering.id)} />
-			))}
+			{displayedReviews.map(gathering =>
+				activeTab === 'writable' ? (
+					<WritableReviewCard
+						key={gathering.id}
+						gathering={gathering}
+						onSuccess={() => handleReviewSuccess(gathering.id)}
+					/>
+				) : (
+					<WrittenReviewCard gathering={gathering} />
+				)
+			)}
 		</div>
 	);
 }

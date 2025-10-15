@@ -27,6 +27,7 @@ export default function ProfileEditCard() {
 		name: '코드잇',
 		companyName: '코드잇',
 		email: 'codeit@test.com',
+		image: '',
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString()
 	});
@@ -80,6 +81,7 @@ export default function ProfileEditCard() {
 							width={edit.width}
 							height={edit.height}
 							className="h-14 w-14 rounded-full object-cover"
+							unoptimized
 						/>
 					</label>
 
