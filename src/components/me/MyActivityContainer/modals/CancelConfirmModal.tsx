@@ -1,9 +1,25 @@
 import { useModalClose } from '@/hooks/useModal';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
+import { leaveGathering } from '@/apis/gatherings/[id]/leave';
 
-export default function CancelConfirmModal() {
+interface CancelConfirmModalProps {
+	gatheringId: number;
+	onSuccess: () => void;
+}
+export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelConfirmModalProps) {
 	const closeModal = useModalClose();
+
+	const handleCancel = async () => {
+		try {
+			await leaveGathering(gatheringId);
+
+			onSuccess();
+			closeModal();
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	return (
 		<BasicModal onClose={closeModal} className="tb:min-w-[402px]">
@@ -14,7 +30,9 @@ export default function CancelConfirmModal() {
 						<BasicButton outlined onClick={closeModal} type="button">
 							닫기
 						</BasicButton>
-						<BasicButton type="submit">취소하기</BasicButton>
+						<BasicButton type="submit" onClick={handleCancel}>
+							취소하기
+						</BasicButton>
 					</div>
 				</div>
 			</div>
