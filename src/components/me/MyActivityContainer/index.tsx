@@ -12,7 +12,18 @@ const TABS: { key: TabKey; label: string }[] = [
 	{ key: 'createdGathering', label: '내가 만든 모임' }
 ];
 
+/**
+ * 마이페이지 활동 영역 컨테이너
+ * - "나의 모임", "나의 리뷰", "내가 만든 모임" 탭 제공
+ * - 탭 클릭 시 해당 컴포넌트 렌더링
+ *
+ * **탭 설명**
+ * - 나의 모임: 사용자가 참여한 모임 리스트
+ * - 나의 리뷰: 사용자가 작성한 리뷰 리스트
+ * - TODO : 내가 만든 모임: 사용자가 생성한 모임 리스트
+ */
 export default function MyActivityContainer() {
+	/** 현재 활성화된 탭 */
 	const [activeTab, setActiveTab] = useState<TabKey>('joinedGathering');
 
 	return (

@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { JoinedGathering } from '@/types/response/gatherings';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';
 import BasicButton from '@/components/commons/basic/BasicButton';
 
+/**
+ * 나의 리뷰 탭 컴포넌트
+ * - 작성 가능한 리뷰 / 작성한 리뷰 탭 제공
+ * - 각 탭에 맞게 리뷰 카드 렌더링
+ */
 export default function MyReviews() {
+	/** 현재 활성화된 탭: 'writable' | 'written' */
 	const [activeTab, setActiveTab] = useState<'writable' | 'written'>('writable');
+
+	/**
+	 * 참여한 모임 리스트
+	 * - TODO : 후에 API 호출 예정
+	 */
 	const [gatherings, setGatherings] = useState<JoinedGathering[]>([
 		{
 			teamId: 1,
@@ -77,10 +88,19 @@ export default function MyReviews() {
 		}
 	]);
 
+	// TODO: 실제 API 호출로 참여한 모임 리스트 불러오기
+	useEffect(() => {}, []);
+
+	/**
+	 * 리뷰 작성 성공 시 해당 모임의 isReviewed를 true로 업데이트
+	 * @param gatheringId 리뷰 작성 완료한 모임 ID
+	 */
 	const handleReviewSuccess = (gatheringId: number) => {
+		// TODO: 실제 리뷰 작성 API 호출 후 성공 시 상태 업데이트
 		setGatherings(prev => prev.map(r => (r.id === gatheringId ? { ...r, isReviewed: true } : r)));
 	};
 
+	/** 현재 탭에 따라 렌더링할 리뷰 리스트 */
 	const displayedReviews = gatherings.filter(r => (activeTab === 'writable' ? !r.isReviewed : r.isReviewed));
 
 	return (
@@ -102,6 +122,7 @@ export default function MyReviews() {
 					<WritableReviewCard
 						key={gathering.id}
 						gathering={gathering}
+						// TODO: 리뷰 작성 후 실제 API 호출 반영
 						onSuccess={() => handleReviewSuccess(gathering.id)}
 					/>
 				) : (

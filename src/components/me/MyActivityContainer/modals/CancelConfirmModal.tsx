@@ -4,16 +4,28 @@ import BasicModal from '@/components/commons/basic/BasicModal';
 import { leaveGathering } from '@/apis/gatherings/[id]/leave';
 
 interface CancelConfirmModalProps {
+	/** 예약 취소할 모임 ID */
 	gatheringId: number;
+	/** 예약 취소 성공 시 호출되는 콜백 */
 	onSuccess: () => void;
 }
+
+/**
+ * 모임 예약 취소 확인 모달 컴포넌트
+ * - "정말 예약을 취소하시겠습니까?" 문구와 버튼 제공
+ * - 취소 버튼 클릭 시 API 호출 후 onSuccess 콜백 실행
+ */
 export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelConfirmModalProps) {
 	const closeModal = useModalClose();
 
+	/**
+	 * 예약 취소 버튼 클릭 핸들러
+	 * - leaveGathering API 호출
+	 * - 성공 시 onSuccess 콜백 실행 후 모달 닫기
+	 */
 	const handleCancel = async () => {
 		try {
 			await leaveGathering(gatheringId);
-
 			onSuccess();
 			closeModal();
 		} catch (err) {

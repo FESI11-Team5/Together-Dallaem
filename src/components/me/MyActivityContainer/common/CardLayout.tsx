@@ -4,11 +4,21 @@ import { JoinedGathering } from '@/types/response/gatherings';
 import { ReactNode } from 'react';
 
 interface GatheringProps {
+	/** 표시할 모임 객체 */
 	gathering: JoinedGathering;
+
+	/** 카드에 표시할 뱃지 또는 추가 컨텐츠 */
 	badgeContent?: ReactNode;
+
+	/** 카드 내부 하단에 표시할 추가 컨텐츠 (버튼 등) */
 	children?: ReactNode;
 }
 
+/**
+ * 모임 카드 레이아웃 컴포넌트
+ * - 모임 이미지, 이름, 장소, 날짜/시간, 인원 정보 표시
+ * - badgeContent와 children을 통해 확장 가능
+ */
 export default function CardLayout({ gathering, badgeContent, children }: GatheringProps) {
 	return (
 		<div key={gathering.id} className="border-b-2 border-dashed border-gray-200">

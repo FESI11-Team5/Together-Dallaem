@@ -2,9 +2,16 @@ import Image from 'next/image';
 import { JoinedGathering } from '@/types/response/gatherings';
 
 interface GatheringProps {
+	/** 리뷰가 작성된 모임 정보 */
 	gathering: JoinedGathering;
 }
 
+/**
+ * 작성된 리뷰 카드 컴포넌트
+ * - 모임 이미지, 리뷰 점수(하트), 리뷰 내용, 모임 정보, 작성일 표시
+ * - 마이페이지 '나의 리뷰' 탭 등에서 사용
+ * - TODO : 추후 작성한 리뷰의 평점 및 코멘트 API를 호출할 예정입니다.
+ */
 export default function WrittenReviewCard({ gathering }: GatheringProps) {
 	return (
 		<div key={gathering.id}>
