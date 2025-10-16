@@ -27,7 +27,6 @@ interface ProfileImageUploaderProps {
  * ```
  */
 export default function ProfileImageUploader({ currentImage, onChange }: ProfileImageUploaderProps) {
-	const defaultImage = '/images/profile_edit.svg';
 	const [preview, setPreview] = useState(currentImage);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,19 +50,25 @@ export default function ProfileImageUploader({ currentImage, onChange }: Profile
 		<>
 			<button type="button" className="relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
 				<Image
-					src={preview || defaultImage}
+					src={preview || '/images/profile_edit.svg'}
 					alt="프로필 사진"
 					width={56}
 					height={56}
-					className="rounded-full object-fill"
-					style={{ width: 56, height: 56 }}
+					className="h-14 w-14 rounded-full object-fill"
+					unoptimized
 				/>
 				<div className="absolute right-0 bottom-0 flex h-6 w-6 items-center justify-center rounded-full bg-white">
 					<Image src="/icons/edit.svg" alt="프로필 변경 아이콘" width={18} height={18} />
 				</div>
 			</button>
 
-			<input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleProfileImage} />
+			<input
+				ref={fileInputRef}
+				type="file"
+				accept="image/*, image/svg+xml"
+				className="hidden"
+				onChange={handleProfileImage}
+			/>
 		</>
 	);
 }

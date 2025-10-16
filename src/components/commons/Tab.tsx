@@ -91,15 +91,15 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 							tabRefs.current[index] = el;
 						}}
 						onClick={() => onTabChange(option.value)}
-						className={`relative flex cursor-pointer items-center gap-2 pb-3 text-sm font-medium transition-colors duration-200 ${
+						className={`relative flex cursor-pointer items-center gap-1 pb-[3px] text-sm font-medium transition-colors duration-200 ${
 							selectedTab === option.value ? 'text-gray-800' : 'text-gray-400 hover:text-gray-600'
 						} `}>
-						<span>{option.text}</span>
+						<span className="text-lg font-semibold text-gray-900">{option.text}</span>
 						{option.icon && (
 							<img
 								src={option.icon}
 								alt={option.text}
-								className={`h-6 w-6 transition-colors duration-200 ${
+								className={`h-8 w-8 transition-colors duration-200 ${
 									selectedTab === option.value ? 'opacity-100' : 'opacity-60'
 								}`}
 							/>

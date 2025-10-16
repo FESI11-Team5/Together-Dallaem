@@ -53,19 +53,26 @@ export const toApiError = (err: unknown): ApiError => {
  * @returns 병합된 새로운 객체
  */
 export const deepMerge = (
-	base: NextFetchOptions,
-	overrides?: NextFetchOptions,
-	lowerCase: boolean = false
-): NextFetchOptions => {
+	base: Record<string, unknown>,
+	overrides?: Record<string, unknown>
+): Record<string, unknown> => {
 	if (!overrides) return base;
-
-	const out: NextFetchOptions = { ...base };
+	const out: Record<string, unknown> = { ...base };
 
 	for (const key in overrides) {
-		const normalizedKey = lowerCase ? key.toLowerCase() : key;
-		const baseValue = out[normalizedKey];
+		const baseValue = out[key];
 		const overrideValue = overrides[key];
 
+		// ✅ headers는 재귀 병합 대신 얕은 병합
+		if (key === 'headers') {
+			out[key] = {
+				...(baseValue as Record<string, string>),
+				...(overrideValue as Record<string, string>)
+			};
+			continue;
+		}
+
+		// ✅ 일반 객체는 재귀 병합
 		if (
 			baseValue &&
 			typeof baseValue === 'object' &&
@@ -74,15 +81,10 @@ export const deepMerge = (
 			typeof overrideValue === 'object' &&
 			!Array.isArray(overrideValue)
 		) {
-			out[normalizedKey] = deepMerge(
-				baseValue as NextFetchOptions,
-				overrideValue as NextFetchOptions,
-				normalizedKey === 'headers'
-			);
+			out[key] = deepMerge(baseValue as Record<string, unknown>, overrideValue as Record<string, unknown>);
 		} else {
-			out[normalizedKey] = overrideValue;
+			out[key] = overrideValue;
 		}
 	}
-
 	return out;
 };
