@@ -5,7 +5,7 @@ import { usePagination } from '@/hooks/usePagination';
 import Image from 'next/image';
 import PaginationButton from '../../pagination/PaginationButton';
 
-interface PaginationProps {
+interface BasicPaginationProps {
 	/** 현재 페이지 번호 */
 	currentPage: number;
 	/** 전체 페이지 수 */
@@ -22,7 +22,7 @@ interface PaginationProps {
  * @example
  * <Pagination currentPage={1} totalPages={10} onPageChange={(page) => console.log(page)} />
  */
-export default function Pagination({ currentPage, totalPages, onPageChange, range = 3 }: PaginationProps) {
+export default function BasicPagination({ currentPage, totalPages, onPageChange, range = 3 }: BasicPaginationProps) {
 	const pages = usePagination({ currentPage, totalPages, range });
 
 	if (totalPages <= 1) return null;
