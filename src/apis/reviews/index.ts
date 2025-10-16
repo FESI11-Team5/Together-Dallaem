@@ -1,14 +1,29 @@
-import { postRequest } from '@/apis';
+import { getRequest, postRequest } from '@/apis';
+import { Review } from '@/types/response/reviews';
 
-interface AddReviewPayLoad {
+interface PostReviewsRequest {
 	gatheringId: number;
 	score: number;
 	comment: string;
 }
 
-export const addReview = (payload: AddReviewPayLoad) =>
-	postRequest<AddReviewPayLoad>({
+interface GetReviewsRequest {
+	data: Review[];
+	totalItemCount: number;
+	currentPage: number;
+	totalPages: number;
+}
+
+export const getReviews = async (): Promise<GetReviewsRequest> => {
+	return getRequest({
+		path: `/reviews`,
+		options: { withAuth: true }
+	});
+};
+
+export const postReviews = (reviewData: PostReviewsRequest) =>
+	postRequest<PostReviewsRequest>({
 		path: '/reviews',
-		data: payload,
+		data: reviewData,
 		options: { withAuth: true }
 	});
