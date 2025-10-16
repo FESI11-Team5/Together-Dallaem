@@ -84,3 +84,11 @@ export const CLOSED_GATHERING_MESSAGE = {
 	title: '마감된 챌린지예요,',
 	subTitle: '다음 기회에 만나요 🙏'
 };
+
+/**
+ * 모집 취소된 모임 메세지
+ */
+export const CANCELED_GATHERING_MESSAGE = {
+	title: '모집 취소된 모임이에요,',
+	subTitle: '다음 기회에 만나요 🙏'
+};
