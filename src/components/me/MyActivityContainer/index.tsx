@@ -4,12 +4,12 @@ import { useState } from 'react';
 import JoinedGatherings from './JoinedGatherings';
 import MyReviews from './MyReviews';
 
-type TabKey = 'joinedGathering' | 'myReview' | 'createdGathering';
+type TabKey = 'JoinedGathering' | 'MyReview' | 'CreatedGathering';
 
 const TABS: { key: TabKey; label: string }[] = [
-	{ key: 'joinedGathering', label: '나의 모임' },
-	{ key: 'myReview', label: '나의 리뷰' },
-	{ key: 'createdGathering', label: '내가 만든 모임' }
+	{ key: 'JoinedGathering', label: '나의 모임' },
+	{ key: 'MyReview', label: '나의 리뷰' },
+	{ key: 'CreatedGathering', label: '내가 만든 모임' }
 ];
 
 /**
@@ -24,7 +24,7 @@ const TABS: { key: TabKey; label: string }[] = [
  */
 export default function MyActivityContainer() {
 	/** 현재 활성화된 탭 */
-	const [activeTab, setActiveTab] = useState<TabKey>('joinedGathering');
+	const [activeTab, setActiveTab] = useState<TabKey>('JoinedGathering');
 
 	return (
 		<div className="tb:px-6 border-t-2 border-gray-900 px-4 py-6">
@@ -48,8 +48,8 @@ export default function MyActivityContainer() {
 			</div>
 
 			{/* 각 탭 클릭 시 알맞는 컨텐츠 호출 */}
-			{activeTab === 'joinedGathering' && <JoinedGatherings />}
-			{activeTab === 'myReview' && <MyReviews />}
+			{activeTab === 'JoinedGathering' && <JoinedGatherings />}
+			{activeTab === 'MyReview' && <MyReviews />}
 		</div>
 	);
 }
