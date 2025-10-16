@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import { JoinedGathering } from '@/types/response/gatherings';
+import ChipState from '@/components/commons/ChipState';
 
 interface GatheringBadgeProps {
 	/** 표시할 모임 객체 */
@@ -18,29 +18,10 @@ export default function GatheringBadge({ gathering, isFull }: GatheringBadgeProp
 			{/* 이용 상태 / 개설 상태 */}
 			<div className="flex gap-2">
 				{/* 이용 상태 */}
-				<div
-					className={`rounded-3xl px-3 py-1.5 text-sm font-medium ${
-						gathering.isCompleted ? 'bg-gray-200 text-gray-500' : 'bg-orange-100 text-orange-600'
-					}`}>
-					{gathering.isCompleted ? '이용 완료' : '이용 예정'}
-				</div>
+				{gathering.isCompleted ? <ChipState state="done" /> : <ChipState state="scheduled" />}
 
 				{/* 개설 상태 */}
-				{!gathering.isCompleted && (
-					<div
-						className={`flex items-center justify-between gap-0.5 rounded-3xl border px-3 py-1.5 text-sm font-medium ${
-							isFull ? 'border-orange-100 text-orange-500' : 'border-gray-200 text-gray-500'
-						}`}>
-						{isFull ? (
-							<div className="flex items-center gap-1">
-								<Image src="/icons/check.svg" alt="개설 확정" width={16} height={16} />
-								<p>개설확정</p>
-							</div>
-						) : (
-							<p>개설대기</p>
-						)}
-					</div>
-				)}
+				{!gathering.isCompleted && (isFull ? <ChipState state="confirmed" /> : <ChipState state="waiting" />)}
 			</div>
 		</div>
 	);

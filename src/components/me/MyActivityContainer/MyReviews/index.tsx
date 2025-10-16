@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { JoinedGathering } from '@/types/response/gatherings';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';
-import BasicButton from '@/components/commons/basic/BasicButton';
+import Chip from '@/components/commons/Chip';
 
 /**
  * 나의 리뷰 탭 컴포넌트
@@ -106,16 +106,13 @@ export default function MyReviews() {
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="flex gap-2">
-				<BasicButton
-					className={`!w-auto bg-gray-900 px-4 !text-sm !font-medium ${activeTab === 'writable' ? '!bg-gray-900' : '!bg-gray-200 !text-gray-900'} transition-colors`}
-					onClick={() => setActiveTab('writable')}>
-					작성 가능한 리뷰
-				</BasicButton>
-				<BasicButton
-					className={`bg-gray-200 px-4 py-2.5 !text-sm !font-medium ${activeTab === 'written' ? '!bg-gray-900' : '!bg-gray-200 !text-gray-900'} transition-colors`}
-					onClick={() => setActiveTab('written')}>
-					작성한 리뷰
-				</BasicButton>
+				<Chip
+					text="작성 가능한 리뷰"
+					isLarge
+					isActive={activeTab === 'writable'}
+					onClick={() => setActiveTab('writable')}
+				/>
+				<Chip text="작성한 리뷰" isLarge isActive={activeTab === 'written'} onClick={() => setActiveTab('written')} />
 			</div>
 			{displayedReviews.map(gathering =>
 				activeTab === 'writable' ? (
