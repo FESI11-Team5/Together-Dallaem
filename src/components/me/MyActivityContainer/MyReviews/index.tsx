@@ -6,7 +6,7 @@ import BasicButton from '@/components/commons/basic/BasicButton';
 
 export default function MyReviews() {
 	const [activeTab, setActiveTab] = useState<'writable' | 'written'>('writable');
-	const [reviews, setReviews] = useState<JoinedGathering[]>([
+	const [gatherings, setGatherings] = useState<JoinedGathering[]>([
 		{
 			teamId: 1,
 			id: 1,
@@ -78,10 +78,10 @@ export default function MyReviews() {
 	]);
 
 	const handleReviewSuccess = (gatheringId: number) => {
-		setReviews(prev => prev.map(r => (r.id === gatheringId ? { ...r, isReviewed: true } : r)));
+		setGatherings(prev => prev.map(r => (r.id === gatheringId ? { ...r, isReviewed: true } : r)));
 	};
 
-	const displayedReviews = reviews.filter(r => (activeTab === 'writable' ? !r.isReviewed : r.isReviewed));
+	const displayedReviews = gatherings.filter(r => (activeTab === 'writable' ? !r.isReviewed : r.isReviewed));
 
 	return (
 		<div className="flex flex-col gap-6">
@@ -105,7 +105,7 @@ export default function MyReviews() {
 						onSuccess={() => handleReviewSuccess(gathering.id)}
 					/>
 				) : (
-					<WrittenReviewCard gathering={gathering} />
+					<WrittenReviewCard key={gathering.id} gathering={gathering} />
 				)
 			)}
 		</div>

@@ -5,7 +5,7 @@ import { useModalClose } from '@/hooks/useModal';
 import BasicModal from '@/components/commons/basic/BasicModal';
 import BasicTextArea from '@/components/commons/basic/BasicTextArea';
 import BasicButton from '@/components/commons/basic/BasicButton';
-import { addReview } from '@/apis/reviews';
+import { postReviews } from '@/apis/reviews';
 
 interface ReviewWriteModalProps {
 	gatheringId: number;
@@ -36,7 +36,7 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 
 	const onSubmit = async (data: FormValues) => {
 		try {
-			await addReview({ gatheringId, score: rating, comment: data.comment });
+			await postReviews({ gatheringId, score: rating, comment: data.comment });
 			onSuccess();
 			closeModal();
 		} catch (err) {

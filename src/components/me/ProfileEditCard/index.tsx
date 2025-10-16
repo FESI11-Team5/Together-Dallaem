@@ -7,7 +7,7 @@ import { useScreenSize } from './hooks/useScreenSize';
 import { profileAssets } from './assets/profileAssets';
 import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/user';
-import { UserInfo } from '@/types/user';
+import { UserInfo } from '@/types/response/user';
 
 /**
  * `ProfileEditCard` 컴포넌트
