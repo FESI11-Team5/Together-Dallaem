@@ -1,29 +1,18 @@
 import { getRequest, postRequest } from '@/apis';
-import { Review } from '@/types/response/reviews';
+import { CreateReviewRequest, GetReviewsResponse } from '@/types/response/reviews';
 
-interface PostReviewsRequest {
-	gatheringId: number;
-	score: number;
-	comment: string;
-}
+const REVIEWS_PATH = '/reviews';
 
-interface GetReviewsRequest {
-	data: Review[];
-	totalItemCount: number;
-	currentPage: number;
-	totalPages: number;
-}
-
-export const getReviews = async (): Promise<GetReviewsRequest> => {
+export const getReviews = async (): Promise<GetReviewsResponse> => {
 	return getRequest({
-		path: `/reviews`,
+		path: REVIEWS_PATH,
 		options: { withAuth: true }
 	});
 };
 
-export const postReviews = (reviewData: PostReviewsRequest) =>
-	postRequest<PostReviewsRequest>({
-		path: '/reviews',
+export const postReviews = (reviewData: CreateReviewRequest) =>
+	postRequest<CreateReviewRequest>({
+		path: REVIEWS_PATH,
 		data: reviewData,
 		options: { withAuth: true }
 	});
