@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { JoinedGathering } from '@/types/response/gatherings';
+import { formatKoreanDate } from '@/utils/date';
 
 interface GatheringProps {
 	/** 리뷰가 작성된 모임 정보 */
@@ -10,7 +11,14 @@ interface GatheringProps {
  * 작성된 리뷰 카드 컴포넌트
  * - 모임 이미지, 리뷰 점수(하트), 리뷰 내용, 모임 정보, 작성일 표시
  * - 마이페이지 '나의 리뷰' 탭 등에서 사용
+ * - 작성일은 `yyyy.MM.dd` 형식으로 표시됨
  * - TODO : 추후 작성한 리뷰의 평점 및 코멘트 API를 호출할 예정입니다.
+ *
+ * @param {Object} props - 컴포넌트 props
+ * @param {JoinedGathering} props.gathering - 리뷰가 작성된 모임 정보
+ *
+ * @example
+ * <WrittenReviewCard gathering={gatheringData} />
  */
 export default function WrittenReviewCard({ gathering }: GatheringProps) {
 	return (
@@ -49,7 +57,7 @@ export default function WrittenReviewCard({ gathering }: GatheringProps) {
 							{gathering.name} 이용 / {gathering.location}
 						</p>
 					</div>
-					<p className="text-xs text-gray-500">{gathering.dateTime}</p>
+					<p className="text-xs text-gray-500">{formatKoreanDate(gathering.dateTime, 'yyyy.MM.dd')}</p>
 				</div>
 				<div className="tb:hidden border-b-2 border-dashed border-gray-200" />
 			</div>
