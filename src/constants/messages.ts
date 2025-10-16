@@ -67,3 +67,20 @@ export const AUTH_GUIDE_MESSAGES = {
 	EXISTING_MEMBER: '이미 회원이신가요?',
 	NEW_MEMBER: '같이 달램이 처음이신가요?'
 };
+
+/**
+ * 찜한 모임 페이지 메시지
+ */
+export const LIKED_GATHERING_MESSAGE = {
+	title: '찜한 모임',
+	subTitle: '마감되기 전에 지금 바로 참여해보세요👀',
+	noData: '아직 찜한 모임이 없어요'
+};
+
+/**
+ * 마감된 모임 카드 메세지
+ */
+export const CLOSED_GATHERING_MESSAGE = {
+	title: '마감된 챌린지예요,',
+	subTitle: '다음 기회에 만나요 🙏'
+};

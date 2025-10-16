@@ -119,7 +119,7 @@ export default function GatheringModal() {
 	// }, [methods, formReady]);
 
 	return (
-		<BasicModal onClose={handleCloseWithPopup} className="relative">
+		<BasicModal onClose={handleCloseWithPopup} className="relative" width="520px">
 			<div className="absolute top-0 left-0">
 				<h2 className="leading-lg text-lg font-semibold">모임 만들기</h2>
 			</div>

@@ -1,10 +1,10 @@
 'use client';
 
 import { useModal } from '@/hooks/useModal';
+import { useRouter } from 'next/navigation';
 
 import BasicButton from '@/components/commons/basic/BasicButton';
 import GatheringModal from '@/components/gatherings/GatheringModal';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
 	const router = useRouter();
@@ -33,6 +33,7 @@ export default function Home() {
 			</h1>
 			<BasicButton onClick={() => openModal(<GatheringModal />)}>모임 만들기</BasicButton>
 			<button onClick={() => router.push('/gatherings/1')}>게시글 상세페이지 이동 버튼</button>
+			<button onClick={() => router.push('/likeGathering')}>찜한 목록 페이지 이동 버튼</button>
 		</div>
 	);
 }

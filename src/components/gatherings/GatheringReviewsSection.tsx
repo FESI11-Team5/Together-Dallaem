@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
-import Pagination from '../commons/basic/BasicPagnation';
+import BasicPagination from '../commons/basic/BasicPagnation';
 
 /** 임시 Mock 데이터 */
 /** 추후 실제 데이터 타입으로 변환예정 */
@@ -224,7 +224,7 @@ export default function GatheringReviewSection() {
 
 				{/* 페이지네이션 */}
 				<div className="flex justify-center">
-					<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+					<BasicPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 				</div>
 			</div>
 		</section>
