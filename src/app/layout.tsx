@@ -28,8 +28,8 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<ModalStoreProvider>
-					{children}
 					<ModalContainer />
+					{children}
 				</ModalStoreProvider>
 			</body>
 		</html>

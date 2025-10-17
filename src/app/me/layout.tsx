@@ -1,10 +1,10 @@
 'use client';
 
-import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
+import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { useModal } from '@/hooks/useModal';
 import { isAuthenticated } from '@/utils/token';
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 
 /**
  * `MeLayout` 컴포넌트
@@ -27,10 +27,12 @@ import { useEffect } from 'react';
 export default function MeLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
 	const { openModal } = useModal();
+	const hasOpenedModal = useRef(false);
 
 	useEffect(() => {
-		if (!isAuthenticated()) {
+		if (!isAuthenticated() && !hasOpenedModal.current) {
 			openModal(<RequiredLoginPopup next={pathname} />);
+			hasOpenedModal.current = true;
 		}
 	}, [pathname, openModal]);
 
