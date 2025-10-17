@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Chip from '@/components/commons/Chip';
 import ScoreBoard from '@/components/reviews/ScoreBoard';
 import { getReviews } from '@/apis/reviews/reviews';
-import { ReviewResponse, scoreData } from '@/types/response/reviews';
+import { GetReviewsResponse, scoreData } from '@/types/response/reviews';
 import { getScores } from '@/apis/reviews/scores';
 import { GatheringType } from '@/types/response/gatherings';
 
@@ -23,7 +23,7 @@ import { GatheringType } from '@/types/response/gatherings';
 export default function Reviews() {
 	const [activeTab, setActiveTab] = useState('DALLAEMFIT');
 	const [scoreData, setScoreData] = useState<scoreData | null>(null);
-	const [reviewsData, setReviewsData] = useState<ReviewResponse | null>(null);
+	const [reviewsData, setReviewsData] = useState<GetReviewsResponse | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<GatheringType>('DALLAEMFIT');
 
 	useEffect(() => {
@@ -31,10 +31,11 @@ export default function Reviews() {
 			try {
 				const scores = await getScores({ type: selectedCategory });
 				const reviews = await getReviews({});
-				console.log(selectedCategory);
+
 				setScoreData(scores[0]);
 				setReviewsData(reviews);
 			} catch (error) {
+				//TODO: 모달창 띄우기
 				console.error(error);
 			}
 		};
