@@ -33,12 +33,17 @@ export default function GNB() {
 	};
 
 	return (
-		<header>
-			<nav>
-				<Link href="/">모임 찾기</Link>
-				<Link href="/favorites">찜한 모임</Link>
-				<Link href="/reviews">모든 리뷰</Link>
-			</nav>
+		<header className="tb:h-15 tb:px-6 pc:px-[360px] flex h-14 w-full items-center justify-between border-b-2 border-gray-900 bg-orange-600 px-4">
+			<div className="tb:gap-4 flex items-center gap-3">
+				<h1 className="text-lg font-extrabold text-white">
+					<Link href="/">같이 달램</Link>
+				</h1>
+				<nav className="tb:text-base leading-sm tb:leading-base tb:gap-6 flex items-center gap-3 text-sm font-semibold text-orange-50">
+					<Link href="/">모임 찾기</Link>
+					<Link href="/favorites">찜한 모임</Link>
+					<Link href="/reviews">모든 리뷰</Link>
+				</nav>
+			</div>
 
 			{user?.token ? (
 				<DropdownMenu>
@@ -55,7 +60,9 @@ export default function GNB() {
 					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleClick} />
 				</DropdownMenu>
 			) : (
-				<Link href="/signin">로그인</Link>
+				<Link href="/signin" className="leading-sm tb:leading-base tb:text-base text-sm font-semibold text-white">
+					로그인
+				</Link>
 			)}
 		</header>
 	);

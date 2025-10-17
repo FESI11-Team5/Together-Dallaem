@@ -88,7 +88,14 @@ function DropdownMenuItems({ options, onClick }: DropdownMenuItemsProps) {
 		return null;
 	}
 
-	return <BasicDropbox ref={ref as RefObject<HTMLDivElement>} options={options} callbackOnclick={handleClick} />;
+	return (
+		<BasicDropbox
+			className="pc:left-0 right-0"
+			ref={ref as RefObject<HTMLDivElement>}
+			options={options}
+			callbackOnclick={handleClick}
+		/>
+	);
 }
 
 export const DropdownMenu: typeof DropdownMenuRoot & {
