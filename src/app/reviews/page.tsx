@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Tab from '@/components/commons/Tab';
 import { useEffect, useState } from 'react';
 import Chip from '@/components/commons/Chip';
-import ScoreBoard from '@/components/reviews/ScoreBoard';
+import ScoreSection from '@/components/reviews/ScoreSection';
 import { getReviews } from '@/apis/reviews/reviews';
 import { GetReviewsResponse, scoreData } from '@/types/response/reviews';
 import { getScores } from '@/apis/reviews/scores';
@@ -90,7 +90,7 @@ export default function Reviews() {
 					)}
 					<div className="divider mt-4 h-[2px] w-full bg-gray-200"></div>
 				</div>
-				<ScoreBoard data={scoreData} />
+				<ScoreSection data={scoreData} />
 			</div>
 		</div>
 	);
