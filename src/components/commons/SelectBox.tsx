@@ -2,14 +2,15 @@
 
 import { useState, forwardRef, useRef, useEffect, useMemo, useCallback } from 'react';
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
-import BasicDropbox, { OptionType } from './BasicDropbox';
+import BasicDropbox, { OptionType } from './basic/BasicDropbox';
+import BasicSelectButton from './basic/BasicSelectButton';
 
-interface SelectProps {
+interface SelectBoxProps {
 	/** 선택 항목들의 배열 */
 	options: OptionType[];
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
 	size?: 'expanded' | 'large' | 'small';
-	/** 추가할 커스텀 CSS 클래스명(너비, 높이 등 변경 가능) */
+	/** 추가할 커스터마이징 CSS 클래스명(너비, 높이 등 변경 가능) */
 	className?: string;
 	/** React Hook Form의 register 객체, 폼 관리시 사용 */
 	register?: UseFormRegisterReturn;
@@ -21,6 +22,8 @@ interface SelectProps {
 	defaultValue?: string;
 	/** 셀렉트박스 내부에 삽입할 콘텐츠(sortSelectBox의 아이콘 같은 것) */
 	children?: React.ReactNode;
+	/** 값 변경 시 호출되는 콜백 함수 */
+	onChange?: (value: string | number) => void;
 }
 
 /**
@@ -28,14 +31,15 @@ interface SelectProps {
  *
  * 드롭다운 형태의 선택 박스로, React Hook Form과 호환됩니다.
  * 외부 클릭시 자동으로 닫히는 기능을 포함합니다.
+ * BasicSelectButton과 BasicDropbox를 조합하여 완전한 셀렉트박스를 제공합니다.
  *
- * @param props - SelectProps 객체
+ * @param props - SelectBoxProps 객체
  * @param ref - 포워드할 ref
  * @returns JSX.Element
  *
  * @example
  * // 기본 셀렉트박스
- * <BasicSelectBox
+ * <SelectBox
  *   options={[
  *     { value: '1', text: '옵션 1' },
  *     { value: '2', text: '옵션 2' }
@@ -45,15 +49,14 @@ interface SelectProps {
  *
  * @example
  * // React Hook Form register와 함께 사용
- * <BasicSelectBox
+ * <SelectBox
  *   register={register('category')}
  *   options={categoryOptions}
- *   isLarge={false}
+ *   size="large"
  *   disabled={false}
  * />
  */
-
-const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
+const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 	(
 		{
 			options = [],
@@ -63,24 +66,27 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 			placeholder = '선택하세요',
 			disabled = false,
 			children,
-			defaultValue
+			defaultValue,
+			onChange
 		},
 		ref
 	) => {
 		const [isOpen, setIsOpen] = useState(false);
 		const [selectedValue, setSelectedValue] = useState<string | number>('');
 		const containerRef = useRef<HTMLDivElement>(null);
-		const formContext = useFormContext();
-		const currentValue = register?.name ? formContext?.watch(register.name) : defaultValue;
 
-		//TODO: small selectBox와 expandedSelectBox를 아예 나누어야할 지 고민중입니다... defaultValue와 Placeholder가 동시에 있는게 좀 복잡하게 보이네요.
+		// React Hook Form 연동
+		const formContext = useFormContext();
+		const currentValue = register?.name && formContext ? formContext.watch(register.name) : defaultValue;
 
 		const displayValue = useMemo(() => selectedValue || currentValue || '', [selectedValue, currentValue]);
+
 		const selectedOption = useMemo(
-			() => options.find(option => (displayValue ? option.value === displayValue : option.value === defaultValue)),
+			() => options.find(option => option.value === displayValue),
 			[options, displayValue]
 		);
 
+		// 외부 클릭 감지
 		useEffect(() => {
 			if (!isOpen) return;
 
@@ -94,95 +100,57 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 			return () => document.removeEventListener('click', handleClickOutside);
 		}, [isOpen]);
 
+		// defaultValue나 form 값이 변경될 때 내부 상태 동기화
 		useEffect(() => {
 			if (currentValue !== undefined && currentValue !== null) {
 				setSelectedValue(currentValue);
 			}
 		}, [currentValue]);
 
+		// 옵션 선택 처리
 		const handleSelect = useCallback(
 			(optionValue: string | number) => {
 				setSelectedValue(optionValue);
 				setIsOpen(false);
 
+				// React Hook Form 연동
 				if (register?.onChange) {
 					register.onChange({
 						target: { name: register.name, value: optionValue }
 					});
 				}
+
+				// 외부 콜백 호출
+				onChange?.(optionValue);
 			},
-			[register]
+			[register, onChange]
 		);
 
+		// 토글 처리
 		const handleToggle = useCallback(() => {
 			if (!disabled) {
 				setIsOpen(prev => !prev);
 			}
 		}, [disabled]);
 
-		const buttonClasses = useMemo(() => {
-			// 너비 및 높이 설정
-			const widthHeight =
-				size === 'expanded'
-					? 'w-full h-[44px] border-none'
-					: size === 'small'
-						? 'w-[110px] h-[36px] border-2 border-gray-100'
-						: 'w-[110px] h-[40px] border-2 border-gray-100';
-
-			// 패딩 설정 - small일 때만 py-[6px]
-			const padding = size === 'small' ? 'px-[12px] py-[6px]' : 'px-[12px] py-[8px]';
-
-			// 배경색 설정
-			const backgroundColor =
-				size === 'expanded'
-					? 'bg-gray-50'
-					: selectedValue || displayValue
-						? 'bg-gray-900 text-white border-none'
-						: 'bg-white text-gray-800';
-
-			return `${widthHeight} rounded-[12px] ${padding} font-medium outline-none box-border ${
-				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-			} flex items-center justify-between text-left ${backgroundColor}`;
-		}, [size, disabled, selectedValue, displayValue]);
-
-		const arrowClasses = useMemo(
-			() =>
-				`h-[24px] w-[24px] bg-[url('/icons/arrow_down.svg')] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
-					disabled ? 'hidden' : 'block'
-				} ${isOpen ? 'rotate-180' : 'rotate-0'}
-				${selectedValue || displayValue ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`}
-				`,
-			[disabled, isOpen, selectedValue, displayValue]
-		);
-
 		return (
-			<div ref={ref} className={'relative'}>
+			<div ref={ref} className={`relative ${className}`}>
+				{/* React Hook Form을 위한 hidden input */}
 				{register && <input type="hidden" {...register} value={displayValue} readOnly />}
 
-				<button
-					type="button"
-					className={`${buttonClasses} ${className}`}
-					onClick={handleToggle}
+				{/* 셀렉트 버튼 */}
+				<BasicSelectButton
+					size={size}
+					placeholder={placeholder}
 					disabled={disabled}
-					aria-expanded={isOpen}
-					aria-haspopup="listbox"
-					aria-label={selectedOption ? `선택됨: ${selectedOption.text}` : placeholder}>
-					<span
-						className={` ${
-							size === 'expanded'
-								? selectedValue || displayValue
-									? 'text-gray-800'
-									: 'text-gray-400'
-								: selectedValue || displayValue
-									? 'text-white'
-									: 'text-gray-800'
-						} text-[14px]`}>
-						{children}
-						{selectedOption ? selectedOption.text : placeholder}
-					</span>
-					<div className={arrowClasses} />
-				</button>
+					value={displayValue}
+					displayText={selectedOption?.text}
+					isOpen={isOpen}
+					onClick={handleToggle}>
+					{children}
+				</BasicSelectButton>
 
+				{/* 드롭다운 */}
 				{isOpen && (
 					<BasicDropbox
 						ref={containerRef as React.RefObject<HTMLDivElement>}
@@ -197,6 +165,6 @@ const BasicSelectBox = forwardRef<HTMLDivElement, SelectProps>(
 	}
 );
 
-BasicSelectBox.displayName = 'BasicSelectBox';
+SelectBox.displayName = 'SelectBox';
 
-export default BasicSelectBox;
+export default SelectBox;

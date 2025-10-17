@@ -41,6 +41,11 @@ export const CreateGatheringSchema = z.object({
 });
 
 // 나머지 스키마 정의를 이어서 작성해주세요
+export const profileEditSchema = z.object({
+	companyName: z.string().min(2, { message: '회사명을 입력해주세요.' })
+});
 
 export type GatheringSchemaType = z.infer<typeof CreateGatheringSchema>;
 // 검사 타입을 이어서 작성해주세요
+
+export type ProfileEditSchemaType = z.infer<typeof profileEditSchema>;

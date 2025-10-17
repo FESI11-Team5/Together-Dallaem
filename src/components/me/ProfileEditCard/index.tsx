@@ -7,7 +7,7 @@ import { useScreenSize } from './hooks/useScreenSize';
 import { profileAssets } from './assets/profileAssets';
 import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/user';
-import { UserInfo } from '@/types/user';
+import { UserInfo } from '@/types/response/user';
 
 /**
  * `ProfileEditCard` 컴포넌트
@@ -21,15 +21,7 @@ import { UserInfo } from '@/types/user';
  * @returns {JSX.Element} 프로필 카드 UI 및 Modal을 렌더링합니다.
  */
 export default function ProfileEditCard() {
-	const [userInfo, setUserInfo] = useState<UserInfo>({
-		teamId: 5,
-		id: 5,
-		name: '코드잇',
-		companyName: '코드잇',
-		email: 'codeit@test.com',
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString()
-	});
+	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 	const { openModal } = useModal();
 	const screenSize = useScreenSize();
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
@@ -39,21 +31,24 @@ export default function ProfileEditCard() {
 		const fetchUserInfo = async () => {
 			try {
 				const data = await getUserInfo();
+
 				setUserInfo(data);
 			} catch (err) {
 				console.error('인증이 필요합니다', err);
+				// TODO: 인증 실패 시 로그인 안내 모달을 띄우도록 구현
 			}
 		};
 		fetchUserInfo();
 	}, []);
 
-	// 회사명 + 업데이트
-	const handleUpdateUserInfo = async (updated: { companyName?: string; image?: File }) => {
+	const handleUpdateUserInfo = async (updated: { companyName?: string; image?: File | null }) => {
 		try {
 			const updatedUser = await updateUserInfo(updated);
+
 			setUserInfo(updatedUser);
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
+			// TODO: 실패 시 사용자에게 알림 모달을 띄우도록 구현
 		}
 	};
 
@@ -71,17 +66,16 @@ export default function ProfileEditCard() {
 					/>
 
 					{/* 프로필 사진 수정 버튼 */}
-					<label
-						htmlFor="profile-image-upload"
-						className="absolute top-12.5 flex h-16 w-16 cursor-pointer items-center justify-center rounded-4xl bg-white">
+					<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-white">
 						<Image
-							src={userInfo.image || edit.src}
+							src={userInfo?.image || edit.src}
 							alt="프로필 사진 이미지"
-							width={edit.width}
-							height={edit.height}
+							width={56}
+							height={56}
 							className="h-14 w-14 rounded-full object-cover"
+							unoptimized
 						/>
-					</label>
+					</div>
 
 					<p className="text-pc z-10 font-semibold text-gray-900">내 프로필</p>
 
@@ -91,8 +85,8 @@ export default function ProfileEditCard() {
 						onClick={() =>
 							openModal(
 								<ProfileEditModal
-									currentCompanyName={userInfo.companyName}
-									currentImage={userInfo.image}
+									currentCompanyName={userInfo?.companyName}
+									currentImage={userInfo?.image}
 									onSubmit={handleUpdateUserInfo}
 								/>
 							)
@@ -106,17 +100,17 @@ export default function ProfileEditCard() {
 				<div>
 					<div className="tb:pt-3 tb:pb-4 pt-3.5 pb-4.5 pl-23">
 						<div className="mb-2.5 text-gray-800">
-							<p className="text-base font-semibold">{userInfo?.name || 'Name'}</p>
+							<p className="text-base font-semibold">{userInfo?.name}</p>
 						</div>
 
 						<div className="flex gap-1.5 text-sm">
 							<p className="font-medium">company.</p>
-							<p className="font-normal text-gray-700">{userInfo?.companyName || 'Company Name'}</p>
+							<p className="font-normal text-gray-700">{userInfo?.companyName}</p>
 						</div>
 
 						<div className="flex gap-1.5 text-sm">
 							<p className="font-medium">E-mail.</p>
-							<p className="font-normal text-gray-700">{userInfo?.email || 'Email'}</p>
+							<p className="font-normal text-gray-700">{userInfo?.email}</p>
 						</div>
 					</div>
 				</div>

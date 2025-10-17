@@ -13,7 +13,7 @@ import type { GatheringLocation, GatheringType } from '@/types/response/gatherin
 
 import BasicModal from '../commons/basic/BasicModal';
 import BasicInput from '../commons/basic/BasicInput';
-import BasicSelectBox from '../commons/basic/BasicSelectBox';
+import BasicSelectBox from '../commons/basic/BasicSelectButton';
 import BasicButton from '../commons/basic/BasicButton';
 import BasicCalendar from '../commons/basic/BasicCalendar';
 import BasicPopup from '../commons/basic/BasicPopup';
@@ -119,7 +119,7 @@ export default function GatheringModal() {
 	// }, [methods, formReady]);
 
 	return (
-		<BasicModal onClose={handleCloseWithPopup} className="relative">
+		<BasicModal onClose={handleCloseWithPopup} className="relative" width="520px">
 			<div className="absolute top-0 left-0">
 				<h2 className="leading-lg text-lg font-semibold">모임 만들기</h2>
 			</div>
