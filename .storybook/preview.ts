@@ -45,7 +45,10 @@ const preview: Preview = {
 			test: 'todo'
 		},
 		nextjs: {
-			appDirectory: true
+			appDirectory: true,
+			router: {
+				basePath: '/'
+			}
 		}
 	}
 };

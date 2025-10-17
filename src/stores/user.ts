@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-interface UserData {
+export interface UserData {
 	userId: number;
 	token: string;
 	email?: string;
