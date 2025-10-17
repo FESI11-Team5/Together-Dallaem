@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { postReviews } from '@/apis/reviews';
 import { useModalClose } from '@/hooks/useModal';
+import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
 import BasicTextArea from '@/components/commons/basic/BasicTextArea';
-import BasicButton from '@/components/commons/basic/BasicButton';
-import { postReviews } from '@/apis/reviews';
 
 interface ReviewWriteModalProps {
 	/** 리뷰를 작성할 모임 ID */
@@ -21,15 +21,10 @@ interface FormValues {
 	comment: string;
 }
 
-/**
- * 리뷰 작성 모달 컴포넌트
- * - 하트 클릭으로 점수 선택
- * - 텍스트 입력으로 리뷰 작성
- * - 제출 시 API 호출 후 onSuccess 콜백 실행
- */
 export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWriteModalProps) {
 	const closeModal = useModalClose();
 	const [rating, setRating] = useState(0);
+	const [animatingIndex, setAnimatingIndex] = useState<number | null>(null);
 
 	const { register, handleSubmit, watch } = useForm<FormValues>({
 		defaultValues: {
@@ -41,19 +36,12 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 	const comment = watch('comment');
 	const isFormValid = rating > 0 && comment.trim().length > 0;
 
-	/**
-	 * 하트 클릭 시 점수 업데이트
-	 * @param index 클릭한 하트 인덱스 (0~4)
-	 */
 	const handleHeartClick = (index: number) => {
 		setRating(index + 1);
+		setAnimatingIndex(index);
+		setTimeout(() => setAnimatingIndex(null), 100); // 애니메이션 끝나면 초기화
 	};
 
-	/**
-	 * 리뷰 제출 핸들러
-	 * - postReviews API 호출
-	 * - 성공 시 onSuccess 콜백 실행 후 모달 닫기
-	 */
 	const onSubmit = async (data: FormValues) => {
 		try {
 			await postReviews({ gatheringId, score: rating, comment: data.comment });
@@ -85,6 +73,9 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 												alt={index < rating ? '활성화된 하트' : '비활성화된 하트'}
 												width={24}
 												height={24}
+												className={`transform transition-transform duration-500 ease-out ${
+													animatingIndex === index ? 'scale-115' : index < rating ? 'scale-110' : 'scale-100'
+												}`}
 											/>
 										</button>
 									))}
