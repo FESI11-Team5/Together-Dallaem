@@ -91,7 +91,7 @@ export default function BasicButton({
 			className={`
 				font-pretendard font-semibold box-border
 				rounded-[12px] border-1 py-[10px] no-underline
-				${isLarge ? 'w-full text-[16px]' : 'w-[120px] text-[14px]'}
+				${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'}
 				${classByStatus}
 				${isActive ? 'cursor-pointer' : 'cursor-default'}
 				${className}
