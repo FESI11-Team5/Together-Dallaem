@@ -28,8 +28,7 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 	const getErrorMessage = (err: unknown) => {
 		if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
 		if (typeof err === 'string') return err;
-		if (err instanceof Error)
-			return err.message || '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+		if (err instanceof Error) return err.message;
 		return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
 	};
 
@@ -49,7 +48,7 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 
 			const message = getErrorMessage(err);
 
-			openModal(<BasicPopup title="" subTitle={message} confirmText="확인" />);
+			openModal(<BasicPopup title="" subTitle={message} confirmText="닫기" />);
 		}
 	};
 
@@ -59,10 +58,17 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 				<div className="flex flex-col items-center gap-6">
 					<p className="font-medium">정말 예약을 취소하시겠습니까?</p>
 					<div className="flex gap-2 font-semibold">
-						<BasicButton outlined onClick={closeModal} type="button">
+						<BasicButton
+							outlined
+							onClick={closeModal}
+							type="button"
+							className="transition-colors hover:border-orange-500 hover:text-orange-500 active:border-orange-700 active:text-orange-700">
 							닫기
 						</BasicButton>
-						<BasicButton type="submit" onClick={handleCancel}>
+						<BasicButton
+							type="submit"
+							onClick={handleCancel}
+							className="transition-colors hover:bg-orange-700 active:bg-orange-800">
 							취소하기
 						</BasicButton>
 					</div>
