@@ -1,7 +1,7 @@
 import { scoreData } from '@/types/response/reviews';
 import { useMemo } from 'react';
 
-export default function ScoreBoard({ data }: { data?: scoreData | null }) {
+export default function ScoreSection({ data }: { data?: scoreData | null }) {
 	const heartNum = useMemo(() => (data?.averageScore ? Math.round(data.averageScore) : 0), [data?.averageScore]);
 	const totalCount = useMemo(
 		() => (data ? data.fiveStars + data.fourStars + data.threeStars + data.twoStars + data.oneStar : 0),
@@ -24,16 +24,16 @@ export default function ScoreBoard({ data }: { data?: scoreData | null }) {
 				</div>
 				<div className="flex gap-[2px]">
 					{Array.from({ length: heartNum }).map((_, index) => (
-						<img key={index} src="/icons/heart_active.svg" alt="heart score" />
+						<img key={heartNum * 100 + index} src="/icons/heart_active.svg" alt="heart score" />
 					))}
 					{Array.from({ length: 5 - heartNum }).map((_, index) => (
-						<img key={index} src="/icons/heart.svg" alt="heart score" />
+						<img key={(5 - heartNum) * 100 + index} src="/icons/heart.svg" alt="heart score" />
 					))}
 				</div>
 			</div>
 			<div className="right-box flex flex-col gap-2 text-sm">
 				{scores.map((score, index) => (
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2" key={index * 100 + score}>
 						<span className="w-[21px] text-gray-900">{5 - index}점 </span>
 						<div className="relative h-1 w-[240px] rounded-[2px] bg-gray-200">
 							<div
