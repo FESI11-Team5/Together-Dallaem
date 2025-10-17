@@ -2,15 +2,11 @@
 
 import { forwardRef, useMemo } from 'react';
 
-interface BasicSelectButtonProps {
+interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
 	size?: 'expanded' | 'large' | 'small';
-	/** 추가할 커스터마이징 CSS 클래스명(너비, 높이 등 변경 가능) */
-	className?: string;
 	/** 기본 placeholder 텍스트 */
 	placeholder?: string;
-	/** 셀렉트박스 비활성화 여부 */
-	disabled?: boolean;
 	/** 현재 선택된 값 */
 	value?: string;
 	/** 현재 선택된 옵션의 텍스트 */
@@ -19,10 +15,6 @@ interface BasicSelectButtonProps {
 	isOpen?: boolean;
 	/** 셀렉트박스 내부에 삽입할 콘텐츠(sortSelectBox의 아이콘 같은 것) */
 	children?: React.ReactNode;
-	/** 클릭 시 호출되는 콜백 함수 */
-	onClick?: () => void;
-	/** 버튼에 전달할 추가 props */
-	rest?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
 /**
@@ -66,7 +58,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 			isOpen = false,
 			children,
 			onClick,
-			rest = {}
+			...rest
 		},
 		ref
 	) => {
@@ -99,7 +91,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
 					disabled ? 'hidden' : 'block'
 				} ${isOpen ? 'rotate-180' : 'rotate-0'} ${
-					hasValue ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`
+					hasValue && size !== 'expanded' ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`
 				}`,
 			[disabled, isOpen, hasValue]
 		);

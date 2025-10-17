@@ -77,7 +77,7 @@ export default function Home() {
 					]}
 					register={register('selectField')}
 					size="small"
-					defaultValue="option1"
+					placeholder="지역 선택"
 				/>
 				<BasicInput
 					register={register('inputField')}
