@@ -23,21 +23,15 @@ interface GatheringProps {
 export default function WrittenReviewCard({ gathering }: GatheringProps) {
 	return (
 		<div key={gathering.id}>
-			<div className="tb:flex-row relative flex flex-col content-between gap-6">
+			<div className="tb:flex-row relative flex w-full flex-col gap-6">
 				{/* 모임 이미지 */}
-				<div className="tb:w-70 h-39 w-full rounded-3xl">
-					<Image
-						src={gathering.image}
-						alt="모임 이미지"
-						width={280}
-						height={156}
-						className="rounded-3xl bg-orange-100 object-cover"
-					/>
+				<div className="tb:w-70 relative h-39 w-full min-w-[280px] overflow-hidden rounded-3xl">
+					<Image src={gathering.image} alt="모임 이미지" fill className="rounded-3xl bg-orange-100 object-cover" />
 				</div>
 
 				{/* 리뷰 정보 */}
-				<div className="tb:border-b-2 tb:border-dashed tb:border-gray-200 flex flex-col gap-2 font-medium">
-					<div className="flex flex-col gap-2.5 text-gray-700">
+				<div className="tb:border-b-2 tb:border-dashed tb:border-gray-200 flex w-full flex-col gap-2 font-medium">
+					<div className="flex w-full flex-col gap-2.5 text-gray-700">
 						<div className="flex gap-0.5">
 							{Array.from({ length: 5 }).map((_, index) => (
 								<Image
