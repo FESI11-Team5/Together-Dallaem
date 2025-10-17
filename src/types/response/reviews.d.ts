@@ -102,3 +102,17 @@ export interface GetReviewsResponse {
 	/** 전체 페이지 수 */
 	totalPages: number;
 }
+
+export interface scoreData {
+	teamId: number;
+	gatheringId: number;
+	type: string;
+	averageScore: number;
+	oneStar: number;
+	twoStars: number;
+	threeStars: number;
+	fourStars: number;
+	fiveStars: number;
+}
+
+export type scoreResponse = scoreData[];
