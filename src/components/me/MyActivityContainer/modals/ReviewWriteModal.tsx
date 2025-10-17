@@ -2,9 +2,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { postReviews } from '@/apis/reviews';
-import { useModalClose } from '@/hooks/useModal';
+import { useModal, useModalClose } from '@/hooks/useModal';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
 import BasicTextArea from '@/components/commons/basic/BasicTextArea';
 
 interface ReviewWriteModalProps {
@@ -22,6 +23,7 @@ interface FormValues {
 }
 
 export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWriteModalProps) {
+	const { openModal } = useModal();
 	const closeModal = useModalClose();
 	const [rating, setRating] = useState(0);
 	const [animatingIndex, setAnimatingIndex] = useState<number | null>(null);
@@ -32,6 +34,16 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 			comment: ''
 		}
 	});
+
+	/**
+	 * 에러 객체에서 사용자용 메시지를 추출합니다.
+	 */
+	const getErrorMessage = (err: unknown) => {
+		if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+		if (typeof err === 'string') return err;
+		if (err instanceof Error) return err.message;
+		return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+	};
 
 	const comment = watch('comment');
 	const isFormValid = rating > 0 && comment.trim().length > 0;
@@ -48,7 +60,10 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 			onSuccess();
 			closeModal();
 		} catch (err) {
-			console.error('리뷰 등록 실패', err);
+			// 개발에서는 콘솔에 남기고, 사용자에게는 팝업으로 안내합니다.
+			if (process.env.NODE_ENV !== 'production') console.error(err);
+			const message = getErrorMessage(err);
+			openModal(<BasicPopup title="" subTitle={message} confirmText="닫기" />);
 		}
 	};
 
