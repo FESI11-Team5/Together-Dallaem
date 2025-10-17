@@ -93,7 +93,7 @@ export default function SortButton({ options, register, defaultValue, className 
 				<BasicDropbox
 					ref={containerRef as React.RefObject<HTMLDivElement>}
 					options={options}
-					updateValue={handleSelect}
+					callbackOnclick={handleSelect}
 					selectedValue={selectedValue || defaultValue}
 				/>
 			)}
