@@ -76,7 +76,8 @@ export default function BasicDropbox({
 					className="w-full p-[4px] text-gray-800 first:rounded-t-[12px] last:rounded-b-[12px] hover:bg-gray-200"
 					onClick={() => handleSelect(option.value)}
 					role="option"
-					aria-selected={selectedValue === option.value}>
+					aria-selected={selectedValue === option.value}
+					aria-label={`${option.value}-${option.text}`}>
 					<div
 						className={`rounded-[12px] py-[6px] pl-[8px] text-left text-[14px] ${selectedValue === option.value ? 'bg-orange-100 font-medium' : ''}`}>
 						{option.text}
