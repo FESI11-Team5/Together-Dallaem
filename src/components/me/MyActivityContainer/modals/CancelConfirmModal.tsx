@@ -7,7 +7,6 @@ import BasicPopup from '@/components/commons/basic/BasicPopup';
 interface CancelConfirmModalProps {
 	/** 예약 취소할 모임 ID */
 	gatheringId: number;
-
 	/** 예약 취소 성공 시 호출되는 콜백 */
 	onSuccess: () => void;
 }
