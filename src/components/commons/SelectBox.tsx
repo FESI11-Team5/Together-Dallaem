@@ -160,7 +160,7 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 					<BasicDropbox
 						ref={containerRef as React.RefObject<HTMLDivElement>}
 						options={options}
-						callbackOnclick={handleSelect}
+						callbackOnclick={() => handleSelect}
 						selectedValue={displayValue}
 						isLarge={size === 'expanded'}
 					/>
