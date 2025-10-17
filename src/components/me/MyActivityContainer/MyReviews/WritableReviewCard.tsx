@@ -31,7 +31,7 @@ export default function WritableReviewCard({ gathering, onSuccess }: GatheringPr
 	return (
 		<CardLayout gathering={gathering}>
 			<BasicButton
-				className="!w-fit px-5.5 !text-sm transition-colors hover:bg-orange-700 active:bg-orange-800"
+				className="!w-fit px-[22px] transition-colors hover:bg-orange-700 active:bg-orange-800"
 				onClick={handleClick}>
 				리뷰 작성하기
 			</BasicButton>
