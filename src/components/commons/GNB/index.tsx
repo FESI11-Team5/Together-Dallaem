@@ -39,7 +39,6 @@ export default function GNB() {
 		}
 	};
 
-	// 현재 페이지 메뉴는 까맣게 글씨 변하는 걸로 바꾸자
 	return (
 		<header className="tb:h-15 tb:px-6 pc:px-[360px] flex h-14 w-full items-center justify-between border-b-2 border-gray-900 bg-orange-600 px-4">
 			<div className="tb:gap-4 flex items-center gap-3">
