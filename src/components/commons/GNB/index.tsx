@@ -9,6 +9,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
+/**
+ * GNB(Global Navigation Bar)
+ * - 로그인 상태에 따라 다른 UI를 렌더링함
+ * - 마이페이지, 로그아웃, 로그인 등 주요 내비게이션 기능 포함
+ */
 export default function GNB() {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -26,7 +31,11 @@ export default function GNB() {
 		{ href: '/reviews', label: '모든 리뷰' }
 	];
 
-	const handleClick = async (value: string | number) => {
+	/**
+	 * 드롭다운 메뉴 클릭 시 실행되는 함수
+	 * @param value - 선택된 메뉴 옵션의 value
+	 */
+	const handleDropdownMenuClick = async (value: string | number) => {
 		if (value === DROPDOWN_MENU_OPTIONS[0].value) {
 			router.push('/me');
 			return;
@@ -39,6 +48,10 @@ export default function GNB() {
 		}
 	};
 
+	/**
+	 * 로그인 버튼 클릭 시 실행되는 함수
+	 * 현재 경로(pathname)를 쿼리 파라미터로 전달하여 로그인 후 리다이렉트 가능하게 함
+	 */
 	const handleSigninClick = () => {
 		router.push('/signin?next=' + encodeURIComponent(pathname));
 	};
@@ -78,7 +91,7 @@ export default function GNB() {
 							className="rounded-full"
 						/>
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleClick} />
+					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
 				</DropdownMenu>
 			) : (
 				// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
