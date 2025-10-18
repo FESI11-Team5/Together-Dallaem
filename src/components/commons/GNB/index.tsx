@@ -39,6 +39,10 @@ export default function GNB() {
 		}
 	};
 
+	const handleSigninClick = () => {
+		router.push('/signin?next=' + encodeURIComponent(pathname));
+	};
+
 	return (
 		<header className="tb:h-15 tb:px-6 pc:px-[360px] flex h-14 w-full items-center justify-between border-b-2 border-gray-900 bg-orange-600 px-4">
 			<div className="tb:gap-4 flex items-center gap-3">
@@ -77,9 +81,14 @@ export default function GNB() {
 					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleClick} />
 				</DropdownMenu>
 			) : (
-				<Link href="/signin" className="leading-sm tb:leading-base tb:text-base text-sm font-semibold text-white">
+				// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
+				<div
+					role="button"
+					tabIndex={0}
+					onClick={handleSigninClick}
+					className="leading-sm tb:leading-base tb:text-base cursor-pointer text-sm font-semibold text-white">
 					로그인
-				</Link>
+				</div>
 			)}
 		</header>
 	);
