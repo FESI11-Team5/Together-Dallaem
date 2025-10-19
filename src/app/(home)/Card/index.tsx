@@ -14,6 +14,7 @@ interface CardProps {
 }
 
 // TODO: 무한 스크롤 카드 페이드인, 페이드아웃 적용
+// TODO: 모임 마감 물어보고 추가하기
 export default function Card({ gathering, onClick }: CardProps) {
 	const { id, name, dateTime, registrationEnd, location, participantCount, image } = gathering;
 	const { date, time } = formatDateAndTime(dateTime);
