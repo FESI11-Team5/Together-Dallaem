@@ -1,4 +1,4 @@
-import { SIGNIN_ERRORS } from '@/constants/error';
+import { CREATE_GATHERING_ERRORS, SIGNIN_ERRORS } from '@/constants/error';
 import type { GatheringLocation, GatheringType } from '@/types/response/gatherings';
 
 import * as z from 'zod';
@@ -9,43 +9,65 @@ export const signinSchema = z.object({
 });
 
 // TODO: SignupValidator 정리 후 signupSchema 해당 파일로 이동
+
 /** 모임 생성 스키마 */
-export const CreateGatheringSchema = z.object({
-	teamId: z.number(),
-	name: z
-		.string()
-		.min(4, { error: '모임 이름은 최소 4자 이상이어야 합니다.' })
-		.max(20, { error: '모임 이름은 최대 20자 이하이어야 합니다.' })
-		.regex(/^[ㄱ-ㅎ가-힣a-zA-Z0-9]{4,20}$/, '모임 이름은 한글, 영어, 숫자만 사용할 수 있습니다.'),
+export const CreateGatheringSchema = z
+	.object({
+		name: z
+			.string()
+			.nonempty({ error: CREATE_GATHERING_ERRORS.EMPTY.NAME })
+			.min(2, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.NAME })
+			.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.NAME })
+			.regex(/^(?!\s)[ㄱ-ㅎ가-힣a-zA-Z0-9\s]{2,20}(?<!\s)$/, CREATE_GATHERING_ERRORS.FORMAT.NAME),
 
-	location: z.custom<GatheringLocation>(val => typeof val === 'string' && val.length > 0, {
-		error: '모임 장소를 선택해주세요.'
-	}),
+		location: z.custom<GatheringLocation>(val => typeof val === 'string' && val.length > 0, {
+			error: CREATE_GATHERING_ERRORS.EMPTY.LOCATION
+		}),
 
-	type: z
-		.custom<GatheringType>(val => typeof val === 'string' && val.length > 0, {
-			error: '모임 유형을 선택해주세요.'
-		})
-		.nullable(),
+		type: z
+			.custom<GatheringType>(val => typeof val === 'string' && val.length > 0, {
+				error: CREATE_GATHERING_ERRORS.EMPTY.TYPE
+			})
+			.nullable(),
 
-	dateTime: z.iso.datetime({ error: '모임 날짜를 입력해주세요' }),
+		dateTime: z.string().nonempty({ message: CREATE_GATHERING_ERRORS.EMPTY.DATE_TIME }),
 
-	registrationEnd: z.iso.datetime({ error: '마감 날짜를 입력해주세요' }),
+		registrationEnd: z.string().nonempty({ message: CREATE_GATHERING_ERRORS.EMPTY.REGISTRATION_END }),
 
-	capacity: z
-		.number({ error: '모집 정원을 입력해주세요' })
-		.min(5, { error: '최소 5명 이상이어야 합니다.' })
-		.max(20, { error: '최대 20명 이하이어야 합니다.' }),
+		capacity: z
+			.number({ error: CREATE_GATHERING_ERRORS.EMPTY.CAPACITY })
+			.min(5, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.CAPACITY })
+			.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.CAPACITY }),
 
-	image: z.string().nonempty({ error: '이미지를 첨부해주세요' })
-});
+		image: z
+			.instanceof(File, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
+			.refine(file => file.size > 0, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
+	})
+	.superRefine((data, ctx) => {
+		const now = new Date(); // 현재 시간
+		const selectedDateTime = new Date(data.dateTime); // 사용자가 선택한 모임 날짜
+		const registrationEndDate = new Date(data.registrationEnd); // 사용자가 선택한 마감 날짜
 
-// 나머지 스키마 정의를 이어서 작성해주세요
+		if (selectedDateTime <= now) {
+			ctx.addIssue({
+				code: 'custom',
+				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.DATE_TIME,
+				path: ['dateTime']
+			});
+		}
+
+		if (registrationEndDate >= selectedDateTime) {
+			ctx.addIssue({
+				code: 'custom',
+				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.REGISTRATION_END,
+				path: ['registrationEnd']
+			});
+		}
+	});
+
 export const profileEditSchema = z.object({
-	companyName: z.string().min(2, { message: '회사명을 입력해주세요.' })
+	companyName: z.string().min(2, { error: '회사명을 입력해주세요.' })
 });
 
 export type GatheringSchemaType = z.infer<typeof CreateGatheringSchema>;
-// 검사 타입을 이어서 작성해주세요
-
 export type ProfileEditSchemaType = z.infer<typeof profileEditSchema>;

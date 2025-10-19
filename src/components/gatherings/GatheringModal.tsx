@@ -1,23 +1,25 @@
 'use client';
 
 import { format } from 'date-fns';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useRouter } from 'next/navigation';
+import { postGathering } from '@/apis/gatherings';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
 import { CreateGathering } from '@/types/response/createGathering';
-import type { GatheringLocation, GatheringType } from '@/types/response/gatherings';
+import type { GatheringType } from '@/types/response/gatherings';
 
 import BasicModal from '../commons/basic/BasicModal';
 import BasicInput from '../commons/basic/BasicInput';
 import BasicSelectBox from '../commons/basic/BasicSelectBox';
 import BasicButton from '../commons/basic/BasicButton';
-import BasicCalendar from '../commons/basic/BasicCalendar';
 import BasicPopup from '../commons/basic/BasicPopup';
 import BasicCheckBox from '../commons/basic/BasicCheckBox';
+import GatheringCalendar from '../commons/GatheringCalendar';
 
 /**
  * GatheringModal 컴포넌트
@@ -44,56 +46,45 @@ export default function GatheringModal() {
 		formState: { errors, isSubmitting }
 	} = useForm<GatheringSchemaType>({
 		resolver: zodResolver(CreateGatheringSchema),
-		mode: 'onChange',
-		defaultValues: {
-			teamId: 5,
-			name: '',
-			location: '' as GatheringLocation,
-			type: '' as GatheringType,
-			dateTime: '',
-			registrationEnd: '',
-			image: ''
-		}
+		mode: 'onChange'
 	});
 
+	const [fileName, setFileName] = useState('');
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const router = useRouter();
+	const isValid =
+		watch('name') &&
+		watch('location') &&
+		watch('type') &&
+		watch('dateTime') &&
+		watch('registrationEnd') &&
+		watch('image') &&
+		watch('capacity') >= 5;
+	const { openModal } = useModal();
+	const closePopup = useModalClose();
 
 	const onSubmitForm = async (data: CreateGathering) => {
-		// const body = new FormData();
+		const formData = new FormData();
 
-		// body.append('teamId', String(data.teamId));
-		// body.append('location', data.location);
-		// body.append('type', data.type);
-		// body.append('name', data.name);
-		// body.append('dateTime', data.dateTime);
-		// body.append('capacity', String(data.capacity));
-		// body.append('registrationEnd', data.registrationEnd);
-		// if (data.image instanceof File) {
-		// 	body.append('image', data.image);
-		// }
+		formData.append('location', data.location);
+		formData.append('type', data.type as GatheringType);
+		formData.append('name', data.name);
+		formData.append('dateTime', data.dateTime);
+		formData.append('registrationEnd', data.registrationEnd);
+		formData.append('capacity', String(data.capacity));
+		if (data.image instanceof File) formData.append('image', data.image);
 
-		// console.log('전송할 폼 데이터:', body);
+		try {
+			await postGathering(formData);
 
-		// try {
-		// 	const response = await fetch(`https://fe-adv-project-together-dallaem.vercel.app/${data.teamId}/gatherings`, {
-		// 		method: 'POST',
-		// 		body
-		// 	});
-
-		// 	if (!response.ok) {
-		// 		throw new Error('게시글 생성 중 오류가 발생하였습니다.');
-		// 	}
-
-		// 	alert('게시글이 생성되었습니다');
-		// 	reset();
-		// } catch (error) {
-		// 	console.log(error);
-		// }
-		console.log('추후 API 연동 예정');
+			alert('모임이 생성되었습니다.');
+			reset();
+			closePopup();
+			router.push('/');
+		} catch (error) {
+			console.log(error);
+		}
 	};
-
-	const { openModal } = useModal();
-	const closePopup = useModalClose(); // 자기 자신 닫기
 
 	const handleCloseWithPopup = () => {
 		const title = POPUP_MESSAGE.CREATE.title;
@@ -167,9 +158,10 @@ export default function GatheringModal() {
 						className="hidden"
 						ref={fileInputRef}
 						onChange={e => {
-							const file = e.target.files?.[0]?.name || '';
+							const file = e.target.files?.[0] || null;
 							if (file) {
 								setValue('image', file, { shouldValidate: true });
+								setFileName(file.name); // 파일명 표시용 상태
 							}
 						}}
 					/>
@@ -178,8 +170,7 @@ export default function GatheringModal() {
 						<BasicInput
 							id="gathering-image"
 							label="이미지"
-							placeholder={watch('image') ? watch('image') : '이미지를 첨부해주세요'}
-							register={register('image')}
+							placeholder={fileName || '이미지를 첨부해주세요'}
 							readOnly
 						/>
 					</div>
@@ -231,53 +222,57 @@ export default function GatheringModal() {
 						<Controller
 							name="dateTime"
 							control={control}
-							render={({ field }) => (
-								<div className="flex flex-col gap-3">
-									<label
-										htmlFor="gathering-start-date"
-										className="leading-base flex text-base font-semibold text-gray-800">
-										모임 날짜
-									</label>
-									<BasicCalendar
-										pageType="create"
-										onChange={date => {
-											const formatted = format(date, 'yyyy-MM-dd HH:mm a');
-											field.onChange(formatted);
-										}}
-									/>
-									{errors.dateTime && (
-										<p className="leading-sm text-start text-sm font-semibold text-red-600">
-											{errors.dateTime.message}
-										</p>
-									)}
-								</div>
-							)}
+							render={({ field }) => {
+								return (
+									<div className="flex flex-col gap-3">
+										<label className="leading-base flex text-base font-semibold text-gray-800">모임 날짜</label>
+										<GatheringCalendar
+											pageType="create"
+											onChange={(date: Date) => {
+												const isoFormatted = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+												field.onChange(isoFormatted);
+											}}
+										/>
+
+										{errors.dateTime && (
+											<p className="leading-sm text-start text-sm font-semibold text-red-600">
+												{errors.dateTime.message}
+											</p>
+										)}
+									</div>
+								);
+							}}
 						/>
 					</div>
 
-					<Controller
-						name="registrationEnd"
-						control={control}
-						render={({ field }) => (
-							<div className="flex flex-col gap-3">
-								<label htmlFor="gathering-end-date" className="leading-base flex text-base font-semibold text-gray-800">
-									마감 날짜
-								</label>
-								<BasicCalendar
-									pageType="create"
-									onChange={date => {
-										const formatted = format(date, 'yyyy-MM-dd HH:mm a');
-										field.onChange(formatted);
-									}}
-								/>
-								{errors.registrationEnd && (
-									<p className="leading-sm text-start text-sm font-semibold text-red-600">
-										{errors.registrationEnd.message}
-									</p>
-								)}
-							</div>
-						)}
-					/>
+					{/* 마감 날짜 */}
+					<div className="flex flex-col gap-3">
+						<Controller
+							name="registrationEnd"
+							control={control}
+							render={({ field }) => {
+								return (
+									<div className="flex flex-col gap-3">
+										<label className="leading-base flex text-base font-semibold text-gray-800">마감 날짜</label>
+
+										<GatheringCalendar
+											pageType="create"
+											onChange={(date: Date) => {
+												const isoFormatted = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+												field.onChange(isoFormatted);
+											}}
+										/>
+
+										{errors.registrationEnd && (
+											<p className="leading-sm text-start text-sm font-semibold text-red-600">
+												{errors.registrationEnd.message}
+											</p>
+										)}
+									</div>
+								);
+							}}
+						/>
+					</div>
 				</div>
 
 				<div className="mb-[40px] flex w-full flex-col gap-3">
@@ -293,7 +288,9 @@ export default function GatheringModal() {
 					)}
 				</div>
 
-				<BasicButton className="w-full">확인</BasicButton>
+				<BasicButton className="w-full" isActive={Boolean(isValid) && !isSubmitting} type="submit">
+					확인
+				</BasicButton>
 			</form>
 		</BasicModal>
 	);

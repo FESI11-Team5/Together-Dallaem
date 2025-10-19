@@ -1,4 +1,5 @@
-import { getRequest } from '@/apis';
+import { getRequest, postRequest } from '@/apis';
+import { CreateGathering } from '@/types/response/createGathering';
 import { Gathering } from '@/types/response/gatherings';
 
 // TODO: 임시 테스트 함수로 getGatherings 파라미터는 홈페이지 개발시 진행
@@ -14,6 +15,20 @@ import { Gathering } from '@/types/response/gatherings';
  */
 export const getGatherings = () =>
 	getRequest<Gathering[]>({
-		// path: '/gatherings'
-		path: '/gatherings?location=을지로33가'
+		path: '/gatherings'
+		// path: '/gatherings?location=을지로33가'
 	});
+
+/**
+ * 모임 생성 함수
+ */
+export const postGathering = (data: FormData) => {
+	return postRequest<CreateGathering>({ path: '/gatherings', data, options: { withAuth: true } });
+};
+
+/**
+ * 모임 상세 조회 함수
+ */
+export const getGatheringId = (gatheringId: number) => {
+	return getRequest<Gathering>({ path: `/gatherings/${gatheringId}` });
+};

@@ -2,7 +2,7 @@ import { GatheringLocation, GatheringType } from './gatherings';
 
 export interface CreateGathering {
 	/** 팀 ID */
-	teamId: number;
+	teamId?: number;
 	/** 모임명 */
 	name: string;
 	/** 모임 장소 */
@@ -16,5 +16,5 @@ export interface CreateGathering {
 	/** 정원 */
 	capacity: number;
 	/** 이미지 파일 (업로드용) */
-	image: string;
+	image: File | null;
 }

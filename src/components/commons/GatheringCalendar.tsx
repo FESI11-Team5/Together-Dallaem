@@ -2,9 +2,6 @@
 
 import * as React from 'react';
 
-import DateTimePicker from '../../calendar/DateTimePicker';
-import SearchInCalendarButton from '../../calendar/SearchInCalendarButton';
-
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -13,6 +10,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 
 import Image from 'next/image';
+import DateTimePicker from '../calendar/DateTimePicker';
+import SearchInCalendarButton from '../calendar/SearchInCalendarButton';
 
 /**
  * BasicCalendar 컴포넌트
@@ -55,7 +54,7 @@ interface TimeSelection {
  * - 반응형 디자인 적용
  *
  */
-export default function BasicCalendar({ pageType, onChange }: GatheringCalendarProps) {
+export default function GatheringCalendar({ pageType, onChange }: GatheringCalendarProps) {
 	const [date, setDate] = React.useState<Date>();
 	const [timeSelection, setTimeSelection] = React.useState<TimeSelection>({
 		hour: undefined,

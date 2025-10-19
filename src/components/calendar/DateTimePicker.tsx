@@ -67,8 +67,7 @@ export default function DateTimePicker({
 
 		const newDate = new Date(date);
 
-		// 12시간제를 24시간제로 변환 (72 ,73)
-		// 예: 12 AM -> 0, 1 PM -> 13
+		// ✅ 12시간제를 24시간제로 변환
 		let adjustedHour = parseInt(timeSelection.hour) % 12;
 		if (timeSelection.ampm === 'PM') adjustedHour += 12;
 
@@ -76,7 +75,7 @@ export default function DateTimePicker({
 		newDate.setMinutes(parseInt(timeSelection.minute));
 
 		setDate(newDate);
-		onChange?.(newDate);
+		onChange?.(newDate); // ← 한국시간 그대로 전달됨
 		setIsOpen(false);
 	};
 
