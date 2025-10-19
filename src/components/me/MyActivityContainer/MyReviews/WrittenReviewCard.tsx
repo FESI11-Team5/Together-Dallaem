@@ -1,32 +1,50 @@
 import Image from 'next/image';
-import { JoinedGathering } from '@/types/response/gatherings';
+import { ReviewResponse } from '@/types/response/reviews';
 import { formatKoreanDate } from '@/utils/date';
 
-interface GatheringProps {
-	/** 리뷰가 작성된 모임 정보 */
-	gathering: JoinedGathering;
+interface WrittenReviewCardProps {
+	/** 렌더링할 리뷰 객체 */
+	review: ReviewResponse;
 }
 
 /**
- * 작성된 리뷰 카드 컴포넌트
- * - 모임 이미지, 리뷰 점수(하트), 리뷰 내용, 모임 정보, 작성일 표시
- * - 마이페이지 '나의 리뷰' 탭 등에서 사용
- * - 작성일은 `yyyy.MM.dd` 형식으로 표시됨
- * - TODO : 추후 작성한 리뷰의 평점 및 코멘트 API를 호출할 예정입니다.
+ * WrittenReviewCard 컴포넌트
  *
- * @param {Object} props - 컴포넌트 props
- * @param {JoinedGathering} props.gathering - 리뷰가 작성된 모임 정보
+ * 사용자가 작성한 리뷰 항목을 카드 형태로 렌더링합니다.
+ * 카드에는 다음 항목이 포함됩니다:
+ * - 모임 이미지
+ * - 평점(하트 아이콘, 5단계)
+ * - 리뷰 코멘트
+ * - 모임 이름 및 위치
+ * - 모임 날짜 (yyyy.MM.dd 포맷)
+ *
+ * 접근성:
+ * - 평점 하트 아이콘의 `alt` 텍스트는 활성/비활성 상태를 구분하여 제공됩니다.
+ * - 날짜/텍스트는 시각적 정보 외에도 스크린리더가 읽을 수 있는 텍스트로 제공됩니다.
+ *
+ * @component
+ * @param {WrittenReviewCardProps} props - 컴포넌트 props
+ * @param {ReviewResponse} props.review - 렌더링할 리뷰 객체
+ * @returns {JSX.Element} 리뷰 카드 엘리먼트
  *
  * @example
- * <WrittenReviewCard gathering={gatheringData} />
+ * <WrittenReviewCard review={reviewItem} />
+ *
+ * @notes
+ * - `formatKoreanDate` 유틸로 모임 일시를 `yyyy.MM.dd` 형식으로 표시합니다.
  */
-export default function WrittenReviewCard({ gathering }: GatheringProps) {
+export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 	return (
-		<div key={gathering.id}>
+		<div>
 			<div className="tb:flex-row relative flex w-full flex-col gap-6">
 				{/* 모임 이미지 */}
 				<div className="tb:w-70 relative h-39 w-full min-w-[280px] overflow-hidden rounded-3xl">
-					<Image src={gathering.image} alt="모임 이미지" fill className="rounded-3xl bg-orange-100 object-cover" />
+					<Image
+						src={review.gathering.image}
+						alt="모임 이미지"
+						fill
+						className="rounded-3xl bg-orange-100 object-cover"
+					/>
 				</div>
 
 				{/* 리뷰 정보 */}
@@ -36,22 +54,19 @@ export default function WrittenReviewCard({ gathering }: GatheringProps) {
 							{Array.from({ length: 5 }).map((_, index) => (
 								<Image
 									key={`heart-${index}`}
-									src={'/icons/heart_active.svg'}
-									alt={'활성화된 하트'}
+									src={index < review.score ? '/icons/heart_active.svg' : '/icons/heart.svg'}
+									alt={index < review.score ? '활성화된 하트' : '비활성화된 하트'}
 									width={24}
 									height={24}
 								/>
 							))}
 						</div>
-						<p className="text-sm">
-							따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요!
-							프로그램이 더 많이 늘어났으면 좋겠어요.
-						</p>
+						<p className="text-sm">{review.comment}</p>
 						<p className="text-xs">
-							{gathering.name} 이용 / {gathering.location}
+							{review.gathering.name} 이용 · {review.gathering.location}
 						</p>
 					</div>
-					<p className="text-xs text-gray-500">{formatKoreanDate(gathering.dateTime, 'yyyy.MM.dd')}</p>
+					<p className="text-xs text-gray-500">{formatKoreanDate(review.gathering.dateTime, 'yyyy.MM.dd')}</p>
 				</div>
 				<div className="tb:hidden border-b-2 border-dashed border-gray-200" />
 			</div>
