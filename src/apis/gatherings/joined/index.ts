@@ -2,6 +2,18 @@ import { getRequest } from '@/apis';
 import { JoinedGathering } from '@/types/response/gatherings';
 
 /**
+ * 참여한 모임 관련 API 헬퍼들 (클라이언트 -> 서버)
+ *
+ * 이 모듈은 사용자가 참여한 모임 목록을 조회하는 유틸을 제공합니다.
+ * 모든 요청은 공통의 `getRequest` 유틸을 통해 수행되며, 인증이 필요한 엔드포인트입니다.
+ */
+/**
+ * 엔드포인트 경로: 참여한 모임 조회
+ * @constant {string}
+ */
+const JOINED_GATHERING_PATH = '/gatherings/joined';
+
+/**
  * 참여한 모임을 가져오기 위한 파라미터입니다.
  *
  * 모든 필드는 선택 사항이며, 값이 존재할 경우 쿼리 스트링으로 직렬화됩니다.
@@ -55,7 +67,7 @@ export const getJoinedGathering = async (params?: getJoinedGatheringParams): Pro
 	const queryString = query.toString() ? `?${query.toString()}` : '';
 
 	return getRequest<JoinedGathering[]>({
-		path: `/gatherings/joined${queryString}`,
+		path: `${JOINED_GATHERING_PATH}${queryString}`,
 		options: { withAuth: true }
 	});
 };
