@@ -13,6 +13,7 @@ interface CardProps {
 	onClick: () => void;
 }
 
+// TODO: 무한 스크롤 카드 페이드인, 페이드아웃 적용
 export default function Card({ gathering, onClick }: CardProps) {
 	const { id, name, dateTime, registrationEnd, location, participantCount, image } = gathering;
 	const { date, time } = formatDateAndTime(dateTime);
