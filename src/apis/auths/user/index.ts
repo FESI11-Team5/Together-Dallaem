@@ -1,5 +1,5 @@
 import { getRequest, putRequest } from '@/apis';
-import { UserInfo } from '@/types/user';
+import { UserInfo } from '@/types/response/user';
 
 interface UpdateUserInfoProps {
 	/** 수정할 회사명 */

@@ -37,3 +37,15 @@ export interface Gathering {
 	/** 취소일시 (ISO 8601 형식 문자열, 취소되지 않은 경우 null) */
 	canceledAt: string | null;
 }
+
+/**
+ * 로그인된 사용자가 참석한 모임 정보
+ */
+export interface JoinedGathering extends Gathering {
+	/** 참석한 일시 (ISO 8601 형식 문자열) */
+	joinedAt: string;
+	/** 모임 종료 여부 */
+	isCompleted: boolean;
+	/** 후기 작성 여부 */
+	isReviewed: boolean;
+}

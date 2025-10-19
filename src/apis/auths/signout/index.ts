@@ -1,6 +1,5 @@
 import { postRequest } from '@/apis';
 import { signoutResponse } from '@/types/response/auths';
-import { removeToken } from '@/utils/token';
 
 /**
  * 로그아웃 API 요청을 수행합니다.
@@ -13,4 +12,4 @@ import { removeToken } from '@/utils/token';
 export const postSignout = () =>
 	postRequest<signoutResponse>({
 		path: '/auths/signout'
-	}).then(() => removeToken());
+	});

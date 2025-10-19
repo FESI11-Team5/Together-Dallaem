@@ -89,9 +89,9 @@ export default function BasicButton({
 			{...rest}
 			//prettier-ignore
 			className={`
-				font-pretendard font-weight-semibold box-border
-				rounded-[12px] border-1 py-[10px] text-[16px] no-underline
-				${isLarge ? 'w-full' : 'w-[120px]'}
+				font-pretendard font-semibold box-border
+				rounded-[12px] border-1 py-[10px] no-underline
+				${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'}
 				${classByStatus}
 				${isActive ? 'cursor-pointer' : 'cursor-default'}
 				${className}

@@ -15,7 +15,7 @@ import type { GatheringType } from '@/types/response/gatherings';
 
 import BasicModal from '../commons/basic/BasicModal';
 import BasicInput from '../commons/basic/BasicInput';
-import BasicSelectBox from '../commons/basic/BasicSelectBox';
+import BasicSelectBox from '../commons/basic/BasicSelectButton';
 import BasicButton from '../commons/basic/BasicButton';
 import BasicPopup from '../commons/basic/BasicPopup';
 import BasicCheckBox from '../commons/basic/BasicCheckBox';

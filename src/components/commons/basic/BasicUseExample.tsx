@@ -7,7 +7,7 @@ import { useModal, useModalClose } from '@/hooks/useModal';
 import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
 import BasicTextBox from './BasicTextBox';
-import BasicSelectBox from './BasicSelectBox';
+import SelectBox from '../SelectBox';
 import ExampleModal from '../ExampleModal';
 import BasicTextArea from './BasicTextArea';
 import BasicModal from './BasicModal';
@@ -61,7 +61,7 @@ export default function Home() {
 	return (
 		<div className="relative flex h-screen w-screen flex-col items-start justify-start gap-6">
 			<form className="w-full" onSubmit={handleSubmit(handleFormSubmit)}>
-				<BasicSelectBox
+				<SelectBox
 					options={[
 						{ value: 'option1', text: '옵션 1' },
 						{ value: 'option2', text: '옵션 2' }
@@ -70,14 +70,14 @@ export default function Home() {
 					size="expanded"
 					placeholder="선택"
 				/>
-				<BasicSelectBox
+				<SelectBox
 					options={[
 						{ value: 'option1', text: '전체' },
 						{ value: 'option2', text: '을지로 3가' }
 					]}
 					register={register('selectField')}
 					size="small"
-					defaultValue="option1"
+					placeholder="지역 선택"
 				/>
 				<BasicInput
 					register={register('inputField')}

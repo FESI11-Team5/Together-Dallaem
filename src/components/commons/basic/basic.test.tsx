@@ -1,13 +1,14 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { useForm } from 'react-hook-form';
 import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
 import BasicModal from './BasicModal';
-import BasicSelectBox from './BasicSelectBox';
+import BasicSelectBox from './BasicSelectButton';
 import BasicTextArea from './BasicTextArea';
 import BasicTextBox from './BasicTextBox';
 import BasicPopup from './BasicPopup';
+import SelectBox from '../SelectBox';
 
 // Mock Next.js Image component
 jest.mock('next/image', () => ({
@@ -219,12 +220,12 @@ describe('BasicSelectBox', () => {
 	];
 
 	test('placeholder 잘 나타나는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" />);
 		expect(screen.getByText('선택하세요')).toBeInTheDocument();
 	});
 
 	test('셀렉트박스 클릭시 드롭다운 열리는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" />);
 
 		const selectBox = screen.getByRole('button');
 		fireEvent.click(selectBox);
@@ -234,7 +235,7 @@ describe('BasicSelectBox', () => {
 	});
 
 	test('옵션 클릭시 옵션 선택 잘 되는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" />);
 
 		const selectBox = screen.getByRole('button');
 		fireEvent.click(selectBox);
@@ -247,7 +248,7 @@ describe('BasicSelectBox', () => {
 	});
 
 	test('셀렉트박스 드롭다운 옵션들이 올바르게 렌더링되는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" />);
 
 		const selectBox = screen.getByRole('button');
 		fireEvent.click(selectBox);
@@ -262,7 +263,7 @@ describe('BasicSelectBox', () => {
 	});
 
 	test('셀렉트박스 옵션 클릭시 드롭다운이 자동으로 닫히는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" />);
 
 		const selectBox = screen.getByRole('button');
 		fireEvent.click(selectBox);
@@ -279,17 +280,17 @@ describe('BasicSelectBox', () => {
 	});
 
 	test('size=expanded일 때 셀렉트박스가 부모 컴포넌트에 꽉 차게 적용되는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="expanded" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" size="expanded" />);
 		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-full');
 	});
 
 	test('size=large일 때 셀렉트박스 너비 110px 높이 40px 적용되는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="large" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" size="large" />);
 		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[110px] h-[40px]');
 	});
 
 	test('size=small일 때 셀렉트박스 너비 110px 높이 36px 적용되는지 확인', () => {
-		render(<BasicSelectBox options={mockOptions} placeholder="선택하세요" size="small" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" size="small" />);
 		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[110px] h-[36px]');
 	});
 });
@@ -355,7 +356,7 @@ describe('React Hook Form으로 컴포넌트 연동 잘 되는지 테스트', ()
 					id="테스트 입력"
 				/>
 				<BasicTextArea register={register('testTextArea')} placeholder="테스트 텍스트영역" />
-				<BasicSelectBox
+				<SelectBox
 					register={register('testSelect')}
 					options={[
 						{ value: 'test1', text: '테스트 1' },
