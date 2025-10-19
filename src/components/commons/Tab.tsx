@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 /**
  * 탭 옵션의 타입 정의
  */
-interface TabOption {
+export interface TabOption {
 	/** 탭의 고유 식별값 */
 	value: string;
 	/** 탭에 표시될 텍스트 */
