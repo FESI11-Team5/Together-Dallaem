@@ -23,8 +23,8 @@ export const Default: Story = {
 					setSelectedDate={setSelectedDate}
 				/>
 				<div className="mt-4 space-y-1 text-sm text-gray-500">
-					<p>선택된 지역: {selectedLocation ?? '없음'}</p>
-					<p>선택된 날짜: {selectedDate?.toDateString() ?? '없음'}</p>
+					<p>선택된 지역: {selectedLocation || '없음'}</p>
+					<p>선택된 날짜: {selectedDate?.toDateString() || '없음'}</p>
 				</div>
 			</div>
 		);
