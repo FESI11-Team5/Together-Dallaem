@@ -43,7 +43,7 @@ interface DropdownMenuTriggerProps {
 
 function DropdownMenuTrigger({ children }: DropdownMenuTriggerProps) {
 	const { toggle } = useDropdwonMenuContext();
-	const handleClick = (e: MouseEvent) => {
+	const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.stopPropagation();
 		toggle();
 	};
