@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import HeartButton from '.';
 
 const meta: Meta<typeof HeartButton> = {
-	title: 'Components/HeartButton',
+	title: 'Home/HeartButton',
 	component: HeartButton,
 	tags: ['autodocs']
 };

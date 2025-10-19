@@ -1,12 +1,12 @@
 'use client';
 
+import HeartButton from '@/app/(home)/HeartButton';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
 import type { Gathering } from '@/types/response/gatherings';
 import { formatDateAndTime, getDeadlineLabel } from '@/utils/date';
 import Image from 'next/image';
-import HeartButton from './HeartButton';
 
 interface CardProps {
 	gathering: Gathering;
