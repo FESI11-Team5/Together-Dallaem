@@ -15,11 +15,11 @@ import type { GatheringType } from '@/types/response/gatherings';
 
 import BasicModal from '../commons/basic/BasicModal';
 import BasicInput from '../commons/basic/BasicInput';
-import BasicSelectBox from '../commons/basic/BasicSelectButton';
 import BasicButton from '../commons/basic/BasicButton';
 import BasicPopup from '../commons/basic/BasicPopup';
 import BasicCheckBox from '../commons/basic/BasicCheckBox';
 import GatheringCalendar from '../commons/GatheringCalendar';
+import SelectBox from '../commons/SelectBox';
 
 /**
  * GatheringModal 컴포넌트
@@ -135,7 +135,7 @@ export default function GatheringModal() {
 					<label htmlFor="gathering-location" className="leading-base flex text-base font-semibold text-gray-800">
 						장소
 					</label>
-					<BasicSelectBox
+					<SelectBox
 						options={[
 							{ value: '건대입구', text: '건대입구' },
 							{ value: '을지로3가', text: '을지로3가' },
@@ -161,7 +161,7 @@ export default function GatheringModal() {
 							const file = e.target.files?.[0] || null;
 							if (file) {
 								setValue('image', file, { shouldValidate: true });
-								setFileName(file.name); // 파일명 표시용 상태
+								setFileName(file.name);
 							}
 						}}
 					/>

@@ -4,22 +4,25 @@ import { useEffect, useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { Gathering } from '@/types/response/gatherings';
 import { getGatheringId } from '@/apis/gatherings';
-import { getUserIdFromToken } from '@/utils/token';
+import { useUserStore } from '@/stores/user';
 
 import Image from 'next/image';
 import Tag from '../commons/Tag';
 import ChipInfo from '../commons/ChipInfo';
 import BasicProgressBar from '../commons/basic/BasicProgressBar';
 import BasicPopup from '../commons/basic/BasicPopup';
+import RequiredLoginPopup from '../auth/Popup/RequiredLoginPopup';
+import { usePathname } from 'next/navigation';
 
 /**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
 	const { registrationEnd } = data;
 
-	const utcNow = new Date();
-	const koreaTime = new Date(utcNow.getTime() + 9 * 60 * 60 * 1000);
+	const utcNow = new Date(); // UTC 현재 시간
+	const koreaTime = new Date(utcNow.getTime() + 9 * 60 * 60 * 1000); // 한국 시간으로 변환
 	const endDate = new Date(registrationEnd);
 
+	/** 현재 시간이 마감일과 같은 날인지 확인 */
 	const isSameDay =
 		koreaTime.getUTCFullYear() === endDate.getUTCFullYear() &&
 		koreaTime.getUTCMonth() === endDate.getUTCMonth() &&
@@ -28,23 +31,24 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 	let tagText = '';
 
 	if (isSameDay) {
-		const diffMs = endDate.getTime() - koreaTime.getTime();
+		const diffTime = endDate.getTime() - koreaTime.getTime();
 
-		if (diffMs <= 0) {
-			tagText = '마감됨';
+		if (diffTime <= 0) {
+			tagText = '모집 마감';
 		} else {
-			const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-			const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+			const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+			const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
 
-			if (diffHours >= 1) tagText = `오늘 ${diffHours}시간 뒤 마감`;
-			else tagText = `오늘 ${diffMinutes}분 뒤 마감`;
+			if (diffHours >= 1)
+				tagText = `오늘 ${diffHours}시간 뒤 마감`; // 1시간 이상 남을 경우 시간으로 표시
+			else tagText = `오늘 ${diffMinutes}분 뒤 마감`; // 1시간 미만 남을 경우 분으로 표시
 		}
 	} else {
-		const diffMs = endDate.getTime() - koreaTime.getTime();
-		const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+		const diffTime = endDate.getTime() - koreaTime.getTime();
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-		if (diffDays <= 0) tagText = '마감된 모임입니다.';
-		else tagText = `D-${diffDays}`;
+		if (diffDays <= 0) tagText = '마감된 모임';
+		else tagText = `D-${diffDays}일 남음`;
 	}
 
 	return (
@@ -66,10 +70,18 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 	const date = dateTime.split('T')[0].slice(5);
 	const gatheringDate = date.replace('-', '월 ') + '일';
 	const gatheringTime = dateTime.split('T')[1].slice(0, 5);
+	const pathname = usePathname();
 
 	const handleHeartClick = () => {
 		// TODO : localStorage에 찜 목록 저장 로직 필요 (윤지님 로직 쓰기)
-		const userId = getUserIdFromToken();
+
+		const { user } = useUserStore.getState();
+		const userId = user?.userId;
+
+		if (!userId) {
+			openModal(<RequiredLoginPopup next={pathname} />, 'required-login-popup');
+			return;
+		}
 
 		openModal(<BasicPopup title="찜 목록에 추가되었습니다." />, 'heart-popup');
 	};

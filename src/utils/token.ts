@@ -72,18 +72,3 @@ export const isAuthenticated = (): boolean => {
 
 	return isTokenExpired(token) !== 'EXPIRED';
 };
-
-/**
- * JWT 토큰에서 userId를 추출합니다.
- *
- * @returns {number | null} userId (없거나 토큰이 유효하지 않으면 null)
- */
-export const getUserIdFromToken = (): number | null => {
-	const token = getToken();
-	if (!token) return null;
-
-	const payload = decodeToken(token);
-	if (!payload || typeof payload.userId !== 'number') return null;
-
-	return payload.userId;
-};
