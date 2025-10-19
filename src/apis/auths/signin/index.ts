@@ -1,6 +1,5 @@
 import { postRequest } from '@/apis';
 import { signinRequest, signinResponse } from '@/types/response/auths';
-import { setToken } from '@/utils/token';
 
 /**
  * 로그인 API 요청을 수행합니다.
@@ -18,4 +17,4 @@ export const postSignin = (data: signinRequest) =>
 	postRequest<signinResponse, signinRequest>({
 		path: '/auths/signin',
 		data
-	}).then(res => setToken(res.token));
+	});

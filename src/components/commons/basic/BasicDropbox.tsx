@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 /**
  * 드롭다운되는 선택 항목들의 타입
@@ -66,7 +66,7 @@ export default function BasicDropbox({
 	return (
 		<div
 			ref={ref}
-			className={`absolute right-0 left-0 z-50 mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl ${className}`}
+			className={`absolute right-0 z-50 mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl ${className}`}
 			role="listbox"
 			aria-label="옵션 목록">
 			{options.map(option => (

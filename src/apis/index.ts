@@ -1,5 +1,6 @@
 import { BaseRequestProps, FetchProps, RequestWithDataProps } from '@/types/fetch';
 import { ApiError, deepMerge, toApiError } from '@/utils/fetch';
+import { getToken, removeToken } from '@/utils/token';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 const DEFAULT_TIMEOUT = 10000; // 기본 10초
@@ -91,7 +92,7 @@ export const _fetch = async <T = unknown>({ path, method, options, data }: Fetch
 		if (typeof window === 'undefined') {
 			throw new Error('withAuth 옵션은 클라이언트 환경에서만 사용할 수 있습니다.');
 		}
-		const token = localStorage.getItem('token');
+		const token = getToken();
 		if (!token) {
 			throw new ApiError(401, 'Unauthorized', { code: 'UNAUTHORIZED', message: 'Authorization 헤더가 필요합니다' });
 		}
@@ -126,7 +127,7 @@ export const _fetch = async <T = unknown>({ path, method, options, data }: Fetch
 			const errorBody = await response.json().catch(() => null);
 
 			if (response.status === 401) {
-				localStorage.removeItem('token');
+				removeToken();
 				if (typeof window !== 'undefined' && window.location.pathname !== '/signin') {
 					window.location.href = '/signin?next=' + encodeURIComponent(window.location.pathname);
 				}

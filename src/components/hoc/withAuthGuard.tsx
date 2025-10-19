@@ -1,8 +1,8 @@
 'use client';
 
 import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
+import { useAuth } from '@/hooks/useAuth';
 import { useModal } from '@/hooks/useModal';
-import { isAuthenticated } from '@/utils/token';
 import { usePathname } from 'next/navigation';
 import { ComponentType } from 'react';
 
@@ -36,11 +36,12 @@ interface WithAuthGuardProps {
  */
 export function withGuard<T extends WithAuthGuardProps>(Component: ComponentType<T>) {
 	return function AuthGuarded(props: T) {
+		const { isAuthenticated } = useAuth();
 		const { openModal } = useModal();
 		const pathname = usePathname();
 
 		const handleClick = () => {
-			if (!isAuthenticated()) {
+			if (isAuthenticated) {
 				openModal(<RequiredLoginPopup next={pathname} />);
 			}
 

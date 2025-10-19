@@ -1,11 +1,9 @@
 'use client';
 
 import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
+import { useAuth } from '@/hooks/useAuth';
 import { useModal } from '@/hooks/useModal';
-import { isAuthenticated } from '@/utils/token';
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-
 /**
  * `MeLayout` 컴포넌트
  *
@@ -25,14 +23,18 @@ import { useEffect } from 'react';
  * ```
  */
 export default function MeLayout({ children }: { children: React.ReactNode }) {
-	const pathname = usePathname();
+	const { isAuthenticated } = useAuth();
 	const { openModal } = useModal();
 
 	useEffect(() => {
-		if (!isAuthenticated()) {
-			openModal(<RequiredLoginPopup next={pathname} />);
+		if (!isAuthenticated) {
+			openModal(<RequiredLoginPopup next="/me" />);
 		}
-	}, [pathname, openModal]);
+	}, [openModal, isAuthenticated]);
 
-	return <>{children}</>;
+	if (!isAuthenticated) {
+		return <div className="box-border bg-gray-100"></div>;
+	}
+
+	return children;
 }
