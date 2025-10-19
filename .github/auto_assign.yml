@@ -1,0 +1,11 @@
+addReviewers: true
+addAssignees: false
+
+reviewers:
+  - bbagbbagn2
+  - annann23
+  - SeungMin-Baek98
+  - y0unj1NoH
+
+random: true
+numberOfReviewers: 2
