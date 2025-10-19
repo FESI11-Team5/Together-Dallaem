@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * SearchInCalendarButton 컴포넌트
  * - 달력에서 날짜를 선택하고 '적용' 버튼을 눌러 선택 완료

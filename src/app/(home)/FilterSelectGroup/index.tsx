@@ -1,3 +1,5 @@
+'use client';
+
 import SearchCalendar from '@/app/(home)/SearchCalendar';
 import SelectBox from '@/components/commons/SelectBox';
 import { LOCATION_OPTIONS } from '@/constants/options';

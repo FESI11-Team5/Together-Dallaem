@@ -1,3 +1,5 @@
+'use client';
+
 import Chip from '@/components/commons/Chip';
 import Tab from '@/components/commons/Tab';
 import { SUB_TYPE_OPTIONS, TYPE_OPTIONS } from '@/constants/options';
