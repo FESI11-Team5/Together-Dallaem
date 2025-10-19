@@ -1,16 +1,21 @@
 'use client';
 
 import { postSignin } from '@/apis/auths/signin';
+import { getUserInfo } from '@/apis/auths/user';
 import ServerErrorPopup from '@/components/auth/Popup/ServerErrorPopup';
 import { SigninForm, type SigninFormValues } from '@/components/auth/SigninForm';
 import { useModal } from '@/hooks/useModal';
+import { useUserStore } from '@/stores/user';
 import { ApiError } from '@/utils/fetch';
+import { decodeToken } from '@/utils/token';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function SigninPage() {
 	const searchParams = useSearchParams();
 	const next = searchParams.get('next') ?? '/';
 
+	const signinUser = useUserStore(state => state.signinUser);
+	const updateUser = useUserStore(state => state.updateUser);
 	const router = useRouter();
 	const { openModal } = useModal();
 
@@ -27,7 +32,21 @@ export default function SigninPage() {
 	 */
 	const handleSigninAndRedirect = async (data: SigninFormValues) => {
 		try {
-			await postSignin(data);
+			const { token } = await postSignin(data);
+
+			const decodedToken = decodeToken(token);
+			if (!decodedToken) throw new Error('Invalid token');
+
+			signinUser({ userId: decodedToken.userId as number, token });
+
+			const userInfo = await getUserInfo();
+			updateUser({
+				email: userInfo.email,
+				name: userInfo.name,
+				companyName: userInfo.companyName,
+				image: userInfo.image ?? ''
+			});
+
 			router.push(next);
 		} catch (error) {
 			if (error instanceof ApiError) {

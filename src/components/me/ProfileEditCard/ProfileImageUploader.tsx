@@ -50,7 +50,7 @@ export default function ProfileImageUploader({ currentImage, onChange }: Profile
 		<>
 			<button type="button" className="relative cursor-pointer" onClick={() => fileInputRef.current?.click()}>
 				<Image
-					src={preview || '/images/profile_edit.svg'}
+					src={preview || '/images/profile.svg'}
 					alt="프로필 사진"
 					width={56}
 					height={56}

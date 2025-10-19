@@ -1,11 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 import { useModal } from '@/hooks/useModal';
-import { isAuthenticated } from '@/utils/token';
 import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
-
 /**
  * `MeLayout` 컴포넌트
  *
@@ -25,16 +23,21 @@ import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
  * ```
  */
 export default function MeLayout({ children }: { children: React.ReactNode }) {
-	const pathname = usePathname();
-	const { openModal } = useModal();
-	const hasOpenedModal = useRef(false);
+	// const { isAuthenticated } = useAuth();
+	// const { openModal } = useModal();
 
-	useEffect(() => {
-		if (!isAuthenticated() && !hasOpenedModal.current) {
-			openModal(<RequiredLoginPopup next={pathname} />);
-			hasOpenedModal.current = true;
-		}
-	}, [pathname, openModal]);
+	// const hasOpenedRef = useRef(false);
 
-	return <>{children}</>;
+	// useEffect(() => {
+	// 	if (!isAuthenticated && !hasOpenedRef.current) {
+	// 		openModal(<RequiredLoginPopup next="/me" />);
+	// 		hasOpenedRef.current = true;
+	// 	}
+	// }, [isAuthenticated]);
+
+	// if (!isAuthenticated) {
+	// 	return <div className="box-border bg-gray-100"></div>;
+	// }
+
+	return children;
 }
