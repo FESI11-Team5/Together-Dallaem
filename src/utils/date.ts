@@ -1,3 +1,6 @@
+import { differenceInDays, format, isPast } from 'date-fns';
+import { ko } from 'date-fns/locale';
+
 type DateFormat = 'M월 D일 · HH:mm' | 'yyyy.MM.dd';
 
 /**
@@ -32,3 +35,28 @@ export function formatKoreanDate(dateString: string, format: DateFormat = 'M월 
 			return `${month}월 ${day}일 · ${hours}:${minutes}`;
 	}
 }
+
+export const formatDateAndTime = (dateString: string) => {
+	const date = new Date(dateString);
+	const formattedDate = format(date, 'M월 d일', { locale: ko });
+	const formattedtime = format(date, 'HH:mm', { locale: ko });
+
+	return {
+		date: formattedDate,
+		time: formattedtime
+	};
+};
+
+export const getDeadlineLabel = (dateString?: string) => {
+	if (!dateString) return null;
+
+	const deadline = new Date(dateString);
+	if (isPast(deadline)) return '';
+
+	const differenceDays = differenceInDays(deadline, new Date());
+	if (differenceDays > 0) {
+		return `${differenceDays}일 후 마감`;
+	}
+
+	return `오늘 ${format(deadline, 'HH시', { locale: ko })} 마감`;
+};
