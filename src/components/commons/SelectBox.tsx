@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, forwardRef, useRef, useEffect, useMemo, useCallback } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import BasicDropbox, { OptionType } from './basic/BasicDropbox';
 import BasicSelectButton from './basic/BasicSelectButton';
@@ -127,11 +127,16 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 		);
 
 		// 토글 처리
-		const handleToggle = useCallback(() => {
-			if (!disabled) {
-				setIsOpen(prev => !prev);
-			}
-		}, [disabled]);
+		const handleToggle = useCallback(
+			(e: React.MouseEvent) => {
+				// TODO: 드롭박스 안열려서 추가 (논의 필요)
+				e?.stopPropagation();
+				if (!disabled) {
+					setIsOpen(prev => !prev);
+				}
+			},
+			[disabled]
+		);
 
 		return (
 			<div ref={ref} className={`relative ${className}`}>
