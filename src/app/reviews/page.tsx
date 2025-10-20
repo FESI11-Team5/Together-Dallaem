@@ -2,13 +2,30 @@
 // 마이페이지
 import Image from 'next/image';
 import Tab from '@/components/commons/Tab';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import Chip from '@/components/commons/Chip';
 import ScoreSection from '@/components/reviews/ScoreSection';
 import { getReviews } from '@/apis/reviews/reviews';
 import { GetReviewsResponse, scoreData } from '@/types/response/reviews';
 import { getScores } from '@/apis/reviews/scores';
 import { GatheringType } from '@/types/response/gatherings';
+import ReviewSection from '@/components/reviews/ReviewSection';
+import { FilterData } from '@/components/reviews/FilterSection';
+
+/**
+ * 빈 값들을 제거한 필터 객체를 반환하는 헬퍼 함수
+ */
+const setReviewParams = (filterValues: FilterData): Record<string, string> => {
+	return Object.entries(filterValues).reduce(
+		(acc, [key, value]) => {
+			if (value && value !== '') {
+				acc[key] = value;
+			}
+			return acc;
+		},
+		{} as Record<string, string>
+	);
+};
 
 /**
  * `Reviews` 컴포넌트
@@ -25,22 +42,47 @@ export default function Reviews() {
 	const [scoreData, setScoreData] = useState<scoreData | null>(null);
 	const [reviewsData, setReviewsData] = useState<GetReviewsResponse | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<GatheringType>('DALLAEMFIT');
+	const [filterValues, setFilterValues] = useState<FilterData>({});
+
+	const handleFilterChange = useCallback(
+		(filter: FilterData) => {
+			if (JSON.stringify(filterValues) !== JSON.stringify(filter)) {
+				setFilterValues(filter);
+			}
+		},
+		[filterValues]
+	);
 
 	useEffect(() => {
-		const getData = async () => {
+		const getScoreData = async () => {
 			try {
 				const scores = await getScores({ type: selectedCategory });
-				const reviews = await getReviews({});
-
 				setScoreData(scores[0]);
+			} catch (error) {
+				//TODO: 모달창 띄우기
+				console.error(error);
+			}
+		};
+		getScoreData();
+	}, [selectedCategory]);
+
+	useEffect(() => {
+		console.log(filterValues.date);
+		const getReviewsData = async () => {
+			try {
+				const reviews = await getReviews({
+					type: selectedCategory,
+					sortOrder: 'desc',
+					...setReviewParams(filterValues)
+				});
 				setReviewsData(reviews);
 			} catch (error) {
 				//TODO: 모달창 띄우기
 				console.error(error);
 			}
 		};
-		getData();
-	}, [selectedCategory]);
+		getReviewsData();
+	}, [selectedCategory, filterValues]);
 
 	return (
 		<div className="box-border bg-gray-100" style={{ fontFamily: 'var(--font-pretendard)' }}>
@@ -91,6 +133,7 @@ export default function Reviews() {
 					<div className="divider mt-4 h-[2px] w-full bg-gray-200"></div>
 				</div>
 				<ScoreSection data={scoreData} />
+				<ReviewSection reviewData={reviewsData} callbackOnFilterChange={handleFilterChange} />
 			</div>
 		</div>
 	);

@@ -1,20 +1,27 @@
 import BasicPagination from '../commons/basic/BasicPagnation';
-import { GetReviewsResponse } from '@/types/response/reviews';
-import FilterSection from './FilterSection';
+import { GetReviewsResponse, Review } from '@/types/response/reviews';
+import FilterSection, { FilterData } from './FilterSection';
+import ReviewItem from './ReviewItem';
 
-export default function ReviewSection({ reviewData }: { reviewData: GetReviewsResponse | null }) {
+export default function ReviewSection({
+	reviewData,
+	callbackOnFilterChange
+}: {
+	reviewData: GetReviewsResponse | null;
+	callbackOnFilterChange: (filter: FilterData) => void;
+}) {
+	const handleFilterChange = (newFilterData: FilterData) => {
+		callbackOnFilterChange(newFilterData);
+	};
+
 	return (
 		<div className="flex flex-col items-center justify-center gap-4 border-t-[2px] border-gray-900 bg-white p-6">
-			<FilterSection />
+			<FilterSection onFilterChange={handleFilterChange} />
 			{reviewData ? (
 				<>
-					<div className="flex flex-col items-center gap-2">
-						{reviewData.data.map(item => (
-							<div key={item.id}>
-								<div>{item.score}</div>
-								<div>{item.comment}</div>
-								<div>{item.createdAt}</div>
-							</div>
+					<div className="flex w-full flex-col items-center gap-6">
+						{reviewData.data.map((item: Review) => (
+							<ReviewItem key={item.id} reviewData={item} />
 						))}
 					</div>
 					<BasicPagination
