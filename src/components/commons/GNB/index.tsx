@@ -92,8 +92,6 @@ export default function GNB() {
 								src={user?.image || '/images/profile.svg'}
 								alt="프로필 사진"
 								fill
-								// width={40}
-								// height={40}
 								className="object-cover"
 							/>
 						</div>
