@@ -43,6 +43,7 @@ export default function Reviews() {
 	const [reviewsData, setReviewsData] = useState<GetReviewsResponse | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<GatheringType>('DALLAEMFIT');
 	const [filterValues, setFilterValues] = useState<FilterData>({});
+	const [currentPage, setCurrentPage] = useState(1);
 
 	const handleFilterChange = useCallback(
 		(filter: FilterData) => {
@@ -52,6 +53,10 @@ export default function Reviews() {
 		},
 		[filterValues]
 	);
+
+	const handlePageChange = useCallback((page: number) => {
+		setCurrentPage(page);
+	}, []);
 
 	useEffect(() => {
 		const getScoreData = async () => {
@@ -67,12 +72,12 @@ export default function Reviews() {
 	}, [selectedCategory]);
 
 	useEffect(() => {
-		console.log(filterValues.date);
 		const getReviewsData = async () => {
 			try {
 				const reviews = await getReviews({
 					type: selectedCategory,
 					sortOrder: 'desc',
+					offset: (currentPage - 1) * 10,
 					...setReviewParams(filterValues)
 				});
 				setReviewsData(reviews);
@@ -82,7 +87,7 @@ export default function Reviews() {
 			}
 		};
 		getReviewsData();
-	}, [selectedCategory, filterValues]);
+	}, [selectedCategory, filterValues, currentPage]);
 
 	return (
 		<div className="box-border bg-gray-100" style={{ fontFamily: 'var(--font-pretendard)' }}>
@@ -133,7 +138,11 @@ export default function Reviews() {
 					<div className="divider mt-4 h-[2px] w-full bg-gray-200"></div>
 				</div>
 				<ScoreSection data={scoreData} />
-				<ReviewSection reviewData={reviewsData} callbackOnFilterChange={handleFilterChange} />
+				<ReviewSection
+					reviewData={reviewsData}
+					callbackOnFilterChange={handleFilterChange}
+					callBackOnPageChange={handlePageChange}
+				/>
 			</div>
 		</div>
 	);

@@ -2,16 +2,23 @@ import BasicPagination from '../commons/basic/BasicPagnation';
 import { GetReviewsResponse, Review } from '@/types/response/reviews';
 import FilterSection, { FilterData } from './FilterSection';
 import ReviewItem from './ReviewItem';
+import { useState } from 'react';
 
 export default function ReviewSection({
 	reviewData,
-	callbackOnFilterChange
+	callbackOnFilterChange,
+	callBackOnPageChange
 }: {
 	reviewData: GetReviewsResponse | null;
 	callbackOnFilterChange: (filter: FilterData) => void;
+	callBackOnPageChange: (offset: number) => void;
 }) {
 	const handleFilterChange = (newFilterData: FilterData) => {
 		callbackOnFilterChange(newFilterData);
+	};
+
+	const handlePageChange = (page: number) => {
+		callBackOnPageChange(page);
 	};
 
 	return (
@@ -27,7 +34,7 @@ export default function ReviewSection({
 					<BasicPagination
 						currentPage={reviewData?.currentPage}
 						totalPages={reviewData?.totalPages}
-						onPageChange={() => {}}
+						onPageChange={handlePageChange}
 					/>
 				</>
 			) : (
