@@ -93,7 +93,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 				} ${isOpen ? 'rotate-180' : 'rotate-0'} ${
 					hasValue && size !== 'expanded' ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`
 				}`,
-			[disabled, isOpen, hasValue]
+			[disabled, isOpen, hasValue, size]
 		);
 
 		const textColor = useMemo(() => {
