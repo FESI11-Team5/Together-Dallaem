@@ -2,13 +2,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useKeyActions } from '@/hooks/useKeyActions';
 import { useModalClose } from '@/hooks/useModal';
+import { profileEditSchema, ProfileEditSchemaType } from '@/utils/schema';
+import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
 import BasicInput from '@/components/commons/basic/BasicInput';
-import BasicButton from '@/components/commons/basic/BasicButton';
 import ProfileImageUploader from '../ProfileEditCard/ProfileImageUploader';
-import { useKeyActions } from '@/hooks/useKeyActions';
-import { profileEditSchema, ProfileEditSchemaType } from '@/utils/schema';
 
 interface ProfileEditModalProps {
 	/** 현재 사용자의 프로필 이미지 URL */

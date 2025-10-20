@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useModal } from '@/hooks/useModal';
 import { useScreenSize } from './hooks/useScreenSize';
 import { profileAssets } from './assets/profileAssets';
-import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/user';
-import { UserInfo } from '@/types/response/user';
+import { useUserStore } from '@/stores/user';
+import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
 
 /**
  * `ProfileEditCard` 컴포넌트
@@ -21,31 +21,30 @@ import { UserInfo } from '@/types/response/user';
  * @returns {JSX.Element} 프로필 카드 UI 및 Modal을 렌더링합니다.
  */
 export default function ProfileEditCard() {
-	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 	const { openModal } = useModal();
 	const screenSize = useScreenSize();
 	const { bg, edit } = useMemo(() => profileAssets[screenSize], [screenSize]);
+
+	const { user, updateUser } = useUserStore();
 
 	//초기 데이터 불러오기
 	useEffect(() => {
 		const fetchUserInfo = async () => {
 			try {
 				const data = await getUserInfo();
-
-				setUserInfo(data);
+				updateUser({ email: data.email, name: data.name, image: data.image, companyName: data.companyName });
 			} catch (err) {
 				console.error('인증이 필요합니다', err);
 				// TODO: 인증 실패 시 로그인 안내 모달을 띄우도록 구현
 			}
 		};
-		fetchUserInfo();
-	}, []);
+		if (!user) fetchUserInfo();
+	}, [user, updateUser]);
 
 	const handleUpdateUserInfo = async (updated: { companyName?: string; image?: File | null }) => {
 		try {
 			const updatedUser = await updateUserInfo(updated);
-
-			setUserInfo(updatedUser);
+			updateUser({ companyName: updatedUser.companyName, image: updatedUser.image });
 		} catch (err) {
 			console.error('회사명 수정 실패', err);
 			// TODO: 실패 시 사용자에게 알림 모달을 띄우도록 구현
@@ -68,7 +67,7 @@ export default function ProfileEditCard() {
 					{/* 프로필 사진 수정 버튼 */}
 					<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-white">
 						<Image
-							src={userInfo?.image || edit.src}
+							src={user?.image || edit.src}
 							alt="프로필 사진 이미지"
 							width={56}
 							height={56}
@@ -85,8 +84,8 @@ export default function ProfileEditCard() {
 						onClick={() =>
 							openModal(
 								<ProfileEditModal
-									currentCompanyName={userInfo?.companyName}
-									currentImage={userInfo?.image}
+									currentCompanyName={user?.companyName}
+									currentImage={user?.image}
 									onSubmit={handleUpdateUserInfo}
 								/>
 							)
@@ -100,17 +99,17 @@ export default function ProfileEditCard() {
 				<div>
 					<div className="tb:pt-3 tb:pb-4 pt-3.5 pb-4.5 pl-23">
 						<div className="mb-2.5 text-gray-800">
-							<p className="text-base font-semibold">{userInfo?.name}</p>
+							<p className="text-base font-semibold">{user?.name}</p>
 						</div>
 
 						<div className="flex gap-1.5 text-sm">
 							<p className="font-medium">company.</p>
-							<p className="font-normal text-gray-700">{userInfo?.companyName}</p>
+							<p className="font-normal text-gray-700">{user?.companyName}</p>
 						</div>
 
 						<div className="flex gap-1.5 text-sm">
 							<p className="font-medium">E-mail.</p>
-							<p className="font-normal text-gray-700">{userInfo?.email}</p>
+							<p className="font-normal text-gray-700">{user?.email}</p>
 						</div>
 					</div>
 				</div>
