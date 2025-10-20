@@ -1,4 +1,4 @@
-import { useWishlistStore } from '@/stores/wishList';
+import { useWishlistStore } from '@/stores/wishlist';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import HeartButton from '.';
 
