@@ -38,7 +38,7 @@ export default function MyActivityContainer() {
 							key={key}
 							type="button"
 							onClick={() => setActiveTab(key)}
-							className={`border-b-2 pb-1.5 transition-colors ${
+							className={`cursor-pointer border-b-2 pb-1.5 transition-colors ${
 								isActive ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-400'
 							}`}>
 							{label}
