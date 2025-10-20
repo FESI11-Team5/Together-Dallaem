@@ -6,7 +6,7 @@ import { FOOTER_MESSAGE } from '@/constants/messages';
 import { useGathering } from '@/providers/GatheringProvider';
 import { useUserStore } from '@/stores/user';
 import { useModal } from '@/hooks/useModal';
-import { getGatheringParticipant, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings';
+import { getGatheringParticipant, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings/[id]';
 
 import BasicButton from './BasicButton';
 import BasicPopup from './BasicPopup';

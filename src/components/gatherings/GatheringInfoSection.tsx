@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { Gathering } from '@/types/response/gatherings';
-import { getGatheringId } from '@/apis/gatherings';
+
 import { useUserStore } from '@/stores/user';
 import { usePathname } from 'next/navigation';
 
@@ -13,6 +13,7 @@ import ChipInfo from '../commons/ChipInfo';
 import BasicProgressBar from '../commons/basic/BasicProgressBar';
 import BasicPopup from '../commons/basic/BasicPopup';
 import RequiredLoginPopup from '../auth/Popup/RequiredLoginPopup';
+import { getGatheringId } from '@/apis/gatherings/[id]';
 
 /**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
