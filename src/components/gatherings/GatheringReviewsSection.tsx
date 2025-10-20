@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import BasicPagination from '../commons/basic/BasicPagnation';
+import { REVIEW_SECTION_TITLE } from '@/constants/messages';
 
 /** 임시 Mock 데이터 */
 /** 추후 실제 데이터 타입으로 변환예정 */
@@ -179,9 +180,7 @@ export default function GatheringReviewSection() {
 	return (
 		<section className="w-full border-t-2 border-gray-200 bg-white p-6">
 			<div className="flex flex-col justify-center">
-				<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">
-					이용자들은 이 프로그램을 이렇게 느꼈어요!
-				</h2>
+				<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">{REVIEW_SECTION_TITLE.title}</h2>
 
 				{/* 리뷰 리스트 */}
 				<ul className="flex flex-col items-start gap-4">

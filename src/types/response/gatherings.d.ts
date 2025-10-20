@@ -1,3 +1,5 @@
+import { UserData } from '@/stores/user';
+
 /**
  * 모임 타입을 나타내는 타입 (스웨거 스펙 기반)
  */
@@ -48,4 +50,20 @@ export interface JoinedGathering extends Gathering {
 	isCompleted: boolean;
 	/** 후기 작성 여부 */
 	isReviewed: boolean;
+}
+
+/**
+ * 모임에 참가한 사용자
+ */
+export interface GatheringParticipant {
+	/** 팀 ID */
+	teamId: number;
+	/** 참가자 ID */
+	userId: number;
+	/** 참가 모임 ID */
+	gatheringId: number;
+	/** 참가 날짜 */
+	joinedAt: string;
+	/** 참가자 프로필 정보*/
+	user: UserData;
 }
