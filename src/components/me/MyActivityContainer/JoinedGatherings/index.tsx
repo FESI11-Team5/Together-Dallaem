@@ -42,15 +42,13 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 리뷰가 작성된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleReviewSuccess = (gatheringId: number, score: number, comment: string) => {
-		(async () => {
-			try {
-				await postReviews({ gatheringId, score, comment });
-				setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
-			} catch (err) {
-				console.error(err);
-			}
-		})();
+	const handleReviewSuccess = async (gatheringId: number, score: number, comment: string): Promise<void> => {
+		try {
+			await postReviews({ gatheringId, score, comment });
+			setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	/**
