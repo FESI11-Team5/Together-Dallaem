@@ -41,7 +41,9 @@ export const CreateGatheringSchema = z
 
 		image: z
 			.instanceof(File, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
-			.refine(file => file.size > 0, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
+			.refine(file => file.size > 0, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE }),
+
+		imageFileName: z.string().optional()
 	})
 	.superRefine((data, ctx) => {
 		const now = new Date(); // 현재 시간

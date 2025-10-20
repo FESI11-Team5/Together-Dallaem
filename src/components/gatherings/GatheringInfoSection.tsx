@@ -5,6 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { Gathering } from '@/types/response/gatherings';
 import { getGatheringId } from '@/apis/gatherings';
 import { useUserStore } from '@/stores/user';
+import { usePathname } from 'next/navigation';
 
 import Image from 'next/image';
 import Tag from '../commons/Tag';
@@ -12,14 +13,13 @@ import ChipInfo from '../commons/ChipInfo';
 import BasicProgressBar from '../commons/basic/BasicProgressBar';
 import BasicPopup from '../commons/basic/BasicPopup';
 import RequiredLoginPopup from '../auth/Popup/RequiredLoginPopup';
-import { usePathname } from 'next/navigation';
 
 /**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
 	const { registrationEnd } = data;
 
-	const utcNow = new Date(); // UTC 현재 시간
-	const koreaTime = new Date(utcNow.getTime() + 9 * 60 * 60 * 1000); // 한국 시간으로 변환
+	const utcNow = new Date(); /**UTC 현재 시간*/
+	const koreaTime = new Date(utcNow.getTime() + 9 * 60 * 60 * 1000); /**한국 시간으로 변환 */
 	const endDate = new Date(registrationEnd);
 
 	/** 현재 시간이 마감일과 같은 날인지 확인 */
@@ -40,8 +40,8 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 			const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
 
 			if (diffHours >= 1)
-				tagText = `오늘 ${diffHours}시간 뒤 마감`; // 1시간 이상 남을 경우 시간으로 표시
-			else tagText = `오늘 ${diffMinutes}분 뒤 마감`; // 1시간 미만 남을 경우 분으로 표시
+				tagText = `${diffHours}시간 뒤 마감`; // 1시간 이상 남을 경우 시간으로 표시
+			else tagText = `${diffMinutes}분 뒤 마감`; // 1시간 미만 남을 경우 분으로 표시
 		}
 	} else {
 		const diffTime = endDate.getTime() - koreaTime.getTime();

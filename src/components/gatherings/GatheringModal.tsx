@@ -77,10 +77,11 @@ export default function GatheringModal() {
 		try {
 			await postGathering(formData);
 
-			alert('모임이 생성되었습니다.');
+			openModal(<BasicPopup title="모임이 생성되었습니다!" />, 'create-gathering-popup');
 			reset();
 			closePopup();
 			router.push('/');
+			router.refresh();
 		} catch (error) {
 			console.log(error);
 		}
@@ -140,7 +141,7 @@ export default function GatheringModal() {
 							{ value: '건대입구', text: '건대입구' },
 							{ value: '을지로3가', text: '을지로3가' },
 							{ value: '신림', text: '신림' },
-							{ value: '홍대', text: '홍대' }
+							{ value: '홍대입구', text: '홍대입구' }
 						]}
 						size="expanded"
 						placeholder="장소를 선택해주세요"
@@ -228,6 +229,7 @@ export default function GatheringModal() {
 										<label className="leading-base flex text-base font-semibold text-gray-800">모임 날짜</label>
 										<GatheringCalendar
 											pageType="create"
+											value={field.value ? new Date(field.value) : undefined}
 											onChange={(date: Date) => {
 												const isoFormatted = format(date, "yyyy-MM-dd'T'HH:mm:ss");
 												field.onChange(isoFormatted);
@@ -257,6 +259,7 @@ export default function GatheringModal() {
 
 										<GatheringCalendar
 											pageType="create"
+											value={field.value ? new Date(field.value) : undefined}
 											onChange={(date: Date) => {
 												const isoFormatted = format(date, "yyyy-MM-dd'T'HH:mm:ss");
 												field.onChange(isoFormatted);

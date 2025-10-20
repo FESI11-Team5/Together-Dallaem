@@ -1,6 +1,6 @@
-import { getRequest, postRequest } from '@/apis';
+import { getRequest, postRequest, putRequest } from '@/apis';
 import { CreateGathering } from '@/types/response/createGathering';
-import { Gathering } from '@/types/response/gatherings';
+import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
 
 // TODO: 임시 테스트 함수로 getGatherings 파라미터는 홈페이지 개발시 진행
 /**
@@ -31,4 +31,28 @@ export const postGathering = (data: FormData) => {
  */
 export const getGatheringId = (gatheringId: number) => {
 	return getRequest<Gathering>({ path: `/gatherings/${gatheringId}` });
+};
+
+/**
+ * 모임 참가 취소 함수
+ */
+export const putGatheringCancel = (gatheringId: number) => {
+	return putRequest<Gathering>({ path: `/gatherings/${gatheringId}/cancel`, options: { withAuth: true } });
+};
+
+/**
+ * 모임 참가 함수
+ */
+export const postGatheringJoin = (gatheringId: number) => {
+	return postRequest<Gathering>({ path: `/gatherings/${gatheringId}/join`, options: { withAuth: true } });
+};
+
+/**
+ * 특정 모임의 참가자 목록 조회
+ */
+export const getGatheringParticipant = (gatheringId: number) => {
+	return getRequest<GatheringParticipant[]>({
+		path: `/gatherings/${gatheringId}/participants`,
+		options: { withAuth: true }
+	});
 };

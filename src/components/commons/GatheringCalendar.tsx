@@ -26,6 +26,7 @@ import SearchInCalendarButton from '../calendar/SearchInCalendarButton';
 
 interface GatheringCalendarProps {
 	pageType?: 'search' | 'create';
+	value?: Date;
 	onChange?: (date: Date) => void;
 }
 
@@ -54,7 +55,7 @@ interface TimeSelection {
  * - 반응형 디자인 적용
  *
  */
-export default function GatheringCalendar({ pageType, onChange }: GatheringCalendarProps) {
+export default function GatheringCalendar({ value, pageType, onChange }: GatheringCalendarProps) {
 	const [date, setDate] = React.useState<Date>();
 	const [timeSelection, setTimeSelection] = React.useState<TimeSelection>({
 		hour: undefined,
@@ -65,12 +66,33 @@ export default function GatheringCalendar({ pageType, onChange }: GatheringCalen
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const handleDateSelect = (selectedDate: Date | undefined) => {
-		if (selectedDate) {
-			setDate(selectedDate);
-			onChange?.(selectedDate);
+		if (!selectedDate) return;
+
+		// 기존 시간 유지
+		if (timeSelection.hour && timeSelection.minute && timeSelection.ampm) {
+			let adjustedHour = parseInt(timeSelection.hour) % 12;
+			if (timeSelection.ampm === 'PM') adjustedHour += 12;
+
+			selectedDate.setHours(adjustedHour);
+			selectedDate.setMinutes(parseInt(timeSelection.minute));
 		}
+
+		setDate(selectedDate);
+		onChange?.(selectedDate);
 	};
 
+	React.useEffect(() => {
+		if (!value) return;
+		setDate(value);
+
+		// 시간 선택 복원
+		const hour = value.getHours();
+		setTimeSelection({
+			hour: String(hour % 12 || 12),
+			minute: String(value.getMinutes()).padStart(2, '0'),
+			ampm: hour >= 12 ? 'PM' : 'AM'
+		});
+	}, [value]);
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
@@ -111,7 +133,7 @@ export default function GatheringCalendar({ pageType, onChange }: GatheringCalen
 					{pageType === 'create' && (
 						<DateTimePicker
 							date={date}
-							setDate={setDate}
+							setDate={(newDate: Date) => onChange?.(newDate)}
 							setIsOpen={setIsOpen}
 							timeSelection={timeSelection}
 							setTimeSelection={setTimeSelection}

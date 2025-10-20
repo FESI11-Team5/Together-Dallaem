@@ -16,5 +16,5 @@ export interface CreateGathering {
 	/** 정원 */
 	capacity: number;
 	/** 이미지 파일 (업로드용) */
-	image: File | null;
+	image: File;
 }
