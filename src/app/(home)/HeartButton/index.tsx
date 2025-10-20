@@ -1,6 +1,6 @@
 'use client';
 
-import { useWishlistStore } from '@/stores/wishList';
+import { useWishlistStore } from '@/stores/wishlist';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';

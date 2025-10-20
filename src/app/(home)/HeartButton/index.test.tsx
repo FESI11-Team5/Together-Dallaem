@@ -1,4 +1,4 @@
-import { useWishlistStore } from '@/stores/wishList';
+import { useWishlistStore } from '@/stores/wishlist';
 import { render, screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { create } from 'zustand';
