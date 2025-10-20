@@ -17,89 +17,88 @@ import GatheringCard from './GatheringCard';
  */
 export default function JoinedGatherings() {
 	const [gatherings, setGatherings] = useState<JoinedGathering[]>([
-		{
-			teamId: 1,
-			id: 1,
-			type: 'DALLAEMFIT',
-			name: '달램핏 오피스 스트레칭',
-			dateTime: '2026-10-02T12:30:00',
-			registrationEnd: '2026-09-30T23:59:59',
-			location: '을지로 3가',
-			participantCount: 20,
-			capacity: 20,
-			image: '/images/example1.jpg',
-			createdBy: 5,
-			canceledAt: null,
-			joinedAt: '2025-09-28T09:00:00',
-			isCompleted: false,
-			isReviewed: false
-		},
-		{
-			teamId: 1,
-			id: 2,
-			type: 'DALLAEMFIT',
-			name: '달램핏 오피스 스트레칭',
-			dateTime: '2026-10-01T12:30:00',
-			registrationEnd: '2026-09-30T23:59:59',
-			location: '을지로 3가',
-			participantCount: 19,
-			capacity: 20,
-			image: '/images/example1.jpg',
-			createdBy: 5,
-			canceledAt: null,
-			joinedAt: '2025-09-28T09:00:00',
-			isCompleted: false,
-			isReviewed: false
-		},
-		{
-			teamId: 1,
-			id: 3,
-			type: 'DALLAEMFIT',
-			name: '달램핏 오피스 스트레칭',
-			dateTime: '2025-10-03T12:30:00',
-			registrationEnd: '2025-09-30T23:59:59',
-			location: '을지로 3가',
-			participantCount: 20,
-			capacity: 20,
-			image: '/images/example1.jpg',
-			createdBy: 5,
-			canceledAt: null,
-			joinedAt: '2025-09-28T09:00:00',
-			isCompleted: true,
-			isReviewed: false
-		},
-		{
-			teamId: 1,
-			id: 4,
-			type: 'DALLAEMFIT',
-			name: '달램핏 오피스 스트레칭',
-			dateTime: '2025-10-01T12:30:00',
-			registrationEnd: '2025-09-30T23:59:59',
-			location: '을지로 3가',
-			participantCount: 19,
-			capacity: 20,
-			image: '/images/example1.jpg',
-			createdBy: 5,
-			canceledAt: '2025-09-30T23:59:59',
-			joinedAt: '2025-09-28T09:00:00',
-			isCompleted: false,
-			isReviewed: false
-		}
+		// {
+		// 	teamId: 1,
+		// 	id: 1,
+		// 	type: 'DALLAEMFIT',
+		// 	name: '달램핏 오피스 스트레칭',
+		// 	dateTime: '2026-10-02T12:30:00',
+		// 	registrationEnd: '2026-09-30T23:59:59',
+		// 	location: '을지로 3가',
+		// 	participantCount: 20,
+		// 	capacity: 20,
+		// 	image: '/images/example1.jpg',
+		// 	createdBy: 5,
+		// 	canceledAt: null,
+		// 	joinedAt: '2025-09-28T09:00:00',
+		// 	isCompleted: false,
+		// 	isReviewed: false
+		// },
+		// {
+		// 	teamId: 1,
+		// 	id: 2,
+		// 	type: 'DALLAEMFIT',
+		// 	name: '달램핏 오피스 스트레칭',
+		// 	dateTime: '2026-10-01T12:30:00',
+		// 	registrationEnd: '2026-09-30T23:59:59',
+		// 	location: '을지로 3가',
+		// 	participantCount: 19,
+		// 	capacity: 20,
+		// 	image: '/images/example1.jpg',
+		// 	createdBy: 5,
+		// 	canceledAt: null,
+		// 	joinedAt: '2025-09-28T09:00:00',
+		// 	isCompleted: false,
+		// 	isReviewed: false
+		// },
+		// {
+		// 	teamId: 1,
+		// 	id: 3,
+		// 	type: 'DALLAEMFIT',
+		// 	name: '달램핏 오피스 스트레칭',
+		// 	dateTime: '2025-10-03T12:30:00',
+		// 	registrationEnd: '2025-09-30T23:59:59',
+		// 	location: '을지로 3가',
+		// 	participantCount: 20,
+		// 	capacity: 20,
+		// 	image: '/images/example1.jpg',
+		// 	createdBy: 5,
+		// 	canceledAt: null,
+		// 	joinedAt: '2025-09-28T09:00:00',
+		// 	isCompleted: true,
+		// 	isReviewed: false
+		// },
+		// {
+		// 	teamId: 1,
+		// 	id: 4,
+		// 	type: 'DALLAEMFIT',
+		// 	name: '달램핏 오피스 스트레칭',
+		// 	dateTime: '2025-10-01T12:30:00',
+		// 	registrationEnd: '2025-09-30T23:59:59',
+		// 	location: '을지로 3가',
+		// 	participantCount: 19,
+		// 	capacity: 20,
+		// 	image: '/images/example1.jpg',
+		// 	createdBy: 5,
+		// 	canceledAt: '2025-09-30T23:59:59',
+		// 	joinedAt: '2025-09-28T09:00:00',
+		// 	isCompleted: false,
+		// 	isReviewed: false
+		// }
 	]);
 
-	// TODO : 실제 데이터 연결 시 주석을 풀 예정입니다.
-	// useEffect(() => {
-	// 	const fetchGatherings = async () => {
-	// 		try {
-	// 			const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
+	useEffect(() => {
+		const fetchGatherings = async () => {
+			try {
+				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
 
-	// 			setGatherings(data);
-	// 		} catch (err) {
-	// 			console.error(err);
-	// 		}
-	// 	};
-	// 	fetchGatherings();
-	// }, []);
+				setGatherings(data);
+			} catch (err) {
+				console.error(err);
+			}
+		};
+		fetchGatherings();
+	}, []);
 
 	/**
 	 * 리뷰 작성 성공 콜백
