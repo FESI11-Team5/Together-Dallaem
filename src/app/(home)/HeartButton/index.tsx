@@ -19,7 +19,8 @@ export default function HeartButton({ id }: HeartButtonProps) {
 		if (hasHydrated) setIsActive(wishlist.has(id));
 	}, [hasHydrated, wishlist, id]);
 
-	const handleClick = () => {
+	const handleClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
 		setIsActive(prev => !prev);
 		toggleWish(id);
 	};
