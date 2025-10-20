@@ -3,7 +3,6 @@ import { scoreResponse } from '@/types/response/reviews';
 import { ReviewScoreParams } from '@/types/review';
 
 export const getScores = (params: ReviewScoreParams): Promise<scoreResponse> => {
-	console.log(params);
 	let path = '/reviews/scores';
 
 	if (params && Object.keys(params).length > 0) {

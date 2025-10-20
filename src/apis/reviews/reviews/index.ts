@@ -1,8 +1,8 @@
 import { getRequest } from '@/apis';
-import { ReviewResponse } from '@/types/response/reviews';
+import { GetReviewsResponse } from '@/types/response/reviews';
 import { ReviewParams } from '@/types/review';
 
-export const getReviews = (params: ReviewParams): Promise<ReviewResponse> => {
+export const getReviews = (params: ReviewParams): Promise<GetReviewsResponse> => {
 	let path = '/reviews';
 
 	if (params && Object.keys(params).length > 0) {
@@ -17,5 +17,5 @@ export const getReviews = (params: ReviewParams): Promise<ReviewResponse> => {
 		path += `?${queryString.toString()}`;
 	}
 
-	return getRequest<ReviewResponse>({ path });
+	return getRequest<GetReviewsResponse>({ path });
 };
