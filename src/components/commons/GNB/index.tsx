@@ -3,6 +3,7 @@
 import { postSignout } from '@/apis/auths/signout';
 import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { useAuth } from '@/hooks/useAuth';
 import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
@@ -19,6 +20,7 @@ export default function GNB() {
 	const pathname = usePathname();
 	const user = useUserStore(state => state.user);
 	const signoutUser = useUserStore(state => state.signoutUser);
+	const { isAuthenticated } = useAuth();
 
 	const DROPDOWN_MENU_OPTIONS: OptionType[] = [
 		{ value: 'myPage', text: '마이페이지' },
@@ -53,7 +55,9 @@ export default function GNB() {
 	 * 현재 경로(pathname)를 쿼리 파라미터로 전달하여 로그인 후 리다이렉트 가능하게 함
 	 */
 	const handleSigninClick = () => {
-		router.push('/signin?next=' + encodeURIComponent(pathname));
+		if (pathname === '/signin') return;
+		const path = pathname !== '/' ? '/signin?next=' + encodeURIComponent(pathname) : '/signin';
+		router.push(path);
 	};
 
 	return (
@@ -79,17 +83,20 @@ export default function GNB() {
 				</nav>
 			</div>
 
-			{user?.token ? (
+			{isAuthenticated ? (
 				<DropdownMenu>
 					<DropdownMenu.Trigger>
-						<Image
-							priority
-							src={user?.image || '/images/profile.svg'}
-							alt="프로필 사진"
-							width={40}
-							height={40}
-							className="rounded-full"
-						/>
+						<div className="relative size-[40px] overflow-hidden rounded-full">
+							<Image
+								priority
+								src={user?.image || '/images/profile.svg'}
+								alt="프로필 사진"
+								fill
+								// width={40}
+								// height={40}
+								className="object-cover"
+							/>
+						</div>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
 				</DropdownMenu>
