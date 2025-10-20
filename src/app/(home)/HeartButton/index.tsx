@@ -1,15 +1,22 @@
 'use client';
 
-import { useWishlistStore } from '@/stores/wishlist';
+import { useWishlistStore } from '@/stores/wishList';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 interface HeartButtonProps {
-	/* 모임 아이디 */
+	/** 모임 ID */
 	id: number;
 }
 
+/**
+ * 찜(하트) 기능을 담당하는 버튼 컴포넌트
+ * Zustand의 wishlist 상태를 기반으로 활성/비활성 상태를 표시하며,
+ * 클릭 시 찜 상태를 토글합니다.
+ *
+ * @param {HeartButtonProps} props - 모임 ID를 포함한 props
+ */
 export default function HeartButton({ id }: HeartButtonProps) {
 	const { wishlist, toggleWish } = useWishlistStore.getState();
 	const hasHydrated = useWishlistStore.persist.hasHydrated();

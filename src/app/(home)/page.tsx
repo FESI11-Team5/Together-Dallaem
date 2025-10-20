@@ -10,6 +10,12 @@ import { useInView } from 'react-intersection-observer';
 import CardList from './CardList';
 
 // TODO: 쿼리 상태 라이브러리 쓰는 걸로 변경하기
+/**
+ * 홈 페이지 컴포넌트
+ * - 모임 목록을 필터 조건에 따라 조회하고 무한 스크롤로 표시합니다.
+ * - React Query의 `useInfiniteQuery`를 사용하여 데이터를 요청하며,
+ * - `useDeferredValue`를 통해 필터 변경 시 렌더링 부하를 완화합니다.
+ */
 export default function HomePage() {
 	const [filterCriteria, setFilterCriteria] = useState<FilterCriteria>({
 		type: '',
@@ -22,7 +28,7 @@ export default function HomePage() {
 	const queryString = useMemo(() => getGatheringQuery(deferredFilter), [deferredFilter]);
 
 	const LIMIT = 10;
-	const { data, isLoading, isFetching, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+	const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
 		queryKey: ['gatherings', queryString],
 		queryFn: ({ pageParam = 0 }) => getGatherings(`${queryString}&limit=${LIMIT}&offset=${pageParam}`),
 		initialPageParam: 0,

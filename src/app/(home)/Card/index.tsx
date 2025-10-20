@@ -9,12 +9,17 @@ import { formatDateAndTime, getDeadlineLabel } from '@/utils/date';
 import Image from 'next/image';
 
 interface CardProps {
+	/** 모임 정보 객체 */
 	gathering: Gathering;
+	/** 카드 클릭 시 실행되는 함수 */
 	onClick: () => void;
 }
 
 // TODO: 무한 스크롤 카드 페이드인, 페이드아웃 적용
-// TODO: 모임 마감 물어보고 추가하기
+/**
+ * 모임 정보를 이미지, 일정, 위치, 참가 현황 등과 함께 카드 형태로 보여주는 컴포넌트
+ * @param {CardProps} props - 모임 데이터와 클릭 핸들러를 포함한 props
+ */
 export default function Card({ gathering, onClick }: CardProps) {
 	const { id, name, dateTime, registrationEnd, location, participantCount, image } = gathering;
 	const { date, time } = formatDateAndTime(dateTime);
@@ -24,7 +29,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 		<div
 			onClick={onClick}
 			className="tb:gap-0 tb:h-[156px] border-gray-10 duration-0.5 tb:flex-row flex h-[316px] cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl border border-2 transition-shadow hover:shadow-lg">
-			<div className="tb:w-[280px] relative block h-[156px] w-[343px] w-full overflow-hidden">
+			<div className="tb:w-[280px] relative block h-[156px] w-full overflow-hidden">
 				{deadlineLabel && (
 					<div className="absolute top-0 right-0 z-10">
 						<Tag text={deadlineLabel} isLarge />

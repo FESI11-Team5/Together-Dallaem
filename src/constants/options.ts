@@ -1,13 +1,6 @@
 import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import type { TabOption } from '@/components/commons/Tab';
 
-// export const TYPE_OPTIONS: OptionType[] = [
-// 	{ value: 'DALLAEMFIT', text: '달램핏' },
-// 	{ value: 'OFFICE_STRETCHING', text: '오피스 스트레칭' },
-// 	{ value: 'MINDFULNESS', text: '마인드풀니스' },
-// 	{ value: 'WORKATION', text: '워케이션' }
-// ] as const;
-
 export const TYPE_OPTIONS: TabOption[] = [
 	{ value: 'DALLAEMFIT', text: '달램핏', icon: '/icons/dalaemfit.svg' },
 	{ value: 'WORKATION', text: '워케이션', icon: '/icons/workation.svg' }
