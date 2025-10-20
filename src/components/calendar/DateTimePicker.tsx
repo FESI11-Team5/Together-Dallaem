@@ -114,7 +114,7 @@ export default function DateTimePicker({
 				{/* Minute */}
 				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
 					<div className="mb:flex-col flex p-2">
-						{minutes.reverse().map(m => (
+						{[...minutes].reverse().map(m => (
 							<Button
 								key={m}
 								size="default"
