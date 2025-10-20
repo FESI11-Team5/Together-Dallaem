@@ -12,7 +12,7 @@ interface ReviewWriteModalProps {
 	/** 리뷰를 작성할 모임 ID */
 	gatheringId: number;
 	/** 리뷰 등록 성공 시 호출되는 콜백 */
-	onSuccess: () => void;
+	onSuccess: (score: number, comment: string) => void;
 }
 
 interface FormValues {
@@ -57,7 +57,7 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 	const onSubmit = async (data: FormValues) => {
 		try {
 			await postReviews({ gatheringId, score: rating, comment: data.comment });
-			onSuccess();
+			onSuccess(rating, data.comment);
 			closeModal();
 		} catch (err) {
 			// 개발에서는 콘솔에 남기고, 사용자에게는 팝업으로 안내합니다.

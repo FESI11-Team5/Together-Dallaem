@@ -14,7 +14,7 @@ interface GatheringProps {
 	/** 리뷰 작성 성공 시 부모 컴포넌트에 알리기 위한 콜백
 	 *  부모는 이 콜백에서 해당 모임의 상태(isReviewed)를 갱신합니다.
 	 */
-	onReviewSuccess: () => void;
+	onReviewSuccess: (score: number, comment: string) => void;
 
 	/** 모임 취소(또는 탈퇴) 성공 시 부모 컴포넌트에 알리기 위한 콜백
 	 *  부모는 이 콜백에서 목록에서 해당 모임을 제거합니다.
@@ -63,7 +63,9 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 	 * @returns {void}
 	 */
 	const handleAddReviewClick = () => {
-		openModal(<ReviewWriteModal gatheringId={gathering.id} onSuccess={onReviewSuccess} />);
+		openModal(
+			<ReviewWriteModal gatheringId={gathering.id} onSuccess={(score, comment) => onReviewSuccess(score, comment)} />
+		);
 	};
 
 	return (

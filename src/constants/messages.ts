@@ -92,3 +92,10 @@ export const CANCELED_GATHERING_MESSAGE = {
 	title: '모집 취소된 모임이에요,',
 	subTitle: '다음 기회에 만나요 🙏'
 };
+
+/**
+ * 리뷰 목록 타이틀
+ */
+export const REVIEW_SECTION_TITLE = {
+	title: '이용자들은 이 프로그램을 이렇게 느꼈어요!'
+};

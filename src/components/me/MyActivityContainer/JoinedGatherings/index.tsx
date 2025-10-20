@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
+import { leaveGathering } from '@/apis/gatherings/[id]';
+import { postReviews } from '@/apis/reviews';
 import { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
 
@@ -16,76 +18,7 @@ import GatheringCard from './GatheringCard';
  * <JoinedGatherings />
  */
 export default function JoinedGatherings() {
-	const [gatherings, setGatherings] = useState<JoinedGathering[]>([
-		// {
-		// 	teamId: 1,
-		// 	id: 1,
-		// 	type: 'DALLAEMFIT',
-		// 	name: '달램핏 오피스 스트레칭',
-		// 	dateTime: '2026-10-02T12:30:00',
-		// 	registrationEnd: '2026-09-30T23:59:59',
-		// 	location: '을지로 3가',
-		// 	participantCount: 20,
-		// 	capacity: 20,
-		// 	image: '/images/example1.jpg',
-		// 	createdBy: 5,
-		// 	canceledAt: null,
-		// 	joinedAt: '2025-09-28T09:00:00',
-		// 	isCompleted: false,
-		// 	isReviewed: false
-		// },
-		// {
-		// 	teamId: 1,
-		// 	id: 2,
-		// 	type: 'DALLAEMFIT',
-		// 	name: '달램핏 오피스 스트레칭',
-		// 	dateTime: '2026-10-01T12:30:00',
-		// 	registrationEnd: '2026-09-30T23:59:59',
-		// 	location: '을지로 3가',
-		// 	participantCount: 19,
-		// 	capacity: 20,
-		// 	image: '/images/example1.jpg',
-		// 	createdBy: 5,
-		// 	canceledAt: null,
-		// 	joinedAt: '2025-09-28T09:00:00',
-		// 	isCompleted: false,
-		// 	isReviewed: false
-		// },
-		// {
-		// 	teamId: 1,
-		// 	id: 3,
-		// 	type: 'DALLAEMFIT',
-		// 	name: '달램핏 오피스 스트레칭',
-		// 	dateTime: '2025-10-03T12:30:00',
-		// 	registrationEnd: '2025-09-30T23:59:59',
-		// 	location: '을지로 3가',
-		// 	participantCount: 20,
-		// 	capacity: 20,
-		// 	image: '/images/example1.jpg',
-		// 	createdBy: 5,
-		// 	canceledAt: null,
-		// 	joinedAt: '2025-09-28T09:00:00',
-		// 	isCompleted: true,
-		// 	isReviewed: false
-		// },
-		// {
-		// 	teamId: 1,
-		// 	id: 4,
-		// 	type: 'DALLAEMFIT',
-		// 	name: '달램핏 오피스 스트레칭',
-		// 	dateTime: '2025-10-01T12:30:00',
-		// 	registrationEnd: '2025-09-30T23:59:59',
-		// 	location: '을지로 3가',
-		// 	participantCount: 19,
-		// 	capacity: 20,
-		// 	image: '/images/example1.jpg',
-		// 	createdBy: 5,
-		// 	canceledAt: '2025-09-30T23:59:59',
-		// 	joinedAt: '2025-09-28T09:00:00',
-		// 	isCompleted: false,
-		// 	isReviewed: false
-		// }
-	]);
+	const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
 
 	useEffect(() => {
 		const fetchGatherings = async () => {
@@ -109,8 +42,15 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 리뷰가 작성된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleReviewSuccess = (id: number) => {
-		setGatherings(prev => prev.map(g => (g.id === id ? { ...g, isReviewed: true } : g)));
+	const handleReviewSuccess = (gatheringId: number, score: number, comment: string) => {
+		(async () => {
+			try {
+				await postReviews({ gatheringId, score, comment });
+				setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
+			} catch (err) {
+				console.error(err);
+			}
+		})();
 	};
 
 	/**
@@ -121,8 +61,13 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 취소된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleCancelSuccess = (id: number) => {
-		setGatherings(prev => prev.filter(g => g.id !== id));
+	const handleCancelSuccess = async (id: number) => {
+		try {
+			await leaveGathering(id);
+			setGatherings(prev => prev.filter(g => g.id !== id));
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	return (
@@ -131,7 +76,7 @@ export default function JoinedGatherings() {
 				<GatheringCard
 					key={gathering.id}
 					gathering={gathering}
-					onReviewSuccess={() => handleReviewSuccess(gathering.id)}
+					onReviewSuccess={(score, comment) => handleReviewSuccess(gathering.id, score, comment)}
 					onCancelSuccess={() => handleCancelSuccess(gathering.id)}
 				/>
 			))}
