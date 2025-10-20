@@ -3,7 +3,7 @@
 import { getGatherings } from '@/apis/gatherings';
 import GatheringFilterBar, { type FilterCriteria } from '@/app/(home)/GatheringFilterBar';
 import { getGatheringQuery } from '@/utils/query';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -27,7 +27,8 @@ export default function HomePage() {
 		queryFn: ({ pageParam = 0 }) => getGatherings(`${queryString}&limit=${LIMIT}&offset=${pageParam}`),
 		initialPageParam: 0,
 		getNextPageParam: (lastPage, pages) => (lastPage.length < LIMIT ? undefined : pages.length * LIMIT),
-		select: data => data.pages.flat() ?? []
+		select: data => data.pages.flat() ?? [],
+		placeholderData: keepPreviousData
 	});
 
 	const { ref, inView } = useInView({
