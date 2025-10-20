@@ -13,12 +13,13 @@ interface GatheringTabsProps {
 
 // TODO: 하드 코딩 수정
 export default function GatheringTabs({ setSelectedType, button }: GatheringTabsProps) {
-	const [type, setType] = useState<string>('DALLAEMFIT');
-	const [subType, setSubType] = useState<string>('DALLAEMFIT');
+	const DEFAULT_TYPE = 'DALLAEMFIT';
+	const [type, setType] = useState<string>(DEFAULT_TYPE);
+	const [subType, setSubType] = useState<string>(DEFAULT_TYPE);
 
 	useLayoutEffect(() => {
 		setSelectedType(type);
-		if (type === 'DALLAEMFIT') setSubType('DALLAEMFIT');
+		if (type === DEFAULT_TYPE) setSubType(DEFAULT_TYPE);
 	}, [type, setSelectedType]);
 
 	useLayoutEffect(() => {
@@ -33,7 +34,7 @@ export default function GatheringTabs({ setSelectedType, button }: GatheringTabs
 			</div>
 			{/* TODO: CHIP className 추가 논의 */}
 			{/* TODO: Activity로 변경 */}
-			<div className={cn('flex gap-2', type === 'DALLAEMFIT' ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+			<div className={cn('flex gap-2', type === DEFAULT_TYPE ? 'opacity-100' : 'pointer-events-none opacity-0')}>
 				{SUB_TYPE_OPTIONS.map(({ value, text }) => (
 					<Chip key={value} text={text} isActive={subType === value} onClick={() => setSubType(value as string)} />
 				))}
