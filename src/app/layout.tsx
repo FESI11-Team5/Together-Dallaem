@@ -29,12 +29,12 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<ModalStoreProvider>
+					<ModalContainer />
 					{/* TODO: 공통 디자인 뽑기 */}
 					<div className="box-border min-h-screen bg-gray-100" style={{ fontFamily: 'var(--font-pretendard)' }}>
 						<GNB />
 						{children}
 					</div>
-					<ModalContainer />
 				</ModalStoreProvider>
 			</body>
 		</html>

@@ -1,6 +1,6 @@
 import BasicFooter from '@/components/commons/basic/BasicFooter';
 
-import { getGatheringId } from '@/apis/gatherings';
+import { getGatheringId } from '@/apis/gatherings/[id]';
 import { GatheringProvider } from '@/providers/GatheringProvider';
 
 export default async function Layout({

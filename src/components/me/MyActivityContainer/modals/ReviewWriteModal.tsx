@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { useModalClose } from '@/hooks/useModal';
-import BasicModal from '@/components/commons/basic/BasicModal';
-import BasicTextArea from '@/components/commons/basic/BasicTextArea';
-import BasicButton from '@/components/commons/basic/BasicButton';
 import { postReviews } from '@/apis/reviews';
+import { useModal, useModalClose } from '@/hooks/useModal';
+import BasicButton from '@/components/commons/basic/BasicButton';
+import BasicModal from '@/components/commons/basic/BasicModal';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
+import BasicTextArea from '@/components/commons/basic/BasicTextArea';
 
 interface ReviewWriteModalProps {
 	/** 리뷰를 작성할 모임 ID */
 	gatheringId: number;
 	/** 리뷰 등록 성공 시 호출되는 콜백 */
-	onSuccess: () => void;
+	onSuccess: (score: number, comment: string) => void;
 }
 
 interface FormValues {
@@ -21,15 +22,11 @@ interface FormValues {
 	comment: string;
 }
 
-/**
- * 리뷰 작성 모달 컴포넌트
- * - 하트 클릭으로 점수 선택
- * - 텍스트 입력으로 리뷰 작성
- * - 제출 시 API 호출 후 onSuccess 콜백 실행
- */
 export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWriteModalProps) {
+	const { openModal } = useModal();
 	const closeModal = useModalClose();
 	const [rating, setRating] = useState(0);
+	const [animatingIndex, setAnimatingIndex] = useState<number | null>(null);
 
 	const { register, handleSubmit, watch } = useForm<FormValues>({
 		defaultValues: {
@@ -38,29 +35,35 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 		}
 	});
 
+	/**
+	 * 에러 객체에서 사용자용 메시지를 추출합니다.
+	 */
+	const getErrorMessage = (err: unknown) => {
+		if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+		if (typeof err === 'string') return err;
+		if (err instanceof Error) return err.message;
+		return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+	};
+
 	const comment = watch('comment');
 	const isFormValid = rating > 0 && comment.trim().length > 0;
 
-	/**
-	 * 하트 클릭 시 점수 업데이트
-	 * @param index 클릭한 하트 인덱스 (0~4)
-	 */
 	const handleHeartClick = (index: number) => {
 		setRating(index + 1);
+		setAnimatingIndex(index);
+		setTimeout(() => setAnimatingIndex(null), 100); // 애니메이션 끝나면 초기화
 	};
 
-	/**
-	 * 리뷰 제출 핸들러
-	 * - postReviews API 호출
-	 * - 성공 시 onSuccess 콜백 실행 후 모달 닫기
-	 */
 	const onSubmit = async (data: FormValues) => {
 		try {
 			await postReviews({ gatheringId, score: rating, comment: data.comment });
-			onSuccess();
+			onSuccess(rating, data.comment);
 			closeModal();
 		} catch (err) {
-			console.error('리뷰 등록 실패', err);
+			// 개발에서는 콘솔에 남기고, 사용자에게는 팝업으로 안내합니다.
+			if (process.env.NODE_ENV !== 'production') console.error(err);
+			const message = getErrorMessage(err);
+			openModal(<BasicPopup title="" subTitle={message} confirmText="닫기" />);
 		}
 	};
 
@@ -85,6 +88,9 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 												alt={index < rating ? '활성화된 하트' : '비활성화된 하트'}
 												width={24}
 												height={24}
+												className={`transform transition-transform duration-500 ease-out ${
+													animatingIndex === index ? 'scale-115' : index < rating ? 'scale-110' : 'scale-100'
+												}`}
 											/>
 										</button>
 									))}
