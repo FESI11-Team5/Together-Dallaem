@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
@@ -67,8 +69,6 @@ export default function DateTimePicker({
 
 		const newDate = new Date(date);
 
-		// 12시간제를 24시간제로 변환 (72 ,73)
-		// 예: 12 AM -> 0, 1 PM -> 13
 		let adjustedHour = parseInt(timeSelection.hour) % 12;
 		if (timeSelection.ampm === 'PM') adjustedHour += 12;
 
@@ -80,6 +80,17 @@ export default function DateTimePicker({
 		setIsOpen(false);
 	};
 
+	useEffect(() => {
+		if (!date) return;
+
+		// date가 새로 선택되었지만 이전 시간 선택값이 없다면 '비워두기'
+		setTimeSelection(prev => {
+			if (!prev.hour && !prev.minute && !prev.ampm) {
+				return { hour: undefined, minute: undefined, ampm: undefined };
+			}
+			return prev;
+		});
+	}, [date]);
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="mb:h-[230px] mb:flex-row mb:divide-x mb:w-full flex flex-col">
@@ -103,7 +114,7 @@ export default function DateTimePicker({
 				{/* Minute */}
 				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
 					<div className="mb:flex-col flex p-2">
-						{minutes.map(m => (
+						{[...minutes].reverse().map(m => (
 							<Button
 								key={m}
 								size="default"
