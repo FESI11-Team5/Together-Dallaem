@@ -11,15 +11,15 @@ import { useModal } from '@/hooks/useModal';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
 
+export interface FilterCriteria {
+	type: string;
+	location: string | number;
+	date?: Date;
+	sort: string;
+}
+
 interface GatheringFilterBarProps {
-	setFilterCriteria: Dispatch<
-		SetStateAction<{
-			type: string;
-			location: string | number;
-			date?: Date;
-			sort: string;
-		}>
-	>;
+	setFilterCriteria: Dispatch<SetStateAction<FilterCriteria>>;
 }
 
 interface SortFormValues {
@@ -81,11 +81,6 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 						)}
 					/>
 				</div>
-				{/* <FilterSelectGroup
-				setSelectedLocation={setSelectedLocation}
-				selectedDate={selectedDate}
-				setSelectedDate={setSelectedDate}
-			/> */}
 			</div>
 		</FormProvider>
 	);
