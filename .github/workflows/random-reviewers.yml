@@ -4,12 +4,10 @@ on:
   pull_request:
     types: [opened, ready_for_review]
 
-<<<<<<< TD-3
-=======
+
 permissions:
   pull-requests: write
 
->>>>>>> main
 jobs:
   add-reviewers:
     runs-on: ubuntu-latest
