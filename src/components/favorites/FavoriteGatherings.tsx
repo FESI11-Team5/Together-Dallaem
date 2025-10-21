@@ -8,10 +8,11 @@ import Image from 'next/image';
 import Tab from '../commons/Tab';
 import Chip from '../commons/Chip';
 import CardList from './cardList/CardList';
-import BasicPagination from '../commons/basic/BasicPagnation';
+
 import { useWishlistStore } from '@/stores/wishlist';
 import { getGatherings } from '@/apis/gatherings';
 import Link from 'next/link';
+import BasicPagination from '../commons/basic/BasicPagination';
 
 const ITEMS_PER_PAGE = 4;
 
@@ -19,27 +20,36 @@ export default function FavoriteGatherings() {
 	const [selectedTab, setSelectedTab] = useState<'DALLAEMFIT' | 'WORKATION'>('DALLAEMFIT');
 	const [selectedChip, setSelectedChip] = useState<GatheringType>('DALLAEMFIT');
 	const { wishlist } = useWishlistStore();
-	const [allGatherings, setAllGatherings] = useState<Gathering[]>([]);
+	const hasHydrated = useWishlistStore.persist.hasHydrated();
+	const [favoriteGatherings, setFavoriteGatherings] = useState<Gathering[]>([]);
 	const [pageState, setPageState] = useState({
 		DALLAEMFIT: 1,
 		WORKATION: 1
 	});
 
 	useEffect(() => {
+		if (!hasHydrated) return;
+		if (wishlist.size === 0) {
+			setFavoriteGatherings([]);
+			return;
+		}
+
 		const fetchData = async () => {
 			try {
-				const data = await getGatherings();
-				setAllGatherings(data);
+				const ids = Array.from(wishlist).join(',');
+				const data = await getGatherings(`id=${ids}`);
+				setFavoriteGatherings(data);
 			} catch (err) {
-				console.error('모임 목록 불러오기 실패:', err);
+				console.error('찜한 모임 불러오기 실패:', err);
+				setFavoriteGatherings([]);
 			}
 		};
 
 		fetchData();
-	}, []);
+	}, [wishlist, hasHydrated]);
 
 	const wishlistIds = Array.from(wishlist);
-	const likedGatherings = allGatherings.filter(g => wishlistIds.includes(g.id));
+	const likedGatherings = favoriteGatherings.filter(g => wishlistIds.includes(g.id));
 	const filteredGatherings = likedGatherings.filter(g => {
 		if (selectedTab === 'WORKATION') return g.type === 'WORKATION';
 
