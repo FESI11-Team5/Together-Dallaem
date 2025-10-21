@@ -1,19 +1,18 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type { ImageProps } from 'next/image';
 import { useForm } from 'react-hook-form';
+import SelectBox from '../SelectBox';
 import BasicButton from './BasicButton';
 import BasicInput from './BasicInput';
 import BasicModal from './BasicModal';
-import BasicSelectBox from './BasicSelectButton';
+import BasicPopup from './BasicPopup';
 import BasicTextArea from './BasicTextArea';
 import BasicTextBox from './BasicTextBox';
-import BasicPopup from './BasicPopup';
-import SelectBox from '../SelectBox';
 
 // Mock Next.js Image component
 jest.mock('next/image', () => ({
 	__esModule: true,
-	default: ({ src, alt, onClick, ...props }: any) => <img src={src} alt={alt} onClick={onClick} {...props} />
+	default: ({ src, alt, onClick, ...props }: ImageProps) => <img src={src} alt={alt} onClick={onClick} {...props} />
 }));
 
 // Mock useModal hook
