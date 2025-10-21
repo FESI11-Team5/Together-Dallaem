@@ -32,7 +32,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 			<div className="tb:w-[280px] relative block h-[156px] w-full overflow-hidden">
 				{deadlineLabel && (
 					<div className="absolute top-0 right-0 z-10">
-						<Tag text={deadlineLabel} isLarge />
+						<Tag text={deadlineLabel} />
 					</div>
 				)}
 				<Image priority src={image || '/images/example1.jpg'} alt={`모임 ${id} 이미지`} fill className="object-cover" />
