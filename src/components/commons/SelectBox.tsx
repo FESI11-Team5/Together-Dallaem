@@ -9,7 +9,7 @@ interface SelectBoxProps {
 	/** 선택 항목들의 배열 */
 	options: OptionType[];
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
-	size?: 'expanded' | 'large' | 'small';
+	expanded?: boolean;
 	/** 추가할 커스터마이징 CSS 클래스명(너비, 높이 등 변경 가능) */
 	className?: string;
 	/** React Hook Form의 register 객체, 폼 관리시 사용 */
@@ -60,7 +60,7 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 	(
 		{
 			options = [],
-			size = 'large',
+			expanded = false,
 			className = '',
 			register,
 			placeholder = '선택하세요',
@@ -145,7 +145,7 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 
 				{/* 셀렉트 버튼 */}
 				<BasicSelectButton
-					size={size}
+					expanded={expanded}
 					placeholder={placeholder}
 					disabled={disabled}
 					value={displayValue}
@@ -162,7 +162,8 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 						options={options}
 						callbackOnclick={handleSelect}
 						selectedValue={displayValue}
-						isLarge={size === 'expanded'}
+						isLarge={expanded}
+						className="left-0"
 					/>
 				)}
 			</div>

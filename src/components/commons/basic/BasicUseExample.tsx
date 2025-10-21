@@ -67,7 +67,6 @@ export default function Home() {
 						{ value: 'option2', text: '옵션 2' }
 					]}
 					register={register('selectField')}
-					size="expanded"
 					placeholder="선택"
 				/>
 				<SelectBox
@@ -76,7 +75,7 @@ export default function Home() {
 						{ value: 'option2', text: '을지로 3가' }
 					]}
 					register={register('selectField')}
-					size="small"
+					expanded
 					placeholder="지역 선택"
 				/>
 				<BasicInput
@@ -121,6 +120,7 @@ export default function Home() {
 				}}>
 				모달 창 열기
 			</BasicButton>
+			<Tag text="달램핏" />
 			<Tab
 				options={[
 					{ value: 'option1', text: '달램핏', icon: '/icons/dalaemfit.svg' },
