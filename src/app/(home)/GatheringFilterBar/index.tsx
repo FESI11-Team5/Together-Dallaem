@@ -2,12 +2,15 @@
 
 import GatheringTabs from '@/app/(home)/GatheringTabs';
 import SearchCalendar from '@/app/(home)/SearchCalendar';
+import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import SelectBox from '@/components/commons/SelectBox';
 import SortButton from '@/components/commons/SortButton';
 import GatheringModal from '@/components/gatherings/GatheringModal';
 import { LOCATION_OPTIONS, SORT_OPTIONS } from '@/constants/options';
 import { useModal } from '@/hooks/useModal';
+import { useUserStore } from '@/stores/user';
+import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
 
@@ -41,10 +44,11 @@ interface SortFormValues {
  */
 export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilterBarProps) {
 	const { openModal } = useModal();
+	const { user } = useUserStore();
 	const [selectedType, setSelectedType] = useState<string>('');
 	const [selectedLocation, setSelectedLocation] = useState<string | number>('');
 	const [selectedDate, setSelectedDate] = useState<Date>();
-
+	const pathname = usePathname();
 	const methods = useForm<SortFormValues>({
 		defaultValues: { sort: 'deadlineLate' }
 	});
@@ -60,12 +64,20 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 		});
 	}, [selectedType, selectedLocation, selectedDate, selectedSort, setFilterCriteria]);
 
+	/** 모임 생성 모달 열기 (비로그인시에는 로그인 팝업을 연다) */
+	const handleCreateModal = () => {
+		if (!user) {
+			openModal(<RequiredLoginPopup next={pathname} />);
+			return;
+		}
+		openModal(<GatheringModal />);
+	};
 	return (
 		<FormProvider {...methods}>
 			<div className="flex w-full flex-col gap-4">
 				<GatheringTabs
 					setSelectedType={setSelectedType}
-					button={<BasicButton onClick={() => openModal(<GatheringModal />)}>모임 만들기</BasicButton>}
+					button={<BasicButton onClick={handleCreateModal}>모임 만들기</BasicButton>}
 				/>
 				<hr />
 
