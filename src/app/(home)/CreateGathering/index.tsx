@@ -8,8 +8,8 @@ import GatheringModal from '@/components/gatherings/GatheringModal';
 
 export default function CreateGatheringButton({ children }: { children: React.ReactNode }) {
 	const GuardedButton = withGuard(BasicButton);
-
 	const { openModal } = useModal();
+
 	return (
 		<GuardedButton
 			onClick={() => openModal(<GatheringModal />)}

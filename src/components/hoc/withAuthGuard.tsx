@@ -43,6 +43,7 @@ export function withGuard<T extends WithAuthGuardProps>(Component: ComponentType
 		const handleClick = () => {
 			if (!isAuthenticated) {
 				openModal(<RequiredLoginPopup next={pathname} />);
+				return;
 			}
 
 			props.onClick?.();
