@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Gathering } from '@/types/response/gatherings';
+import type { Gathering, GatheringType } from '@/types/response/gatherings';
 import { LIKED_GATHERING_MESSAGE } from '@/constants/messages';
 
 import Image from 'next/image';
@@ -295,24 +295,24 @@ const mockGatherings: Gathering[] = [
 
 const ITEMS_PER_PAGE = 4;
 
-export default function LikedGathering() {
-	const [selectedTab, setSelectedTab] = useState<'dalaemfit' | 'workation'>('dalaemfit');
-	const [selectedChip, setSelectedChip] = useState<'전체' | '오피스 트레이닝' | '마인드풀니스'>('전체');
+export default function FavoriteGatherings() {
+	const [selectedTab, setSelectedTab] = useState<'DALLEMFIT' | 'WORKATION'>('DALLEMFIT');
+	const [selectedChip, setSelectedChip] = useState<GatheringType>('DALLAEMFIT');
 
 	const [pageState, setPageState] = useState({
-		dalaemfit: 1,
-		workation: 1
+		DALLEMFIT: 1,
+		WORKATION: 1
 	});
 
 	const filteredGatherings: Gathering[] = mockGatherings.filter(g => {
 		// 탭 필터링
-		if (selectedTab === 'workation') return g.type === 'WORKATION';
+		if (selectedTab === 'WORKATION') return g.type === 'WORKATION';
 
 		// 칩 필터링
-		if (selectedTab === 'dalaemfit') {
-			if (selectedChip === '전체') return g.type !== 'WORKATION';
-			if (selectedChip === '오피스 트레이닝') return g.type === 'OFFICE_STRETCHING';
-			if (selectedChip === '마인드풀니스') return g.type === 'MINDFULNESS';
+		if (selectedTab === 'DALLEMFIT') {
+			if (selectedChip === 'DALLAEMFIT') return g.type !== 'WORKATION';
+			if (selectedChip === 'OFFICE_STRETCHING') return g.type === 'OFFICE_STRETCHING';
+			if (selectedChip === 'MINDFULNESS') return g.type === 'MINDFULNESS';
 		}
 
 		return false;
@@ -349,13 +349,13 @@ export default function LikedGathering() {
 				<div className="mt-6 mb-3">
 					<Tab
 						options={[
-							{ value: 'dalaemfit', text: '달램핏', icon: '/icons/dalaemfit.svg' },
-							{ value: 'workation', text: '워케이션', icon: '/icons/workation.svg' }
+							{ value: 'DALLEMFIT', text: '달램핏', icon: '/icons/dalaemfit.svg' },
+							{ value: 'WORKATION', text: '워케이션', icon: '/icons/workation.svg' }
 						]}
 						selectedTab={selectedTab}
 						onTabChange={tabValue => {
-							setSelectedTab(tabValue as 'dalaemfit' | 'workation');
-							setSelectedChip('전체');
+							setSelectedTab(tabValue as 'DALLEMFIT' | 'WORKATION');
+							setSelectedChip('DALLAEMFIT');
 							setPageState(prev => ({ ...prev, [tabValue]: 1 }));
 						}}
 					/>
@@ -363,22 +363,26 @@ export default function LikedGathering() {
 
 				{/* 칩 */}
 				<div className="mb:pb-4 mb:border-b-2 mb:border-gray-200 flex gap-2">
-					{selectedTab === 'dalaemfit' ? (
+					{selectedTab === 'DALLEMFIT' ? (
 						<>
-							<Chip text="전체" isActive={selectedChip === '전체'} onClick={() => setSelectedChip('전체')} />
+							<Chip
+								text="전체"
+								isActive={selectedChip === 'DALLAEMFIT'}
+								onClick={() => setSelectedChip('DALLAEMFIT')}
+							/>
 							<Chip
 								text="오피스 트레이닝"
-								isActive={selectedChip === '오피스 트레이닝'}
+								isActive={selectedChip === 'OFFICE_STRETCHING'}
 								onClick={() => {
-									setSelectedChip('오피스 트레이닝');
+									setSelectedChip('OFFICE_STRETCHING');
 									setPageState(prev => ({ ...prev, [selectedTab]: 1 }));
 								}}
 							/>
 							<Chip
 								text="마인드풀니스"
-								isActive={selectedChip === '마인드풀니스'}
+								isActive={selectedChip === 'MINDFULNESS'}
 								onClick={() => {
-									setSelectedChip('마인드풀니스');
+									setSelectedChip('MINDFULNESS');
 									setPageState(prev => ({ ...prev, [selectedTab]: 1 }));
 								}}
 							/>
