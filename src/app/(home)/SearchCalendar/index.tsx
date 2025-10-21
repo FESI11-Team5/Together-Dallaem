@@ -38,7 +38,6 @@ export default function SearchCalendar({ date, setDate }: SearchCalendarProps) {
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
 				<BasicSelectButton
-					size={'small'}
 					placeholder={'날짜 전체'}
 					value={formattedDate}
 					displayText={formattedDate}

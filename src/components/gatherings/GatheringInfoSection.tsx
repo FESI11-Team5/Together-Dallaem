@@ -1,19 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useModal } from '@/hooks/useModal';
-import { Gathering } from '@/types/response/gatherings';
-
-import { useUserStore } from '@/stores/user';
 import { usePathname } from 'next/navigation';
 
-import Image from 'next/image';
-import Tag from '../commons/Tag';
-import ChipInfo from '../commons/ChipInfo';
-import BasicProgressBar from '../commons/basic/BasicProgressBar';
-import BasicPopup from '../commons/basic/BasicPopup';
-import RequiredLoginPopup from '../auth/Popup/RequiredLoginPopup';
+import { useModal } from '@/hooks/useModal';
+import { Gathering } from '@/types/response/gatherings';
+import { useUserStore } from '@/stores/user';
 import { getGatheringId } from '@/apis/gatherings/[id]';
+
+import Image from 'next/image';
+import Tag from '@/components/commons/Tag';
+import ChipInfo from '@/components/commons/ChipInfo';
+import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
+import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
+import HeartButton from '@/app/(home)/HeartButton';
 
 /**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
@@ -56,30 +57,29 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 		<div className="relative h-full w-full rounded-[24px]">
 			<Image src={data.image} alt="사진" fill className="object-fill" />
 
-			<div className="absolute top-0 right-0 z-50">
-				<Tag text={tagText} isLarge />
+			<div className="absolute top-0 right-0 z-10">
+				<Tag text={tagText} />
 			</div>
 		</div>
 	);
 }
 
-/**모임 상세페에지 - 메인정보 (제목, 위치, 날짜, 찜)*/
+/** 모임 상세페이지 - 메인정보 (제목, 위치, 날짜, 찜 버튼 포함) */
 function GatheringMainInfo({ data }: { data: Gathering }) {
-	const { name, location, dateTime } = data;
+	const { name, location, dateTime, id } = data;
 	const { openModal } = useModal();
+	const pathname = usePathname();
+	const { user } = useUserStore.getState();
 
 	const date = dateTime.split('T')[0].slice(5);
 	const gatheringDate = date.replace('-', '월 ') + '일';
 	const gatheringTime = dateTime.split('T')[1].slice(0, 5);
-	const pathname = usePathname();
 
-	const handleHeartClick = () => {
-		// TODO : localStorage에 찜 목록 저장 로직 필요 (윤지님 로직 쓰기)
+	/** 로그인 검증 및 찜 클릭 핸들러 */
+	const handleHeartClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
 
-		const { user } = useUserStore.getState();
-		const userId = user?.userId;
-
-		if (!userId) {
+		if (!user?.userId) {
 			openModal(<RequiredLoginPopup next={pathname} />, 'required-login-popup');
 			return;
 		}
@@ -97,32 +97,14 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 					</div>
 
 					<div className="flex gap-2">
-						<div className="flex gap-2">
-							<ChipInfo text={`${gatheringDate}`} textColor="white" />
-							<ChipInfo text={`${gatheringTime}`} textColor="orange" />
-						</div>
+						<ChipInfo text={gatheringDate} textColor="white" />
+						<ChipInfo text={gatheringTime} textColor="orange" />
 					</div>
 				</div>
 
-				<button
-					onClick={handleHeartClick}
-					className="group hover:animate-heart-bounce relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-gray-200">
-					<Image
-						src="/icons/outlined_heart.svg"
-						width={24}
-						height={24}
-						alt="찜"
-						className="opacity-100 transition-opacity duration-200 group-hover:opacity-0"
-					/>
-
-					<Image
-						src="/icons/heart_active.svg"
-						width={24}
-						height={24}
-						alt="찜됨"
-						className="absolute opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-					/>
-				</button>
+				<div onClick={handleHeartClick}>
+					<HeartButton id={id} />
+				</div>
 			</div>
 		</div>
 	);
@@ -138,10 +120,12 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 					{/* TODO : 참가인원 프로필 사진 컴포넌트로 교제 예정 */}
 					<p>사진들</p>
 				</div>
-				<div className="flex">
+
+				{/* 중간발표를 위해 임시 제거 추후 리팩토링 예정 */}
+				{/* <div className="flex">
 					<Image src="/icons/bg_check.svg" width={24} height={24} alt="개설확정" />
 					<p className="leading-sm flex items-center text-center text-sm font-medium text-orange-500">개설확정</p>
-				</div>
+				</div> */}
 			</div>
 			<div className="flex w-full flex-col items-start gap-2">
 				<BasicProgressBar data={{ totalNumber: data.capacity, currentNumber: data.participantCount }} />

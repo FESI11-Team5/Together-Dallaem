@@ -31,9 +31,7 @@ export default function CardList({ data }: CardListProps) {
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-50">
-					{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} isLarge={false} />}
-				</div>
+				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}
@@ -76,14 +74,22 @@ export default function CardList({ data }: CardListProps) {
 			{/* 마감된 카드 오버레이 */}
 			{isClosed && (
 				<div className="absolute inset-0 flex flex-col items-center justify-center rounded-[24px] bg-black/80 text-white">
-					<p className="leading-sm text-center text-sm font-medium">
-						{CLOSED_GATHERING_MESSAGE.title}
-						<br />
-						{CLOSED_GATHERING_MESSAGE.subTitle}
-					</p>
-					<div className="absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
-						<Image src="/icons/bye.svg" alt="마감 완료" width={24} height={24} />
+					<div className="flex flex-col gap-6">
+						<p className="leading-sm text-center text-sm font-medium">
+							{CLOSED_GATHERING_MESSAGE.title}
+							<br />
+							{CLOSED_GATHERING_MESSAGE.subTitle}
+						</p>
+
+						<button className="mb:hidden flex cursor-pointer items-center gap-2.5 rounded-[12px] bg-orange-50 px-3 py-1.5">
+							<Image src="/icons/bye.svg" alt="찜한 영역" width={24} height={24} />
+							<p className="leading-xs text-xs font-semibold text-orange-600">모임 보내주기</p>
+						</button>
 					</div>
+
+					<button className="max-mb:hidden absolute top-4 right-5 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-orange-50">
+						<Image src="/icons/bye.svg" alt="마감 완료" width={24} height={24} />
+					</button>
 				</div>
 			)}
 		</div>

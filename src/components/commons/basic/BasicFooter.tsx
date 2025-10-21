@@ -19,6 +19,9 @@ function GatheringNormalUserBtn() {
 	const { gathering } = useGathering();
 	const pathname = usePathname();
 
+	if (!gathering) return;
+	const isFull = gathering.capacity === gathering.participantCount;
+
 	/** 모임 참여 핸들러 */
 	const joinGathering = async () => {
 		try {
@@ -26,18 +29,16 @@ function GatheringNormalUserBtn() {
 				openModal(<RequiredLoginPopup next={pathname} />, 'required-login-popup');
 				return;
 			}
-			if (!gathering) return;
 
 			// 중복 참여 확인
 			const participants = await getGatheringParticipant(gathering.id);
 			const duplicatedUser = participants.some(participant => participant.userId === user?.userId);
+
 			if (duplicatedUser) {
 				openModal(<BasicPopup title="이미 참여한 모임입니다." />, 'duplicate-join-popup');
 				return;
 			}
 
-			// 정원 초과 확인
-			const isFull = gathering.capacity === gathering.participantCount;
 			if (isFull) {
 				openModal(<BasicPopup title="모임 정원이 가득 찼습니다." />, 'full-capacity-popup');
 				return;
@@ -50,7 +51,9 @@ function GatheringNormalUserBtn() {
 		}
 	};
 	return (
-		<BasicButton onClick={joinGathering} className="rounded-md bg-orange-500 px-4 py-2 text-sm font-bold text-white">
+		<BasicButton
+			onClick={joinGathering}
+			className={`rounded-md px-4 py-2 text-sm font-bold text-white ${isFull ? 'bg-gray-400' : 'bg-orange-500'}`}>
 			참여하기
 		</BasicButton>
 	);

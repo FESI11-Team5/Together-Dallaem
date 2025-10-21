@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MyReviews from '..';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
-import { getReviews } from '@/apis/reviews';
+import { getReviews } from '@/apis/reviews/reviews';
 import { useUserStore } from '@/stores/user';
 
 jest.mock('@/apis/gatherings/joined', () => ({
