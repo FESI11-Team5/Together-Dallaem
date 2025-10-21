@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { JoinedGathering } from '@/types/response/gatherings';
 import { ReviewResponse } from '@/types/response/reviews';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
-import { getReviews } from '@/apis/reviews';
+import { getReviews } from '@/apis/reviews/reviews';
 import { useUserStore } from '@/stores/user';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';

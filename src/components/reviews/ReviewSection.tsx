@@ -1,5 +1,5 @@
 import BasicPagination from '../commons/basic/BasicPagnation';
-import { GetReviewsResponse, Review } from '@/types/response/reviews';
+import { GetReviewsResponse, ReviewResponse } from '@/types/response/reviews';
 import FilterSection, { FilterData } from './FilterSection';
 import ReviewItem from './ReviewItem';
 import { useState } from 'react';
@@ -27,7 +27,7 @@ export default function ReviewSection({
 			{reviewData ? (
 				<>
 					<div className="flex w-full flex-col items-center gap-6">
-						{reviewData.data.map((item: Review) => (
+						{reviewData.data.map((item: ReviewResponse) => (
 							<ReviewItem key={item.id} reviewData={item} />
 						))}
 					</div>
