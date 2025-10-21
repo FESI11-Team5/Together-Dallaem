@@ -143,7 +143,7 @@ export default function GatheringModal() {
 							{ value: '신림', text: '신림' },
 							{ value: '홍대입구', text: '홍대입구' }
 						]}
-						size="expanded"
+						expanded
 						placeholder="장소를 선택해주세요"
 						register={register('location')}
 					/>

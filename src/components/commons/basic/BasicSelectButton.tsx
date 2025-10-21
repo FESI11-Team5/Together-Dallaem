@@ -30,7 +30,6 @@ interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * @example
  * // 기본 사용
  * <BasicSelectButton
- *   size="large"
  *   placeholder="선택하세요"
  *   onClick={() => setIsOpen(!isOpen)}
  * />
@@ -38,7 +37,6 @@ interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * @example
  * // 선택된 상태
  * <BasicSelectButton
- *   size="large"
  *   placeholder="선택하세요"
  *   value="option1"
  *   displayText="옵션 1"

@@ -52,7 +52,7 @@ interface SelectBoxProps {
  * <SelectBox
  *   register={register('category')}
  *   options={categoryOptions}
- *   size="large"
+ *   expanded
  *   disabled={false}
  * />
  */

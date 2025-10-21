@@ -23,7 +23,6 @@ export interface CreateReviewRequest {
 	comment: string;
 }
 
-
 /**
  * ReviewResponse
  *
@@ -49,12 +48,11 @@ export interface ReviewResponse {
 	createdAt: string;
 
 	/** 리뷰가 작성된 모임의 요약 정보 */
-	gathering: ReviewGathering;
+	Gathering: ReviewGathering;
 
 	/** 리뷰 작성자 정보 */
-	user: ReviewUser;
+	User: ReviewUser;
 }
-
 
 /**
  * ReviewGathering
@@ -71,7 +69,6 @@ export interface ReviewGathering {
 	image: string;
 }
 
-
 /**
  * ReviewUser
  *
@@ -83,7 +80,6 @@ export interface ReviewUser {
 	name: string;
 	image: string;
 }
-
 
 /**
  * GetReviewsResponse
