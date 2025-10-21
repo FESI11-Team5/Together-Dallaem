@@ -4,20 +4,20 @@ import { format } from 'date-fns';
 import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation';
 import { postGathering } from '@/apis/gatherings';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
 import { CreateGathering } from '@/types/response/createGathering';
 import type { GatheringType } from '@/types/response/gatherings';
+import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
-import BasicModal from '../commons/basic/BasicModal';
-import BasicInput from '../commons/basic/BasicInput';
 import BasicButton from '../commons/basic/BasicButton';
-import BasicPopup from '../commons/basic/BasicPopup';
 import BasicCheckBox from '../commons/basic/BasicCheckBox';
+import BasicInput from '../commons/basic/BasicInput';
+import BasicModal from '../commons/basic/BasicModal';
+import BasicPopup from '../commons/basic/BasicPopup';
 import GatheringCalendar from '../commons/GatheringCalendar';
 import SelectBox from '../commons/SelectBox';
 

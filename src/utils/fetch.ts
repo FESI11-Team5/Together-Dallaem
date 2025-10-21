@@ -1,4 +1,4 @@
-import { ApiErrorBody, NextFetchOptions } from '@/types/fetch';
+import { ApiErrorBody } from '@/types/fetch';
 
 /*
  * API 요청 중 발생하는 에러를 나타내는 클래스입니다.
