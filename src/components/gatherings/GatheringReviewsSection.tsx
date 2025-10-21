@@ -3,8 +3,9 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
-import BasicPagination from '../commons/basic/BasicPagnation';
+
 import { REVIEW_SECTION_TITLE } from '@/constants/messages';
+import BasicPagination from '../commons/basic/BasicPagination';
 
 /** 임시 Mock 데이터 */
 /** 추후 실제 데이터 타입으로 변환예정 */

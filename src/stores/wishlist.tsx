@@ -4,6 +4,8 @@ import { devtools, persist } from 'zustand/middleware';
 interface WishlistState {
 	/** 찜한 글 ID 목록 (중복 불가) */
 	wishlist: Set<number>;
+	/** Hydration 여부 */
+	hasHydrated: boolean;
 }
 
 interface WishlistActions {
@@ -20,7 +22,7 @@ interface WishlistActions {
 /** Wishlist 스토어 전체 타입 */
 export type WishlistStore = WishlistState & WishlistActions;
 
-const initialState: WishlistState = { wishlist: new Set() };
+const initialState: WishlistState = { wishlist: new Set(), hasHydrated: false };
 
 /**
  * 찜하기 관련 zustand 스토어
@@ -87,6 +89,7 @@ export const useWishlistStore = create<WishlistStore>()(
 				onRehydrateStorage: () => state => {
 					if (!state?.wishlist) return;
 					state.wishlist = new Set(state.wishlist);
+					state.hasHydrated = true;
 				}
 			}
 		),

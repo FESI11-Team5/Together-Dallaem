@@ -1,6 +1,7 @@
 'use client';
 
 import { postSignout } from '@/apis/auths/signout';
+
 import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
 import { useAuth } from '@/hooks/useAuth';
