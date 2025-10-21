@@ -9,8 +9,9 @@ import { useUserStore } from '@/stores/user';
 import { ApiError } from '@/utils/fetch';
 import { decodeToken } from '@/utils/token';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function SigninPage() {
+function SigninPageContent() {
 	const searchParams = useSearchParams();
 	const next = searchParams.get('next') ?? '/';
 
@@ -65,5 +66,13 @@ export default function SigninPage() {
 			<h2 className="tb:text-2xl text-center text-xl font-semibold">로그인</h2>
 			<SigninForm onSubmit={handleSigninAndRedirect} />
 		</>
+	);
+}
+// TODO: 빌드 에러에 따른 임시 조치 추후에 다시 코드 검토 필요
+export default function SigninPage() {
+	return (
+		<Suspense fallback={<div>로딩 중...</div>}>
+			<SigninPageContent />
+		</Suspense>
 	);
 }

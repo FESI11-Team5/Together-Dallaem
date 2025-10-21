@@ -2,6 +2,7 @@ import BasicButton from '@/components/commons/basic/BasicButton';
 import ModalContainer from '@/components/commons/ModalContainer';
 import { useModal } from '@/hooks/useModal';
 import { ModalStoreProvider } from '@/providers/ModalProvider';
+import { ApiError } from '@/utils/fetch';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import RequiredLoginPopup from './RequiredLoginPopup';
@@ -89,12 +90,17 @@ function DemoTrigger({ type }: { type: 'signup-success' | 'signup-failure' | 're
 	const { openModal } = useModal();
 
 	const handleClick = () => {
+		const error = new ApiError(401, 'Unauthorized', {
+			code: 'UNAUTHORIZED',
+			message: 'Authorization 헤더가 필요합니다'
+		});
+
 		switch (type) {
 			case 'signup-success':
 				openModal(<SignupSuccessPopup />);
 				break;
 			case 'signup-failure':
-				openModal(<SignupFailurePopup />);
+				openModal(<SignupFailurePopup error={error} />);
 				break;
 			case 'required-login':
 				openModal(<RequiredLoginPopup next="/mypage" />);

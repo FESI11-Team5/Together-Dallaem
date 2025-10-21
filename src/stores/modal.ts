@@ -52,7 +52,7 @@ export type ModalStore = ModalState & ModalActions;
  *
  */
 export const createModalStore = (initState: ModalState = defaultInitState) => {
-	return createStore<ModalStore>()((set, get) => ({
+	return createStore<ModalStore>()(set => ({
 		...initState,
 		openModal: (id: string, component: React.ReactNode) =>
 			set(state => {
