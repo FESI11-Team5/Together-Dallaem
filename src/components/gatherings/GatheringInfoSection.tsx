@@ -97,8 +97,8 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 					</div>
 
 					<div className="flex gap-2">
-						<ChipInfo text={`${gatheringDate}`} textColor="white" />
-						<ChipInfo text={`${gatheringTime}`} textColor="orange" />
+						<ChipInfo text={gatheringDate} textColor="white" />
+						<ChipInfo text={gatheringTime} textColor="orange" />
 					</div>
 				</div>
 
