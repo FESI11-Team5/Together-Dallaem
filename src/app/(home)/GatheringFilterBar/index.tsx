@@ -2,18 +2,14 @@
 
 import GatheringTabs from '@/app/(home)/GatheringTabs';
 import SearchCalendar from '@/app/(home)/SearchCalendar';
-import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
-import BasicButton from '@/components/commons/basic/BasicButton';
+
 import SelectBox from '@/components/commons/SelectBox';
 import SortButton from '@/components/commons/SortButton';
-import GatheringModal from '@/components/gatherings/GatheringModal';
 import { LOCATION_OPTIONS, SORT_OPTIONS } from '@/constants/options';
-import { useModal } from '@/hooks/useModal';
-import { useUserStore } from '@/stores/user';
-import { usePathname } from 'next/navigation';
+
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
-import CreateGatheringPage from '../CreateGathering';
+import CreateGatheringButton from '../CreateGathering';
 
 export interface FilterCriteria {
 	/** 선택된 모임 유형 */
@@ -68,7 +64,7 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 			<div className="flex w-full flex-col gap-4">
 				<GatheringTabs
 					setSelectedType={setSelectedType}
-					button={<CreateGatheringPage>모임 만들기</CreateGatheringPage>}
+					button={<CreateGatheringButton>모임 만들기</CreateGatheringButton>}
 				/>
 				<hr />
 
