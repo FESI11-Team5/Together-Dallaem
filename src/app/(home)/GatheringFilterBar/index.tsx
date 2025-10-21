@@ -2,14 +2,14 @@
 
 import GatheringTabs from '@/app/(home)/GatheringTabs';
 import SearchCalendar from '@/app/(home)/SearchCalendar';
-import BasicButton from '@/components/commons/basic/BasicButton';
+
 import SelectBox from '@/components/commons/SelectBox';
 import SortButton from '@/components/commons/SortButton';
-import GatheringModal from '@/components/gatherings/GatheringModal';
 import { LOCATION_OPTIONS, SORT_OPTIONS } from '@/constants/options';
-import { useModal } from '@/hooks/useModal';
+
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
+import CreateGatheringButton from '../CreateGathering';
 
 export interface FilterCriteria {
 	/** 선택된 모임 유형 */
@@ -40,7 +40,6 @@ interface SortFormValues {
  * @param {GatheringFilterBarProps} props - 필터 조건 갱신 함수를 포함한 props
  */
 export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilterBarProps) {
-	const { openModal } = useModal();
 	const [selectedType, setSelectedType] = useState<string>('');
 	const [selectedLocation, setSelectedLocation] = useState<string | number>('');
 	const [selectedDate, setSelectedDate] = useState<Date>();
@@ -63,10 +62,7 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 	return (
 		<FormProvider {...methods}>
 			<div className="flex w-full flex-col gap-4">
-				<GatheringTabs
-					setSelectedType={setSelectedType}
-					button={<BasicButton onClick={() => openModal(<GatheringModal />)}>모임 만들기</BasicButton>}
-				/>
+				<GatheringTabs setSelectedType={setSelectedType} button={<CreateGatheringButton />} />
 				<hr />
 
 				<div className="flex w-full justify-between">
