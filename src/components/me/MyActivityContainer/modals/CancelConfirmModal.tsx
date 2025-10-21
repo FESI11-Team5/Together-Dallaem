@@ -1,8 +1,8 @@
-import { leaveGathering } from '@/apis/gatherings/leave';
-import { useModal, useModalClose } from '@/hooks/useModal';
+import { leaveGathering } from '@/apis/gatherings/[id]';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
 import BasicPopup from '@/components/commons/basic/BasicPopup';
+import { useModal, useModalClose } from '@/hooks/useModal';
 
 interface CancelConfirmModalProps {
 	/** 예약 취소할 모임 ID */

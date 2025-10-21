@@ -1,23 +1,23 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
 import { useModal, useModalClose } from '@/hooks/useModal';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import BasicButton from './BasicButton';
-import BasicInput from './BasicInput';
-import BasicTextBox from './BasicTextBox';
-import SelectBox from '../SelectBox';
-import ExampleModal from '../ExampleModal';
-import BasicTextArea from './BasicTextArea';
-import BasicModal from './BasicModal';
+import Badge from '../Badge';
+import Chip from '../Chip';
 import ClassProgressBar from '../ClassProgressBar';
-import BasicCheckBox from './BasicCheckBox';
+import ExampleModal from '../ExampleModal';
+import SelectBox from '../SelectBox';
 import SortButton from '../SortButton';
 import Tab from '../Tab';
-import Chip from '../Chip';
-import Badge from '../Badge';
+import BasicButton from './BasicButton';
+import BasicCheckBox from './BasicCheckBox';
 import BasicDropbox from './BasicDropbox';
+import BasicInput from './BasicInput';
+import BasicModal from './BasicModal';
+import BasicTextArea from './BasicTextArea';
+import BasicTextBox from './BasicTextBox';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {

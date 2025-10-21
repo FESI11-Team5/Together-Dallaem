@@ -1,9 +1,4 @@
-import { UseFormReturn } from 'react-hook-form';
-import GatheringModal from '../GatheringModal';
-
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { CreateGathering } from '@/types/response/gatherings';
-import { ModalStoreProvider } from '@/providers/ModalProvider';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 
 // AAA방식 적용기
 

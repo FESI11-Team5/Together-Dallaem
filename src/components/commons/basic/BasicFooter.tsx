@@ -2,15 +2,15 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 
+import { getGatheringParticipant, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings/[id]';
 import { FOOTER_MESSAGE } from '@/constants/messages';
+import { useModal } from '@/hooks/useModal';
 import { useGathering } from '@/providers/GatheringProvider';
 import { useUserStore } from '@/stores/user';
-import { useModal } from '@/hooks/useModal';
-import { getGatheringParticipant, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings/[id]';
 
+import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import BasicButton from './BasicButton';
 import BasicPopup from './BasicPopup';
-import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 
 /** 일반 사용자 모임 참여 버튼 */
 function GatheringNormalUserBtn() {

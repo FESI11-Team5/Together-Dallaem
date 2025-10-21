@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * 탭 옵션의 타입 정의
  */
-interface TabOption {
+export interface TabOption {
 	/** 탭의 고유 식별값 */
 	value: string;
 	/** 탭에 표시될 텍스트 */
@@ -83,7 +83,8 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 
 	return (
 		<div className={`relative ${className}`}>
-			<div className="flex gap-8">
+			{/* 피그마에 gap이 12px로 되어있어서 수정 */}
+			<div className="flex gap-3">
 				{options.map((option, index) => (
 					<button
 						key={option.value}
