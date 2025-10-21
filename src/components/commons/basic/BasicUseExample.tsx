@@ -18,6 +18,7 @@ import BasicInput from './BasicInput';
 import BasicModal from './BasicModal';
 import BasicTextArea from './BasicTextArea';
 import BasicTextBox from './BasicTextBox';
+import Tag from '../Tag';
 
 // 제출 완료 모달 컴포넌트(컴포넌트 파일 따로 생성하기 귀찮으면 이렇게 파일 내에 작성해도 됩니다.)
 function SubmitCompleteModal() {
@@ -67,7 +68,6 @@ export default function Home() {
 						{ value: 'option2', text: '옵션 2' }
 					]}
 					register={register('selectField')}
-					size="expanded"
 					placeholder="선택"
 				/>
 				<SelectBox
@@ -76,7 +76,7 @@ export default function Home() {
 						{ value: 'option2', text: '을지로 3가' }
 					]}
 					register={register('selectField')}
-					size="small"
+					expanded
 					placeholder="지역 선택"
 				/>
 				<BasicInput
@@ -121,6 +121,7 @@ export default function Home() {
 				}}>
 				모달 창 열기
 			</BasicButton>
+			<Tag text="달램핏" />
 			<Tab
 				options={[
 					{ value: 'option1', text: '달램핏', icon: '/icons/dalaemfit.svg' },

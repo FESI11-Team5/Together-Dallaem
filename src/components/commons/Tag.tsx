@@ -1,9 +1,7 @@
-export default function Tag({ text, isLarge = true }: { text: string; isLarge?: boolean }) {
+export default function Tag({ text }: { text: string }) {
 	return (
 		<div
-			// TODO: rounded-tr-[22px] 부분 + isLagre 대신 브레이크 포인트로 가능한지 논의하기
-			className={`flex items-center justify-center gap-[4px] rounded-bl-[12px] bg-orange-600 py-[4px] pl-[8px] text-white ${isLarge ? 'w-[123px] pr-[16px]' : 'w-[117px] pr-[10px]'}`}>
-			{/* className={`flex items-center justify-center gap-[4px] rounded-bl-[12px] bg-orange-600 py-[4px] pl-[8px] text-white ${isLarge ? 'w-[123px] rounded-tr-[22px] pr-[16px]' : 'w-[117px] pr-[10px]'}`}> */}
+			className={`mb:rounded-tr-none mb:pr-[10px] mb:w-[117px] absolute top-0 right-0 z-10 flex w-[123px] items-center justify-center gap-[4px] rounded-tr-[22px] rounded-bl-[12px] bg-orange-600 py-[4px] pr-[16px] pl-[8px] text-white`}>
 			<img src="/icons/alarm.svg" alt="clock icon" className="h-[24px] w-[24px]" />
 			<span className={`text-[12px] font-semibold whitespace-nowrap`}>{text}</span>
 		</div>

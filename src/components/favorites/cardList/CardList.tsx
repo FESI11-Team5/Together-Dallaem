@@ -31,9 +31,7 @@ export default function CardList({ data }: CardListProps) {
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-50">
-					{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} isLarge={false} />}
-				</div>
+				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}

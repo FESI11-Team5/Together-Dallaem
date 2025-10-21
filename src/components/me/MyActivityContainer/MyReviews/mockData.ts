@@ -80,7 +80,7 @@ export const mockReviews: ReviewResponse[] = [
 		comment:
 			'따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요. 프로그램이 더 많이 늘어났으면 좋겠어요.',
 		createdAt: '2025-10-18T12:30:00Z',
-		gathering: {
+		Gathering: {
 			teamId: 1,
 			id: 1,
 			type: 'DALLAEMFIT',
@@ -89,7 +89,7 @@ export const mockReviews: ReviewResponse[] = [
 			location: '을지로 3가',
 			image: '/images/example1.jpg'
 		},
-		user: {
+		User: {
 			teamId: 1,
 			id: 1,
 			name: '코드잇',
@@ -102,7 +102,7 @@ export const mockReviews: ReviewResponse[] = [
 		score: 3,
 		comment: '강사분도 친절하시고 ~ ^^ 너무 좋은 공간에서 긴장과 스트레스 모두 잘 풀고 가요 ~ ^^',
 		createdAt: '2025-10-01T14:00:00Z',
-		gathering: {
+		Gathering: {
 			teamId: 1,
 			id: 2,
 			type: 'DALLAEMFIT',
@@ -111,7 +111,7 @@ export const mockReviews: ReviewResponse[] = [
 			location: '을지로 3가',
 			image: '/images/example1.jpg'
 		},
-		user: {
+		User: {
 			teamId: 1,
 			id: 1,
 			name: '코드잇',
