@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { formatKoreanDate } from '@/utils/date';
-import { Review } from '@/types/response/reviews';
+import { ReviewResponse } from '@/types/response/reviews';
 
 /**
  * 리뷰 카드 컴포넌트
@@ -14,7 +14,7 @@ import { Review } from '@/types/response/reviews';
  * @example
  * <WrittenReviewCard gathering={gatheringData} />
  */
-export default function ReviewItem({ reviewData }: { reviewData: Review | null }) {
+export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse | null }) {
 	return (
 		<div key={reviewData?.id} className="w-full">
 			<div className="tb:flex-row relative flex flex-col content-between gap-6">
