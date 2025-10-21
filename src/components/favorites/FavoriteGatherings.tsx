@@ -1,17 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Gathering, GatheringType } from '@/types/response/gatherings';
+import { getGatherings } from '@/apis/gatherings';
+import { useWishlistStore } from '@/stores/wishlist';
 import { LIKED_GATHERING_MESSAGE } from '@/constants/messages';
+import type { Gathering, GatheringType } from '@/types/response/gatherings';
 
+import Link from 'next/link';
 import Image from 'next/image';
 import Tab from '../commons/Tab';
 import Chip from '../commons/Chip';
 import CardList from './cardList/CardList';
-
-import { useWishlistStore } from '@/stores/wishlist';
-import { getGatherings } from '@/apis/gatherings';
-import Link from 'next/link';
 import BasicPagination from '../commons/basic/BasicPagination';
 
 const ITEMS_PER_PAGE = 4;
@@ -20,7 +19,7 @@ export default function FavoriteGatherings() {
 	const [selectedTab, setSelectedTab] = useState<'DALLAEMFIT' | 'WORKATION'>('DALLAEMFIT');
 	const [selectedChip, setSelectedChip] = useState<GatheringType>('DALLAEMFIT');
 	const { wishlist } = useWishlistStore();
-	const hasHydrated = useWishlistStore.persist.hasHydrated();
+	const hasHydrated = useWishlistStore(state => state.hasHydrated);
 	const [favoriteGatherings, setFavoriteGatherings] = useState<Gathering[]>([]);
 	const [pageState, setPageState] = useState({
 		DALLAEMFIT: 1,
