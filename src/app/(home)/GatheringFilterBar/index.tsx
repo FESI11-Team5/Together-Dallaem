@@ -13,6 +13,7 @@ import { useUserStore } from '@/stores/user';
 import { usePathname } from 'next/navigation';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
+import CreateGatheringPage from '../CreateGathering';
 
 export interface FilterCriteria {
 	/** 선택된 모임 유형 */
@@ -43,12 +44,10 @@ interface SortFormValues {
  * @param {GatheringFilterBarProps} props - 필터 조건 갱신 함수를 포함한 props
  */
 export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilterBarProps) {
-	const { openModal } = useModal();
-	const { user } = useUserStore();
 	const [selectedType, setSelectedType] = useState<string>('');
 	const [selectedLocation, setSelectedLocation] = useState<string | number>('');
 	const [selectedDate, setSelectedDate] = useState<Date>();
-	const pathname = usePathname();
+
 	const methods = useForm<SortFormValues>({
 		defaultValues: { sort: 'deadlineLate' }
 	});
@@ -64,20 +63,12 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 		});
 	}, [selectedType, selectedLocation, selectedDate, selectedSort, setFilterCriteria]);
 
-	/** 모임 생성 모달 열기 (비로그인시에는 로그인 팝업을 연다) */
-	const handleCreateModal = () => {
-		if (!user) {
-			openModal(<RequiredLoginPopup next={pathname} />);
-			return;
-		}
-		openModal(<GatheringModal />);
-	};
 	return (
 		<FormProvider {...methods}>
 			<div className="flex w-full flex-col gap-4">
 				<GatheringTabs
 					setSelectedType={setSelectedType}
-					button={<BasicButton onClick={handleCreateModal}>모임 만들기</BasicButton>}
+					button={<CreateGatheringPage>모임 만들기</CreateGatheringPage>}
 				/>
 				<hr />
 
