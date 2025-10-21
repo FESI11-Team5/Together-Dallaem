@@ -62,10 +62,7 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 	return (
 		<FormProvider {...methods}>
 			<div className="flex w-full flex-col gap-4">
-				<GatheringTabs
-					setSelectedType={setSelectedType}
-					button={<CreateGatheringButton>모임 만들기</CreateGatheringButton>}
-				/>
+				<GatheringTabs setSelectedType={setSelectedType} button={<CreateGatheringButton />} />
 				<hr />
 
 				<div className="flex w-full justify-between">
