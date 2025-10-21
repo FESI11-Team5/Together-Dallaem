@@ -1,8 +1,7 @@
-import BasicPagination from '../commons/basic/BasicPagnation';
 import { GetReviewsResponse, ReviewResponse } from '@/types/response/reviews';
 import FilterSection, { FilterData } from './FilterSection';
 import ReviewItem from './ReviewItem';
-import { useState } from 'react';
+import BasicPagination from '../commons/basic/BasicPagination';
 
 export default function ReviewSection({
 	reviewData,
