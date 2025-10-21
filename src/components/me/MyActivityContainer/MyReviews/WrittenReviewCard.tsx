@@ -40,7 +40,7 @@ export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 				{/* 모임 이미지 */}
 				<div className="tb:w-70 relative h-39 w-full min-w-[280px] overflow-hidden rounded-3xl">
 					<Image
-						src={review.gathering.image}
+						src={review.Gathering.image}
 						alt="모임 이미지"
 						fill
 						className="rounded-3xl bg-orange-100 object-cover"
@@ -63,10 +63,10 @@ export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 						</div>
 						<p className="text-sm">{review.comment}</p>
 						<p className="text-xs">
-							{review.gathering.name} 이용 · {review.gathering.location}
+							{review.Gathering.name} 이용 · {review.Gathering.location}
 						</p>
 					</div>
-					<p className="text-xs text-gray-500">{formatKoreanDate(review.gathering.dateTime, 'yyyy.MM.dd')}</p>
+					<p className="text-xs text-gray-500">{formatKoreanDate(review.Gathering.dateTime, 'yyyy.MM.dd')}</p>
 				</div>
 				<div className="tb:hidden border-b-2 border-dashed border-gray-200" />
 			</div>

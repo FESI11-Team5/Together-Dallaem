@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { JoinedGathering } from '@/types/response/gatherings';
 import { ReviewResponse } from '@/types/response/reviews';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
-import { getReviews } from '@/apis/reviews';
+import { getReviews } from '@/apis/reviews/reviews';
 import { useUserStore } from '@/stores/user';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';
@@ -92,13 +92,8 @@ export default function MyReviews() {
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="flex gap-2">
-				<Chip
-					text="작성 가능한 리뷰"
-					isLarge
-					isActive={activeTab === 'writable'}
-					onClick={() => setActiveTab('writable')}
-				/>
-				<Chip text="작성한 리뷰" isLarge isActive={activeTab === 'written'} onClick={() => setActiveTab('written')} />
+				<Chip text="작성 가능한 리뷰" isActive={activeTab === 'writable'} onClick={() => setActiveTab('writable')} />
+				<Chip text="작성한 리뷰" isActive={activeTab === 'written'} onClick={() => setActiveTab('written')} />
 			</div>
 			{activeTab === 'writable'
 				? writableReviews.map(gathering => (

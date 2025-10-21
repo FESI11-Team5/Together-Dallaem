@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { leaveGathering } from '@/apis/gatherings/[id]';
-import { postReviews } from '@/apis/reviews';
+import { postReviews } from '@/apis/reviews/reviews';
 import { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
 
