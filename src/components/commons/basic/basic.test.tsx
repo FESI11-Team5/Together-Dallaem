@@ -257,8 +257,8 @@ describe('BasicSelectBox', () => {
 		expect(screen.getByText('옵션 2')).toBeInTheDocument();
 
 		// 옵션들이 role="option"으로 올바르게 렌더링되는지 확인
-		expect(screen.getByRole('option', { name: '옵션 1' })).toBeInTheDocument();
-		expect(screen.getByRole('option', { name: '옵션 2' })).toBeInTheDocument();
+		expect(screen.getByRole('option', { name: 'option1-옵션 1' })).toBeInTheDocument();
+		expect(screen.getByRole('option', { name: 'option2-옵션 2' })).toBeInTheDocument();
 	});
 
 	test('셀렉트박스 옵션 클릭시 드롭다운이 자동으로 닫히는지 확인', () => {
@@ -271,26 +271,16 @@ describe('BasicSelectBox', () => {
 		expect(screen.getByText('옵션 1')).toBeInTheDocument();
 
 		// 옵션 클릭
-		const option1 = screen.getByRole('option', { name: '옵션 1' });
+		const option1 = screen.getByRole('option', { name: 'option1-옵션 1' });
 		fireEvent.click(option1);
 
 		// 드롭다운이 닫혔는지 확인
-		expect(screen.queryByRole('option', { name: '옵션 1' })).not.toBeInTheDocument();
+		expect(screen.queryByRole('option', { name: 'option1-옵션 1' })).not.toBeInTheDocument();
 	});
 
 	test('size=expanded일 때 셀렉트박스가 부모 컴포넌트에 꽉 차게 적용되는지 확인', () => {
-		render(<SelectBox options={mockOptions} placeholder="선택하세요" size="expanded" />);
+		render(<SelectBox options={mockOptions} placeholder="선택하세요" expanded />);
 		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-full');
-	});
-
-	test('size=large일 때 셀렉트박스 너비 110px 높이 40px 적용되는지 확인', () => {
-		render(<SelectBox options={mockOptions} placeholder="선택하세요" size="large" />);
-		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[110px] h-[40px]');
-	});
-
-	test('size=small일 때 셀렉트박스 너비 110px 높이 36px 적용되는지 확인', () => {
-		render(<SelectBox options={mockOptions} placeholder="선택하세요" size="small" />);
-		expect(screen.getByText('선택하세요').closest('button')).toHaveClass('w-[110px] h-[36px]');
 	});
 });
 

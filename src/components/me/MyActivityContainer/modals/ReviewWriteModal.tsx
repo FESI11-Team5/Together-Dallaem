@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { postReviews } from '@/apis/reviews';
+import { postReviews } from '@/apis/reviews/reviews';
 import { useModal, useModalClose } from '@/hooks/useModal';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';

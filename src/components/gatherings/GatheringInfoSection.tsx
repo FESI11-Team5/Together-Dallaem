@@ -57,7 +57,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 			<Image src={data.image} alt="사진" fill className="object-fill" />
 
 			<div className="absolute top-0 right-0 z-50">
-				<Tag text={tagText} isLarge />
+				<Tag text={tagText} />
 			</div>
 		</div>
 	);
