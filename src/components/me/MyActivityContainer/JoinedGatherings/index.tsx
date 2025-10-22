@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
-import { leaveGathering } from '@/apis/gatherings/[id]';
-import { postReviews } from '@/apis/reviews/reviews';
 import { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
 
@@ -42,9 +40,8 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 리뷰가 작성된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleReviewSuccess = async (gatheringId: number, score: number, comment: string): Promise<void> => {
+	const handleReviewSuccess = (gatheringId: number) => {
 		try {
-			await postReviews({ gatheringId, score, comment });
 			setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
 		} catch (err) {
 			console.error(err);
@@ -59,9 +56,8 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 취소된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleCancelSuccess = async (id: number) => {
+	const handleCancelSuccess = (id: number) => {
 		try {
-			await leaveGathering(id);
 			setGatherings(prev => prev.filter(g => g.id !== id));
 		} catch (err) {
 			console.error(err);
@@ -74,7 +70,7 @@ export default function JoinedGatherings() {
 				<GatheringCard
 					key={gathering.id}
 					gathering={gathering}
-					onReviewSuccess={(score, comment) => handleReviewSuccess(gathering.id, score, comment)}
+					onReviewSuccess={() => handleReviewSuccess(gathering.id)}
 					onCancelSuccess={() => handleCancelSuccess(gathering.id)}
 				/>
 			))}
