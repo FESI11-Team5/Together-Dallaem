@@ -1,6 +1,10 @@
+import GNB from '@/components/commons/GNB';
+import ModalContainer from '@/components/commons/ModalContainer';
+import { ModalStoreProvider } from '@/providers/ModalProvider';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import '../styles/globals.css';
+import './globals.css';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -24,7 +28,18 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+				<ReactQueryProvider>
+					<ModalStoreProvider>
+						<ModalContainer />
+						{/* TODO: 공통 디자인 뽑기 */}
+						<div className="box-border min-h-screen bg-gray-100" style={{ fontFamily: 'var(--font-pretendard)' }}>
+							<GNB />
+							{children}
+						</div>
+					</ModalStoreProvider>
+				</ReactQueryProvider>
+			</body>
 		</html>
 	);
 }
