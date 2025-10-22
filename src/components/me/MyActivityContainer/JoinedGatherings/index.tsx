@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
+import GatheringSkeleton from '@/components/me/MyActivityContainer/JoinedGatherings/skeleton/GatheringSkeleton';
 
 /**
  * JoinedGatherings 컴포넌트
@@ -16,6 +17,7 @@ import GatheringCard from './GatheringCard';
  * <JoinedGatherings />
  */
 export default function JoinedGatherings() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
 
 	useEffect(() => {
@@ -26,10 +28,14 @@ export default function JoinedGatherings() {
 				setGatherings(data);
 			} catch (err) {
 				console.error(err);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		fetchGatherings();
 	}, []);
+
+	if (isLoading) return <GatheringSkeleton />;
 
 	/**
 	 * 리뷰 작성 성공 콜백
