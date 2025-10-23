@@ -25,7 +25,13 @@ export default function JoinedGatherings() {
 			try {
 				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
 
-				setGatherings(data);
+				const sortedData = data.sort((a: JoinedGathering, b: JoinedGathering): number => {
+					if (a.canceledAt === null && b.canceledAt !== null) return -1;
+					if (a.canceledAt !== null && b.canceledAt === null) return 1;
+					return 0;
+				});
+
+				setGatherings(sortedData);
 			} catch (err) {
 				console.error(err);
 			} finally {
@@ -44,6 +50,7 @@ export default function JoinedGatherings() {
 			</div>
 		);
 	}
+
 	/**
 	 * 리뷰 작성 성공 콜백
 	 *
