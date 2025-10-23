@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { differenceInDays, format, isPast, isSameDay, startOfDay } from 'date-fns';
 
+import { formatUTCToKST } from '@/utils/date';
 import { useModal } from '@/hooks/useModal';
 import { Gathering } from '@/types/response/gatherings';
 import { useUserStore } from '@/stores/user';
@@ -16,47 +18,28 @@ import BasicPopup from '@/components/commons/basic/BasicPopup';
 import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import HeartButton from '@/app/(home)/HeartButton';
 
-/**모임 상세페에지 - 이미지 + 마감정보 */
+/** 모임 상세페이지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
-	const { registrationEnd } = data;
+	const { registrationEnd, image } = data;
 
-	const utcNow = new Date(); /**UTC 현재 시간*/
-	const koreaTime = new Date(utcNow.getTime() + 9 * 60 * 60 * 1000); /**한국 시간으로 변환 */
+	const now = new Date();
 	const endDate = new Date(registrationEnd);
-
-	/** 현재 시간이 마감일과 같은 날인지 확인 */
-	const isSameDay =
-		koreaTime.getUTCFullYear() === endDate.getUTCFullYear() &&
-		koreaTime.getUTCMonth() === endDate.getUTCMonth() &&
-		koreaTime.getUTCDate() === endDate.getUTCDate();
 
 	let tagText = '';
 
-	if (isSameDay) {
-		const diffTime = endDate.getTime() - koreaTime.getTime();
-
-		if (diffTime <= 0) {
-			tagText = '모집 마감';
-		} else {
-			const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-			const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
-
-			if (diffHours >= 1)
-				tagText = `${diffHours}시간 뒤 마감`; // 1시간 이상 남을 경우 시간으로 표시
-			else tagText = `${diffMinutes}분 뒤 마감`; // 1시간 미만 남을 경우 분으로 표시
-		}
+	if (isPast(endDate)) {
+		tagText = '모집 마감';
+	} else if (isSameDay(now, endDate)) {
+		const endHour = endDate.getHours();
+		tagText = `오늘 ${endHour}시 마감`;
 	} else {
-		const diffTime = endDate.getTime() - koreaTime.getTime();
-		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-		if (diffDays <= 0) tagText = '마감된 모임';
-		else tagText = `D-${diffDays}일 남음`;
+		const diffDays = differenceInDays(startOfDay(endDate), startOfDay(now));
+		tagText = diffDays <= 0 ? '모집 마감' : `${diffDays}일 후 마감`;
 	}
 
 	return (
 		<div className="relative h-full w-full rounded-[24px]">
-			<Image src={data.image} alt="사진" fill className="object-fill" />
-
+			<Image src={image} alt="사진" fill className="object-cover" />
 			<div className="absolute top-0 right-0 z-10">
 				<Tag text={tagText} />
 			</div>
@@ -68,14 +51,13 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 function GatheringMainInfo({ data }: { data: Gathering }) {
 	const { name, location, dateTime, id } = data;
 	const { openModal } = useModal();
-	const pathname = usePathname();
 	const { user } = useUserStore.getState();
+	const pathname = usePathname();
 
-	const date = dateTime.split('T')[0].slice(5);
-	const gatheringDate = date.replace('-', '월 ') + '일';
-	const gatheringTime = dateTime.split('T')[1].slice(0, 5);
+	const date = new Date(dateTime);
+	const formattedDate = format(date, 'M월 d일');
+	const formattedTime = format(date, 'HH:mm');
 
-	/** 로그인 검증 및 찜 클릭 핸들러 */
 	const handleHeartClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
 
@@ -97,8 +79,8 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 					</div>
 
 					<div className="flex gap-2">
-						<ChipInfo text={gatheringDate} textColor="white" />
-						<ChipInfo text={gatheringTime} textColor="orange" />
+						<ChipInfo text={formattedDate} textColor="white" />
+						<ChipInfo text={formattedTime} textColor="orange" />
 					</div>
 				</div>
 
@@ -110,23 +92,17 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 	);
 }
 
-/**모임 상세페에지 - 하위정보 (정원, 참가인원 프로필 사진, 개설확정) */
+/** 모임 상세페이지 - 하위정보 (정원, 참가인원 프로필 사진, 개설확정 등) */
 function GatheringSubInfo({ data }: { data: Gathering }) {
 	return (
 		<div className="flex w-full flex-col justify-center gap-2.5 px-6">
 			<div className="flex items-end justify-between">
 				<div className="flex items-center gap-3">
 					<p className="leading-sm text-sm font-semibold">모집 정원 {data.capacity}명</p>
-					{/* TODO : 참가인원 프로필 사진 컴포넌트로 교제 예정 */}
 					<p>사진들</p>
 				</div>
-
-				{/* 중간발표를 위해 임시 제거 추후 리팩토링 예정 */}
-				{/* <div className="flex">
-					<Image src="/icons/bg_check.svg" width={24} height={24} alt="개설확정" />
-					<p className="leading-sm flex items-center text-center text-sm font-medium text-orange-500">개설확정</p>
-				</div> */}
 			</div>
+
 			<div className="flex w-full flex-col items-start gap-2">
 				<BasicProgressBar data={{ totalNumber: data.capacity, currentNumber: data.participantCount }} />
 				<div className="flex w-full justify-between">
@@ -138,6 +114,7 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 	);
 }
 
+/** 상위 섹션: 데이터 Fetch + 하위 컴포넌트 전달 */
 export default function GatheringInfoSection({ gatheringId }: { gatheringId: number }) {
 	const [data, setData] = useState<Gathering>();
 
@@ -145,16 +122,23 @@ export default function GatheringInfoSection({ gatheringId }: { gatheringId: num
 		const fetchData = async () => {
 			try {
 				const gathering = await getGatheringId(gatheringId);
-				setData(gathering);
+
+				const formattedData = {
+					...gathering,
+					dateTime: formatUTCToKST(gathering.dateTime, 'yyyy-MM-dd HH:mm'),
+					registrationEnd: formatUTCToKST(gathering.registrationEnd, 'yyyy-MM-dd HH:mm')
+				};
+
+				setData(formattedData);
 			} catch (error) {
-				console.error(`데이터를 불러오는데 실패하였습니다 : ${error}`);
+				console.error(`데이터를 불러오는데 실패하였습니다 :`, error);
 			}
 		};
 
 		fetchData();
 	}, [gatheringId]);
 
-	if (!data) return null;
+	if (!data) return <div className="py-20 text-center text-gray-500">로딩 중...</div>;
 
 	return (
 		<section className="tb:flex-row max-mb:flex-col flex items-center justify-center gap-6">
