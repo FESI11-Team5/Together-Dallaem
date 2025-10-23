@@ -1,13 +1,11 @@
 'use client';
-
-import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
-import { format } from 'date-fns';
 
 import Image from 'next/image';
 import DateTimePicker from '../calendar/DateTimePicker';
@@ -56,14 +54,14 @@ interface TimeSelection {
  *
  */
 export default function GatheringCalendar({ value, pageType, onChange }: GatheringCalendarProps) {
-	const [date, setDate] = React.useState<Date>();
-	const [timeSelection, setTimeSelection] = React.useState<TimeSelection>({
+	const [date, setDate] = useState<Date>();
+	const [timeSelection, setTimeSelection] = useState<TimeSelection>({
 		hour: undefined,
 		minute: undefined,
 		ampm: undefined
 	});
 
-	const [isOpen, setIsOpen] = React.useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const handleDateSelect = (selectedDate: Date | undefined) => {
 		if (!selectedDate) return;
@@ -81,7 +79,7 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 		onChange?.(selectedDate);
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!value) return;
 		setDate(value);
 

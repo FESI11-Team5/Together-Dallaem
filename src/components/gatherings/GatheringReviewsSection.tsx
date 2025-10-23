@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { REVIEW_SECTION_TITLE } from '@/constants/messages';
 
 import Image from 'next/image';
-
-import { REVIEW_SECTION_TITLE } from '@/constants/messages';
 import BasicPagination from '../commons/basic/BasicPagination';
 
 /** 임시 Mock 데이터 */
