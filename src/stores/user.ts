@@ -19,6 +19,8 @@ export interface UserData {
 interface UserState {
 	/** 현재 로그인한 유저 정보 */
 	user: UserData | null;
+	/** Hydration 여부 */
+	hasHydrated: boolean;
 }
 
 interface UserActions {
@@ -44,7 +46,7 @@ interface UserActions {
 /** User 스토어 전체 타입 */
 export type UserStore = UserState & UserActions;
 
-const initialState: UserState = { user: null };
+const initialState: UserState = { user: null, hasHydrated: false };
 
 /**
  * 사용자 상태 및 인증 관련 zustand 스토어
@@ -64,7 +66,8 @@ export const useUserStore = create<UserStore>()(
 									...(state.user ?? {}),
 									userId,
 									token
-								}
+								},
+								hasHydrated: true
 							}),
 							false,
 							'signinUser'
@@ -76,7 +79,8 @@ export const useUserStore = create<UserStore>()(
 								user: {
 									...(state.user as UserData),
 									...user
-								}
+								},
+								hasHydrated: true
 							}),
 							false,
 							'updateUser'
@@ -84,7 +88,16 @@ export const useUserStore = create<UserStore>()(
 				};
 			},
 			{
-				name: 'user-store-persist'
+				name: 'user-store-persist',
+				// TODO: 세션 스토리지로 변경
+				// storage: createJSONStorage(() => sessionStorage),
+				merge: (persistedState, currentState) => {
+					return {
+						...currentState,
+						...(persistedState as object),
+						hasHydrated: true
+					};
+				}
 			}
 		),
 		{
