@@ -12,9 +12,8 @@ export const SUB_TYPE_OPTIONS: OptionType[] = [
 	{ value: 'MINDFULNESS', text: '마인드풀니스' }
 ] as const;
 
-// TODO: 지역 전체로 다시 초기화 어떻게 할지 정하기
 export const LOCATION_OPTIONS: OptionType[] = [
-	// { value: '', text: '전체' },
+	{ value: '', text: '지역 전체' },
 	{ value: '건대입구', text: '건대 입구' },
 	{ value: '을지로3가', text: '을지로 3가' },
 	{ value: '신림', text: '신림' },
