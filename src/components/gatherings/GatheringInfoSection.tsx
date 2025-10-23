@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { toZonedTime } from 'date-fns-tz';
 
+import { formatUTCToKST } from '@/utils/time';
 import { useModal } from '@/hooks/useModal';
 import { Gathering } from '@/types/response/gatherings';
 import { useUserStore } from '@/stores/user';
@@ -17,23 +19,26 @@ import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import HeartButton from '@/app/(home)/HeartButton';
 
 /**모임 상세페에지 - 이미지 + 마감정보 */
+/**모임 상세페에지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
 	const { registrationEnd } = data;
 
-	const utcNow = new Date(); /**UTC 현재 시간*/
-	const koreaTime = new Date(utcNow.getTime() + 9 * 60 * 60 * 1000); /**한국 시간으로 변환 */
-	const endDate = new Date(registrationEnd);
+	const KST_TIMEZONE = 'Asia/Seoul';
+
+	const now = new Date();
+	const koreaNow = toZonedTime(now, KST_TIMEZONE);
+	const endDate = toZonedTime(new Date(registrationEnd), KST_TIMEZONE);
 
 	/** 현재 시간이 마감일과 같은 날인지 확인 */
 	const isSameDay =
-		koreaTime.getUTCFullYear() === endDate.getUTCFullYear() &&
-		koreaTime.getUTCMonth() === endDate.getUTCMonth() &&
-		koreaTime.getUTCDate() === endDate.getUTCDate();
+		koreaNow.getFullYear() === endDate.getFullYear() &&
+		koreaNow.getMonth() === endDate.getMonth() &&
+		koreaNow.getDate() === endDate.getDate();
 
 	let tagText = '';
 
 	if (isSameDay) {
-		const diffTime = endDate.getTime() - koreaTime.getTime();
+		const diffTime = endDate.getTime() - koreaNow.getTime();
 
 		if (diffTime <= 0) {
 			tagText = '모집 마감';
@@ -41,12 +46,11 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 			const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 			const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
 
-			if (diffHours >= 1)
-				tagText = `${diffHours}시간 뒤 마감`; // 1시간 이상 남을 경우 시간으로 표시
-			else tagText = `${diffMinutes}분 뒤 마감`; // 1시간 미만 남을 경우 분으로 표시
+			if (diffHours >= 1) tagText = `${diffHours}시간 뒤 마감`;
+			else tagText = `${diffMinutes}분 뒤 마감`;
 		}
 	} else {
-		const diffTime = endDate.getTime() - koreaTime.getTime();
+		const diffTime = endDate.getTime() - koreaNow.getTime();
 		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
 		if (diffDays <= 0) tagText = '마감된 모임';
@@ -71,9 +75,9 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 	const pathname = usePathname();
 	const { user } = useUserStore.getState();
 
-	const date = dateTime.split('T')[0].slice(5);
-	const gatheringDate = date.replace('-', '월 ') + '일';
-	const gatheringTime = dateTime.split('T')[1].slice(0, 5);
+	// UTC → KST 변환
+	const formattedDate = formatUTCToKST(dateTime, 'M월 d일');
+	const formattedTime = formatUTCToKST(dateTime, 'HH:mm');
 
 	/** 로그인 검증 및 찜 클릭 핸들러 */
 	const handleHeartClick = (e: React.MouseEvent) => {
@@ -97,8 +101,8 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 					</div>
 
 					<div className="flex gap-2">
-						<ChipInfo text={gatheringDate} textColor="white" />
-						<ChipInfo text={gatheringTime} textColor="orange" />
+						<ChipInfo text={formattedDate} textColor="white" />
+						<ChipInfo text={formattedTime} textColor="orange" />
 					</div>
 				</div>
 
