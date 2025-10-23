@@ -1,7 +1,7 @@
 'use client';
 
-import { format } from 'date-fns';
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 
 import { postGathering } from '@/apis/gatherings';
@@ -11,7 +11,6 @@ import { CreateGathering } from '@/types/response/createGathering';
 import type { GatheringType } from '@/types/response/gatherings';
 import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 
 import BasicButton from '../commons/basic/BasicButton';
 import BasicCheckBox from '../commons/basic/BasicCheckBox';
@@ -231,7 +230,7 @@ export default function GatheringModal() {
 											pageType="create"
 											value={field.value ? new Date(field.value) : undefined}
 											onChange={(date: Date) => {
-												const isoFormatted = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+												const isoFormatted = date.toISOString();
 												field.onChange(isoFormatted);
 											}}
 										/>
@@ -261,7 +260,7 @@ export default function GatheringModal() {
 											pageType="create"
 											value={field.value ? new Date(field.value) : undefined}
 											onChange={(date: Date) => {
-												const isoFormatted = format(date, "yyyy-MM-dd'T'HH:mm:ss");
+												const isoFormatted = date.toISOString();
 												field.onChange(isoFormatted);
 											}}
 										/>
