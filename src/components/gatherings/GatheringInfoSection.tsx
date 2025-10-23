@@ -119,7 +119,7 @@ export default function GatheringInfoSection({ gatheringId }: { gatheringId: num
 	const [data, setData] = useState<Gathering>();
 
 	useEffect(() => {
-		(async () => {
+		const fetchData = async () => {
 			try {
 				const gathering = await getGatheringId(gatheringId);
 
@@ -133,7 +133,9 @@ export default function GatheringInfoSection({ gatheringId }: { gatheringId: num
 			} catch (error) {
 				console.error(`데이터를 불러오는데 실패하였습니다 :`, error);
 			}
-		})();
+		};
+
+		fetchData();
 	}, [gatheringId]);
 
 	if (!data) return <div className="py-20 text-center text-gray-500">로딩 중...</div>;
