@@ -2,6 +2,7 @@ import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 import { differenceInDays, format, isPast, startOfDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { start } from 'repl';
+
 type DateFormat = 'M월 D일 · HH:mm' | 'yyyy.MM.dd';
 
 /**
@@ -21,11 +22,11 @@ type DateFormat = 'M월 D일 · HH:mm' | 'yyyy.MM.dd';
 export function formatKoreanDate(dateString: string, format: DateFormat = 'M월 D일 · HH:mm') {
 	const date = new Date(dateString);
 
-	const year = date.getUTCFullYear();
-	const month = date.getUTCMonth() + 1;
-	const day = date.getUTCDate(); // getDay()는 요일(0~6) → 날짜는 getDate() 사용
-	const hours = date.getUTCHours().toString().padStart(2, '0');
-	const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate(); // getDay()는 요일(0~6) → 날짜는 getDate() 사용
+	const hours = date.getHours().toString().padStart(2, '0');
+	const minutes = date.getMinutes().toString().padStart(2, '0');
 
 	switch (format) {
 		case 'M월 D일 · HH:mm':
@@ -47,11 +48,11 @@ export function formatKoreanDate(dateString: string, format: DateFormat = 'M월 
 export const formatDateAndTime = (dateString: string) => {
 	const date = new Date(dateString);
 	const formattedDate = format(date, 'M월 d일', { locale: ko });
-	const formattedtime = format(date, 'HH:mm', { locale: ko });
+	const formattedTime = format(date, 'HH:mm', { locale: ko });
 
 	return {
 		date: formattedDate,
-		time: formattedtime
+		time: formattedTime
 	};
 };
 
