@@ -1,6 +1,7 @@
-import { formatInTimeZone } from 'date-fns-tz';
-import { differenceInDays, format, isPast } from 'date-fns';
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
+import { differenceInDays, format, isPast, startOfDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { start } from 'repl';
 type DateFormat = 'M월 D일 · HH:mm' | 'yyyy.MM.dd';
 
 /**
@@ -64,10 +65,13 @@ export const formatDateAndTime = (dateString: string) => {
 export const getDeadlineLabel = (dateString?: string) => {
 	if (!dateString) return null;
 
-	const deadline = new Date(dateString);
-	if (isPast(deadline)) return '';
+	const KST_TIMEZONE = 'Asia/Seoul';
+	const deadline = toZonedTime(new Date(dateString), KST_TIMEZONE);
+	const now = toZonedTime(new Date(), KST_TIMEZONE);
 
-	const differenceDays = differenceInDays(deadline, new Date());
+	if (isPast(deadline)) return '';
+	const differenceDays = differenceInDays(startOfDay(deadline), startOfDay(now));
+
 	if (differenceDays > 0) {
 		return `${differenceDays}일 후 마감`;
 	}
