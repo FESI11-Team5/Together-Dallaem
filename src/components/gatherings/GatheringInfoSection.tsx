@@ -46,7 +46,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 			const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 			const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
 
-			if (diffHours >= 1) tagText = `${diffHours + 1}시간 뒤 마감`;
+			if (diffHours >= 1) tagText = `${diffHours}시간 뒤 마감`;
 			else tagText = `${diffMinutes}분 뒤 마감`;
 		}
 	} else {
