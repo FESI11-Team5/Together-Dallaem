@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { toZonedTime } from 'date-fns-tz';
 
-import { formatUTCToKST } from '@/utils/time';
+import { formatUTCToKST } from '@/utils/date';
 import { useModal } from '@/hooks/useModal';
 import { Gathering } from '@/types/response/gatherings';
 import { useUserStore } from '@/stores/user';
@@ -59,7 +59,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 
 	return (
 		<div className="relative h-full w-full rounded-[24px]">
-			<Image src={data.image} alt="사진" fill className="object-fill" />
+			<Image src={data.image} alt="사진" fill className="object-cover" />
 
 			<div className="absolute top-0 right-0 z-10">
 				<Tag text={tagText} />
