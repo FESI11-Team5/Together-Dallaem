@@ -33,13 +33,13 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 	const currentReviews = reviewData.slice(startIndex, startIndex + pageSize);
 
 	return (
-		<section className="w-full border-t-2 border-gray-200 bg-white p-6">
-			<div className="flex flex-col justify-center">
+		<section className="mb:h-[750px] w-full border-t-2 border-gray-200 bg-white p-6">
+			<div className="flex h-full flex-col justify-center">
 				<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">{REVIEW_SECTION_TITLE.title}</h2>
 
 				{/* 리뷰가 없을 때 */}
 				{reviewData.length === 0 ? (
-					<div className="flex flex-col items-center justify-center">
+					<div className="flex h-full flex-col items-center justify-center">
 						<Image src="/images/no_data.svg" alt="데이터 없음" width={171} height={136} />
 						<p className="text-sm text-gray-500">등록된 리뷰가 없습니다.</p>
 					</div>
