@@ -1,12 +1,13 @@
 'use client';
-
+import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { getGatheringParticipant, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings/[id]';
+import { GatheringParticipant } from '@/types/response/gatherings';
 import { FOOTER_MESSAGE } from '@/constants/messages';
 import { useModal } from '@/hooks/useModal';
 import { useGathering } from '@/providers/GatheringProvider';
 import { useUserStore } from '@/stores/user';
+import { getGatheringParticipant, leaveGathering, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings/[id]';
 
 import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import BasicButton from './BasicButton';
@@ -14,12 +15,24 @@ import BasicPopup from './BasicPopup';
 
 /** 일반 사용자 모임 참여 버튼 */
 function GatheringNormalUserBtn() {
+	const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
 	const { openModal } = useModal();
 	const { user } = useUserStore();
 	const { gathering } = useGathering();
 	const pathname = usePathname();
 
+	useEffect(() => {
+		const fetchParticipants = async () => {
+			if (!gathering) return;
+			const participantList = await getGatheringParticipant(gathering.id);
+			setParticipants(participantList);
+		};
+
+		fetchParticipants();
+	}, [gathering?.id]);
+
 	if (!gathering) return;
+	/** 정원 초과 여부 */
 	const isFull = gathering.capacity === gathering.participantCount;
 
 	/** 모임 참여 핸들러 */
@@ -30,32 +43,41 @@ function GatheringNormalUserBtn() {
 				return;
 			}
 
-			// 중복 참여 확인
-			const participants = await getGatheringParticipant(gathering.id);
-			const duplicatedUser = participants.some(participant => participant.userId === user?.userId);
-
-			if (duplicatedUser) {
-				openModal(<BasicPopup title="이미 참여한 모임입니다." />, 'duplicate-join-popup');
-				return;
-			}
-
-			if (isFull) {
-				openModal(<BasicPopup title="모임 정원이 가득 찼습니다." />, 'full-capacity-popup');
-				return;
-			}
-
 			await postGatheringJoin(gathering.id);
+
 			openModal(<BasicPopup title="모임에 참가되었습니다" />, 'join-gathering-popup');
 		} catch (error) {
 			openModal(<BasicPopup title="모임 참가에 실패했습니다." />, 'error-popup');
 		}
 	};
+
+	/** 이미 참가한 유저 */
+	const joinedUser = participants.find(participant => participant.userId === user?.userId);
+
+	/** 이미 참여한 유저의 모임 취소 핸들러 */
+	const cancelJoinGathering = async () => {
+		try {
+			await leaveGathering(gathering.id);
+
+			openModal(<BasicPopup title="모임 참가가 취소되었습니다." />, 'leave-gathering-popup');
+		} catch (error) {
+			console.log('모임 참가 취소에 실패했어요', error);
+		}
+	};
+
+	console.log(`로그인 된 유저 ID :${user?.userId}	, 참가한 모임 유저 ID :${joinedUser?.userId}`);
 	return (
-		<BasicButton
-			onClick={joinGathering}
-			className={`rounded-md px-4 py-2 text-sm font-bold text-white ${isFull ? 'bg-gray-400' : 'bg-orange-500'}`}>
-			참여하기
-		</BasicButton>
+		<>
+			{joinedUser ? (
+				<BasicButton onClick={cancelJoinGathering} className={`rounded-md px-4 py-2 text-sm font-bold`} outlined>
+					예약 취소하기
+				</BasicButton>
+			) : (
+				<BasicButton onClick={joinGathering} className={`rounded-md px-4 py-2 text-sm font-bold`} isActive={!isFull}>
+					{isFull ? '모집 마감' : '참가하기'}
+				</BasicButton>
+			)}
+		</>
 	);
 }
 

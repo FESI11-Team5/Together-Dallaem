@@ -6,9 +6,9 @@ import { differenceInDays, format, isPast, isSameDay, startOfDay } from 'date-fn
 
 import { formatUTCToKST } from '@/utils/date';
 import { useModal } from '@/hooks/useModal';
-import { Gathering } from '@/types/response/gatherings';
+import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
 import { useUserStore } from '@/stores/user';
-import { getGatheringId } from '@/apis/gatherings/[id]';
+import { getGatheringId, getGatheringParticipant } from '@/apis/gatherings/[id]';
 
 import Image from 'next/image';
 import Tag from '@/components/commons/Tag';
@@ -94,17 +94,62 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 
 /** 모임 상세페이지 - 하위정보 (정원, 참가인원 프로필 사진, 개설확정 등) */
 function GatheringSubInfo({ data }: { data: Gathering }) {
+	const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
+	const { participantCount, capacity } = data;
+
+	useEffect(() => {
+		const fetchParticipants = async () => {
+			try {
+				const participantList = await getGatheringParticipant(data.id);
+				setParticipants(participantList);
+			} catch (error) {
+				console.log('참가자 정보를 불러오는데 실패했습니다.', error);
+			}
+		};
+		fetchParticipants();
+	}, [data.id]);
+
+	const isFull = participantCount === capacity;
+
 	return (
 		<div className="flex w-full flex-col justify-center gap-2.5 px-6">
 			<div className="flex items-end justify-between">
 				<div className="flex items-center gap-3">
-					<p className="leading-sm text-sm font-semibold">모집 정원 {data.capacity}명</p>
-					<p>사진들</p>
+					<p className="leading-sm text-sm font-semibold">모집 정원 {capacity}명</p>
+
+					<div className="group/images flex items-center">
+						{participants.map((participant, idx) => (
+							<div
+								key={idx}
+								className={`group/name transition-all duration-300 ease-in-out ${idx !== 0 ? '-ml-3 group-hover/images:-ml-1' : ''} relative`}>
+								<div className="flex h-[30px] w-[30px] items-center justify-center overflow-hidden rounded-full">
+									<Image
+										src={participant?.User?.image || '/images/profile.svg'}
+										alt={participant?.User?.name || '참가자'}
+										fill
+										className="rounded-full border-2 border-gray-100 object-cover"
+									/>
+								</div>
+								<span
+									className="leading-xs invisible absolute z-10 rounded-full bg-gray-600 px-1.5 py-2 text-center text-xs font-medium text-white group-hover/images:opacity-80 group-hover/name:visible"
+									style={{ top: '100%', left: '-50%', transform: 'translateY(-50px)', whiteSpace: 'nowrap' }}>
+									{participant.User?.name}
+								</span>
+							</div>
+						))}
+					</div>
 				</div>
+
+				{isFull && (
+					<div className="flex items-center gap-1">
+						<Image src="/icons/check_round.svg" alt={'모집 확정'} width={24} height={24} />
+						<p className="leading-sm text-sm font-medium text-orange-500">개설확정</p>
+					</div>
+				)}
 			</div>
 
 			<div className="flex w-full flex-col items-start gap-2">
-				<BasicProgressBar data={{ totalNumber: data.capacity, currentNumber: data.participantCount }} />
+				<BasicProgressBar data={{ totalNumber: capacity, currentNumber: participantCount }} />
 				<div className="flex w-full justify-between">
 					<p className="leading-xs text-xs font-medium text-gray-700">최소인원 5명</p>
 					<p className="leading-xs text-xs font-medium text-gray-700">최대인원 20명</p>

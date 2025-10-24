@@ -39,7 +39,10 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 
 				{/* 리뷰가 없을 때 */}
 				{reviewData.length === 0 ? (
-					<p className="py-10 text-center text-sm text-gray-500">아직 등록된 리뷰가 없습니다.</p>
+					<div className="flex flex-col items-center justify-center">
+						<Image src="/images/no_data.svg" alt="데이터 없음" width={171} height={136} />
+						<p className="text-sm text-gray-500">등록된 리뷰가 없습니다.</p>
+					</div>
 				) : (
 					<>
 						{/* 리뷰 리스트 */}
@@ -67,7 +70,7 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 									{/* 작성자 정보 */}
 									<div className="flex items-center gap-2.5">
 										<Image
-											src={review.User.image}
+											src={review.User.image || '/images/profile.svg'}
 											alt={review.User.name}
 											width={24}
 											height={24}

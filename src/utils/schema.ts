@@ -65,6 +65,14 @@ export const CreateGatheringSchema = z
 				path: ['registrationEnd']
 			});
 		}
+
+		if (registrationEndDate <= now) {
+			ctx.addIssue({
+				code: 'custom',
+				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.DATE_TIME,
+				path: ['registrationEnd']
+			});
+		}
 	});
 
 export const profileEditSchema = z.object({
