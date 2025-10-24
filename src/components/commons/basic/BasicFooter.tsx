@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { isPast } from 'date-fns';
 
 import { GatheringParticipant } from '@/types/response/gatherings';
 import { FOOTER_MESSAGE } from '@/constants/messages';
@@ -65,7 +66,8 @@ function GatheringNormalUserBtn() {
 		}
 	};
 
-	console.log(`로그인 된 유저 ID :${user?.userId}	, 참가한 모임 유저 ID :${joinedUser?.userId}`);
+	const past = isPast(new Date(gathering.registrationEnd));
+
 	return (
 		<>
 			{joinedUser ? (
@@ -73,8 +75,11 @@ function GatheringNormalUserBtn() {
 					예약 취소하기
 				</BasicButton>
 			) : (
-				<BasicButton onClick={joinGathering} className={`rounded-md px-4 py-2 text-sm font-bold`} isActive={!isFull}>
-					{isFull ? '모집 마감' : '참가하기'}
+				<BasicButton
+					onClick={joinGathering}
+					className={`rounded-md px-4 py-2 text-sm font-bold`}
+					isActive={!(isFull || past)}>
+					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '모임 참가하기'}
 				</BasicButton>
 			)}
 		</>
