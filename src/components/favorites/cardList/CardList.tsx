@@ -5,7 +5,7 @@ import Image from 'next/image';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
-import { isPast } from 'date-fns';
+import { format, isPast } from 'date-fns';
 import HeartButton from '@/app/(home)/HeartButton';
 import { useWishlistStore } from '@/stores/wishlist';
 
@@ -19,11 +19,11 @@ interface CardListProps {
  */
 export default function CardList({ data }: CardListProps) {
 	const date = new Date(data.dateTime);
+	const endTime = new Date(data.registrationEnd).getHours();
 	const isClosed = data.participantCount >= data.capacity || isPast(new Date(data.registrationEnd));
-	const formattedDate = `${date.getMonth() + 1}월 ${date.getDate()}일`;
-	const hours = date.getHours().toString().padStart(2, '0');
-	const formattedTimeTag = `${hours}시`;
-	const formattedTimeChip = `${date.getHours()} ${String(date.getMinutes()).padStart(2, '0')}`;
+
+	const formattedDate = format(date, 'M월 d일');
+	const formattedTime = format(date, 'HH:mm');
 	const removeWish = useWishlistStore(state => state.removeWish);
 
 	return (
@@ -31,7 +31,7 @@ export default function CardList({ data }: CardListProps) {
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} />}</div>
+				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={`오늘 ${endTime}시 마감`} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}
@@ -51,7 +51,7 @@ export default function CardList({ data }: CardListProps) {
 					{/* 칩 인포 (날짜 + 시간) */}
 					<div className="mt-2 flex items-start gap-2">
 						<ChipInfo text={formattedDate} textColor="white" />
-						<ChipInfo text={formattedTimeChip} textColor="orange" />
+						<ChipInfo text={formattedTime} textColor="orange" />
 					</div>
 				</div>
 
