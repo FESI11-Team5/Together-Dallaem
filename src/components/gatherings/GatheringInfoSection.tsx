@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { differenceInDays, format, isPast, isSameDay, startOfDay } from 'date-fns';
 
-import { formatUTCToKST } from '@/utils/date';
+import { formatDateAndTime, formatUTCToKST } from '@/utils/date';
 import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
 import { getGatheringId, getGatheringParticipant } from '@/apis/gatherings/[id]';
 
@@ -45,9 +45,9 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 /** 모임 상세페이지 - 메인정보 (제목, 위치, 날짜, 찜 버튼 포함) */
 function GatheringMainInfo({ data }: { data: Gathering }) {
 	const { name, location, dateTime, id } = data;
-	const date = new Date(dateTime);
-	const formattedDate = format(date, 'M월 d일');
-	const formattedTime = format(date, 'HH:mm');
+
+	const formattedDate = formatDateAndTime(dateTime).date;
+	const formattedTime = formatDateAndTime(dateTime).time;
 
 	return (
 		<div className="tb:pb-[43px] max-tb:pb-[20px] flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">

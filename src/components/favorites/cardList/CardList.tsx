@@ -5,9 +5,10 @@ import Image from 'next/image';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
-import { format, isPast } from 'date-fns';
+import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
 import HeartButton from '@/app/(home)/HeartButton';
 import { useWishlistStore } from '@/stores/wishlist';
+import { formatDateAndTime } from '@/utils/date';
 
 interface CardListProps {
 	data: Gathering;
@@ -18,20 +19,30 @@ interface CardListProps {
  * @param data - 모임 정보
  */
 export default function CardList({ data }: CardListProps) {
-	const date = new Date(data.dateTime);
-	const endTime = new Date(data.registrationEnd).getHours();
+	const now = new Date();
+	const endDate = new Date(data.registrationEnd);
 	const isClosed = data.participantCount >= data.capacity || isPast(new Date(data.registrationEnd));
-
-	const formattedDate = format(date, 'M월 d일');
-	const formattedTime = format(date, 'HH:mm');
+	const formattedDate = formatDateAndTime(data.dateTime).date;
+	const formattedTime = formatDateAndTime(data.dateTime).time;
 	const removeWish = useWishlistStore(state => state.removeWish);
+	let tagText = '';
+
+	if (isPast(endDate)) {
+		tagText = '모집 마감';
+	} else if (isSameDay(now, endDate)) {
+		const endHour = endDate.getHours();
+		tagText = `오늘 ${endHour}시 마감`;
+	} else {
+		const diffDays = differenceInDays(startOfDay(endDate), startOfDay(now));
+		tagText = diffDays <= 0 ? '모집 마감' : `${diffDays}일 후 마감`;
+	}
 
 	return (
 		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-[24px] mb:rounded-r-[24px] max-mb:rounded-t-[24px] max-mb:rounded-b-[24px] relative flex flex-row items-center overflow-hidden border-2 border-gray-100">
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={`오늘 ${endTime}시 마감`} />}</div>
+				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={tagText} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}
