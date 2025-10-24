@@ -1,21 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { differenceInDays, format, isPast, isSameDay, startOfDay } from 'date-fns';
 
 import { formatUTCToKST } from '@/utils/date';
-import { useModal } from '@/hooks/useModal';
 import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
-import { useUserStore } from '@/stores/user';
 import { getGatheringId, getGatheringParticipant } from '@/apis/gatherings/[id]';
 
 import Image from 'next/image';
 import Tag from '@/components/commons/Tag';
 import ChipInfo from '@/components/commons/ChipInfo';
 import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
-import BasicPopup from '@/components/commons/basic/BasicPopup';
-import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import HeartButton from '@/app/(home)/HeartButton';
 
 /** 모임 상세페이지 - 이미지 + 마감정보 */
@@ -50,24 +45,9 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 /** 모임 상세페이지 - 메인정보 (제목, 위치, 날짜, 찜 버튼 포함) */
 function GatheringMainInfo({ data }: { data: Gathering }) {
 	const { name, location, dateTime, id } = data;
-	const { openModal } = useModal();
-	const { user } = useUserStore.getState();
-	const pathname = usePathname();
-
 	const date = new Date(dateTime);
 	const formattedDate = format(date, 'M월 d일');
 	const formattedTime = format(date, 'HH:mm');
-
-	const handleHeartClick = (e: React.MouseEvent) => {
-		e.stopPropagation();
-
-		if (!user?.userId) {
-			openModal(<RequiredLoginPopup next={pathname} />, 'required-login-popup');
-			return;
-		}
-
-		openModal(<BasicPopup title="찜 목록에 추가되었습니다." />, 'heart-popup');
-	};
 
 	return (
 		<div className="tb:pb-[43px] max-tb:pb-[20px] flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">
@@ -84,9 +64,7 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 					</div>
 				</div>
 
-				<div onClick={handleHeartClick}>
-					<HeartButton id={id} />
-				</div>
+				<HeartButton id={id} />
 			</div>
 		</div>
 	);
@@ -96,6 +74,7 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 function GatheringSubInfo({ data }: { data: Gathering }) {
 	const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
 	const { participantCount, capacity } = data;
+	const isFull = participantCount === capacity;
 
 	useEffect(() => {
 		const fetchParticipants = async () => {
@@ -108,8 +87,6 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 		};
 		fetchParticipants();
 	}, [data.id]);
-
-	const isFull = participantCount === capacity;
 
 	return (
 		<div className="flex w-full flex-col justify-center gap-2.5 px-6">
