@@ -22,8 +22,8 @@ export default function CardList({ data }: CardListProps) {
 	const now = new Date();
 	const endDate = new Date(data.registrationEnd);
 	const isClosed = data.participantCount >= data.capacity || isPast(new Date(data.registrationEnd));
-	const formattedDate = formatDateAndTime(data.dateTime).date;
-	const formattedTime = formatDateAndTime(data.dateTime).time;
+	const { date, time } = formatDateAndTime(data.dateTime);
+
 	const removeWish = useWishlistStore(state => state.removeWish);
 	let tagText = '';
 
@@ -61,8 +61,8 @@ export default function CardList({ data }: CardListProps) {
 
 					{/* 칩 인포 (날짜 + 시간) */}
 					<div className="mt-2 flex items-start gap-2">
-						<ChipInfo text={formattedDate} textColor="white" />
-						<ChipInfo text={formattedTime} textColor="orange" />
+						<ChipInfo text={date} textColor="white" />
+						<ChipInfo text={time} textColor="orange" />
 					</div>
 				</div>
 

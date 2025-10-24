@@ -45,9 +45,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 /** 모임 상세페이지 - 메인정보 (제목, 위치, 날짜, 찜 버튼 포함) */
 function GatheringMainInfo({ data }: { data: Gathering }) {
 	const { name, location, dateTime, id } = data;
-
-	const formattedDate = formatDateAndTime(dateTime).date;
-	const formattedTime = formatDateAndTime(dateTime).time;
+	const { date, time } = formatDateAndTime(dateTime);
 
 	return (
 		<div className="tb:pb-[43px] max-tb:pb-[20px] flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">
@@ -59,8 +57,8 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 					</div>
 
 					<div className="flex gap-2">
-						<ChipInfo text={formattedDate} textColor="white" />
-						<ChipInfo text={formattedTime} textColor="orange" />
+						<ChipInfo text={date} textColor="white" />
+						<ChipInfo text={time} textColor="orange" />
 					</div>
 				</div>
 
