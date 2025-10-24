@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
@@ -17,39 +18,58 @@ import GatheringSkeleton from '@/components/me/MyActivityContainer/JoinedGatheri
  * <JoinedGatherings />
  */
 export default function JoinedGatherings() {
-	const [isLoading, setIsLoading] = useState(true);
-	const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
+	// const [isLoading, setIsLoading] = useState(true);
+	// const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
 
-	useEffect(() => {
-		const fetchGatherings = async () => {
-			try {
-				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
+	// useEffect(() => {
+	// 	const fetchGatherings = async () => {
+	// 		try {
+	// 			const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
 
-				const sortedData = data.sort((a: JoinedGathering, b: JoinedGathering): number => {
-					if (a.canceledAt === null && b.canceledAt !== null) return -1;
-					if (a.canceledAt !== null && b.canceledAt === null) return 1;
-					return 0;
-				});
+	// 			const sortedData = data.sort((a: JoinedGathering, b: JoinedGathering): number => {
+	// 				if (a.canceledAt === null && b.canceledAt !== null) return -1;
+	// 				if (a.canceledAt !== null && b.canceledAt === null) return 1;
+	// 				return 0;
+	// 			});
 
-				setGatherings(sortedData);
-			} catch (err) {
-				console.error(err);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-		fetchGatherings();
-	}, []);
+	// 			setGatherings(sortedData);
+	// 		} catch (err) {
+	// 			console.error(err);
+	// 		} finally {
+	// 			setIsLoading(false);
+	// 		}
+	// 	};
+	// 	fetchGatherings();
+	// }, []);
 
-	if (isLoading) return <GatheringSkeleton />;
+	// if (isLoading) return <GatheringSkeleton />;
 
-	if (gatherings.length === 0) {
-		return (
-			<div className="flex h-full flex-1 items-center justify-center">
-				<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
-			</div>
-		);
-	}
+	// if (gatherings.length === 0) {
+	// 	return (
+	// 		<div className="flex h-full flex-1 items-center justify-center">
+	// 			<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
+	// 		</div>
+	// 	);
+	// }
+
+	const queryClient = useQueryClient();
+
+	const {
+		data: gatherings = [],
+		isLoading,
+		isError
+	} = useQuery<JoinedGathering[]>({
+		queryKey: ['joinedGatherings'],
+		queryFn: async () => {
+			const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
+
+			return data.sort((a, b) => {
+				if (a.canceledAt === null && b.canceledAt !== null) return -1;
+				if (a.canceledAt !== null && b.canceledAt === null) return 1;
+				return 0;
+			});
+		}
+	});
 
 	/**
 	 * 리뷰 작성 성공 콜백
@@ -61,11 +81,14 @@ export default function JoinedGatherings() {
 	 * @returns {void}
 	 */
 	const handleReviewSuccess = (gatheringId: number) => {
-		try {
-			setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
-		} catch (err) {
-			console.error(err);
-		}
+		// try {
+		// 	//setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
+		// } catch (err) {
+		// 	console.error(err);
+		// }
+		queryClient.setQueryData<JoinedGathering[]>(['joinedGatherings'], prev =>
+			prev ? prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)) : []
+		);
 	};
 
 	/**
@@ -77,12 +100,33 @@ export default function JoinedGatherings() {
 	 * @returns {void}
 	 */
 	const handleCancelSuccess = (id: number) => {
-		try {
-			setGatherings(prev => prev.filter(g => g.id !== id));
-		} catch (err) {
-			console.error(err);
-		}
+		// try {
+		// 	//setGatherings(prev => prev.filter(g => g.id !== id));
+		// } catch (err) {
+		// 	console.error(err);
+		// }
+		queryClient.setQueryData<JoinedGathering[]>(['joinedGatherings'], prev =>
+			prev ? prev.filter(g => g.id !== id) : []
+		);
 	};
+
+	if (isLoading) return <GatheringSkeleton />;
+
+	if (isError) {
+		return (
+			<div>
+				<p>에러</p>
+			</div>
+		);
+	}
+
+	if (gatherings.length === 0) {
+		return (
+			<div className="flex h-full flex-1 items-center justify-center">
+				<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex flex-col gap-6">
