@@ -14,7 +14,7 @@ export function useAuth() {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
 	useEffect(() => {
-		if (!hasHydrated) return;
+		if (hasHydrated === null) return;
 		const check = !!token && isTokenExpired(token) !== 'EXPIRED';
 		setIsAuthenticated(check);
 		if (!check) signoutUser();
