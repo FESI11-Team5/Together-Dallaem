@@ -8,7 +8,7 @@ import { profileEditSchema, ProfileEditSchemaType } from '@/utils/schema';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
 import BasicInput from '@/components/commons/basic/BasicInput';
-import ProfileImageUploader from '../ProfileEditCard/ProfileImageUploader';
+import ProfileImageUploader from './ProfileImageUploader';
 
 interface ProfileEditModalProps {
 	/** 현재 사용자의 프로필 이미지 URL */
