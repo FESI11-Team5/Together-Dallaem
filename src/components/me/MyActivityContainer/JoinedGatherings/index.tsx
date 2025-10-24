@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
-import { leaveGathering } from '@/apis/gatherings/[id]';
-import { postReviews } from '@/apis/reviews/reviews';
 import { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
+import GatheringSkeleton from '@/components/me/MyActivityContainer/JoinedGatherings/skeleton/GatheringSkeleton';
 
 /**
  * JoinedGatherings 컴포넌트
@@ -18,6 +17,7 @@ import GatheringCard from './GatheringCard';
  * <JoinedGatherings />
  */
 export default function JoinedGatherings() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
 
 	useEffect(() => {
@@ -25,13 +25,31 @@ export default function JoinedGatherings() {
 			try {
 				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
 
-				setGatherings(data);
+				const sortedData = data.sort((a: JoinedGathering, b: JoinedGathering): number => {
+					if (a.canceledAt === null && b.canceledAt !== null) return -1;
+					if (a.canceledAt !== null && b.canceledAt === null) return 1;
+					return 0;
+				});
+
+				setGatherings(sortedData);
 			} catch (err) {
 				console.error(err);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		fetchGatherings();
 	}, []);
+
+	if (isLoading) return <GatheringSkeleton />;
+
+	if (gatherings.length === 0) {
+		return (
+			<div className="flex h-full flex-1 items-center justify-center">
+				<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
+			</div>
+		);
+	}
 
 	/**
 	 * 리뷰 작성 성공 콜백
@@ -42,9 +60,8 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 리뷰가 작성된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleReviewSuccess = async (gatheringId: number, score: number, comment: string): Promise<void> => {
+	const handleReviewSuccess = (gatheringId: number) => {
 		try {
-			await postReviews({ gatheringId, score, comment });
 			setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
 		} catch (err) {
 			console.error(err);
@@ -59,9 +76,8 @@ export default function JoinedGatherings() {
 	 * @param {number} id - 취소된 모임의 ID
 	 * @returns {void}
 	 */
-	const handleCancelSuccess = async (id: number) => {
+	const handleCancelSuccess = (id: number) => {
 		try {
-			await leaveGathering(id);
 			setGatherings(prev => prev.filter(g => g.id !== id));
 		} catch (err) {
 			console.error(err);
@@ -74,7 +90,7 @@ export default function JoinedGatherings() {
 				<GatheringCard
 					key={gathering.id}
 					gathering={gathering}
-					onReviewSuccess={(score, comment) => handleReviewSuccess(gathering.id, score, comment)}
+					onReviewSuccess={() => handleReviewSuccess(gathering.id)}
 					onCancelSuccess={() => handleCancelSuccess(gathering.id)}
 				/>
 			))}
