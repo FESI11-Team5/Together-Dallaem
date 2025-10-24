@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { JoinedGathering } from '@/types/response/gatherings';
-import { ReviewResponse } from '@/types/response/reviews';
+import { ReviewResponse, GetReviewsResponse } from '@/types/response/reviews';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { getReviews } from '@/apis/reviews/reviews';
 import { useUserStore } from '@/stores/user';
@@ -25,85 +26,75 @@ import Chip from '@/components/commons/Chip';
  */
 export default function MyReviews() {
 	const { user } = useUserStore();
-
-	/** 현재 활성화된 탭: 'writable' | 'written' */
+	const queryClient = useQueryClient();
 	const [activeTab, setActiveTab] = useState<'writable' | 'written'>('writable');
 
-	/**
-	 * 참여한 모임 리스트
-	 */
-	const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
+	const { data: writableReviewsData = [] } = useQuery<JoinedGathering[]>({
+		queryKey: ['writableReviews', user?.userId],
+		queryFn: () => getJoinedGathering({ completed: true, reviewed: false }),
+		enabled: !!user
+	});
 
-	/** 작성한 리뷰 리스트 */
-	const [reviews, setReviews] = useState<ReviewResponse[]>([]);
-
-	useEffect(() => {
-		if (!user) return;
-
-		/**
-		 * 완료된 참여 모임 중 리뷰가 작성되지 않은 모임을 가져옵니다.
-		 * 호출 후 로컬 상태 `gatherings`를 업데이트합니다.
-		 *
-		 * @returns {Promise<void>}
-		 */
-		const fetchJoinedGatherings = async (): Promise<void> => {
-			try {
-				const data = await getJoinedGathering({ completed: true, reviewed: false });
-				setGatherings(data);
-			} catch (err) {
-				console.error(err);
-			}
-		};
-		fetchJoinedGatherings();
-	}, [user]);
-
-	useEffect(() => {
-		if (!user) return;
-
-		/**
-		 * 현재 사용자가 작성한 리뷰 목록을 API에서 조회하고 로컬 상태에 저장합니다.
-		 *
-		 * @returns {Promise<void>}
-		 */
-		const fetchMyReviews = async (): Promise<void> => {
-			try {
-				const data = await getReviews({ userId: user.userId });
-				setReviews(data.data);
-			} catch (err) {
-				console.error('리뷰 조회 실패:', err);
-			}
-		};
-
-		fetchMyReviews();
-	}, [user]);
-
+	const { data: writtenReviewsData = [] } = useQuery<ReviewResponse[]>({
+		queryKey: ['writtenReviews', user?.userId],
+		queryFn: () => getReviews({ userId: user!.userId }).then((res: GetReviewsResponse) => res.data),
+		enabled: !!user
+	});
 	/**
 	 * 리뷰 작성 성공 시 해당 모임의 isReviewed를 true로 업데이트
 	 * @param gatheringId 리뷰 작성 완료한 모임 ID
 	 */
-	const handleReviewSuccess = (gatheringId: number) => {
-		setGatherings(prev => prev.map(r => (r.id === gatheringId ? { ...r, isReviewed: true } : r)));
+	const handleReviewSuccess = (gatheringId: number, _score: number, _comment: string) => {
+		if (!user) return;
+
+		// mark unused params as referenced for linter
+		void _score;
+		void _comment;
+
+		try {
+			// Note: actual POST is performed by ReviewWriteModal.
+			// Here we update the react-query cache so the UI reflects the new state
+			// and trigger a refetch of the written reviews.
+			queryClient.setQueryData<JoinedGathering[]>(
+				['writableReviews', user.userId],
+				old => old?.filter(g => g.id !== gatheringId) ?? []
+			);
+
+			queryClient.invalidateQueries({ queryKey: ['writtenReviews', user.userId] });
+
+			setActiveTab('written');
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
-	/** 현재 탭에 따라 렌더링할 리뷰 리스트 */
-	const writableReviews = gatherings.filter(r => !r.isReviewed);
-	const writtenReviews = reviews;
-
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-1 flex-col gap-6">
 			<div className="flex gap-2">
 				<Chip text="작성 가능한 리뷰" isActive={activeTab === 'writable'} onClick={() => setActiveTab('writable')} />
 				<Chip text="작성한 리뷰" isActive={activeTab === 'written'} onClick={() => setActiveTab('written')} />
 			</div>
-			{activeTab === 'writable'
-				? writableReviews.map(gathering => (
+			{activeTab === 'writable' ? (
+				writableReviewsData.length > 0 ? (
+					writableReviewsData.map(gathering => (
 						<WritableReviewCard
 							key={gathering.id}
 							gathering={gathering}
-							onSuccess={() => handleReviewSuccess(gathering.id)}
+							onSuccess={(score: number, comment: string) => handleReviewSuccess(gathering.id, score, comment)}
 						/>
 					))
-				: writtenReviews.map(review => <WrittenReviewCard key={review.id} review={review} />)}
+				) : (
+					<div className="flex h-full flex-1 items-center justify-center">
+						<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
+					</div>
+				)
+			) : writtenReviewsData.length > 0 ? (
+				writtenReviewsData.map(review => <WrittenReviewCard key={review.id} review={review} />)
+			) : (
+				<div className="flex h-full flex-1 items-center justify-center">
+					<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
+				</div>
+			)}
 		</div>
 	);
 }
