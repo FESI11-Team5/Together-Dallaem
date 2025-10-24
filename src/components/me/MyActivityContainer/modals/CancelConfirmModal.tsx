@@ -1,8 +1,8 @@
 import { leaveGathering } from '@/apis/gatherings/[id]';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
-import BasicPopup from '@/components/commons/basic/BasicPopup';
-import { useModal, useModalClose } from '@/hooks/useModal';
+import { useModalClose } from '@/hooks/useModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 interface CancelConfirmModalProps {
 	/** 예약 취소할 모임 ID */
@@ -18,19 +18,7 @@ interface CancelConfirmModalProps {
  */
 export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelConfirmModalProps) {
 	const closeModal = useModalClose();
-	const { openModal } = useModal();
-
-	/**
-	 * 에러 객체에서 사용자용 메시지를 추출합니다.
-	 * 실제 프로젝트에서는 공통 유틸로 분리하여 HTTP 상태 코드나 API 메시지에
-	 * 따라 더 상세한 매핑을 하는 것이 좋습니다.
-	 */
-	const getErrorMessage = (err: unknown) => {
-		if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-		if (typeof err === 'string') return err;
-		if (err instanceof Error) return err.message;
-		return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-	};
+	const { handleError } = useErrorHandler();
 
 	/**
 	 * 예약 취소 버튼 클릭 핸들러
@@ -43,12 +31,7 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 			onSuccess();
 			closeModal();
 		} catch (err) {
-			// 개발에서는 콘솔에 남기고, 사용자에게는 팝업으로 안내합니다.
-			if (process.env.NODE_ENV !== 'production') console.error(err);
-
-			const message = getErrorMessage(err);
-
-			openModal(<BasicPopup title="" subTitle={message} confirmText="닫기" />);
+			handleError(err);
 		}
 	};
 

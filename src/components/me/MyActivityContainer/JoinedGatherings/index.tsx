@@ -1,10 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
-import { useModal } from '@/hooks/useModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import GatheringCard from './GatheringCard';
 import GatheringSkeleton from '@/components/me/MyActivityContainer/JoinedGatherings/skeleton/GatheringSkeleton';
-import BasicPopup from '@/components/commons/basic/BasicPopup';
 
 /**
  * JoinedGatherings 컴포넌트
@@ -28,35 +27,29 @@ import BasicPopup from '@/components/commons/basic/BasicPopup';
  * @param {unknown} err - 잡힌 에러 객체
  * @returns {string} 사용자에게 표시할 에러 메시지
  */
-const getErrorMessage = (err: unknown): string => {
-	if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-	if (typeof err === 'string') return err;
-	if (err instanceof Error) return err.message;
-	return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-};
 
 export default function JoinedGatherings() {
 	const queryClient = useQueryClient();
-	const { openModal } = useModal();
+	const { handleError } = useErrorHandler();
 	/**
 	 * React Query: joinedGatherings 캐시
 	 * - queryKey: ['joinedGatherings'] 로 캐싱/무효화에 사용됩니다.
 	 * - queryFn: API에서 참여한 모임을 불러오고 취소된 모임을 뒤로 보냅니다.
 	 */
-	const {
-		data: gatherings = [],
-		isLoading,
-		isError,
-		error
-	} = useQuery<JoinedGathering[]>({
+	const { data: gatherings = [], isLoading } = useQuery<JoinedGathering[]>({
 		queryKey: ['joinedGatherings'],
 		queryFn: async () => {
-			const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
-			return data.sort((a, b) => {
-				if (a.canceledAt === null && b.canceledAt !== null) return -1;
-				if (a.canceledAt !== null && b.canceledAt === null) return 1;
-				return 0;
-			});
+			try {
+				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
+				return data.sort((a, b) => {
+					if (a.canceledAt === null && b.canceledAt !== null) return -1;
+					if (a.canceledAt !== null && b.canceledAt === null) return 1;
+					return 0;
+				});
+			} catch (err) {
+				handleError(err);
+				throw err;
+			}
 		}
 	});
 
@@ -100,11 +93,6 @@ export default function JoinedGatherings() {
 	};
 
 	if (isLoading) return <GatheringSkeleton />;
-
-	if (isError) {
-		openModal(<BasicPopup title="" subTitle={getErrorMessage(error)} confirmText="확인" />);
-		return <GatheringSkeleton />;
-	}
 
 	if (gatherings.length === 0) {
 		return (
