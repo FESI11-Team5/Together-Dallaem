@@ -13,9 +13,11 @@ export function useAuth() {
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
+	// TODO: 코드가 점점 복잡해져서 코드 뒤엎기가 필요해 보임
 	useEffect(() => {
-		if (hasHydrated === null) return;
+		if (!hasHydrated) return;
 		const check = !!token && isTokenExpired(token) !== 'EXPIRED';
+		console.log(check);
 		setIsAuthenticated(check);
 		if (!check) signoutUser();
 	}, [hasHydrated, token]);
