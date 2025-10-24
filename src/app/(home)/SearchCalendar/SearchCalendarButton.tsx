@@ -1,5 +1,7 @@
 'use client';
 
+import BasicButton from '@/components/commons/basic/BasicButton';
+
 /**
  * SearchInCalendarButton 컴포넌트
  * - 달력에서 날짜를 선택하고 '적용' 버튼을 눌러 선택 완료
@@ -12,8 +14,6 @@
  * @returns
  *
  */
-
-import { cn } from '@/utils/cn';
 
 interface CalendarButtonProps {
 	date?: Date;
@@ -30,35 +30,20 @@ export default function SearchCalendarButton({ date, setDate, setIsOpen, onChang
 		setIsOpen(false);
 	};
 
-	// 버튼 스타일 개선
-	const buttonStyles = {
-		reset: {
-			active: 'cursor-pointer border border-orange-400 text-orange-400',
-			disabled: 'cursor-not-allowed border border-gray-300 text-gray-300'
-		},
-		apply: {
-			active: 'cursor-pointer bg-orange-600 text-white',
-			disabled: 'cursor-not-allowed bg-gray-400 text-white'
-		}
-	};
-
 	return (
 		<div className="mt-2 flex w-full gap-3">
-			<button
-				className={cn('flex-1 rounded-lg p-2', date ? buttonStyles.reset.active : buttonStyles.reset.disabled)}
+			<BasicButton
+				outlined
 				onClick={() => {
 					setDate(undefined);
 					onChange?.(undefined);
 				}}
 				disabled={!date}>
 				초기화
-			</button>
-			<button
-				className={cn('flex-1 rounded-lg p-2', date ? buttonStyles.apply.active : buttonStyles.apply.disabled)}
-				onClick={handleApply}
-				disabled={!date}>
+			</BasicButton>
+			<BasicButton onClick={handleApply} disabled={!date}>
 				적용
-			</button>
+			</BasicButton>
 		</div>
 	);
 }
