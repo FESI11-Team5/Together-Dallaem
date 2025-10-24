@@ -63,6 +63,8 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 	 * @returns {void}
 	 */
 	const handleAddReviewClick = () => {
+		if (gathering.isReviewed) return;
+
 		openModal(
 			<ReviewWriteModal gatheringId={gathering.id} onSuccess={(score, comment) => onReviewSuccess(score, comment)} />
 		);
@@ -84,9 +86,14 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 						</BasicButton>
 					) : (
 						<BasicButton
-							className="!w-auto px-[22px] transition-colors hover:bg-orange-700 active:bg-orange-800"
-							onClick={handleAddReviewClick}>
-							리뷰 작성하기
+							className={`px-[22px] transition-colors ${
+								gathering.isReviewed
+									? 'cursor-not-allowed !bg-gray-200 !text-gray-500'
+									: 'hover:bg-orange-700 active:bg-orange-800'
+							}`}
+							onClick={!gathering.isReviewed ? handleAddReviewClick : undefined}
+							isActive={!gathering.isReviewed}>
+							{!gathering.isReviewed ? '리뷰 추가하기' : '작성 완료'}
 						</BasicButton>
 					)}
 				</div>
