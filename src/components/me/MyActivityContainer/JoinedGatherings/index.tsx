@@ -1,68 +1,57 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
+import { useModal } from '@/hooks/useModal';
 import GatheringCard from './GatheringCard';
 import GatheringSkeleton from '@/components/me/MyActivityContainer/JoinedGatherings/skeleton/GatheringSkeleton';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
 
 /**
  * JoinedGatherings 컴포넌트
  *
  * 사용자가 참여한 모임 목록을 카드 리스트로 렌더링합니다. 이 컴포넌트는
- * - 로컬 모킹 데이터로 초기화되어 있으며(개발 편의), 실제 API와 연결할 경우 주석 처리된 useEffect를 활성화하면 됩니다.
- * - 각 카드에서 리뷰 작성 또는 모임 취소가 발생하면 목록 상태를 로컬에서 업데이트합니다.
+ * - API로부터 사용자가 참여한 모임을 조회하고
+ * - 취소된 모임을 뒤로 보내어 우선 표출합니다.
+ * - 자식 카드에서 리뷰 작성/취소 성공 시 상위 쿼리 캐시를 업데이트합니다.
  *
  * @component
  * @returns {JSX.Element} 참여한 모임 목록을 렌더링하는 React 컴포넌트
  * @example
  * <JoinedGatherings />
  */
+
+/**
+ * 에러 객체에서 사용자에게 보여줄 간단한 메시지를 추출합니다.
+ * - 문자열이나 Error 인스턴스, 기타 unknown 타입을 다룹니다.
+ * - 더 정교한 매핑(HTTP 상태 코드별 메시지 등)은 공통 유틸로 분리 권장.
+ *
+ * @param {unknown} err - 잡힌 에러 객체
+ * @returns {string} 사용자에게 표시할 에러 메시지
+ */
+const getErrorMessage = (err: unknown): string => {
+	if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+	if (typeof err === 'string') return err;
+	if (err instanceof Error) return err.message;
+	return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+};
+
 export default function JoinedGatherings() {
-	// const [isLoading, setIsLoading] = useState(true);
-	// const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
-
-	// useEffect(() => {
-	// 	const fetchGatherings = async () => {
-	// 		try {
-	// 			const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
-
-	// 			const sortedData = data.sort((a: JoinedGathering, b: JoinedGathering): number => {
-	// 				if (a.canceledAt === null && b.canceledAt !== null) return -1;
-	// 				if (a.canceledAt !== null && b.canceledAt === null) return 1;
-	// 				return 0;
-	// 			});
-
-	// 			setGatherings(sortedData);
-	// 		} catch (err) {
-	// 			console.error(err);
-	// 		} finally {
-	// 			setIsLoading(false);
-	// 		}
-	// 	};
-	// 	fetchGatherings();
-	// }, []);
-
-	// if (isLoading) return <GatheringSkeleton />;
-
-	// if (gatherings.length === 0) {
-	// 	return (
-	// 		<div className="flex h-full flex-1 items-center justify-center">
-	// 			<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
-	// 		</div>
-	// 	);
-	// }
-
 	const queryClient = useQueryClient();
-
+	const { openModal } = useModal();
+	/**
+	 * React Query: joinedGatherings 캐시
+	 * - queryKey: ['joinedGatherings'] 로 캐싱/무효화에 사용됩니다.
+	 * - queryFn: API에서 참여한 모임을 불러오고 취소된 모임을 뒤로 보냅니다.
+	 */
 	const {
 		data: gatherings = [],
 		isLoading,
-		isError
+		isError,
+		error
 	} = useQuery<JoinedGathering[]>({
 		queryKey: ['joinedGatherings'],
 		queryFn: async () => {
 			const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
-
 			return data.sort((a, b) => {
 				if (a.canceledAt === null && b.canceledAt !== null) return -1;
 				if (a.canceledAt !== null && b.canceledAt === null) return 1;
@@ -81,11 +70,6 @@ export default function JoinedGatherings() {
 	 * @returns {void}
 	 */
 	const handleReviewSuccess = (gatheringId: number) => {
-		// try {
-		// 	//setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
-		// } catch (err) {
-		// 	console.error(err);
-		// }
 		queryClient.setQueryData<JoinedGathering[]>(['joinedGatherings'], prev =>
 			prev ? prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)) : []
 		);
@@ -100,11 +84,6 @@ export default function JoinedGatherings() {
 	 * @returns {void}
 	 */
 	const handleCancelSuccess = (id: number) => {
-		// try {
-		// 	//setGatherings(prev => prev.filter(g => g.id !== id));
-		// } catch (err) {
-		// 	console.error(err);
-		// }
 		queryClient.setQueryData<JoinedGathering[]>(['joinedGatherings'], prev =>
 			prev ? prev.filter(g => g.id !== id) : []
 		);
@@ -113,11 +92,8 @@ export default function JoinedGatherings() {
 	if (isLoading) return <GatheringSkeleton />;
 
 	if (isError) {
-		return (
-			<div>
-				<p>에러</p>
-			</div>
-		);
+		openModal(<BasicPopup title="" subTitle={getErrorMessage(error)} confirmText="확인" />);
+		return <GatheringSkeleton />;
 	}
 
 	if (gatherings.length === 0) {
