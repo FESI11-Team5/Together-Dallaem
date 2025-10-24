@@ -60,6 +60,16 @@ export default function JoinedGatherings() {
 		}
 	});
 
+	if (isLoading) return <GatheringSkeleton />;
+
+	if (gatherings.length === 0) {
+		return (
+			<div className="flex h-full flex-1 items-center justify-center">
+				<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
+			</div>
+		);
+	}
+
 	/**
 	 * 리뷰 작성 성공 콜백
 	 *
