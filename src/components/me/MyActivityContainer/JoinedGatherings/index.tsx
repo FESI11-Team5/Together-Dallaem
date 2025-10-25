@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
@@ -45,7 +46,8 @@ export default function JoinedGatherings() {
 
 	if (gatherings.length === 0) {
 		return (
-			<div className="flex h-full flex-1 items-center justify-center">
+			<div className="flex h-full flex-1 flex-col items-center justify-center">
+				<Image src="/images/no_data.svg" alt="데이터 없음 이미지" width={171} height={136} />
 				<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
 			</div>
 		);
