@@ -65,5 +65,5 @@ export interface GatheringParticipant {
 	/** 참가 날짜 */
 	joinedAt: string;
 	/** 참가자 프로필 정보*/
-	user: UserData;
+	User: UserData;
 }

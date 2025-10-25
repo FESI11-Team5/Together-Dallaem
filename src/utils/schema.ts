@@ -3,6 +3,9 @@ import type { GatheringLocation, GatheringType } from '@/types/response/gatherin
 
 import * as z from 'zod';
 
+/** 이미지 파일 크기 (5MB) */
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
 export const signinSchema = z.object({
 	email: z.email({ error: SIGNIN_ERRORS.INVALID_EMAIL }),
 	password: z.string().min(8, { error: SIGNIN_ERRORS.TOO_SHORT_PASSWORD })
@@ -40,8 +43,13 @@ export const CreateGatheringSchema = z
 			.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.CAPACITY }),
 
 		image: z
-			.instanceof(File, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
-			.refine(file => file.size > 0, { error: CREATE_GATHERING_ERRORS.EMPTY.IMAGE }),
+			.instanceof(File, { message: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
+			.refine(file => file.size > 0, {
+				message: CREATE_GATHERING_ERRORS.EMPTY.IMAGE
+			})
+			.refine(file => file.size <= MAX_FILE_SIZE, {
+				message: CREATE_GATHERING_ERRORS.LIMIT.MAX.IMAGE
+			}),
 
 		imageFileName: z.string().optional()
 	})
@@ -62,6 +70,14 @@ export const CreateGatheringSchema = z
 			ctx.addIssue({
 				code: 'custom',
 				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.REGISTRATION_END,
+				path: ['registrationEnd']
+			});
+		}
+
+		if (registrationEndDate <= now) {
+			ctx.addIssue({
+				code: 'custom',
+				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.DATE_TIME,
 				path: ['registrationEnd']
 			});
 		}
