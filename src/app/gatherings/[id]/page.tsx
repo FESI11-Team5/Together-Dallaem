@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
 			<div className="max-mb:pb-30 max-mb:pt-10 mb:h-screen tb:w-[1200px] flex items-center justify-center bg-gray-50">
 				<div className="flex flex-col gap-6">
 					<GatheringInfoSection gatheringId={id} />
-					<GatheringReviewsSection />
+					<GatheringReviewsSection gatheringId={id} />
 				</div>
 			</div>
 		</div>
