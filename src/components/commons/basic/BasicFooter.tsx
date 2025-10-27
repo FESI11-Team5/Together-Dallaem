@@ -132,7 +132,7 @@ export default function BasicFooter() {
 	const gatheringOwnerId = gathering?.createdBy === user?.userId;
 
 	return (
-		<footer className="fixed right-2 bottom-0 left-0 z-10 m-auto flex w-full items-center justify-center border-3 border-t-black bg-white px-4 py-5">
+		<footer className="z-layout fixed right-2 bottom-0 left-0 m-auto flex w-full items-center justify-center border-3 border-t-black bg-white px-4 py-5">
 			{user && gatheringOwnerId ? (
 				<div className="max-mb:w-[696px] max-mb:flex-col flex w-[996px] flex-row items-center justify-between">
 					<div className="pr-4">

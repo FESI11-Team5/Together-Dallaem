@@ -1,22 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { differenceInDays, format, isPast, isSameDay, startOfDay } from 'date-fns';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { formatUTCToKST } from '@/utils/date';
-import { useModal } from '@/hooks/useModal';
-import { Gathering } from '@/types/response/gatherings';
-import { useUserStore } from '@/stores/user';
 import { getGatheringId } from '@/apis/gatherings/[id]';
+import { useModal } from '@/hooks/useModal';
+import { useUserStore } from '@/stores/user';
+import { Gathering } from '@/types/response/gatherings';
+import { formatUTCToKST } from '@/utils/date';
 
-import Image from 'next/image';
-import Tag from '@/components/commons/Tag';
-import ChipInfo from '@/components/commons/ChipInfo';
-import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
-import BasicPopup from '@/components/commons/basic/BasicPopup';
-import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
 import HeartButton from '@/app/(home)/HeartButton';
+import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
+import ChipInfo from '@/components/commons/ChipInfo';
+import Tag from '@/components/commons/Tag';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
+import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
+import Image from 'next/image';
 
 /** 모임 상세페이지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
@@ -40,7 +40,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 	return (
 		<div className="relative h-full w-full rounded-[24px]">
 			<Image src={image} alt="사진" fill className="object-cover" />
-			<div className="absolute top-0 right-0 z-10">
+			<div className="z-base absolute top-0 right-0">
 				<Tag text={tagText} />
 			</div>
 		</div>

@@ -76,7 +76,7 @@ export default function ProfileEditCard() {
 						/>
 					</div>
 
-					<p className="text-pc z-10 font-semibold text-gray-900">내 프로필</p>
+					<p className="text-pc z-base font-semibold text-gray-900">내 프로필</p>
 
 					{/* 회사명 수정 버튼 */}
 					<button
@@ -90,7 +90,7 @@ export default function ProfileEditCard() {
 								/>
 							)
 						}
-						className="z-10 cursor-pointer">
+						className="z-base cursor-pointer">
 						<Image src="/icons/edit.svg" alt="회사명 수정 이미지" width={32} height={32} />
 					</button>
 				</div>

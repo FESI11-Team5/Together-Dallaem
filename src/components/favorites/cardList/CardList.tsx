@@ -1,10 +1,10 @@
-import type { Gathering } from '@/types/response/gatherings';
 import { CLOSED_GATHERING_MESSAGE } from '@/constants/messages';
+import type { Gathering } from '@/types/response/gatherings';
 
-import Image from 'next/image';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
+import Image from 'next/image';
 
 interface CardListProps {
 	data: Gathering;
@@ -31,7 +31,9 @@ export default function CardList({ data }: CardListProps) {
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} />}</div>
+				<div className="z-base absolute top-0 right-0">
+					{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} />}
+				</div>
 			</div>
 
 			{/* 모임 정보 영역 */}
