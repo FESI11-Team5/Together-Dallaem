@@ -68,15 +68,15 @@ export default function GNB() {
 	};
 
 	return (
-		<header className="tb:h-15 tb:px-6 pc:px-0 sticky top-0 z-10 flex h-14 w-full items-center justify-center border-b-2 border-gray-900 bg-orange-600 px-4">
-			<div className="pc:max-w-300 flex w-full justify-between">
-				<div className="tb:gap-4 flex items-center gap-3">
+		<header className="mb:h-15 mb:px-6 tb:px-0 sticky top-0 z-10 flex h-14 w-full items-center justify-center border-b-2 border-gray-900 bg-orange-600 px-4">
+			<div className="tb:max-w-300 flex w-full justify-between">
+				<div className="mb:gap-4 flex items-center gap-3">
 					<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
 						<Link href="/" className="align-middle">
 							같이 달램
 						</Link>
 					</h1>
-					<nav className="tb:text-base tb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
+					<nav className="mb:text-base mb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
 						{NAVBAR_MENU_LINKS.map(({ href, label }) => (
 							<Link
 								key={href}
@@ -112,7 +112,7 @@ export default function GNB() {
 						role="button"
 						tabIndex={0}
 						onClick={handleSigninClick}
-						className="leading-sm tb:leading-base tb:text-base cursor-pointer text-sm font-semibold text-white">
+						className="leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white">
 						로그인
 					</div>
 				)}
