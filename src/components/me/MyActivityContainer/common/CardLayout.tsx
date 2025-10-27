@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { formatKoreanDate } from '@/utils/date';
-import { JoinedGathering } from '@/types/response/gatherings';
+import { JoinedGathering, Gathering } from '@/types/response/gatherings';
 import { ReactNode } from 'react';
 
 interface GatheringProps {
 	/** 표시할 모임 객체 */
-	gathering: JoinedGathering;
+	gathering: JoinedGathering | Gathering;
 
 	/** 카드에 표시할 뱃지 또는 추가 컨텐츠 */
 	badgeContent?: ReactNode;
@@ -30,21 +30,22 @@ export default function CardLayout({ gathering, badgeContent, children }: Gather
 
 				{/* 모임 정보 */}
 				<div className="tb:justify-between flex flex-col gap-4.5 text-lg font-semibold text-gray-900">
-					{badgeContent}
-					<div className="flex flex-col gap-1.5">
-						<div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-							<p>{gathering.name}</p>
-							<p>|</p>
-							<p className="text-sm font-medium text-gray-700">{gathering.location}</p>
-						</div>
-
-						<div className="flex gap-3 text-sm font-medium text-gray-700">
-							<p>{formatKoreanDate(gathering.dateTime)}</p>
-							<div className="flex justify-center gap-1">
-								<Image src="/icons/person.svg" alt="모임 인원 아이콘" width={16} height={16} />
-								<p>
-									{gathering.participantCount} / {gathering.capacity}
-								</p>
+					<div className="flex flex-col gap-3">
+						{badgeContent}
+						<div className="flex flex-col gap-1.5">
+							<div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+								<p>{gathering.name}</p>
+								<p>|</p>
+								<p className="text-sm font-medium text-gray-700">{gathering.location}</p>
+							</div>
+							<div className="flex gap-3 text-sm font-medium text-gray-700">
+								<p>{formatKoreanDate(gathering.dateTime)}</p>
+								<div className="flex justify-center gap-1">
+									<Image src="/icons/person.svg" alt="모임 인원 아이콘" width={16} height={16} />
+									<p>
+										{gathering.participantCount} / {gathering.capacity}
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>

@@ -1,61 +1,105 @@
 'use client';
 
+import { isPast } from 'date-fns';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { getGatheringParticipant, postGatheringJoin, putGatheringCancel } from '@/apis/gatherings/[id]';
-import { FOOTER_MESSAGE } from '@/constants/messages';
-import { useModal } from '@/hooks/useModal';
 import { useGathering } from '@/providers/GatheringProvider';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useUserStore } from '@/stores/user';
+import { useModal } from '@/hooks/useModal';
+import { getGatheringParticipant, postGatheringJoin, leaveGathering, putGatheringCancel } from '@/apis/gatherings/[id]';
+import { GatheringParticipant } from '@/types/response/gatherings';
+import { FOOTER_MESSAGE } from '@/constants/messages';
 
+import BasicButton from '@/components/commons/basic/BasicButton';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
 import RequiredLoginPopup from '@/components/auth/Popup/RequiredLoginPopup';
-import BasicButton from './BasicButton';
-import BasicPopup from './BasicPopup';
 
-/** 일반 사용자 모임 참여 버튼 */
 function GatheringNormalUserBtn() {
 	const { openModal } = useModal();
 	const { user } = useUserStore();
 	const { gathering } = useGathering();
 	const pathname = usePathname();
+	const queryClient = useQueryClient();
 
-	if (!gathering) return;
-	const isFull = gathering.capacity === gathering.participantCount;
+	/** 참가자 목록 조회 */
+	const { data: participants = [], isLoading } = useQuery<GatheringParticipant[]>({
+		queryKey: ['participants', gathering.id],
+		queryFn: () => getGatheringParticipant(gathering.id)
+	});
 
-	/** 모임 참여 핸들러 */
-	const joinGathering = async () => {
-		try {
-			if (!user) {
-				openModal(<RequiredLoginPopup next={pathname} />, 'required-login-popup');
-				return;
-			}
-
-			// 중복 참여 확인
-			const participants = await getGatheringParticipant(gathering.id);
-			const duplicatedUser = participants.some(participant => participant.userId === user?.userId);
-
-			if (duplicatedUser) {
-				openModal(<BasicPopup title="이미 참여한 모임입니다." />, 'duplicate-join-popup');
-				return;
-			}
-
-			if (isFull) {
-				openModal(<BasicPopup title="모임 정원이 가득 찼습니다." />, 'full-capacity-popup');
-				return;
-			}
-
-			await postGatheringJoin(gathering.id);
+	/** 참가하기 */
+	const joinMutation = useMutation({
+		mutationFn: () => postGatheringJoin(gathering.id),
+		onSuccess: async () => {
+			await Promise.all([
+				queryClient.invalidateQueries({ queryKey: ['gathering', gathering.id] }),
+				queryClient.invalidateQueries({ queryKey: ['participants', gathering.id] })
+			]);
 			openModal(<BasicPopup title="모임에 참가되었습니다" />, 'join-gathering-popup');
-		} catch (error) {
+		},
+		onError: () => {
 			openModal(<BasicPopup title="모임 참가에 실패했습니다." />, 'error-popup');
 		}
+	});
+
+	/** 취소하기 */
+	const cancelMutation = useMutation({
+		mutationFn: () => leaveGathering(gathering.id),
+
+		onSuccess: async () => {
+			await Promise.all([
+				queryClient.invalidateQueries({ queryKey: ['gathering', gathering.id] }),
+				queryClient.invalidateQueries({ queryKey: ['participants', gathering.id] })
+			]);
+			openModal(<BasicPopup title="모임 참가가 취소되었습니다." />, 'leave-gathering-popup');
+		},
+		onError: () => {
+			openModal(<BasicPopup title="모임 참가 취소에 실패했습니다." />, 'error-popup');
+		}
+	});
+
+	/** 조건들 */
+	const isFull = gathering.capacity === gathering.participantCount;
+	const past = isPast(new Date(gathering.registrationEnd));
+	const joinedUser = participants.some(p => p.userId === user?.userId);
+
+	/** 클릭 핸들러 */
+	const handleJoin = () => {
+		if (!user) {
+			openModal(<RequiredLoginPopup next={pathname} />, 'required-login-popup');
+			return;
+		}
+		joinMutation.mutate();
 	};
+
+	const handleCancel = () => {
+		cancelMutation.mutate();
+	};
+
+	if (isLoading)
+		return (
+			<BasicButton className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold" disabled isActive={false}>
+				로딩 중...
+			</BasicButton>
+		);
+
 	return (
-		<BasicButton
-			onClick={joinGathering}
-			className={`rounded-md px-4 py-2 text-sm font-bold text-white ${isFull ? 'bg-gray-400' : 'bg-orange-500'}`}>
-			참여하기
-		</BasicButton>
+		<>
+			{joinedUser ? (
+				<BasicButton onClick={handleCancel} className="rounded-md px-4 py-2 text-sm font-bold" outlined>
+					예약 취소하기
+				</BasicButton>
+			) : (
+				<BasicButton
+					onClick={handleJoin}
+					className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold"
+					isActive={!(isFull || past)}
+					disabled={isFull || past}>
+					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '모임 참가하기'}
+				</BasicButton>
+			)}
+		</>
 	);
 }
 
@@ -63,27 +107,34 @@ function GatheringNormalUserBtn() {
 function GatheringOwnerUserBtn() {
 	const { gathering } = useGathering();
 	const { openModal } = useModal();
-
+	const queryClient = useQueryClient();
 	const router = useRouter();
 
-	/** 모임 취소 확인 팝업  */
-	const cancelGathering = async () => {
+	const { mutate } = useMutation({
+		mutationFn: putGatheringCancel,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['gatherings'], exact: false });
+			router.push('/');
+		},
+		onError: () => {
+			openModal(<BasicPopup title="모임 취소에 실패했습니다." />, 'cancel-failed-popup');
+		}
+	});
+
+	/** 실제 취소 처리 */
+	const cancelGathering = () => {
 		if (!gathering) return;
 
-		try {
-			await putGatheringCancel(gathering.id);
-			openModal(
-				<BasicPopup title="모임이 취소되었습니다." onConfirm={() => router.push('/')} />,
-				'cancel-gathering-popup'
-			);
-		} catch (error) {
-			openModal(<BasicPopup title="모임 취소에 실패했습니다." />, 'error-popup');
-		}
+		openModal(
+			<BasicPopup title="모임이 취소되었습니다." onConfirm={() => mutate(gathering.id)} />,
+			'cancel-success-popup'
+		);
 	};
 
-	/** 모임 취소 확인 팝업 핸들러 */
+	/** 취소 버튼 클릭 시 확인 팝업 띄우기 */
 	const handleCancelClick = () => {
 		if (!gathering) return;
+
 		openModal(
 			<BasicPopup
 				title="모임 취소를 하시겠어요?"
@@ -91,7 +142,7 @@ function GatheringOwnerUserBtn() {
 				cancelText="취소"
 				onConfirm={cancelGathering}
 			/>,
-			'confirm-popup'
+			'confirm-cancel-popup'
 		);
 	};
 

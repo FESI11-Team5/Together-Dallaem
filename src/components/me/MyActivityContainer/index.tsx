@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import JoinedGatherings from './JoinedGatherings';
 import MyReviews from './MyReviews';
+import CreatedGathering from './CreatedGathering';
 
 type TabKey = 'JoinedGathering' | 'MyReview' | 'CreatedGathering';
 
@@ -27,7 +28,7 @@ export default function MyActivityContainer() {
 	const [activeTab, setActiveTab] = useState<TabKey>('JoinedGathering');
 
 	return (
-		<div className="tb:px-6 border-t-2 border-gray-900 px-4 py-6">
+		<div className="tb:px-6 flex flex-1 flex-col border-t-2 border-gray-900 px-4 py-6">
 			{/* 나의 모임, 나의 리뷰, 내가 만든 모임 탭 메뉴 */}
 			<div className="mb-6 flex gap-3 text-lg font-semibold tracking-normal">
 				{TABS.map(({ key, label }) => {
@@ -50,6 +51,7 @@ export default function MyActivityContainer() {
 			{/* 각 탭 클릭 시 알맞는 컨텐츠 호출 */}
 			{activeTab === 'JoinedGathering' && <JoinedGatherings />}
 			{activeTab === 'MyReview' && <MyReviews />}
+			{activeTab === 'CreatedGathering' && <CreatedGathering />}
 		</div>
 	);
 }

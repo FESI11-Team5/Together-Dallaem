@@ -1,9 +1,13 @@
 import { CLOSED_GATHERING_MESSAGE } from '@/constants/messages';
 import type { Gathering } from '@/types/response/gatherings';
 
+import HeartButton from '@/app/(home)/HeartButton';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
+import { useWishlistStore } from '@/stores/wishlist';
+import { formatDateAndTime } from '@/utils/date';
+import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
 import Image from 'next/image';
 
 interface CardListProps {
@@ -15,25 +19,30 @@ interface CardListProps {
  * @param data - 모임 정보
  */
 export default function CardList({ data }: CardListProps) {
-	const date = new Date(data.dateTime);
+	const now = new Date();
+	const endDate = new Date(data.registrationEnd);
+	const isClosed = data.participantCount >= data.capacity || isPast(new Date(data.registrationEnd));
+	const { date, time } = formatDateAndTime(data.dateTime);
 
-	// TODO : 지금은 참가인원 수로 결정하지만, 추후에 마감날짜를 기준으로 변경
-	const isClosed = data.participantCount >= data.capacity;
+	const removeWish = useWishlistStore(state => state.removeWish);
+	let tagText = '';
 
-	// TODO : 실제 API 의 데이터에 맞게 포맷 변경 필요 22 ~ 25 줄
-	const formattedDate = `${date.getMonth() + 1}월 ${date.getDate()}일`;
-	const hours = date.getHours().toString().padStart(2, '0');
-	const formattedTimeTag = `${hours}시`;
-	const formattedTimeChip = `${date.getHours()} ${String(date.getMinutes()).padStart(2, '0')}`;
+	if (isPast(endDate)) {
+		tagText = '모집 마감';
+	} else if (isSameDay(now, endDate)) {
+		const endHour = endDate.getHours();
+		tagText = `오늘 ${endHour}시 마감`;
+	} else {
+		const diffDays = differenceInDays(startOfDay(endDate), startOfDay(now));
+		tagText = diffDays <= 0 ? '모집 마감' : `${diffDays}일 후 마감`;
+	}
 
 	return (
 		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-[24px] mb:rounded-r-[24px] max-mb:rounded-t-[24px] max-mb:rounded-b-[24px] relative flex flex-row items-center overflow-hidden border-2 border-gray-100">
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="z-base absolute top-0 right-0">
-					{!isClosed && <Tag text={`오늘 ${formattedTimeTag} 마감`} />}
-				</div>
+				<div className="absolute top-0 right-0 z-base">{!isClosed && <Tag text={tagText} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}
@@ -47,17 +56,13 @@ export default function CardList({ data }: CardListProps) {
 							<p className="leading-sm text-sm font-medium text-gray-700">{data.location}</p>
 						</div>
 
-						{!isClosed && (
-							<div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
-								<Image src="/icons/heart_active.svg" alt="찜한 영역" width={24} height={24} />
-							</div>
-						)}
+						{!isClosed && <HeartButton id={data.id} />}
 					</div>
 
 					{/* 칩 인포 (날짜 + 시간) */}
 					<div className="mt-2 flex items-start gap-2">
-						<ChipInfo text={formattedDate} textColor="white" />
-						<ChipInfo text={formattedTimeChip} textColor="orange" />
+						<ChipInfo text={date} textColor="white" />
+						<ChipInfo text={time} textColor="orange" />
 					</div>
 				</div>
 
@@ -75,7 +80,11 @@ export default function CardList({ data }: CardListProps) {
 
 			{/* 마감된 카드 오버레이 */}
 			{isClosed && (
-				<div className="absolute inset-0 flex flex-col items-center justify-center rounded-[24px] bg-black/80 text-white">
+				<div
+					className="absolute inset-0 flex flex-col items-center justify-center rounded-[24px] bg-black/80 text-white"
+					onClick={e => {
+						e.preventDefault(); // 링크 이동 방지
+					}}>
 					<div className="flex flex-col gap-6">
 						<p className="leading-sm text-center text-sm font-medium">
 							{CLOSED_GATHERING_MESSAGE.title}
@@ -83,15 +92,35 @@ export default function CardList({ data }: CardListProps) {
 							{CLOSED_GATHERING_MESSAGE.subTitle}
 						</p>
 
-						<button className="mb:hidden flex cursor-pointer items-center gap-2.5 rounded-[12px] bg-orange-50 px-3 py-1.5">
+						<div className="mb:hidden flex items-center gap-2.5 rounded-[12px] bg-orange-50 px-3 py-1.5">
 							<Image src="/icons/bye.svg" alt="찜한 영역" width={24} height={24} />
-							<p className="leading-xs text-xs font-semibold text-orange-600">모임 보내주기</p>
-						</button>
+							<button
+								className="leading-xs cursor-pointer text-xs font-semibold text-orange-600"
+								onClick={e => {
+									e.preventDefault(); // 링크 이동 방지
+									removeWish(data.id);
+								}}>
+								모임 보내주기
+							</button>
+						</div>
 					</div>
 
-					<button className="max-mb:hidden absolute top-4 right-5 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-orange-50">
-						<Image src="/icons/bye.svg" alt="마감 완료" width={24} height={24} />
-					</button>
+					<div
+						className="max-mb:hidden absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50"
+						onClick={() => console.log('버튼클릭')}>
+						<button className="cursor-pointer">
+							<Image
+								src="/icons/bye.svg"
+								alt="마감 완료"
+								width={24}
+								height={24}
+								onClick={e => {
+									e.preventDefault(); // 링크 이동 방지
+									removeWish(data.id);
+								}}
+							/>
+						</button>
+					</div>
 				</div>
 			)}
 		</div>

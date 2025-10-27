@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ProfileImageUploader from '../ProfileImageUploader';
+import ProfileImageUploader from '../../ProfileEditModal/ProfileImageUploader';
 
 /**
  * ProfileImageUploader 컴포넌트 테스트
