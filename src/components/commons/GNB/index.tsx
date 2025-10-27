@@ -70,7 +70,7 @@ export default function GNB() {
 	return (
 		<header className="mb:h-15 mb:px-6 z-layout sticky top-0 flex h-14 w-full items-center justify-center border-b-2 border-gray-900 bg-orange-600 px-4">
 			<div className="tb:max-w-300 flex w-full justify-between">
-				<div className="mb:gap-4 flex items-center gap-3">
+				<div className="mb:gap-6 flex items-center gap-5">
 					<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
 						<Link href="/" className="align-middle">
 							같이 달램
