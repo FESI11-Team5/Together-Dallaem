@@ -18,7 +18,7 @@ function PopoverContent({
 	sideOffset = 4,
 	isModal = true,
 	...props
-}: React.ComponentProps<typeof PopoverPrimitive.Content> & { isModal: boolean }) {
+}: React.ComponentProps<typeof PopoverPrimitive.Content> & { isModal?: boolean }) {
 	return (
 		<PopoverPrimitive.Portal>
 			<PopoverPrimitive.Content
