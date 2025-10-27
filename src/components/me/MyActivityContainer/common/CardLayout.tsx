@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { formatKoreanDate } from '@/utils/date';
-import { JoinedGathering } from '@/types/response/gatherings';
+import { JoinedGathering, Gathering } from '@/types/response/gatherings';
 import { ReactNode } from 'react';
 
 interface GatheringProps {
 	/** 표시할 모임 객체 */
-	gathering: JoinedGathering;
+	gathering: JoinedGathering | Gathering;
 
 	/** 카드에 표시할 뱃지 또는 추가 컨텐츠 */
 	badgeContent?: ReactNode;

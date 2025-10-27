@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import JoinedGatherings from './JoinedGatherings';
 import MyReviews from './MyReviews';
+import CreatedGathering from './CreatedGathering';
 
 type TabKey = 'JoinedGathering' | 'MyReview' | 'CreatedGathering';
 
@@ -50,6 +51,7 @@ export default function MyActivityContainer() {
 			{/* 각 탭 클릭 시 알맞는 컨텐츠 호출 */}
 			{activeTab === 'JoinedGathering' && <JoinedGatherings />}
 			{activeTab === 'MyReview' && <MyReviews />}
+			{activeTab === 'CreatedGathering' && <CreatedGathering />}
 		</div>
 	);
 }
