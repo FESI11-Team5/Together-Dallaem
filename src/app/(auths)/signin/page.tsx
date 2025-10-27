@@ -11,6 +11,7 @@ import { decodeToken } from '@/utils/token';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
+// TODO: 반응형 고치기
 function SigninPageContent() {
 	const searchParams = useSearchParams();
 	const next = searchParams.get('next') ?? '/';
