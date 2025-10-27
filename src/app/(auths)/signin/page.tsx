@@ -48,7 +48,7 @@ function SigninPageContent() {
 				image: userInfo.image ?? ''
 			});
 
-			router.push(next);
+			router.replace(next);
 		} catch (error) {
 			if (error instanceof ApiError) {
 				if (error.status === 500) {
