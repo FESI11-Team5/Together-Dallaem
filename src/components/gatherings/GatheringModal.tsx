@@ -11,6 +11,7 @@ import { CreateGathering } from '@/types/response/createGathering';
 import type { GatheringType } from '@/types/response/gatherings';
 import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import BasicButton from '../commons/basic/BasicButton';
 import BasicCheckBox from '../commons/basic/BasicCheckBox';
@@ -40,17 +41,29 @@ export default function GatheringModal() {
 		register,
 		handleSubmit,
 		setValue,
-		reset,
 		control,
 		formState: { errors, isSubmitting }
 	} = useForm<GatheringSchemaType>({
 		resolver: zodResolver(CreateGatheringSchema),
 		mode: 'onChange'
 	});
-
 	const [fileName, setFileName] = useState('');
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const { openModal } = useModal();
+	const closePopup = useModalClose();
 	const router = useRouter();
+
+	const queryClient = useQueryClient();
+	const { mutate } = useMutation({
+		mutationFn: postGathering,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['gatherings'], exact: false });
+			openModal(<BasicPopup title="모임이 생성되었습니다!" />, 'create-gathering-popup');
+			closePopup();
+			router.push('/');
+		}
+	});
+
 	const isValid =
 		watch('name') &&
 		watch('location') &&
@@ -59,8 +72,6 @@ export default function GatheringModal() {
 		watch('registrationEnd') &&
 		watch('image') &&
 		watch('capacity') >= 5;
-	const { openModal } = useModal();
-	const closePopup = useModalClose();
 
 	const onSubmitForm = async (data: CreateGathering) => {
 		const formData = new FormData();
@@ -73,17 +84,7 @@ export default function GatheringModal() {
 		formData.append('capacity', String(data.capacity));
 		if (data.image instanceof File) formData.append('image', data.image);
 
-		try {
-			await postGathering(formData);
-
-			openModal(<BasicPopup title="모임이 생성되었습니다!" />, 'create-gathering-popup');
-			reset();
-			closePopup();
-			router.push('/');
-			router.refresh();
-		} catch (error) {
-			console.log(error);
-		}
+		mutate(formData);
 	};
 
 	const handleCloseWithPopup = () => {
