@@ -10,7 +10,7 @@ import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-
+import { useTransition } from 'react';
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -22,7 +22,9 @@ export default function GNB() {
 	const user = useUserStore(state => state.user);
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const { isAuthenticated } = useAuth();
+	const [isPending, startTransition] = useTransition();
 
+	console.log({ isPending });
 	const DROPDOWN_MENU_OPTIONS: OptionType[] = [
 		{ value: 'myPage', text: '마이페이지' },
 		{ value: 'signout', text: '로그아웃' }
@@ -44,11 +46,18 @@ export default function GNB() {
 			return;
 		}
 
+		if (pathname.startsWith('/me')) {
+			router.replace('/');
+			// TODO: 이게 최선인가? 시간되면 useTransition 시도해보기
+			setTimeout(async () => {
+				await postSignout();
+				signoutUser();
+			}, 800);
+			return;
+		}
+
 		await postSignout();
 		signoutUser();
-		if (pathname === '/me') {
-			router.push('/');
-		}
 	};
 
 	/**
