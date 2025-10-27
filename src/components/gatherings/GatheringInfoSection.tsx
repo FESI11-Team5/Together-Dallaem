@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { differenceInDays, format, isPast, isSameDay, startOfDay } from 'date-fns';
+import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
 
+import { useQuery } from '@tanstack/react-query';
 import { formatDateAndTime, formatUTCToKST } from '@/utils/date';
 import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
 import { getGatheringId, getGatheringParticipant } from '@/apis/gatherings/[id]';
@@ -70,21 +70,13 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 
 /** 모임 상세페이지 - 하위정보 (정원, 참가인원 프로필 사진, 개설확정 등) */
 function GatheringSubInfo({ data }: { data: Gathering }) {
-	const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
+	const { data: participants = [] } = useQuery<GatheringParticipant[]>({
+		queryKey: ['participants', data.id],
+		queryFn: () => getGatheringParticipant(data.id)
+	});
+
 	const { participantCount, capacity } = data;
 	const isFull = participantCount === capacity;
-
-	useEffect(() => {
-		const fetchParticipants = async () => {
-			try {
-				const participantList = await getGatheringParticipant(data.id);
-				setParticipants(participantList);
-			} catch (error) {
-				console.log('참가자 정보를 불러오는데 실패했습니다.', error);
-			}
-		};
-		fetchParticipants();
-	}, [data.id]);
 
 	return (
 		<div className="flex w-full flex-col justify-center gap-2.5 px-6">
@@ -136,27 +128,15 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 
 /** 상위 섹션: 데이터 Fetch + 하위 컴포넌트 전달 */
 export default function GatheringInfoSection({ gatheringId }: { gatheringId: number }) {
-	const [data, setData] = useState<Gathering>();
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const gathering = await getGatheringId(gatheringId);
-
-				const formattedData = {
-					...gathering,
-					dateTime: formatUTCToKST(gathering.dateTime, 'yyyy-MM-dd HH:mm'),
-					registrationEnd: formatUTCToKST(gathering.registrationEnd, 'yyyy-MM-dd HH:mm')
-				};
-
-				setData(formattedData);
-			} catch (error) {
-				console.error(`데이터를 불러오는데 실패하였습니다 :`, error);
-			}
-		};
-
-		fetchData();
-	}, [gatheringId]);
+	const { data, isLoading } = useQuery<Gathering>({
+		queryKey: ['gathering', gatheringId],
+		queryFn: () =>
+			getGatheringId(gatheringId).then(res => ({
+				...res,
+				dateTime: formatUTCToKST(res.dateTime, 'yyyy-MM-dd HH:mm'),
+				registrationEnd: formatUTCToKST(res.registrationEnd, 'yyyy-MM-dd HH:mm')
+			}))
+	});
 
 	if (!data) return <div className="py-20 text-center text-gray-500">로딩 중...</div>;
 
