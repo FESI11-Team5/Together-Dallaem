@@ -68,53 +68,55 @@ export default function GNB() {
 	};
 
 	return (
-		<header className="tb:h-15 tb:px-6 pc:px-[360px] flex h-14 w-full items-center justify-between border-b-2 border-gray-900 bg-orange-600 px-4">
-			<div className="tb:gap-4 flex items-center gap-3">
-				<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
-					<Link href="/" className="align-middle">
-						같이 달램
-					</Link>
-				</h1>
-				<nav className="tb:text-base tb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
-					{NAVBAR_MENU_LINKS.map(({ href, label }) => (
-						<Link
-							key={href}
-							href={href}
-							className={cn(
-								'align-middle transition-colors hover:text-gray-800',
-								pathname === href ? 'text-gray-900' : 'text-orange-50'
-							)}>
-							{label}
+		<header className="tb:h-15 tb:px-6 pc:px-0 flex h-14 w-full items-center justify-center border-b-2 border-gray-900 bg-orange-600 px-4">
+			<div className="pc:max-w-300 flex w-full justify-between">
+				<div className="tb:gap-4 flex items-center gap-3">
+					<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
+						<Link href="/" className="align-middle">
+							같이 달램
 						</Link>
-					))}
-				</nav>
-			</div>
-
-			{isAuthenticated ? (
-				<DropdownMenu>
-					<DropdownMenu.Trigger>
-						<div className="relative size-[40px] overflow-hidden rounded-full">
-							<Image
-								priority
-								src={user?.image || '/images/profile.svg'}
-								alt="프로필 사진"
-								fill
-								className="object-cover"
-							/>
-						</div>
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
-				</DropdownMenu>
-			) : (
-				// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
-				<div
-					role="button"
-					tabIndex={0}
-					onClick={handleSigninClick}
-					className="leading-sm tb:leading-base tb:text-base cursor-pointer text-sm font-semibold text-white">
-					로그인
+					</h1>
+					<nav className="tb:text-base tb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
+						{NAVBAR_MENU_LINKS.map(({ href, label }) => (
+							<Link
+								key={href}
+								href={href}
+								className={cn(
+									'align-middle transition-colors hover:text-gray-800',
+									pathname === href ? 'text-gray-900' : 'text-orange-50'
+								)}>
+								{label}
+							</Link>
+						))}
+					</nav>
 				</div>
-			)}
+
+				{isAuthenticated ? (
+					<DropdownMenu>
+						<DropdownMenu.Trigger>
+							<div className="relative size-[40px] overflow-hidden rounded-full">
+								<Image
+									priority
+									src={user?.image || '/images/profile.svg'}
+									alt="프로필 사진"
+									fill
+									className="object-cover"
+								/>
+							</div>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
+					</DropdownMenu>
+				) : (
+					// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
+					<div
+						role="button"
+						tabIndex={0}
+						onClick={handleSigninClick}
+						className="leading-sm tb:leading-base tb:text-base cursor-pointer text-sm font-semibold text-white">
+						로그인
+					</div>
+				)}
+			</div>
 		</header>
 	);
 }
