@@ -4,10 +4,10 @@ import { createContext, useContext } from 'react';
 import type { Gathering } from '@/types/response/gatherings';
 
 interface GatheringContextProps {
-	gathering: Gathering | null;
+	gathering: Gathering;
 }
 
-const GatheringContext = createContext<GatheringContextProps>({ gathering: null });
+const GatheringContext = createContext<GatheringContextProps>({ gathering: {} as Gathering });
 
 export const GatheringProvider = ({ children, value }: { children: React.ReactNode; value: GatheringContextProps }) => (
 	<GatheringContext.Provider value={value}>{children}</GatheringContext.Provider>

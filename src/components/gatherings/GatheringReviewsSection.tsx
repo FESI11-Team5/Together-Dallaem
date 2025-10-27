@@ -33,10 +33,9 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 	const currentReviews = reviewData.slice(startIndex, startIndex + pageSize);
 
 	return (
-		<section className="mb:h-[750px] w-full border-t-2 border-gray-200 bg-white p-6">
-			<div className="flex h-full flex-col justify-center">
-				<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">{REVIEW_SECTION_TITLE.title}</h2>
-
+		<section className="mb:h-[650px] w-full border-t-2 border-gray-200 bg-white p-6">
+			<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">{REVIEW_SECTION_TITLE.title}</h2>
+			<div className="flex h-full flex-col">
 				{/* 리뷰가 없을 때 */}
 				{reviewData.length === 0 ? (
 					<div className="flex h-full flex-col items-center justify-center">
