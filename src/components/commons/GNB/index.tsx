@@ -68,7 +68,7 @@ export default function GNB() {
 	};
 
 	return (
-		<header className="tb:h-15 tb:px-6 pc:px-0 flex h-14 w-full items-center justify-center border-b-2 border-gray-900 bg-orange-600 px-4">
+		<header className="tb:h-15 tb:px-6 pc:px-0 sticky top-0 z-10 flex h-14 w-full items-center justify-center border-b-2 border-gray-900 bg-orange-600 px-4">
 			<div className="pc:max-w-300 flex w-full justify-between">
 				<div className="tb:gap-4 flex items-center gap-3">
 					<h1 className="flex items-center text-lg leading-none font-extrabold text-white">

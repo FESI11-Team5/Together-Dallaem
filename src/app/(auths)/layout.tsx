@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
 	return (
-		<div className="pc:flex-row pc:h-screen pc:gap-20 tb:px-16 flex w-screen flex-col items-center justify-center gap-10 bg-gray-100 px-4 py-16">
+			<div className="pc:flex-row pc:gap-20 tb:px-16 flex h-full w-screen flex-1 flex-col items-center justify-center gap-10 bg-gray-100 px-4 py-16">
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-col gap-2 text-center">
 					<h2 className="tb:text-2xl text-xl font-semibold">Welcome to 같이 달램!</h2>
