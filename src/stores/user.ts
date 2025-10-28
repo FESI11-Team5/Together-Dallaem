@@ -72,7 +72,7 @@ export const useUserStore = create<UserStore>()(
 							false,
 							'signinUser'
 						),
-					signoutUser: () => set(initialState, false, 'signoutUser'),
+					signoutUser: () => set({ user: null, hasHydrated: true }, false, 'signoutUser'),
 					updateUser: (user: Partial<UserData>) =>
 						set(
 							state => ({

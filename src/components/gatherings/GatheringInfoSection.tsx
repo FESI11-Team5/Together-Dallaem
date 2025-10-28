@@ -2,16 +2,16 @@
 
 import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
 
-import { useQuery } from '@tanstack/react-query';
-import { formatDateAndTime, formatUTCToKST } from '@/utils/date';
-import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
 import { getGatheringId, getGatheringParticipant } from '@/apis/gatherings/[id]';
+import { Gathering, GatheringParticipant } from '@/types/response/gatherings';
+import { formatDateAndTime, formatUTCToKST } from '@/utils/date';
+import { useQuery } from '@tanstack/react-query';
 
-import Image from 'next/image';
-import Tag from '@/components/commons/Tag';
-import ChipInfo from '@/components/commons/ChipInfo';
-import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
 import HeartButton from '@/app/(home)/HeartButton';
+import ChipInfo from '@/components/commons/ChipInfo';
+import Tag from '@/components/commons/Tag';
+import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
+import Image from 'next/image';
 
 /** 모임 상세페이지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
@@ -35,7 +35,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 	return (
 		<div className="relative h-full w-full rounded-[24px]">
 			<Image src={image} alt="사진" fill className="object-cover" />
-			<div className="absolute top-0 right-0 z-10">
+			<div className="z-base absolute top-0 right-0">
 				<Tag text={tagText} />
 			</div>
 		</div>
