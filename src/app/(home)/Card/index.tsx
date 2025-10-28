@@ -30,11 +30,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 			onClick={onClick}
 			className="tb:gap-0 tb:h-[156px] border-gray-10 duration-0.5 tb:flex-row flex h-[316px] cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl border-2 transition-shadow hover:shadow-lg">
 			<div className="tb:w-[280px] relative block h-[156px] w-full overflow-hidden">
-				{deadlineLabel && (
-					<div className="absolute top-0 right-0 z-10">
-						<Tag text={deadlineLabel} />
-					</div>
-				)}
+				{deadlineLabel && <Tag text={deadlineLabel} />}
 				<Image priority src={image || '/images/example1.jpg'} alt={`모임 ${id} 이미지`} fill className="object-cover" />
 			</div>
 			<div className="tb:gap-0 flex flex-1 flex-col gap-5">
@@ -47,7 +43,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 						</div>
 						<div className="flex gap-2">
 							<ChipInfo text={date} textColor="white" />
-							<ChipInfo text={time} textColor="orange" />
+							<ChipInfo text={time} textColor="primary" />
 						</div>
 					</div>
 					<HeartButton id={id} />

@@ -51,7 +51,7 @@ export default function SearchCalendar({ date, setDate }: SearchCalendarProps) {
 					onClick={() => setIsOpen(prev => !prev)}
 				/>
 			</PopoverTrigger>
-			<PopoverContent className="flex w-[326px] justify-center" align="start">
+			<PopoverContent className="flex w-[326px] justify-center" align="start" isModal={false}>
 				<div className="flex w-[250px] flex-col">
 					<Calendar
 						mode="single"
@@ -62,7 +62,7 @@ export default function SearchCalendar({ date, setDate }: SearchCalendarProps) {
 						}}
 						classNames={{
 							day: 'text-sm hover:bg-gray-100',
-							today: 'text-orange-500 rounded-md',
+							today: 'text-primary-500 rounded-md',
 							weekday: 'font-bold text-black flex-1'
 						}}
 					/>

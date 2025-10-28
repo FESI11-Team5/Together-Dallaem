@@ -10,7 +10,6 @@ import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -44,11 +43,18 @@ export default function GNB() {
 			return;
 		}
 
+		if (pathname.startsWith('/me')) {
+			router.replace('/');
+			// TODO: 이게 최선인가? 시간되면 useTransition 시도해보기
+			setTimeout(async () => {
+				await postSignout();
+				signoutUser();
+			}, 800);
+			return;
+		}
+
 		await postSignout();
 		signoutUser();
-		if (pathname === '/me') {
-			router.push('/');
-		}
 	};
 
 	/**
@@ -61,54 +67,60 @@ export default function GNB() {
 		router.push(path);
 	};
 
+	// TODO: 구조 정리하기
 	return (
-		<header className="tb:h-15 tb:px-6 pc:px-[360px] flex h-14 w-full items-center justify-between border-b-2 border-gray-900 bg-orange-600 px-4">
-			<div className="tb:gap-4 flex items-center gap-3">
-				<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
-					<Link href="/" className="align-middle">
-						같이 달램
-					</Link>
-				</h1>
-				<nav className="tb:text-base tb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
-					{NAVBAR_MENU_LINKS.map(({ href, label }) => (
-						<Link
-							key={href}
-							href={href}
-							className={cn(
-								'align-middle transition-colors hover:text-gray-800',
-								pathname === href ? 'text-gray-900' : 'text-orange-50'
-							)}>
-							{label}
-						</Link>
-					))}
-				</nav>
-			</div>
+		<>
+			<header className="mb:h-15 mb:px-6 z-layout bg-base sticky top-0 flex h-14 w-full items-center justify-center px-4">
+				<div className="tb:max-w-300 flex w-full justify-between">
+					<div className="mb:gap-6 flex items-center gap-5">
+						<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
+							<Link href="/" className="align-middle">
+								같이 달램
+							</Link>
+						</h1>
+						<nav className="mb:text-base mb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
+							{NAVBAR_MENU_LINKS.map(({ href, label }) => (
+								<Link
+									key={href}
+									href={href}
+									className={cn(
+										'align-middle transition-colors hover:text-gray-800',
+										pathname === href ? 'text-gray-900' : 'text-primary-50'
+									)}>
+									{label}
+								</Link>
+							))}
+						</nav>
+					</div>
 
-			{isAuthenticated ? (
-				<DropdownMenu>
-					<DropdownMenu.Trigger>
-						<div className="relative size-[40px] overflow-hidden rounded-full">
-							<Image
-								priority
-								src={user?.image || '/images/profile.svg'}
-								alt="프로필 사진"
-								fill
-								className="object-cover"
-							/>
+					{isAuthenticated ? (
+						<DropdownMenu>
+							<DropdownMenu.Trigger>
+								<div className="relative size-[40px] overflow-hidden rounded-full">
+									<Image
+										priority
+										src={user?.image || '/images/profile.svg'}
+										alt="프로필 사진"
+										fill
+										className="object-cover"
+									/>
+								</div>
+							</DropdownMenu.Trigger>
+							<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
+						</DropdownMenu>
+					) : (
+						// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
+						<div
+							role="button"
+							tabIndex={0}
+							onClick={handleSigninClick}
+							className="leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white">
+							로그인
 						</div>
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
-				</DropdownMenu>
-			) : (
-				// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
-				<div
-					role="button"
-					tabIndex={0}
-					onClick={handleSigninClick}
-					className="leading-sm tb:leading-base tb:text-base cursor-pointer text-sm font-semibold text-white">
-					로그인
+					)}
 				</div>
-			)}
-		</header>
+			</header>
+			<div aria-hidden className="from-primary-500 to-highlight right-0 bottom-0 left-0 h-1 bg-gradient-to-r"></div>
+		</>
 	);
 }

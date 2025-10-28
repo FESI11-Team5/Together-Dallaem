@@ -1,7 +1,7 @@
 import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 import { differenceInDays, format, isPast, startOfDay } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { start } from 'repl';
+
 type DateFormat = 'M월 D일 · HH:mm' | 'yyyy.MM.dd';
 
 /**
@@ -47,11 +47,11 @@ export function formatKoreanDate(dateString: string, format: DateFormat = 'M월 
 export const formatDateAndTime = (dateString: string) => {
 	const date = new Date(dateString);
 	const formattedDate = format(date, 'M월 d일', { locale: ko });
-	const formattedtime = format(date, 'HH:mm', { locale: ko });
+	const formattedTime = format(date, 'HH:mm', { locale: ko });
 
 	return {
 		date: formattedDate,
-		time: formattedtime
+		time: formattedTime
 	};
 };
 

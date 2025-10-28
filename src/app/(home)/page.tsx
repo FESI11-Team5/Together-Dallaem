@@ -9,6 +9,7 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CardList from './CardList';
 
+// TODO: 반응형 고치기 (내부 컴포넌트까지)
 // TODO: 쿼리 상태 라이브러리 쓰는 걸로 변경하기
 /**
  * 홈 페이지 컴포넌트
@@ -48,9 +49,7 @@ export default function HomePage() {
 	}, [inView, fetchNextPage]);
 
 	return (
-		<div
-			className="tb:px-6 tb:pt-10 pc:max-w-300 pc:px-25 tb:gap-8 m-auto flex flex-col gap-6 bg-white px-4 pt-6"
-			style={{ minHeight: 'calc(100vh - 64px)' }}>
+		<div className="tb:px-6 tb:pt-10 pc:max-w-300 pc:px-25 tb:gap-8 m-auto flex w-full flex-1 flex-col gap-6 bg-base px-4 pt-6">
 			{/* TODO: 이 부분도 공통 부분으로 컴포넌트 빼도 될듯 */}
 			<h1 className="sr-only">같이 달램 모임 찾기 페이지</h1>
 			<div className="flex gap-4">

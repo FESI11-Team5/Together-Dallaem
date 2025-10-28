@@ -39,15 +39,15 @@ export default function BasicModal({ children, onClose, className, width }: Basi
 
 	return (
 		<div
-			className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+			className="fixed inset-0 z-modal flex items-center justify-center bg-black/50 p-4"
 			onClick={closeModalOnBackgroundClick}>
 			<div
-				className={`relative rounded-lg bg-white p-[24px] shadow-xl`}
+				className={`relative rounded-lg bg-base p-[24px] shadow-xl`}
 				style={{ width: width }}
 				onClick={e => e.stopPropagation()}>
 				<button
 					onClick={onClose}
-					className="absolute top-[24px] right-[24px] z-10 ml-auto block cursor-pointer text-xl font-bold text-gray-500 hover:text-gray-700">
+					className="absolute top-[24px] right-[24px] z-base ml-auto block cursor-pointer text-xl font-bold text-gray-500 hover:text-gray-700">
 					<Image src="/icons/close.svg" alt="close" width={24} height={24} />
 				</button>
 				<div className={`flex h-full w-full flex-col ${className}`}>{children}</div>
