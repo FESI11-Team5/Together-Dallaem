@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
-import GatheringSkeleton from '../../skeleton/GatheringSkeleton';
+import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
 
 /**
  * JoinedGatherings 컴포넌트

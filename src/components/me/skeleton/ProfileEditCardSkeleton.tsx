@@ -1,22 +1,19 @@
 export default function ProfileEditCardSkeleton() {
 	return (
 		<div className="pc:mb-7.5 mb-4 rounded-3xl border-2 border-gray-200 bg-white">
-			{/* 프로필 수정 카드 배경 이미지 */}
 			<div className="relative flex items-center justify-between rounded-3xl bg-white px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-0.5 before:w-full before:bg-gray-200 before:content-['']">
-				{/* 프로필 사진 수정 버튼 */}
 				<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-white">
 					<div className="h-14 w-14 rounded-full bg-gray-200" />
 				</div>
 
-				<div className="text-pc z-10 h-7 w-[67px] rounded-3xl bg-gray-200"></div>
+				<div className="z-base h-7 w-[67px] rounded-3xl bg-gray-200" />
 
-				<div className="z-10 h-8 w-8 cursor-pointer rounded-full bg-gray-200"></div>
+				<div className="z-base h-8 w-8 cursor-pointer rounded-full bg-gray-200" />
 			</div>
 
 			<div className="tb:pt-3 tb:pb-4 pt-3.5 pb-4.5 pl-23">
 				<div className="flex flex-col gap-[9px]">
-					<div className="h-7 w-14 rounded-3xl bg-gray-200"></div>
-
+					<div className="h-7 w-14 rounded-3xl bg-gray-200" />
 					<div className="flex flex-col gap-1">
 						<div className="flex gap-1.5">
 							<div className="h-5 w-17 rounded-3xl bg-gray-200" />
