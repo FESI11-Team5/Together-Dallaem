@@ -49,7 +49,8 @@ export default function MyReviews() {
 		const fetchJoinedGatherings = async (): Promise<void> => {
 			try {
 				const data = await getJoinedGathering({ completed: true, reviewed: false });
-				setGatherings(data);
+				const filteredData = data.filter(gatherings => gatherings.canceledAt === null);
+				setGatherings(filteredData);
 			} catch (err) {
 				console.error(err);
 			}

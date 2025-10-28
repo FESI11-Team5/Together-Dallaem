@@ -3,8 +3,8 @@ interface ButtonProps {
 	children: React.ReactNode;
 	/** 버튼 클릭 시 실행될 함수, Form 사용시 button의 onClick이 자동으로 호출되므로 선택사항으로 둠 */
 	onClick?: () => void;
-	/** 버튼의 기본 색상 (orange-600, orange-700, orange-800 중 선택) */
-	mainColor?: 'orange-600' | 'orange-700' | 'orange-800';
+	/** 버튼의 기본 색상 (primary-600, primary-700, primary-800 중 선택) */
+	mainColor?: 'primary-600' | 'primary-700' | 'primary-800';
 	/** 버튼을 부모 요소의 전체 너비로 확장할지 여부 */
 	isLarge?: boolean;
 	/** 버튼의 활성화 상태 (false일 경우 버튼이 비활성화됨) */
@@ -54,7 +54,7 @@ type button = ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 export default function BasicButton({
 	children,
 	onClick = () => {},
-	mainColor = 'orange-600',
+	mainColor = 'primary-600',
 	isLarge = false,
 	isActive = true,
 	outlined = false,
@@ -65,17 +65,17 @@ export default function BasicButton({
 	let classByStatus = '';
 	if (outlined) {
 		classByStatus = isActive
-			? `border-${mainColor} text-${mainColor} bg-white`
-			: `border-gray-400 text-gray-400 bg-white`;
+			? `border-${mainColor} text-${mainColor} bg-base`
+			: `border-gray-400 text-gray-400 bg-base`;
 	} else {
 		// tailwind css가 dynamic class를 인식하지 못하는 버그가 있어 prop별로 컬러 클래스 할당
 		if (isActive) {
-			if (mainColor === 'orange-600') {
-				classByStatus = isActive ? `bg-orange-600 text-white` : `bg-gray-400 text-white`;
-			} else if (mainColor === 'orange-700') {
-				classByStatus = isActive ? `bg-orange-700 text-white` : `bg-gray-400 text-white`;
-			} else if (mainColor === 'orange-800') {
-				classByStatus = isActive ? `bg-orange-800 text-white` : `bg-gray-400 text-white`;
+			if (mainColor === 'primary-600') {
+				classByStatus = isActive ? `bg-primary-600 text-white` : `bg-gray-400 text-white`;
+			} else if (mainColor === 'primary-700') {
+				classByStatus = isActive ? `bg-primary-700 text-white` : `bg-gray-400 text-white`;
+			} else if (mainColor === 'primary-800') {
+				classByStatus = isActive ? `bg-primary-800 text-white` : `bg-gray-400 text-white`;
 			}
 		} else {
 			classByStatus = `bg-gray-400 text-white`;

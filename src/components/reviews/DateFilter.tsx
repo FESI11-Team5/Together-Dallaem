@@ -31,7 +31,7 @@ export default function DateFilter({ onChange }: { onChange: (date?: Date) => vo
 						}}
 						classNames={{
 							day: 'text-sm hover:bg-gray-100',
-							today: 'text-orange-500 rounded-md',
+							today: 'text-primary-500 rounded-md',
 							weekday: 'font-bold text-black flex-1'
 						}}
 					/>

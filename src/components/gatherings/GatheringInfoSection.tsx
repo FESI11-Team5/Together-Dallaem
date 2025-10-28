@@ -58,7 +58,7 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 
 					<div className="flex gap-2">
 						<ChipInfo text={date} textColor="white" />
-						<ChipInfo text={time} textColor="orange" />
+						<ChipInfo text={time} textColor="primary" />
 					</div>
 				</div>
 
@@ -110,7 +110,7 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 				{isFull && (
 					<div className="flex items-center gap-1">
 						<Image src="/icons/check_round.svg" alt={'모집 확정'} width={24} height={24} />
-						<p className="leading-sm text-sm font-medium text-orange-500">개설확정</p>
+						<p className="leading-sm text-sm font-medium text-primary-500">개설확정</p>
 					</div>
 				)}
 			</div>

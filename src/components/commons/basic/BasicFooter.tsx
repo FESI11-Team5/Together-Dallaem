@@ -162,12 +162,12 @@ function GatheringOwnerUserBtn() {
 			<BasicButton
 				outlined
 				onClick={handleCancelClick}
-				className="flex-1 rounded-md border border-orange-500 px-6 py-2 text-sm font-bold text-orange-500 hover:bg-orange-50">
+				className="border-primary-500 text-primary-500 hover:bg-primary-50 flex-1 rounded-md border px-6 py-2 text-sm font-bold">
 				취소하기
 			</BasicButton>
 			<BasicButton
 				onClick={copyURL}
-				className="flex-1 rounded-md bg-orange-500 px-6 py-2 text-sm font-bold text-white hover:bg-orange-600">
+				className="bg-primary-500 hover:bg-primary-600 flex-1 rounded-md px-6 py-2 text-sm font-bold text-white">
 				공유하기
 			</BasicButton>
 		</div>
@@ -183,7 +183,7 @@ export default function BasicFooter() {
 	const gatheringOwnerId = gathering?.createdBy === user?.userId;
 
 	return (
-		<footer className="z-layout fixed right-2 bottom-0 left-0 mx-auto flex w-full min-w-[220px] items-center justify-center border-3 border-t-black bg-white px-4 py-5">
+		<footer className="z-layout bg-base fixed right-2 bottom-0 left-0 mx-auto flex w-full min-w-[220px] items-center justify-center border-3 border-t-black px-4 py-5">
 			{user && gatheringOwnerId ? (
 				<div className="max-mb:w-[696px] max-mb:flex-col flex w-[996px] flex-row items-center justify-between">
 					<div className="pr-4">

@@ -66,7 +66,7 @@ export default function BasicDropbox({
 	return (
 		<div
 			ref={ref}
-			className={`absolute right-0 z-floating mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl ${className}`}
+			className={`absolute right-0 z-floating mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-base shadow-xl ${className}`}
 			role="listbox"
 			aria-label="옵션 목록">
 			{options.map(option => (
@@ -79,7 +79,7 @@ export default function BasicDropbox({
 					aria-selected={selectedValue === option.value}
 					aria-label={`${option.value}-${option.text}`}>
 					<div
-						className={`rounded-[12px] py-[6px] pl-[8px] text-left text-[14px] ${selectedValue === option.value ? 'bg-orange-100 font-medium' : ''}`}>
+						className={`rounded-[12px] py-[6px] pl-[8px] text-left text-[14px] ${selectedValue === option.value ? 'bg-primary-100 font-medium' : ''}`}>
 						{option.text}
 					</div>
 				</button>

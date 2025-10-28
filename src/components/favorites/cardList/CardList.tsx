@@ -62,7 +62,7 @@ export default function CardList({ data }: CardListProps) {
 					{/* 칩 인포 (날짜 + 시간) */}
 					<div className="mt-2 flex items-start gap-2">
 						<ChipInfo text={date} textColor="white" />
-						<ChipInfo text={time} textColor="orange" />
+						<ChipInfo text={time} textColor="primary" />
 					</div>
 				</div>
 
@@ -92,10 +92,10 @@ export default function CardList({ data }: CardListProps) {
 							{CLOSED_GATHERING_MESSAGE.subTitle}
 						</p>
 
-						<div className="mb:hidden flex items-center gap-2.5 rounded-[12px] bg-orange-50 px-3 py-1.5">
+						<div className="mb:hidden flex items-center gap-2.5 rounded-[12px] bg-primary-50 px-3 py-1.5">
 							<Image src="/icons/bye.svg" alt="찜한 영역" width={24} height={24} />
 							<button
-								className="leading-xs cursor-pointer text-xs font-semibold text-orange-600"
+								className="leading-xs cursor-pointer text-xs font-semibold text-primary-600"
 								onClick={e => {
 									e.preventDefault(); // 링크 이동 방지
 									removeWish(data.id);
@@ -106,7 +106,7 @@ export default function CardList({ data }: CardListProps) {
 					</div>
 
 					<div
-						className="max-mb:hidden absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-orange-50"
+						className="max-mb:hidden absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-primary-50"
 						onClick={() => console.log('버튼클릭')}>
 						<button className="cursor-pointer">
 							<Image

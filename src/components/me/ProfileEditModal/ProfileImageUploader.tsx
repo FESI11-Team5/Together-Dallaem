@@ -57,7 +57,7 @@ export default function ProfileImageUploader({ currentImage, onChange }: Profile
 					className="h-14 w-14 rounded-full object-fill"
 					unoptimized
 				/>
-				<div className="absolute right-0 bottom-0 flex h-6 w-6 items-center justify-center rounded-full bg-white">
+				<div className="absolute right-0 bottom-0 flex h-6 w-6 items-center justify-center rounded-full bg-base">
 					<Image src="/icons/edit.svg" alt="프로필 변경 아이콘" width={18} height={18} />
 				</div>
 			</button>

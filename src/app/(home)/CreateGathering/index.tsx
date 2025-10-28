@@ -15,7 +15,7 @@ function NormalCreateButton() {
 	return (
 		<GuardedButton
 			onClick={() => openModal(<GatheringModal />)}
-			className="rounded-md bg-orange-500 px-4 py-2 font-semibold text-white">
+			className="bg-primary-500 rounded-md px-4 py-2 font-semibold text-white">
 			모임 만들기
 		</GuardedButton>
 	);
@@ -28,7 +28,7 @@ function FloatingCreateButton() {
 	return (
 		<GuardedButton
 			onClick={() => openModal(<GatheringModal />)}
-			className="group z-base fixed right-8 bottom-8 flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 text-3xl text-white shadow-lg transition-opacity">
+			className="group bg-primary-500 fixed right-8 bottom-8 z-10 flex h-14 w-14 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-opacity">
 			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="모임 만들기" />
 			<span className="ml-2">모임 만들기</span>
 		</GuardedButton>

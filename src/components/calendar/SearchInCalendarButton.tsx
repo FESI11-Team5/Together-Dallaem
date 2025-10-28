@@ -29,11 +29,11 @@ export default function SearchInCalendarButton({ date, setDate, setIsOpen }: Cal
 	// 버튼 스타일 개선
 	const buttonStyles = {
 		reset: {
-			active: 'cursor-pointer border border-orange-400 text-orange-400',
+			active: 'cursor-pointer border border-primary-400 text-primary-400',
 			disabled: 'cursor-not-allowed border border-gray-300 text-gray-300'
 		},
 		apply: {
-			active: 'cursor-pointer bg-orange-600 text-white',
+			active: 'cursor-pointer bg-primary-600 text-white',
 			disabled: 'cursor-not-allowed bg-gray-400 text-white'
 		}
 	};

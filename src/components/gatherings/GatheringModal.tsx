@@ -128,7 +128,7 @@ export default function GatheringModal() {
 					/>
 
 					{errors.name && (
-						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.name.message}</p>
+						<p className="leading-sm text-start text-sm font-semibold text-highlight">{errors.name.message}</p>
 					)}
 				</div>
 
@@ -148,7 +148,7 @@ export default function GatheringModal() {
 						register={register('location')}
 					/>
 					{errors.location && (
-						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.location.message}</p>
+						<p className="leading-sm text-start text-sm font-semibold text-highlight">{errors.location.message}</p>
 					)}
 				</div>
 				<div className="flex w-full justify-between">
@@ -181,7 +181,7 @@ export default function GatheringModal() {
 					</BasicButton>
 				</div>
 				{errors.image && (
-					<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.image.message}</p>
+					<p className="leading-sm text-start text-sm font-semibold text-highlight">{errors.image.message}</p>
 				)}
 
 				<Controller
@@ -212,7 +212,7 @@ export default function GatheringModal() {
 								/>
 							</div>
 							{errors.type && (
-								<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.type.message}</p>
+								<p className="leading-sm text-start text-sm font-semibold text-highlight">{errors.type.message}</p>
 							)}
 						</div>
 					)}
@@ -237,7 +237,7 @@ export default function GatheringModal() {
 										/>
 
 										{errors.dateTime && (
-											<p className="leading-sm text-start text-sm font-semibold text-red-600">
+											<p className="leading-sm text-start text-sm font-semibold text-highlight">
 												{errors.dateTime.message}
 											</p>
 										)}
@@ -267,7 +267,7 @@ export default function GatheringModal() {
 										/>
 
 										{errors.registrationEnd && (
-											<p className="leading-sm text-start text-sm font-semibold text-red-600">
+											<p className="leading-sm text-start text-sm font-semibold text-highlight">
 												{errors.registrationEnd.message}
 											</p>
 										)}
@@ -287,7 +287,7 @@ export default function GatheringModal() {
 						register={register('capacity', { valueAsNumber: true })}
 					/>
 					{errors.capacity && (
-						<p className="leading-sm text-start text-sm font-semibold text-red-600">{errors.capacity.message}</p>
+						<p className="leading-sm text-start text-sm font-semibold text-highlight">{errors.capacity.message}</p>
 					)}
 				</div>
 

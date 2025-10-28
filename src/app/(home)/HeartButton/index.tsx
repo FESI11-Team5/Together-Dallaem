@@ -38,7 +38,7 @@ export default function HeartButton({ id }: HeartButtonProps) {
 			onClick={handleClick}
 			className={cn(
 				'flex size-[48px] items-center justify-center rounded-full transition-colors',
-				isActive ? 'bg-orange-50 hover:bg-orange-100' : 'border-2 border-gray-200 bg-white hover:bg-gray-50',
+				isActive ? 'bg-primary-50 hover:bg-primary-100' : 'border-2 border-gray-200 bg-base hover:bg-gray-50',
 				'transition-transform duration-150 ease-in-out hover:scale-105 active:scale-50'
 			)}
 			aria-pressed={isActive}
