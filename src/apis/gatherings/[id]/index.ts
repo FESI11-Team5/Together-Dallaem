@@ -9,7 +9,7 @@ export const getGatheringId = (gatheringId: number) => {
 };
 
 /**
- * 모임 참가 취소 함수
+ * 모임 참가 취소 함수 (주최자)
  */
 export const putGatheringCancel = (gatheringId: number) => {
 	return putRequest<Gathering>({ path: `/gatherings/${gatheringId}/cancel`, options: { withAuth: true } });
@@ -27,8 +27,7 @@ export const postGatheringJoin = (gatheringId: number) => {
  */
 export const getGatheringParticipant = (gatheringId: number) => {
 	return getRequest<GatheringParticipant[]>({
-		path: `/gatherings/${gatheringId}/participants`,
-		options: { withAuth: true }
+		path: `/gatherings/${gatheringId}/participants`
 	});
 };
 
