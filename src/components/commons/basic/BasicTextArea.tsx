@@ -65,8 +65,8 @@ export default function BasicTextArea({
 	);
 
 	const getBorderClass = () => {
-		if (!isValid && touched) return 'border-red-600';
-		else if (isFocused) return 'border-orange-300';
+		if (!isValid && touched) return 'border-highlight';
+		else if (isFocused) return 'border-primary-300';
 		return 'border-gray-50';
 	};
 
@@ -85,7 +85,7 @@ export default function BasicTextArea({
 				onFocus={handleFocus}
 				onBlur={handleBlur}
 			/>
-			{touched && !isValid && invalidText && <div className="text-sm text-red-600">{invalidText}</div>}
+			{touched && !isValid && invalidText && <div className="text-sm text-highlight">{invalidText}</div>}
 		</div>
 	);
 }

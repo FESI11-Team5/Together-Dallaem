@@ -25,7 +25,7 @@ export default function CardLayout({ gathering, badgeContent, children }: Gather
 			<div className="tb:flex-row relative mb-6 flex flex-col gap-4">
 				{/* 모임 이미지 */}
 				<div className="tb:w-70 relative h-39 w-full overflow-hidden rounded-3xl">
-					<Image src={gathering.image} alt="모임 이미지" fill className="rounded-3xl bg-orange-100 object-cover" />
+					<Image src={gathering.image} alt="모임 이미지" fill className="rounded-3xl bg-primary-100 object-cover" />
 				</div>
 
 				{/* 모임 정보 */}

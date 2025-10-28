@@ -150,7 +150,7 @@ export default function DateTimePicker({
 				<button
 					className={`flex-1 rounded-lg p-2 ${
 						date && timeSelection.hour && timeSelection.minute && timeSelection.ampm
-							? 'bg-orange-600 text-white'
+							? 'bg-primary-600 text-white'
 							: 'cursor-not-allowed bg-gray-300 text-gray-500'
 					}`}
 					onClick={handleApply}

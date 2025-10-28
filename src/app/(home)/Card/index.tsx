@@ -43,7 +43,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 						</div>
 						<div className="flex gap-2">
 							<ChipInfo text={date} textColor="white" />
-							<ChipInfo text={time} textColor="orange" />
+							<ChipInfo text={time} textColor="primary" />
 						</div>
 					</div>
 					<HeartButton id={id} />
