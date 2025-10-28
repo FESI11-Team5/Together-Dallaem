@@ -75,7 +75,7 @@ export default function BasicCheckBox({
 			onClick={handleClick}>
 			<input type="checkbox" className="hidden" checked={isChecked} {...rest} {...register} readOnly />
 			<div
-				className={`m-[3px] box-border flex h-[18px] w-[18px] items-center justify-center rounded-sm border-1 bg-white ${
+				className={`m-[3px] box-border flex h-[18px] w-[18px] items-center justify-center rounded-sm border-1 bg-bg ${
 					isChecked ? 'border-white' : 'border-gray-200'
 				}`}>
 				{isChecked && <Image src="/icons/check.svg" alt="check" width={24} height={24} />}

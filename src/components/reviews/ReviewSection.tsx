@@ -21,7 +21,7 @@ export default function ReviewSection({
 	};
 
 	return (
-		<div className="tb:p-6 flex flex-col items-center justify-center gap-4 border-t-[2px] border-gray-900 bg-white p-4">
+		<div className="tb:p-6 flex flex-col items-center justify-center gap-4 border-t-[2px] border-gray-900 bg-bg p-4">
 			<FilterSection onFilterChange={handleFilterChange} />
 			{reviewData ? (
 				<>

@@ -66,7 +66,7 @@ export default function BasicDropbox({
 	return (
 		<div
 			ref={ref}
-			className={`absolute right-0 z-floating mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-white shadow-xl ${className}`}
+			className={`absolute right-0 z-floating mt-1 max-h-60 ${isLarge ? 'w-full' : 'w-[110px]'} overflow-y-auto rounded-[12px] border border-gray-200 bg-bg shadow-xl ${className}`}
 			role="listbox"
 			aria-label="옵션 목록">
 			{options.map(option => (
