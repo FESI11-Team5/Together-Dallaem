@@ -10,11 +10,7 @@
 	/* 기본 컬러색상 */
 	--color-black: #00010d;
 	--color-white: #ffffff;
-
 	--color-bg: #00010d;
-
-	/* 빨강 색상 */
-	--color-red-600: #dc2626;
 
 	/* 커스텀 컬러색상  */
 	--color-primary-50: #e6fffa;
@@ -28,8 +24,8 @@
 	--color-primary-800: #027363;
 	--color-primary-900: #014c43;
 
-	--color-secondary: #022873; /* 남색 */
-	--color-accent: #d705f2; /* 네온 핑크 */
+	--color-primary-dark: #022873; /* 남색 */
+	--color-highlight: #d705f2; /* 네온 핑크 */
 
 	/* 그레이 색상 */
 	--color-gray-50: #f9fafb;

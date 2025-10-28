@@ -95,9 +95,9 @@ export default function BasicInput({
 	);
 
 	const getBorderClass = () => {
-		if (!isValid) return 'border-red-600';
+		if (!isValid) return 'border-highlight';
 		else if (required && touched && value.length === 0)
-			return 'border-red-600'; // register가 없을 때만 체크
+			return 'border-highlight'; // register가 없을 때만 체크
 		else if (isFocused) return 'border-primary-300';
 		return 'border-gray-50';
 	};
@@ -149,7 +149,7 @@ export default function BasicInput({
 
 			{(() => {
 				const errorMessage = getErrorMessage();
-				return touched && errorMessage && <div className="text-sm text-red-600">{errorMessage}</div>;
+				return touched && errorMessage && <div className="text-sm text-highlight">{errorMessage}</div>;
 			})()}
 		</div>
 	);

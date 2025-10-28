@@ -135,7 +135,7 @@ describe('BasicInput', () => {
 		fireEvent.blur(input);
 
 		expect(screen.getByText('에러 메시지')).toBeInTheDocument();
-		expect(input.closest('div')).toHaveClass('border-red-600');
+		expect(input.closest('div')).toHaveClass('border-highlight');
 	});
 
 	test('required이고 입력한 텍스트가 없을때 border red로 바뀌고 필수 메시지 나타나는지 확인', () => {
@@ -146,7 +146,7 @@ describe('BasicInput', () => {
 		fireEvent.blur(input);
 
 		expect(screen.getByText('입력해주세요.')).toBeInTheDocument();
-		expect(input.closest('div')).toHaveClass('border-red-600');
+		expect(input.closest('div')).toHaveClass('border-highlight');
 	});
 
 	test('focus 되었을 때 border 색상 잘 바뀌는지 확인', () => {
@@ -298,7 +298,7 @@ describe('BasicTextArea', () => {
 		fireEvent.blur(textarea);
 
 		expect(screen.getByText('에러 메시지')).toBeInTheDocument();
-		expect(textarea).toHaveClass('border-red-600');
+		expect(textarea).toHaveClass('border-highlight');
 	});
 
 	test('focus 시 border 색상 잘 바뀌는지 확인', () => {
