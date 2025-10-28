@@ -33,7 +33,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 	}
 
 	return (
-		<div className="relative h-full w-full rounded-[24px]">
+		<div className="relative h-full w-full overflow-hidden rounded-[24px] border-2 border-gray-200">
 			<Image src={image} alt="사진" fill className="object-cover" />
 			<div className="z-base absolute top-0 right-0">
 				<Tag text={tagText} />
@@ -79,7 +79,7 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 	const isFull = participantCount === capacity;
 
 	return (
-		<div className="flex w-full flex-col justify-center gap-2.5 px-6">
+		<div className="flex w-full flex-col justify-center gap-3 px-6">
 			<div className="flex items-end justify-between">
 				<div className="flex items-center gap-3">
 					<p className="leading-sm text-sm font-semibold">모집 정원 {capacity}명</p>
@@ -141,15 +141,15 @@ export default function GatheringInfoSection({ gatheringId }: { gatheringId: num
 	if (!data) return <div className="py-20 text-center text-gray-500">로딩 중...</div>;
 
 	return (
-		<section className="tb:flex-row max-mb:flex-col flex items-center justify-center gap-6">
+		<section className="tb:flex-row max-mb:flex-col flex gap-6 pt-6">
 			{/* 이미지정보 */}
-			<div className="max-tb:w-[340px] max-tb:h-[240px] tb:w-[486px] tb:h-[270px] max-mb:w-[343px] max-mb:h-[180px] relative overflow-hidden rounded-[24px] border-2 border-gray-200">
+			<div className="relative aspect-[16/9] flex-1 overflow-hidden rounded-[24px]">
 				<GatheringMainImage data={data} />
 			</div>
 
 			{/* 모임정보 */}
-			<div className="max-mb:w-[343px] max-tb:w-[340px] max-tb:h-[240px] tb:w-[486px] tb:h-[270px] flex flex-col items-start gap-2.5 rounded-[24px] border-2 border-gray-200 py-6">
-				<div className="tb:gap-6 max-tb:gap-3 flex flex-col items-start self-stretch">
+			<div className="flex flex-1 flex-col items-start rounded-[24px] border-2 border-gray-200">
+				<div className="tb:gap-6 max-tb:gap-3 flex w-full flex-col items-start py-6">
 					<GatheringMainInfo data={data} />
 					<GatheringSubInfo data={data} />
 				</div>

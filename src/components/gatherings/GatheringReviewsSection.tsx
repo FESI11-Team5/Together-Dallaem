@@ -33,7 +33,7 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 	const currentReviews = reviewData.slice(startIndex, startIndex + pageSize);
 
 	return (
-		<section className="mb:h-[650px] w-full border-t-2 border-gray-200 bg-white p-6">
+		<section className="border-gray-200 bg-white p-6">
 			<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">{REVIEW_SECTION_TITLE.title}</h2>
 			<div className="flex h-full flex-col">
 				{/* 리뷰가 없을 때 */}
@@ -55,7 +55,7 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 												<Image
 													key={i}
 													src={i < review.score ? '/icons/heart_active.svg' : '/icons/heart.svg'}
-													alt="heart"
+													alt={i < review.score ? '하트 활성' : '하트 비활성'}
 													width={16}
 													height={16}
 												/>
@@ -86,7 +86,7 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 						</ul>
 
 						{/* 페이지네이션 */}
-						<div className="flex justify-center">
+						<div className="max-mb:mb-60 mb-20 flex justify-center">
 							<BasicPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 						</div>
 					</>
