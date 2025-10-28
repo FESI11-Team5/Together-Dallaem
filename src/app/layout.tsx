@@ -34,7 +34,7 @@ export default function RootLayout({
 						<ModalContainer />
 						{/* TODO: 공통 디자인 뽑기 */}
 						<div
-							className="bg-bg box-border flex min-h-screen w-full flex-col"
+							className="bg-base box-border flex min-h-screen w-full flex-col"
 							style={{ fontFamily: 'var(--font-pretendard)' }}>
 							<GNB />
 							{children}

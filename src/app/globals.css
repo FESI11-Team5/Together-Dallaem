@@ -10,7 +10,7 @@
 	/* 기본 컬러색상 */
 	--color-black: #00010d;
 	--color-white: #ffffff;
-	--color-bg: #00010d;
+	--color-base: #00010d;
 
 	/* 커스텀 컬러색상  */
 	--color-primary-50: #e6fffa;

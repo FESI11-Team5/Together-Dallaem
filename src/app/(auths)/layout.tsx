@@ -23,7 +23,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 				/>
 			</div>
 
-			<section className="mb:px-16 tb:px-[54px] tb:max-w-[510px] mb:max-w-[608px] bg-bg box-border flex w-full max-w-[343px] flex-col gap-8 rounded-3xl px-4 py-8 whitespace-nowrap">
+			<section className="mb:px-16 tb:px-[54px] tb:max-w-[510px] mb:max-w-[608px] bg-base box-border flex w-full max-w-[343px] flex-col gap-8 rounded-3xl px-4 py-8 whitespace-nowrap">
 				{children}
 			</section>
 		</div>
