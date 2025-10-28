@@ -80,7 +80,7 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 					{!isPast && !gathering.isCompleted ? (
 						<BasicButton
 							outlined
-							className="!w-auto px-[22px] transition-colors hover:border-orange-500 hover:text-orange-500 active:border-orange-700 active:text-orange-700"
+							className="hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700 !w-auto px-[22px] transition-colors"
 							onClick={handleCancelClick}>
 							예약 취소하기
 						</BasicButton>

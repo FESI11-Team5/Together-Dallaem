@@ -55,7 +55,7 @@ export default function ProfileEditCard() {
 		<>
 			<div className="pc:mb-7.5 mb-4 overflow-hidden rounded-3xl border-2 border-gray-200">
 				{/* 프로필 수정 카드 배경 이미지 */}
-				<div className="relative flex items-center justify-between bg-orange-400 px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-0.5 before:w-full before:bg-orange-600 before:content-['']">
+				<div className="relative flex items-center justify-between bg-primary-400 px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-0.5 before:w-full before:bg-primary-600 before:content-['']">
 					<Image
 						src={bg.src}
 						alt="배경 이미지"
@@ -65,7 +65,7 @@ export default function ProfileEditCard() {
 					/>
 
 					{/* 프로필 사진 수정 버튼 */}
-					<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-white">
+					<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-base">
 						<Image
 							src={user?.image || edit.src}
 							alt="프로필 사진 이미지"

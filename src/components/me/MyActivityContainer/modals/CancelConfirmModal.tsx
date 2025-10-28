@@ -45,13 +45,13 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 							outlined
 							onClick={closeModal}
 							type="button"
-							className="transition-colors hover:border-orange-500 hover:text-orange-500 active:border-orange-700 active:text-orange-700">
+							className="transition-colors hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700">
 							닫기
 						</BasicButton>
 						<BasicButton
 							type="submit"
 							onClick={handleCancel}
-							className="transition-colors hover:bg-orange-700 active:bg-orange-800">
+							className="transition-colors hover:bg-primary-700 active:bg-primary-800">
 							취소하기
 						</BasicButton>
 					</div>

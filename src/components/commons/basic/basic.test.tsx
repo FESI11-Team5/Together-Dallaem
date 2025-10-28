@@ -50,9 +50,9 @@ describe('BasicButton', () => {
 	});
 
 	test('mainColor prop 색상변경 잘 적용되는지 확인', () => {
-		render(<BasicButton mainColor="orange-700">색상 변경 버튼</BasicButton>);
+		render(<BasicButton mainColor="primary-700">색상 변경 버튼</BasicButton>);
 		const button = screen.getByRole('button');
-		expect(button).toHaveClass('bg-orange-700', 'text-white');
+		expect(button).toHaveClass('bg-primary-700', 'text-white');
 	});
 
 	test('아웃라인 버튼 스타일 잘 적용되는지 확인', () => {
@@ -62,17 +62,17 @@ describe('BasicButton', () => {
 			</BasicButton>
 		);
 		const button = screen.getByRole('button');
-		expect(button).toHaveClass('border-orange-600', 'text-orange-600', 'bg-white');
+		expect(button).toHaveClass('border-primary-600', 'text-primary-600', 'bg-base');
 	});
 
 	test('아웃라인일때 mainColor 스타일 잘 적용되는지 확인', () => {
 		render(
-			<BasicButton mainColor="orange-800" outlined>
+			<BasicButton mainColor="primary-800" outlined>
 				색상 변경 버튼
 			</BasicButton>
 		);
 		const button = screen.getByRole('button');
-		expect(button).toHaveClass('border-orange-800', 'text-orange-800', 'bg-white');
+		expect(button).toHaveClass('border-primary-800', 'text-primary-800', 'bg-base');
 	});
 
 	test('isLarge prop true일 때 버튼이 부모 컴포넌트에 꽉 차게 적용되는지 확인', () => {
@@ -135,7 +135,7 @@ describe('BasicInput', () => {
 		fireEvent.blur(input);
 
 		expect(screen.getByText('에러 메시지')).toBeInTheDocument();
-		expect(input.closest('div')).toHaveClass('border-red-600');
+		expect(input.closest('div')).toHaveClass('border-highlight');
 	});
 
 	test('required이고 입력한 텍스트가 없을때 border red로 바뀌고 필수 메시지 나타나는지 확인', () => {
@@ -146,7 +146,7 @@ describe('BasicInput', () => {
 		fireEvent.blur(input);
 
 		expect(screen.getByText('입력해주세요.')).toBeInTheDocument();
-		expect(input.closest('div')).toHaveClass('border-red-600');
+		expect(input.closest('div')).toHaveClass('border-highlight');
 	});
 
 	test('focus 되었을 때 border 색상 잘 바뀌는지 확인', () => {
@@ -154,7 +154,7 @@ describe('BasicInput', () => {
 		const input = screen.getByPlaceholderText('입력');
 
 		fireEvent.focus(input);
-		expect(input.closest('div')).toHaveClass('border-orange-300');
+		expect(input.closest('div')).toHaveClass('border-primary-300');
 	});
 });
 
@@ -298,7 +298,7 @@ describe('BasicTextArea', () => {
 		fireEvent.blur(textarea);
 
 		expect(screen.getByText('에러 메시지')).toBeInTheDocument();
-		expect(textarea).toHaveClass('border-red-600');
+		expect(textarea).toHaveClass('border-highlight');
 	});
 
 	test('focus 시 border 색상 잘 바뀌는지 확인', () => {
@@ -306,7 +306,7 @@ describe('BasicTextArea', () => {
 		const textarea = screen.getByPlaceholderText('입력');
 
 		fireEvent.focus(textarea);
-		expect(textarea).toHaveClass('border-orange-300');
+		expect(textarea).toHaveClass('border-primary-300');
 	});
 
 	test('has correct default placeholder', () => {

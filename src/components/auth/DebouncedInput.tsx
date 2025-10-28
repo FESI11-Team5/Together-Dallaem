@@ -60,8 +60,8 @@ export default function DebouncedInput({
 	};
 
 	const getBorderClass = () => {
-		if (invalidText) return 'border-red-600';
-		if (isFocused) return 'border-orange-300';
+		if (invalidText) return 'border-highlight';
+		if (isFocused) return 'border-primary-300';
 		return 'border-gray-50';
 	};
 
@@ -98,7 +98,7 @@ export default function DebouncedInput({
 				)}
 				{children}
 			</div>
-			{invalidText && <div className="text-sm text-red-600">{invalidText}</div>}
+			{invalidText && <div className="text-sm text-highlight">{invalidText}</div>}
 		</div>
 	);
 }
