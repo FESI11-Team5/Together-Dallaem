@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { JoinedGathering } from '@/types/response/gatherings';
@@ -32,7 +33,8 @@ export default function MyReviews() {
 	const { data: writableReviewsData = [] } = useQuery<JoinedGathering[]>({
 		queryKey: ['writableReviews', user?.userId],
 		queryFn: () => getJoinedGathering({ completed: true, reviewed: false }),
-		enabled: !!user
+		enabled: !!user,
+		select: g => g.filter(gathering => gathering.canceledAt === null)
 	});
 
 	const { data: writtenReviewsData = [] } = useQuery<ReviewResponse[]>({
@@ -44,12 +46,8 @@ export default function MyReviews() {
 	 * 리뷰 작성 성공 시 해당 모임의 isReviewed를 true로 업데이트
 	 * @param gatheringId 리뷰 작성 완료한 모임 ID
 	 */
-	const handleReviewSuccess = (gatheringId: number, _score: number, _comment: string) => {
+	const handleReviewSuccess = (gatheringId: number) => {
 		if (!user) return;
-
-		// mark unused params as referenced for linter
-		void _score;
-		void _comment;
 
 		try {
 			// Note: actual POST is performed by ReviewWriteModal.
@@ -80,18 +78,20 @@ export default function MyReviews() {
 						<WritableReviewCard
 							key={gathering.id}
 							gathering={gathering}
-							onSuccess={(score: number, comment: string) => handleReviewSuccess(gathering.id, score, comment)}
+							onSuccess={() => handleReviewSuccess(gathering.id)}
 						/>
 					))
 				) : (
-					<div className="flex h-full flex-1 items-center justify-center">
+					<div className="flex h-full flex-1 flex-col items-center justify-center">
+						<Image src="/images/no_data.svg" alt="데이터 없음 이미지" width={171} height={136} />
 						<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
 					</div>
 				)
 			) : writtenReviewsData.length > 0 ? (
 				writtenReviewsData.map(review => <WrittenReviewCard key={review.id} review={review} />)
 			) : (
-				<div className="flex h-full flex-1 items-center justify-center">
+				<div className="flex h-full flex-1 flex-col items-center justify-center">
+					<Image src="/images/no_data.svg" alt="데이터 없음 이미지" width={171} height={136} />
 					<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
 				</div>
 			)}
