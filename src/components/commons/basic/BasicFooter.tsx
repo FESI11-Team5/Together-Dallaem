@@ -162,12 +162,12 @@ function GatheringOwnerUserBtn() {
 			<BasicButton
 				outlined
 				onClick={handleCancelClick}
-				className="flex-1 rounded-md border border-orange-500 px-6 py-2 text-sm font-bold text-orange-500 hover:bg-orange-50">
+				className="flex-1 rounded-md border border-primary-500 px-6 py-2 text-sm font-bold text-primary-500 hover:bg-primary-50">
 				취소하기
 			</BasicButton>
 			<BasicButton
 				onClick={copyURL}
-				className="flex-1 rounded-md bg-orange-500 px-6 py-2 text-sm font-bold text-white hover:bg-orange-600">
+				className="flex-1 rounded-md bg-primary-500 px-6 py-2 text-sm font-bold text-white hover:bg-primary-600">
 				공유하기
 			</BasicButton>
 		</div>

@@ -98,7 +98,7 @@ export default function BasicInput({
 		if (!isValid) return 'border-red-600';
 		else if (required && touched && value.length === 0)
 			return 'border-red-600'; // register가 없을 때만 체크
-		else if (isFocused) return 'border-orange-300';
+		else if (isFocused) return 'border-primary-300';
 		return 'border-gray-50';
 	};
 

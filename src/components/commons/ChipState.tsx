@@ -35,10 +35,10 @@ export default function ChipState({ state = 'waiting' }: ChipStateProps) {
 	};
 
 	const stateClasses = {
-		scheduled: 'bg-orange-100 text-orange-600',
+		scheduled: 'bg-primary-100 text-primary-600',
 		done: 'bg-gray-200 text-gray-500',
 		waiting: 'bg-white border-1 border-gray-200 text-gray-500',
-		confirmed: 'bg-white border-1 border-orange-100 text-orange-500'
+		confirmed: 'bg-white border-1 border-primary-100 text-primary-500'
 	};
 
 	return (

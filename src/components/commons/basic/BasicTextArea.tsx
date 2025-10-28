@@ -66,7 +66,7 @@ export default function BasicTextArea({
 
 	const getBorderClass = () => {
 		if (!isValid && touched) return 'border-red-600';
-		else if (isFocused) return 'border-orange-300';
+		else if (isFocused) return 'border-primary-300';
 		return 'border-gray-50';
 	};
 

@@ -43,7 +43,7 @@ export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 						src={review.Gathering.image}
 						alt="모임 이미지"
 						fill
-						className="rounded-3xl bg-orange-100 object-cover"
+						className="rounded-3xl bg-primary-100 object-cover"
 					/>
 				</div>
 

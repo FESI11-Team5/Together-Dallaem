@@ -16,7 +16,7 @@ interface ProgressBarProps {
  *
  * @description
  * - 전체 개수 대비 현재 진행 상태를 퍼센트로 계산하여 표시
- * - 100% 완료 시 색상이 변경됨 (orange-600 → orange-400)
+ * - 100% 완료 시 색상이 변경됨 (primary-600 → primary-400)
  *
  * @example
  * ```tsx
@@ -34,9 +34,9 @@ export default function BasicProgressBar({ data }: ProgressBarProps) {
 
 	return (
 		<div className="relative h-[4px] w-full">
-			<span className="absolute top-0 left-0 h-[4px] w-full rounded-[6px] bg-orange-50"></span>
+			<span className="absolute top-0 left-0 h-[4px] w-full rounded-[6px] bg-primary-50"></span>
 			<span
-				className={`absolute top-0 left-0 h-[4px] rounded-[6px] ${isFull ? 'bg-orange-400' : 'bg-orange-600'}`}
+				className={`absolute top-0 left-0 h-[4px] rounded-[6px] ${isFull ? 'bg-primary-400' : 'bg-primary-600'}`}
 				style={{ width: `${progressPercentage}%` }}></span>
 		</div>
 	);

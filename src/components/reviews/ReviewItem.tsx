@@ -26,10 +26,10 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 							alt="모임 이미지"
 							fill
 							objectFit="cover"
-							className="bg-orange-100"
+							className="bg-primary-100"
 						/>
 					) : (
-						<div className="tb:w-70 flex h-39 w-full items-center justify-center rounded-3xl bg-orange-100">
+						<div className="tb:w-70 flex h-39 w-full items-center justify-center rounded-3xl bg-primary-100">
 							<span className="text-sm text-gray-500">이미지 없음</span>
 						</div>
 					)}

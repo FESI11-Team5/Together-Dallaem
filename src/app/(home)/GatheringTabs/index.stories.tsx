@@ -20,7 +20,7 @@ export const Default: Story = {
 				<GatheringTabs setSelectedType={setSelectedType} button={<BasicButton>모집 등록</BasicButton>} />
 				<div className="text-sm text-gray-500">
 					<p>
-						선택된 타입: <span className="font-medium text-orange-500">{selectedType}</span>
+						선택된 타입: <span className="font-medium text-primary-500">{selectedType}</span>
 					</p>
 				</div>
 			</div>

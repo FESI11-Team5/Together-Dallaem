@@ -61,7 +61,7 @@ export default function DebouncedInput({
 
 	const getBorderClass = () => {
 		if (invalidText) return 'border-red-600';
-		if (isFocused) return 'border-orange-300';
+		if (isFocused) return 'border-primary-300';
 		return 'border-gray-50';
 	};
 

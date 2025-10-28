@@ -79,7 +79,7 @@ export default function BasicDropbox({
 					aria-selected={selectedValue === option.value}
 					aria-label={`${option.value}-${option.text}`}>
 					<div
-						className={`rounded-[12px] py-[6px] pl-[8px] text-left text-[14px] ${selectedValue === option.value ? 'bg-orange-100 font-medium' : ''}`}>
+						className={`rounded-[12px] py-[6px] pl-[8px] text-left text-[14px] ${selectedValue === option.value ? 'bg-primary-100 font-medium' : ''}`}>
 						{option.text}
 					</div>
 				</button>
