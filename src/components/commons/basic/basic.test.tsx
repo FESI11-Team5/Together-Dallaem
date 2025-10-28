@@ -62,7 +62,7 @@ describe('BasicButton', () => {
 			</BasicButton>
 		);
 		const button = screen.getByRole('button');
-		expect(button).toHaveClass('border-primary-600', 'text-primary-600', 'bg-base');
+		expect(button).toHaveClass('border-primary-600', 'text-primary-600', 'bg-root');
 	});
 
 	test('아웃라인일때 mainColor 스타일 잘 적용되는지 확인', () => {
@@ -72,7 +72,7 @@ describe('BasicButton', () => {
 			</BasicButton>
 		);
 		const button = screen.getByRole('button');
-		expect(button).toHaveClass('border-primary-800', 'text-primary-800', 'bg-base');
+		expect(button).toHaveClass('border-primary-800', 'text-primary-800', 'bg-root');
 	});
 
 	test('isLarge prop true일 때 버튼이 부모 컴포넌트에 꽉 차게 적용되는지 확인', () => {
