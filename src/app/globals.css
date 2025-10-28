@@ -73,6 +73,25 @@
 	--breakpoint-mb: 375px; /* 모바일 */
 	--breakpoint-tb: 744px; /* 태블릿 */
 	--breakpoint-pc: 1200px; /* 데스크탑 */
+
+	/* z-index */
+	--z-base: 10; /* 태그, 텍스트, 기본 UI */
+	--z-floating: 20; /* 셀렉트, 드롭다운, 카드 오버레이 등 */
+	--z-layout: 30; /* GNB, Footer 등 레이아웃 고정 요소 */
+	--z-modal: 50; /* 모달 */
+}
+
+@utility z-base {
+	z-index: var(--z-base);
+}
+@utility z-floating {
+	z-index: var(--z-floating);
+}
+@utility z-layout {
+	z-index: var(--z-layout);
+}
+@utility z-modal {
+	z-index: var(--z-modal);
 }
 
 /* input[type :"number"] 화살표 제거 */

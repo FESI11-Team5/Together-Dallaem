@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import { CANCELED_GATHERING_MESSAGE } from '@/constants/messages';
+import Image from 'next/image';
 
 interface CanceledOverlayProps {
 	/** 모임 취소일시, 취소되지 않은 경우 null */
@@ -22,7 +22,7 @@ export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 	if (!canceledAt) return null;
 
 	return (
-		<div className="tb:rounded-3xl absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-black/80">
+		<div className="tb:rounded-3xl z-floating absolute inset-0 flex items-center justify-center rounded-xl bg-black/80">
 			<div>
 				<p className="text-center text-sm font-medium whitespace-pre-line text-white">
 					{`${CANCELED_GATHERING_MESSAGE.title}\n${CANCELED_GATHERING_MESSAGE.subTitle}`}

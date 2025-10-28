@@ -1,14 +1,14 @@
-import type { Gathering } from '@/types/response/gatherings';
 import { CLOSED_GATHERING_MESSAGE } from '@/constants/messages';
+import type { Gathering } from '@/types/response/gatherings';
 
-import Image from 'next/image';
+import HeartButton from '@/app/(home)/HeartButton';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
-import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
-import HeartButton from '@/app/(home)/HeartButton';
 import { useWishlistStore } from '@/stores/wishlist';
 import { formatDateAndTime } from '@/utils/date';
+import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
+import Image from 'next/image';
 
 interface CardListProps {
 	data: Gathering;
@@ -42,7 +42,7 @@ export default function CardList({ data }: CardListProps) {
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-50">{!isClosed && <Tag text={tagText} />}</div>
+				<div className="absolute top-0 right-0 z-base">{!isClosed && <Tag text={tagText} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}

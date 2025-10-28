@@ -8,6 +8,7 @@ import { useModal } from '@/hooks/useModal';
 import { ApiError } from '@/utils/fetch';
 
 // TODO: 데스크톱 시 줄어들면 배경 여백이 좁아지는 현상 개선
+// TODO: 반응형 고치기
 /**
  * 회원가입 페이지 컴포넌트
  *
