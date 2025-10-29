@@ -1,8 +1,8 @@
 'use client';
 
 import BasicDropbox, { type OptionType } from '@/components/commons/basic/BasicDropbox';
+import { cn } from '@/utils/cn';
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, type RefObject } from 'react';
-
 interface DropdownMenuContextProps {
 	isOpen: boolean;
 	toggle: () => void;
@@ -84,13 +84,12 @@ function DropdownMenuContent({ options, onClick }: DropdownMenuContentProps) {
 		onClick(value);
 	};
 
-	if (!isOpen) {
-		return null;
-	}
-
 	return (
 		<BasicDropbox
-			className="pc:left-0"
+			className={cn(
+				'pc:left-0 transition-all duration-200 ease-out',
+				isOpen ? 'animate-in fade-in-0 zoom-in-95 opacity-100' : 'animate-out fade-out-0 zoom-out-95 opacity-0'
+			)}
 			ref={ref as RefObject<HTMLDivElement>}
 			options={options}
 			callbackOnclick={handleClick}
