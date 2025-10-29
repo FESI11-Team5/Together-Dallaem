@@ -5,11 +5,13 @@ import { postSignout } from '@/apis/auths/signout';
 import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
 import { useAuth } from '@/hooks/useAuth';
+import { useScreenSize } from '@/hooks/useScreenSize';
 import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -21,6 +23,7 @@ export default function GNB() {
 	const user = useUserStore(state => state.user);
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const { isAuthenticated } = useAuth();
+	const screenSize = useScreenSize();
 
 	const DROPDOWN_MENU_OPTIONS: OptionType[] = [
 		{ value: 'myPage', text: '마이페이지' },
@@ -71,11 +74,17 @@ export default function GNB() {
 	return (
 		<>
 			<header className="mb:h-15 mb:px-6 z-layout bg-root sticky top-0 flex h-14 w-full items-center justify-center px-4">
-				<div className="tb:max-w-300 flex w-full justify-between">
+				<div className="tb:max-w-300 flex w-full items-center justify-between">
 					<div className="mb:gap-6 flex items-center gap-5">
-						<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
-							<Link href="/" className="align-middle">
-								같이 달램
+						<h1 className="tb:w-38 tb:h-7 relative h-10 w-12">
+							<Link href="/">
+								<Image
+									priority
+									src={screenSize === 'desktop' ? '/images/text_logo.svg' : '/images/profile_logo.svg'}
+									alt="GAMEOW"
+									fill
+									className="object-cover"
+								/>
 							</Link>
 						</h1>
 						<nav className="mb:text-base mb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
@@ -120,7 +129,7 @@ export default function GNB() {
 					)}
 				</div>
 			</header>
-			<div aria-hidden className="from-primary-500 to-highlight right-0 bottom-0 left-0 h-1 bg-gradient-to-r"></div>
+			<div aria-hidden className="from-primary-500 to-highlight h-1 bg-gradient-to-r"></div>
 		</>
 	);
 }

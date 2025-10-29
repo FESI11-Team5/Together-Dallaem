@@ -20,7 +20,7 @@ export function useScreenSize() {
 		const updateSize = () => {
 			const width = window.innerWidth;
 			if (width >= 744) setScreenSize('desktop');
-			else if (width >= 375) setScreenSize('tablet');
+			else if (width >= 450) setScreenSize('tablet');
 			else setScreenSize('mobile');
 		};
 
@@ -31,3 +31,4 @@ export function useScreenSize() {
 
 	return screenSize;
 }
+
