@@ -37,3 +37,15 @@ export const SORT_CONFIG = {
 	fewParticipants: { sortBy: 'participantCount', sortOrder: 'asc' },
 	manyParticipants: { sortBy: 'participantCount', sortOrder: 'desc' }
 } as const;
+
+
+export const DROPDOWN_MENU_OPTIONS: OptionType[] = [
+	{ value: 'myPage', text: '마이페이지' },
+	{ value: 'signout', text: '로그아웃' }
+] as const;
+
+export const NAVBAR_MENU_LINKS = [
+	{ href: '/', label: '크루 찾기' },
+	{ href: '/favorites', label: '찜한 크루' },
+	{ href: '/reviews', label: '모든 리뷰' }
+] as const;

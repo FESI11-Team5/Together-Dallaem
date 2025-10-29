@@ -1,8 +1,8 @@
 'use client';
 
 import BasicDropbox, { type OptionType } from '@/components/commons/basic/BasicDropbox';
+import { cn } from '@/utils/cn';
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, type RefObject } from 'react';
-
 interface DropdownMenuContextProps {
 	isOpen: boolean;
 	toggle: () => void;
@@ -55,12 +55,12 @@ function DropdownMenuTrigger({ children }: DropdownMenuTriggerProps) {
 	);
 }
 
-interface DropdownMenuItemsProps {
+interface DropdownMenuContentProps {
 	options: OptionType[];
 	onClick: (value: string | number) => void;
 }
 
-function DropdownMenuItems({ options, onClick }: DropdownMenuItemsProps) {
+function DropdownMenuContent({ options, onClick }: DropdownMenuContentProps) {
 	const { isOpen, toggle } = useDropdwonMenuContext();
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -84,13 +84,12 @@ function DropdownMenuItems({ options, onClick }: DropdownMenuItemsProps) {
 		onClick(value);
 	};
 
-	if (!isOpen) {
-		return null;
-	}
-
 	return (
 		<BasicDropbox
-			className="tb:left-0"
+			className={cn(
+				'pc:left-0 transition-all duration-200 ease-out',
+				isOpen ? 'animate-in fade-in-0 zoom-in-95 opacity-100' : 'animate-out fade-out-0 zoom-out-95 opacity-0'
+			)}
 			ref={ref as RefObject<HTMLDivElement>}
 			options={options}
 			callbackOnclick={handleClick}
@@ -100,8 +99,8 @@ function DropdownMenuItems({ options, onClick }: DropdownMenuItemsProps) {
 
 export const DropdownMenu: typeof DropdownMenuRoot & {
 	Trigger: typeof DropdownMenuTrigger;
-	Items: typeof DropdownMenuItems;
+	Content: typeof DropdownMenuContent;
 } = Object.assign(DropdownMenuRoot, {
 	Trigger: DropdownMenuTrigger,
-	Items: DropdownMenuItems
+	Content: DropdownMenuContent
 });

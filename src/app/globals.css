@@ -10,7 +10,7 @@
 	/* 기본 컬러색상 */
 	--color-black: #00010d;
 	--color-white: #ffffff;
-	--color-base: #00010d;
+	--color-root: #00010d;
 
 	/* 커스텀 컬러색상  */
 	--color-primary-50: #e6fffa;
@@ -68,7 +68,7 @@
 	--font-weight-bold: 700;
 
 	/* 커스텀 반응형 디자인 */
-	--breakpoint-mb: 375px; /* 모바일 */
+	--breakpoint-mb: 450px; /* 모바일 */
 	--breakpoint-tb: 744px; /* 태블릿 */
 	--breakpoint-pc: 1200px; /* 데스크탑 */
 

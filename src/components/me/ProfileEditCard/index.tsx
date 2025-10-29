@@ -65,7 +65,7 @@ export default function ProfileEditCard() {
 					/>
 
 					{/* 프로필 사진 수정 버튼 */}
-					<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-base">
+					<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-4xl bg-root">
 						<Image
 							src={user?.image || edit.src}
 							alt="프로필 사진 이미지"
