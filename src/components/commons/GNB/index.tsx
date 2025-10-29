@@ -2,14 +2,16 @@
 
 import { postSignout } from '@/apis/auths/signout';
 
-import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { DROPDOWN_MENU_OPTIONS, NAVBAR_MENU_LINKS } from '@/constants/options';
 import { useAuth } from '@/hooks/useAuth';
+import { useScreenSize } from '@/hooks/useScreenSize';
 import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -21,17 +23,7 @@ export default function GNB() {
 	const user = useUserStore(state => state.user);
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const { isAuthenticated } = useAuth();
-
-	const DROPDOWN_MENU_OPTIONS: OptionType[] = [
-		{ value: 'myPage', text: '마이페이지' },
-		{ value: 'signout', text: '로그아웃' }
-	];
-
-	const NAVBAR_MENU_LINKS = [
-		{ href: '/', label: '모임 찾기' },
-		{ href: '/favorites', label: '찜한 모임' },
-		{ href: '/reviews', label: '모든 리뷰' }
-	];
+	const screenSize = useScreenSize();
 
 	/**
 	 * 드롭다운 메뉴 클릭 시 실행되는 함수
@@ -69,13 +61,19 @@ export default function GNB() {
 
 	// TODO: 구조 정리하기
 	return (
-		<>
-			<header className="mb:h-15 mb:px-6 z-layout bg-root sticky top-0 flex h-14 w-full items-center justify-center px-4">
-				<div className="tb:max-w-300 flex w-full justify-between">
+		<header className="z-layout bg-root sticky top-0 w-full">
+			<div className="mb:px-6 mb:h-15 flex h-14 w-full items-center justify-center px-4">
+				<div className="tb:max-w-300 flex w-full items-center justify-between">
 					<div className="mb:gap-6 flex items-center gap-5">
-						<h1 className="flex items-center text-lg leading-none font-extrabold text-white">
-							<Link href="/" className="align-middle">
-								같이 달램
+						<h1 className="tb:w-38 tb:h-7 relative h-10 w-12">
+							<Link href="/">
+								<Image
+									priority
+									src={screenSize === 'desktop' ? '/images/text_logo.svg' : '/images/profile_logo.svg'}
+									alt="GAMEOW"
+									fill
+									className="object-cover"
+								/>
 							</Link>
 						</h1>
 						<nav className="mb:text-base mb:gap-6 flex items-center gap-3 text-sm leading-none font-semibold">
@@ -83,9 +81,14 @@ export default function GNB() {
 								<Link
 									key={href}
 									href={href}
+									// TODO: shadow 따로 뺴기
 									className={cn(
-										'align-middle transition-colors hover:text-gray-800',
-										pathname === href ? 'text-gray-900' : 'text-primary-50'
+										'hover:text-highlight align-middle transition-all',
+										'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+										'hover:[text-shadow:0_0_4px_#e34dfd,0_0_0px_#e34dfd,0_0_0px_#e34dfd,0_0_40px_#e34dfd]',
+										pathname === href
+											? 'text-highlight font-extrabold [text-shadow:0_0_4px_#e34dfd,0_0_0px_#e34dfd,0_0_0px_#e34dfd,0_0_40px_#e34dfd]'
+											: 'text-primary-50'
 									)}>
 									{label}
 								</Link>
@@ -106,21 +109,25 @@ export default function GNB() {
 									/>
 								</div>
 							</DropdownMenu.Trigger>
-							<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
+							<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
 						</DropdownMenu>
 					) : (
-						// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
+						// TODO: button으로 교체
 						<div
 							role="button"
 							tabIndex={0}
 							onClick={handleSigninClick}
-							className="leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white">
+							className={cn(
+								'leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white',
+								'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+								'hover:text-primary-500 hover:[text-shadow:0_0_4px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_40px_#5ff7e6]'
+							)}>
 							로그인
 						</div>
 					)}
 				</div>
-			</header>
-			<div aria-hidden className="from-primary-500 to-highlight right-0 bottom-0 left-0 h-1 bg-gradient-to-r"></div>
-		</>
+			</div>
+			<div aria-hidden className="from-primary-500 to-highlight h-1 bg-gradient-to-r"></div>
+		</header>
 	);
 }
