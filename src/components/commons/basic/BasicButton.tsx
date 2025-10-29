@@ -65,8 +65,8 @@ export default function BasicButton({
 	let classByStatus = '';
 	if (outlined) {
 		classByStatus = isActive
-			? `border-${mainColor} text-${mainColor} bg-base`
-			: `border-gray-400 text-gray-400 bg-base`;
+			? `border-${mainColor} text-${mainColor} bg-root`
+			: `border-gray-400 text-gray-400 bg-root`;
 	} else {
 		// tailwind css가 dynamic class를 인식하지 못하는 버그가 있어 prop별로 컬러 클래스 할당
 		if (isActive) {

@@ -37,8 +37,8 @@ export default function ChipState({ state = 'waiting' }: ChipStateProps) {
 	const stateClasses = {
 		scheduled: 'bg-primary-100 text-primary-600',
 		done: 'bg-gray-200 text-gray-500',
-		waiting: 'bg-base border-1 border-gray-200 text-gray-500',
-		confirmed: 'bg-base border-1 border-primary-100 text-primary-500'
+		waiting: 'bg-root border-1 border-gray-200 text-gray-500',
+		confirmed: 'bg-root border-1 border-primary-100 text-primary-500'
 	};
 
 	return (
