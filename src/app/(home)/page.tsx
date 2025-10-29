@@ -9,7 +9,6 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CardList from './CardList';
 
-// TODO: 반응형 고치기 (내부 컴포넌트까지)
 // TODO: 쿼리 상태 라이브러리 쓰는 걸로 변경하기
 /**
  * 홈 페이지 컴포넌트
@@ -49,17 +48,17 @@ export default function HomePage() {
 	}, [inView, fetchNextPage]);
 
 	return (
-		<div className="tb:px-6 tb:pt-10 pc:max-w-300 pc:px-25 tb:gap-8 m-auto flex w-full flex-1 flex-col gap-6 bg-root px-4 pt-6">
+		<div className="mb:px-6 mb:pt-10 pc:max-w-300 pc:px-25 mb:gap-8 m-auto flex w-full flex-1 flex-col gap-6 bg-root px-4 pt-6">
 			{/* TODO: 이 부분도 공통 부분으로 컴포넌트 빼도 될듯 */}
 			<h1 className="sr-only">같이 달램 모임 찾기 페이지</h1>
 			<div className="flex gap-4">
 				<Image priority src={'/icons/class.svg'} alt={'모임 찾기 이미지'} width={72} height={72} />
 				<div className="flex flex-col gap-2">
 					<p className="text-sm font-medium text-gray-700">함께 할 사람이 없나요?</p>
-					<h2 className="tb:text-2xl text-lg font-semibold text-gray-900">지금 모임에 참여해보세요</h2>
+					<h2 className="mb:text-2xl text-lg font-semibold text-gray-900">지금 모임에 참여해보세요</h2>
 				</div>
 			</div>
-			<div className="tb:gap-6 flex flex-1 flex-col gap-4">
+			<div className="mb:gap-6 flex flex-1 flex-col gap-4">
 				<GatheringFilterBar setFilterCriteria={setFilterCriteria} />
 				{data && data?.length > 0 ? (
 					<>
