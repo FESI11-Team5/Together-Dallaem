@@ -27,7 +27,7 @@ export const Default: Story = {
 					메뉴 열기
 				</div>
 			</DropdownMenu.Trigger>
-			<DropdownMenu.Items options={options} onClick={value => alert(`선택된 메뉴: ${value}`)} />
+			<DropdownMenu.Content options={options} onClick={value => alert(`선택된 메뉴: ${value}`)} />
 		</DropdownMenu>
 	)
 };

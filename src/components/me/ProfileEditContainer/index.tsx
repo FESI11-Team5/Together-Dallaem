@@ -8,7 +8,7 @@ import { PROFILE_PATHS } from '@/constants/assetPath';
 import { useUserStore } from '@/stores/user';
 import { useModal } from '@/hooks/useModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
-import ProfileEditModal from '../ProfileEditModal/ProfileEditModal';
+import ProfileEditModal from './ProfileEditModal/ProfileEditModal';
 
 /**
  * @typedef {Object} ProfileUpdateData
@@ -96,7 +96,7 @@ export default function ProfileEditCard() {
 				/>
 
 				{/* 프로필 사진 표시 영역 */}
-				<div className="absolute top-12.5 flex h-16 w-16 items-center justify-center rounded-full bg-black">
+				<div className="bg-root absolute top-13 h-16 w-16 rounded-full ring-4">
 					<Image
 						src={user?.image || DEFAULT_PROFILE_SRC}
 						alt="프로필 사진 이미지"
@@ -121,13 +121,13 @@ export default function ProfileEditCard() {
 
 			{/* 프로필 정보 섹션*/}
 			<div>
-				<dl className="mb:pt-3 mb:pb-4 pt-3.5 pb-4.5 pl-25">
+				<dl className="pt-4 pb-4.5 pl-28">
 					<div className="flex gap-2 text-sm">
 						<dt className="font-medium">E-mail.</dt>
 						<dd className="font-normal opacity-80">{user?.email}</dd>
 					</div>
 					<div className="flex gap-2 text-sm">
-						<dt className="font-medium">Nickname</dt>
+						<dt className="font-medium">Nickname.</dt>
 						<dd className="font-normal opacity-80">{user?.companyName}</dd>
 					</div>
 				</dl>
