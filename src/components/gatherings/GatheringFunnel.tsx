@@ -1,16 +1,19 @@
+'use client';
+
+import { FormProvider, useForm } from 'react-hook-form';
+
 import { useFunnelStore } from '@/stores/useFunnelStore';
 import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { POPUP_MESSAGE } from '@/constants/messages';
+import { useModal, useModalClose } from '@/hooks/useModal';
+
 import Step1Funnel from './funnel/Step1Funnel';
 import Step2Funnel from './funnel/Step2Funnel';
 import Step3Funnel from './funnel/Step3Funnel';
 import Step4Funnel from './funnel/Step4Funnel';
-
-import BasicModal from '../commons/basic/BasicModal';
-import { POPUP_MESSAGE } from '@/constants/messages';
-import { useModal, useModalClose } from '@/hooks/useModal';
-import BasicPopup from '../commons/basic/BasicPopup';
+import BasicModal from '@/components/commons/basic/BasicModal';
+import BasicPopup from '@/components/commons/basic/BasicPopup';
 
 export default function GatheringFunnel() {
 	const { step, reset } = useFunnelStore();
@@ -38,9 +41,11 @@ export default function GatheringFunnel() {
 		);
 	};
 	return (
-		<BasicModal onClose={handleCloseWithPopup}>
+		<BasicModal onClose={handleCloseWithPopup} width="600px">
 			<FormProvider {...method}>
-				<div className="mx-auto w-full max-w-[520px] rounded-2xl p-6">
+				<h2 className="text-white">모임 만들기</h2>
+
+				<div className="max-mb:h-auto mx-auto h-[360px] w-full rounded-3xl">
 					{step === 1 && <Step1Funnel />}
 					{step === 2 && <Step2Funnel />}
 					{step === 3 && <Step3Funnel />}

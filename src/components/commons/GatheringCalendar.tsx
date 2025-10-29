@@ -97,7 +97,7 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 				<Button
 					variant="outline"
 					className={cn(
-						'h-[40px] w-full justify-start rounded-md border-gray-300 text-left font-normal',
+						'h-[40px] w-full justify-between rounded-md border-gray-300 text-left font-normal',
 
 						!date && 'text-gray-400'
 					)}>
