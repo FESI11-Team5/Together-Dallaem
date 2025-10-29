@@ -2,8 +2,8 @@
 
 import { postSignout } from '@/apis/auths/signout';
 
-import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { DROPDOWN_MENU_OPTIONS, NAVBAR_MENU_LINKS } from '@/constants/options';
 import { useAuth } from '@/hooks/useAuth';
 import { useScreenSize } from '@/hooks/useScreenSize';
 import { useUserStore } from '@/stores/user';
@@ -24,17 +24,6 @@ export default function GNB() {
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const { isAuthenticated } = useAuth();
 	const screenSize = useScreenSize();
-
-	const DROPDOWN_MENU_OPTIONS: OptionType[] = [
-		{ value: 'myPage', text: '마이페이지' },
-		{ value: 'signout', text: '로그아웃' }
-	];
-
-	const NAVBAR_MENU_LINKS: { href: string; label: string }[] = [
-		{ href: '/', label: '크루 찾기' },
-		{ href: '/favorites', label: '찜한 크루' },
-		{ href: '/reviews', label: '모든 리뷰' }
-	];
 
 	/**
 	 * 드롭다운 메뉴 클릭 시 실행되는 함수
