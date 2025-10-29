@@ -22,19 +22,13 @@ export const LOCATION_OPTIONS: OptionType[] = [
 
 export const SORT_OPTIONS: OptionType[] = [
 	{ value: 'newest', text: '최신순' },
-	{ value: 'oldest', text: '오래된순' },
-	{ value: 'deadlineSoon', text: '마감 임박순' },
-	{ value: 'deadlineLate', text: '마감 늦은순' },
-	{ value: 'fewParticipants', text: '참여자 적은순' },
-	{ value: 'manyParticipants', text: '참여자 많은순' }
+	{ value: 'deadlineSoon', text: '마감 임박' },
+	{ value: 'manyParticipants', text: '인기순' }
 ] as const;
 
 export const SORT_CONFIG = {
 	newest: { sortBy: 'dateTime', sortOrder: 'desc' },
-	oldest: { sortBy: 'dateTime', sortOrder: 'asc' },
 	deadlineSoon: { sortBy: 'registrationEnd', sortOrder: 'asc' },
-	deadlineLate: { sortBy: 'registrationEnd', sortOrder: 'desc' },
-	fewParticipants: { sortBy: 'participantCount', sortOrder: 'asc' },
 	manyParticipants: { sortBy: 'participantCount', sortOrder: 'desc' }
 } as const;
 

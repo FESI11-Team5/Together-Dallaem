@@ -45,7 +45,7 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 	const [selectedDate, setSelectedDate] = useState<Date>();
 
 	const methods = useForm<SortFormValues>({
-		defaultValues: { sort: 'deadlineLate' }
+		defaultValues: { sort: 'newest' }
 	});
 	const { control, watch } = methods;
 	const selectedSort = watch('sort');
