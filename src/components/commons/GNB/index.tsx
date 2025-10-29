@@ -61,8 +61,8 @@ export default function GNB() {
 
 	// TODO: 구조 정리하기
 	return (
-		<>
-			<header className="mb:h-15 mb:px-6 z-layout bg-root sticky top-0 flex h-14 w-full items-center justify-center px-4">
+		<header className="z-layout bg-root sticky top-0 w-full">
+			<div className="mb:px-6 mb:h-15 flex h-14 w-full items-center justify-center px-4">
 				<div className="tb:max-w-300 flex w-full items-center justify-between">
 					<div className="mb:gap-6 flex items-center gap-5">
 						<h1 className="tb:w-38 tb:h-7 relative h-10 w-12">
@@ -117,8 +117,8 @@ export default function GNB() {
 						</div>
 					)}
 				</div>
-			</header>
+			</div>
 			<div aria-hidden className="from-primary-500 to-highlight h-1 bg-gradient-to-r"></div>
-		</>
+		</header>
 	);
 }
