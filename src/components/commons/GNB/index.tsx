@@ -106,7 +106,7 @@ export default function GNB() {
 									/>
 								</div>
 							</DropdownMenu.Trigger>
-							<DropdownMenu.Items options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
+							<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
 						</DropdownMenu>
 					) : (
 						// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...

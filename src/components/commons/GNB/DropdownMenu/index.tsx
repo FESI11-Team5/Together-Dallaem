@@ -55,12 +55,12 @@ function DropdownMenuTrigger({ children }: DropdownMenuTriggerProps) {
 	);
 }
 
-interface DropdownMenuItemsProps {
+interface DropdownMenuContentProps {
 	options: OptionType[];
 	onClick: (value: string | number) => void;
 }
 
-function DropdownMenuItems({ options, onClick }: DropdownMenuItemsProps) {
+function DropdownMenuContent({ options, onClick }: DropdownMenuContentProps) {
 	const { isOpen, toggle } = useDropdwonMenuContext();
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -100,8 +100,8 @@ function DropdownMenuItems({ options, onClick }: DropdownMenuItemsProps) {
 
 export const DropdownMenu: typeof DropdownMenuRoot & {
 	Trigger: typeof DropdownMenuTrigger;
-	Items: typeof DropdownMenuItems;
+	Content: typeof DropdownMenuContent;
 } = Object.assign(DropdownMenuRoot, {
 	Trigger: DropdownMenuTrigger,
-	Items: DropdownMenuItems
+	Content: DropdownMenuContent
 });
