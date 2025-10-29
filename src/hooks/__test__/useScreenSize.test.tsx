@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react';
-import { useScreenSize } from '../hooks/useScreenSize';
+import { act, renderHook } from '@testing-library/react';
+import { useScreenSize } from '../useScreenSize';
 
 /**
  * useScreenSize 훅 테스트
@@ -18,21 +18,21 @@ describe('useScreenSize', () => {
 	};
 
 	test('초기 width에 따라 올바른 값이 반환되는지 확인', () => {
-		resizeWindow(400);
+		resizeWindow(374);
 		const { result } = renderHook(() => useScreenSize());
 
 		expect(result.current).toBe('mobile');
 	});
 
-	test('width가 745xp이면 tablet을 반환하는지 확인', () => {
-		resizeWindow(745);
+	test('width가 375xp이면 tablet을 반환하는지 확인', () => {
+		resizeWindow(375);
 		const { result } = renderHook(() => useScreenSize());
 
 		expect(result.current).toBe('tablet');
 	});
 
-	test('width가 1201px이면 desktop을 반환하는지 확인', () => {
-		resizeWindow(1201);
+	test('width가 744x이면 desktop을 반환하는지 확인', () => {
+		resizeWindow(744);
 		const { result } = renderHook(() => useScreenSize());
 
 		expect(result.current).toBe('desktop');
@@ -42,13 +42,13 @@ describe('useScreenSize', () => {
 		const { result } = renderHook(() => useScreenSize());
 
 		act(() => {
-			resizeWindow(1201);
+			resizeWindow(744);
 		});
 
 		expect(result.current).toBe('desktop');
 
 		act(() => {
-			resizeWindow(400);
+			resizeWindow(374);
 		});
 
 		expect(result.current).toBe('mobile');

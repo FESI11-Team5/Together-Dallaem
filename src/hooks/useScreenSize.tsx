@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * 현재 화면 크기를 기준으로 'mobile', 'tablet', 'desktop' 중 하나를 반환하는 커스텀 훅
@@ -19,8 +19,8 @@ export function useScreenSize() {
 	useEffect(() => {
 		const updateSize = () => {
 			const width = window.innerWidth;
-			if (width >= 1200) setScreenSize('desktop');
-			else if (width >= 744) setScreenSize('tablet');
+			if (width >= 744) setScreenSize('desktop');
+			else if (width >= 375) setScreenSize('tablet');
 			else setScreenSize('mobile');
 		};
 
