@@ -87,9 +87,7 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 					) : (
 						<BasicButton
 							className={`w-auto min-w-30 px-[22px] transition-colors ${
-								gathering.isReviewed
-									? 'cursor-not-allowed !bg-gray-200 !text-gray-500'
-									: 'hover:bg-orange-700 active:bg-orange-800'
+								gathering.isReviewed && 'cursor-not-allowed !bg-gray-200 !text-gray-500'
 							}`}
 							onClick={!gathering.isReviewed ? handleAddReviewClick : undefined}
 							isActive={!gathering.isReviewed}>
