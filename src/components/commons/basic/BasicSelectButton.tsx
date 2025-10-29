@@ -70,11 +70,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 				: 'w-[110px] h-[36px] mb:h-[40px] border-2 border-gray-100';
 
 			// 배경색 설정
-			const backgroundColor = expanded
-				? 'bg-gray-50'
-				: hasValue
-					? 'bg-gray-900 text-white border-none'
-					: 'bg-root text-gray-800';
+			const backgroundColor = hasValue ? 'bg-root text-primary-400' : 'bg-root text-white';
 
 			return `${widthHeight} rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
 				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
@@ -83,19 +79,15 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 
 		const arrowClasses = useMemo(
 			() =>
-				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
+				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out bg-[url('/icons/arrow_invert.svg')] ${
 					disabled ? 'hidden' : 'block'
-				} ${isOpen ? 'rotate-180' : 'rotate-0'} ${
-					hasValue && !expanded ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`
+				} ${isOpen ? 'rotate-180' : 'rotate-0'}
 				}`,
 			[disabled, isOpen, hasValue, expanded]
 		);
 
 		const textColor = useMemo(() => {
-			if (expanded) {
-				return hasValue ? 'text-gray-800' : 'text-gray-400';
-			}
-			return hasValue ? 'text-white' : 'text-gray-800';
+			return hasValue ? 'text-primary-400' : 'text-white';
 		}, [expanded, hasValue]);
 
 		return (
