@@ -2,7 +2,7 @@
 
 import SearchCalendar from '@/app/(home)/SearchCalendar';
 import SelectBox from '@/components/commons/SelectBox';
-import { LOCATION_OPTIONS } from '@/constants/options';
+import { GENRE_OPTIONS } from '@/constants/options';
 import { Dispatch, SetStateAction } from 'react';
 
 interface FilterSelectGroupProps {
@@ -21,7 +21,7 @@ export default function FilterSelectGroup({
 	return (
 		<div className="flex w-full justify-between">
 			<div className="flex gap-2">
-				<SelectBox options={LOCATION_OPTIONS} placeholder="지역 전체" onChange={setSelectedLocation} />
+				<SelectBox options={GENRE_OPTIONS} placeholder="장르 전체" onChange={setSelectedLocation} />
 				<SearchCalendar date={selectedDate} setDate={setSelectedDate} />
 			</div>
 			{/* <SortButton options={SORT_OPTIONS} defaultValue={'deadlineLate'} /> */}

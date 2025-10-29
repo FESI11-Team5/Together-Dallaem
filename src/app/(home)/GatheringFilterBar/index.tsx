@@ -5,7 +5,7 @@ import SearchCalendar from '@/app/(home)/SearchCalendar';
 
 import SelectBox from '@/components/commons/SelectBox';
 import SortButton from '@/components/commons/SortButton';
-import { LOCATION_OPTIONS, SORT_OPTIONS } from '@/constants/options';
+import { GENRE_OPTIONS, SORT_OPTIONS } from '@/constants/options';
 
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
@@ -67,7 +67,7 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 
 				<div className="flex w-full justify-between">
 					<div className="flex gap-2">
-						<SelectBox options={LOCATION_OPTIONS} placeholder="지역 전체" onChange={setSelectedLocation} />
+						<SelectBox options={GENRE_OPTIONS} placeholder="장르 전체" onChange={setSelectedLocation} />
 						<SearchCalendar date={selectedDate} setDate={setSelectedDate} />
 					</div>
 					<Controller
