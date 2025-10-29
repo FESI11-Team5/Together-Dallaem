@@ -107,7 +107,7 @@ export default function GNB() {
 							<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
 						</DropdownMenu>
 					) : (
-						// TODO: 너무 마음에 안듭니다... 나중에 수정할게요...
+						// TODO: button으로 교체
 						<div
 							role="button"
 							tabIndex={0}
