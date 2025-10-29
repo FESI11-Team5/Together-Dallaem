@@ -93,9 +93,9 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 						}}
 						onClick={() => onTabChange(option.value)}
 						className={`relative flex cursor-pointer items-center gap-1 pb-[3px] text-sm font-medium transition-colors duration-200 ${
-							selectedTab === option.value ? 'text-gray-800' : 'text-gray-400 hover:text-gray-600'
+							selectedTab === option.value ? 'text-white' : 'text-gray-400 hover:text-gray-600'
 						} `}>
-						<span className="text-lg font-semibold text-gray-900">{option.text}</span>
+						<span className="text-lg font-semibold text-white">{option.text}</span>
 						{option.icon && (
 							<img
 								src={option.icon}
@@ -111,7 +111,7 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 
 			{/* 애니메이션 막대 */}
 			<div
-				className="absolute bottom-0 h-0.5 bg-gray-800 transition-all duration-300 ease-out"
+				className="bg-primary-400 absolute bottom-0 h-0.5 transition-all duration-300 ease-out"
 				style={{
 					left: `${indicatorStyle.left}px`,
 					width: `${indicatorStyle.width}px`
