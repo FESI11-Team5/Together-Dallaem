@@ -90,7 +90,7 @@ function DropdownMenuContent({ options, onClick }: DropdownMenuContentProps) {
 
 	return (
 		<BasicDropbox
-			className="tb:left-0"
+			className="pc:left-0"
 			ref={ref as RefObject<HTMLDivElement>}
 			options={options}
 			callbackOnclick={handleClick}
