@@ -81,9 +81,14 @@ export default function GNB() {
 								<Link
 									key={href}
 									href={href}
+									// TODO: shadow 따로 뺴기
 									className={cn(
-										'hover:text-highlight align-middle transition-colors',
-										pathname === href ? 'text-highlight font-extrabold' : 'text-primary-50'
+										'hover:text-highlight align-middle transition-all',
+										'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+										'hover:[text-shadow:0_0_4px_#e34dfd,0_0_0px_#e34dfd,0_0_0px_#e34dfd,0_0_40px_#e34dfd]',
+										pathname === href
+											? 'text-highlight font-extrabold [text-shadow:0_0_4px_#e34dfd,0_0_0px_#e34dfd,0_0_0px_#e34dfd,0_0_40px_#e34dfd]'
+											: 'text-primary-50'
 									)}>
 									{label}
 								</Link>
@@ -112,7 +117,11 @@ export default function GNB() {
 							role="button"
 							tabIndex={0}
 							onClick={handleSigninClick}
-							className="hover:text-primary-500 leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white">
+							className={cn(
+								'leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white',
+								'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+								'hover:text-primary-500 hover:[text-shadow:0_0_4px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_40px_#5ff7e6]'
+							)}>
 							로그인
 						</div>
 					)}
