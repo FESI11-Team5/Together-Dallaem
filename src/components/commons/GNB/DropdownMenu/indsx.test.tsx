@@ -19,7 +19,7 @@ describe('DropdownMenu 유닛 테스트', () => {
 					<DropdownMenu.Trigger>
 						<span>Trigger</span>
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Items options={options} onClick={mockCallback} />
+					<DropdownMenu.Content options={options} onClick={mockCallback} />
 				</DropdownMenu>
 			</div>
 		);
