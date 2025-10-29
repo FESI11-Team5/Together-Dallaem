@@ -6,7 +6,7 @@ import { withGuard } from '@/components/hoc/withAuthGuard';
 
 import Image from 'next/image';
 import BasicButton from '@/components/commons/basic/BasicButton';
-import GatheringModal from '@/components/gatherings/GatheringModal';
+import GatheringFunnel from '@/components/gatherings/GatheringFunnel';
 
 function NormalCreateButton() {
 	const GuardedButton = withGuard(BasicButton);
@@ -14,7 +14,7 @@ function NormalCreateButton() {
 
 	return (
 		<GuardedButton
-			onClick={() => openModal(<GatheringModal />)}
+			onClick={() => openModal(<GatheringFunnel />)}
 			className="bg-primary-500 rounded-md px-4 py-2 font-semibold text-white">
 			모임 만들기
 		</GuardedButton>
@@ -27,7 +27,7 @@ function FloatingCreateButton() {
 
 	return (
 		<GuardedButton
-			onClick={() => openModal(<GatheringModal />)}
+			onClick={() => openModal(<GatheringFunnel />)}
 			className="group bg-primary-500 fixed right-8 bottom-8 z-10 flex h-14 w-14 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-opacity">
 			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="모임 만들기" />
 			<span className="ml-2">모임 만들기</span>
