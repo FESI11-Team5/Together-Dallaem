@@ -60,6 +60,7 @@ export default function SearchCalendar({ date, setDate }: SearchCalendarProps) {
 						formatters={{
 							formatWeekdayName: (date, options) => format(date, 'EEE', { locale: options?.locale })
 						}}
+						// TODO: 다른 달력들과 색상 통일하기
 						classNames={{
 							day: 'text-sm hover:bg-gray-100',
 							today: 'text-primary-500 rounded-md',

@@ -2,6 +2,7 @@
 
 import { getGatherings } from '@/apis/gatherings';
 import GatheringFilterBar, { type FilterCriteria } from '@/app/(home)/GatheringFilterBar';
+import { cn } from '@/utils/cn';
 import { getGatheringQuery } from '@/utils/query';
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -48,14 +49,26 @@ export default function HomePage() {
 	}, [inView, fetchNextPage]);
 
 	return (
-		<div className="mb:px-6 mb:pt-10 pc:max-w-300 pc:px-25 mb:gap-8 m-auto flex w-full flex-1 flex-col gap-6 bg-root px-4 pt-6">
+		<div className="mb:px-6 mb:pt-10 pc:max-w-300 pc:px-25 mb:gap-8 bg-root m-auto flex w-full flex-1 flex-col gap-6 px-4 pt-6">
 			{/* TODO: 이 부분도 공통 부분으로 컴포넌트 빼도 될듯 */}
-			<h1 className="sr-only">같이 달램 모임 찾기 페이지</h1>
+			<h1 className="sr-only">Gameow 크루 찾기 페이지</h1>
 			<div className="flex gap-4">
-				<Image priority src={'/icons/class.svg'} alt={'모임 찾기 이미지'} width={72} height={72} />
+				<Image priority src={'/icons/home_cat.svg'} alt={'크루 찾기 이미지'} width={72} height={72} />
 				<div className="flex flex-col gap-2">
-					<p className="text-sm font-medium text-gray-700">함께 할 사람이 없나요?</p>
-					<h2 className="mb:text-2xl text-lg font-semibold text-gray-900">지금 모임에 참여해보세요</h2>
+					<p
+						className={cn(
+							'text-primary-500 text-sm font-medium',
+							'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]'
+						)}>
+						혼자라구요?
+					</p>
+					<h2
+						className={cn(
+							'mb:text-2xl text-primary-50 text-lg font-semibold',
+							'[text-shadow:0_0_1px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_2px_#e6fffa]'
+						)}>
+						지금 바로 크루에 합류해요⚡
+					</h2>
 				</div>
 			</div>
 			<div className="mb:gap-6 flex flex-1 flex-col gap-4">
@@ -67,8 +80,8 @@ export default function HomePage() {
 					</>
 				) : (
 					<div className="flex flex-1 flex-col items-center justify-center text-sm font-medium text-gray-500">
-						<p>아직 모임이 없어요,</p>
-						<p>지금 바로 모임을 만들어보세요</p>
+						<p>아직 크루가 없어요,</p>
+						<p>지금 바로 크루를 만들어보세요</p>
 					</div>
 				)}
 			</div>
