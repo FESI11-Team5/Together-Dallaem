@@ -84,8 +84,8 @@ export default function GNB() {
 									key={href}
 									href={href}
 									className={cn(
-										'align-middle transition-colors hover:text-gray-800',
-										pathname === href ? 'text-gray-900' : 'text-primary-50'
+										'hover:text-highlight align-middle transition-colors',
+										pathname === href ? 'text-highlight font-extrabold' : 'text-primary-50'
 									)}>
 									{label}
 								</Link>
@@ -114,7 +114,7 @@ export default function GNB() {
 							role="button"
 							tabIndex={0}
 							onClick={handleSigninClick}
-							className="leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white">
+							className="hover:text-primary-500 leading-sm mb:leading-base mb:text-base cursor-pointer text-sm font-semibold text-white">
 							로그인
 						</div>
 					)}
