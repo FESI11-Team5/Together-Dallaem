@@ -70,7 +70,7 @@ export default function GNB() {
 	// TODO: 구조 정리하기
 	return (
 		<>
-			<header className="mb:h-15 mb:px-6 z-layout bg-base sticky top-0 flex h-14 w-full items-center justify-center px-4">
+			<header className="mb:h-15 mb:px-6 z-layout bg-root sticky top-0 flex h-14 w-full items-center justify-center px-4">
 				<div className="tb:max-w-300 flex w-full justify-between">
 					<div className="mb:gap-6 flex items-center gap-5">
 						<h1 className="flex items-center text-lg leading-none font-extrabold text-white">

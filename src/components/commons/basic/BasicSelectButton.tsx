@@ -74,7 +74,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 				? 'bg-gray-50'
 				: hasValue
 					? 'bg-gray-900 text-white border-none'
-					: 'bg-base text-gray-800';
+					: 'bg-root text-gray-800';
 
 			return `${widthHeight} rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
 				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
