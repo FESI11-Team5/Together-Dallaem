@@ -18,14 +18,14 @@ describe('useScreenSize', () => {
 	};
 
 	test('초기 width에 따라 올바른 값이 반환되는지 확인', () => {
-		resizeWindow(374);
+		resizeWindow(449);
 		const { result } = renderHook(() => useScreenSize());
 
 		expect(result.current).toBe('mobile');
 	});
 
-	test('width가 375xp이면 tablet을 반환하는지 확인', () => {
-		resizeWindow(375);
+	test('width가 450xp이면 tablet을 반환하는지 확인', () => {
+		resizeWindow(450);
 		const { result } = renderHook(() => useScreenSize());
 
 		expect(result.current).toBe('tablet');
@@ -48,7 +48,7 @@ describe('useScreenSize', () => {
 		expect(result.current).toBe('desktop');
 
 		act(() => {
-			resizeWindow(374);
+			resizeWindow(449);
 		});
 
 		expect(result.current).toBe('mobile');
