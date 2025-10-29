@@ -30,9 +30,9 @@ export default function GNB() {
 		{ value: 'signout', text: '로그아웃' }
 	];
 
-	const NAVBAR_MENU_LINKS = [
-		{ href: '/', label: '모임 찾기' },
-		{ href: '/favorites', label: '찜한 모임' },
+	const NAVBAR_MENU_LINKS: { href: string; label: string }[] = [
+		{ href: '/', label: '크루 찾기' },
+		{ href: '/favorites', label: '찜한 크루' },
 		{ href: '/reviews', label: '모든 리뷰' }
 	];
 
