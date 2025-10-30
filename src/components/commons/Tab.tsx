@@ -9,7 +9,7 @@ export interface TabOption {
 	/** 탭에 표시될 텍스트 */
 	text: string;
 	/** 탭에 표시될 아이콘 경로 */
-	icon: string;
+	icon?: string;
 }
 
 /**

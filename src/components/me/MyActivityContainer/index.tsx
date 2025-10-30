@@ -4,13 +4,15 @@ import { useState } from 'react';
 import JoinedGatherings from './JoinedGatherings';
 import MyReviews from './MyReviews';
 import CreatedGathering from './CreatedGathering';
+import Tab from '@/components/commons/Tab';
+import type { TabOption } from '@/components/commons/Tab';
 
 type TabKey = 'JoinedGathering' | 'MyReview' | 'CreatedGathering';
 
-const TABS: { key: TabKey; label: string }[] = [
-	{ key: 'JoinedGathering', label: '나의 모임' },
-	{ key: 'MyReview', label: '나의 리뷰' },
-	{ key: 'CreatedGathering', label: '내가 만든 모임' }
+const TABS: TabOption[] = [
+	{ value: 'JoinedGathering', text: '나의 모임' },
+	{ value: 'MyReview', text: '나의 리뷰' },
+	{ value: 'CreatedGathering', text: '내가 만든 모임' }
 ];
 
 /**
@@ -30,23 +32,12 @@ export default function MyActivityContainer() {
 	return (
 		<div className="tb:px-6 flex flex-1 flex-col border-t-2 border-gray-900 px-4 py-6">
 			{/* 나의 모임, 나의 리뷰, 내가 만든 모임 탭 메뉴 */}
-			<div className="mb-6 flex gap-3 text-lg font-semibold tracking-normal">
-				{TABS.map(({ key, label }) => {
-					const isActive = activeTab === key;
-
-					return (
-						<button
-							key={key}
-							type="button"
-							onClick={() => setActiveTab(key)}
-							className={`cursor-pointer border-b-2 pb-1.5 transition-colors ${
-								isActive ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-400'
-							}`}>
-							{label}
-						</button>
-					);
-				})}
-			</div>
+			<Tab
+				options={TABS}
+				selectedTab={activeTab}
+				onTabChange={tabId => setActiveTab(tabId as TabKey)}
+				className="mb-6"
+			/>
 
 			{/* 각 탭 클릭 시 알맞는 컨텐츠 호출 */}
 			{activeTab === 'JoinedGathering' && <JoinedGatherings />}
