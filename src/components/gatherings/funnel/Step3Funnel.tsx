@@ -1,28 +1,48 @@
 'use client';
 
+import { Controller, useFormContext } from 'react-hook-form';
 import { useFunnelStore } from '@/stores/useFunnelStore';
 
 import BasicButton from '@/components/commons/basic/BasicButton';
-import { Controller, useFormContext } from 'react-hook-form';
 import GatheringCalendar from '@/components/commons/GatheringCalendar';
+import { Step3Schema, Step3SchemaType } from '@/utils/schema';
 
 export default function Step3Funnel() {
 	const {
 		control,
-		watch,
+		setError,
+		getValues,
 		formState: { errors }
 	} = useFormContext();
 	const { next, prev } = useFunnelStore();
-	const dateTime = watch('dateTime');
-	const registrationEnd = watch('registrationEnd');
-	const isValid = dateTime && registrationEnd;
+
+	// 이 step만 zodResolver를 임시로 실행
+	// 일단 동작은 되서 냅둡니다,,
+	// 구현한 이유: react-hook-form의 resolver는 form 전체에 대해서만 동작하기 때문에 각 step마다 validation을 다르게 주고 싶을 때 사용
+	const handleNext = async () => {
+		const values = getValues();
+		const result = Step3Schema.safeParse(values);
+		if (!result.success) {
+			result.error.issues.forEach(issue =>
+				setError(issue.path[0] as keyof Step3SchemaType, {
+					type: 'manual',
+					message: issue.message
+				})
+			);
+			return;
+		}
+
+		next();
+	};
+
 	return (
 		<div className="flex h-full flex-col justify-between">
-			<div className="flex h-full flex-col justify-center gap-6">
-				<div className="flex flex-col gap-3">
+			<div className="mt-3 flex flex-col gap-3">
+				<div className="flex flex-col gap-2">
 					<Controller
 						name="dateTime"
 						control={control}
+						defaultValue=""
 						render={({ field }) => {
 							return (
 								<div className="flex flex-col gap-3">
@@ -47,15 +67,15 @@ export default function Step3Funnel() {
 				</div>
 
 				{/* 마감 날짜 */}
-				<div className="flex flex-col gap-3">
+				<div className="flex flex-col gap-2">
 					<Controller
 						name="registrationEnd"
+						defaultValue=""
 						control={control}
 						render={({ field }) => {
 							return (
 								<div className="flex flex-col gap-3">
 									<label className="leading-base flex text-base font-semibold text-gray-800">마감 날짜</label>
-
 									<GatheringCalendar
 										pageType="create"
 										value={field.value ? new Date(field.value) : undefined}
@@ -64,7 +84,6 @@ export default function Step3Funnel() {
 											field.onChange(isoFormatted);
 										}}
 									/>
-
 									{typeof errors.registrationEnd?.message === 'string' && (
 										<p className="leading-sm text-highlight text-start text-sm font-semibold">
 											{errors.registrationEnd?.message}
@@ -76,11 +95,12 @@ export default function Step3Funnel() {
 					/>
 				</div>
 			</div>
+
 			<div className="max-mb:flex-col max-mb:mt-2 flex flex-row gap-2">
 				<BasicButton onClick={prev} outlined className="w-full">
 					이전
 				</BasicButton>
-				<BasicButton onClick={next} isActive={isValid} className="w-full">
+				<BasicButton onClick={handleNext} className="w-full">
 					다음
 				</BasicButton>
 			</div>

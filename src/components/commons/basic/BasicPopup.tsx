@@ -45,7 +45,7 @@ export default function BasicPopup({
 	return (
 		<BasicModal onClose={handleCancel} width="450px">
 			<div className="flex flex-col items-center gap-4">
-				<div className="flex flex-col">
+				<div className="flex flex-col text-white">
 					<h2 className="text-lg font-semibold">{title}</h2>
 					{subTitle && <p className="text-gray-600">{subTitle}</p>}
 				</div>

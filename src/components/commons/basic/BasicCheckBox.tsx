@@ -71,11 +71,11 @@ export default function BasicCheckBox({
 
 	return (
 		<div
-			className={`flex h-[70px] w-full max-w-[160px] cursor-pointer items-start gap-2 rounded-[8px] ${isChecked ? 'bg-gray-900' : 'bg-gray-50'} ${isLarge ? 'pt-[12px] pr-[20px] pb-[16px] pl-[16px]' : 'pt-[6px] pr-[20px] pb-[30px] pl-[6px]'}`}
+			className={`flex h-[70px] w-full cursor-pointer items-start gap-2 rounded-[8px] ${isChecked ? 'bg-gray-900' : 'bg-gray-50'} ${isLarge ? 'pt-[12px] pr-[20px] pb-[16px] pl-[16px]' : 'pt-[6px] pr-[20px] pb-[30px] pl-[6px]'}`}
 			onClick={handleClick}>
 			<input type="checkbox" className="hidden" checked={isChecked} {...rest} {...register} readOnly />
 			<div
-				className={`m-[3px] box-border flex h-[18px] w-[18px] items-center justify-center rounded-sm border-1 bg-root ${
+				className={`bg-root m-[3px] box-border flex h-[18px] w-[18px] items-center justify-center rounded-sm border-1 ${
 					isChecked ? 'border-white' : 'border-gray-200'
 				}`}>
 				{isChecked && <Image src="/icons/check.svg" alt="check" width={24} height={24} />}

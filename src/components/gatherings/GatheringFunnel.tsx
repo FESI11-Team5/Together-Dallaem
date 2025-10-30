@@ -3,7 +3,14 @@
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useFunnelStore } from '@/stores/useFunnelStore';
-import { CreateGatheringSchema, GatheringSchemaType } from '@/utils/schema';
+import {
+	CreateGatheringSchema,
+	GatheringSchemaType,
+	Step1Schema,
+	Step2Schema,
+	Step3Schema,
+	Step4Schema
+} from '@/utils/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { POPUP_MESSAGE } from '@/constants/messages';
 import { useModal, useModalClose } from '@/hooks/useModal';
@@ -43,9 +50,11 @@ export default function GatheringFunnel() {
 	return (
 		<BasicModal onClose={handleCloseWithPopup} width="600px">
 			<FormProvider {...method}>
-				<h2 className="text-white">모임 만들기</h2>
+				<h2 className="text-primary-500 text-xl [text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]">
+					크루 생성
+				</h2>
 
-				<div className="max-mb:h-auto mx-auto h-[360px] w-full rounded-3xl">
+				<div className="max-mb:h-auto mx-auto h-[450px] w-full rounded-3xl">
 					{step === 1 && <Step1Funnel />}
 					{step === 2 && <Step2Funnel />}
 					{step === 3 && <Step3Funnel />}

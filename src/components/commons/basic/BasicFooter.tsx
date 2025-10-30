@@ -113,7 +113,7 @@ function GatheringOwnerUserBtn() {
 	const { mutate } = useMutation({
 		mutationFn: putGatheringCancel,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['gatherings'], exact: false });
+			queryClient.invalidateQueries({ queryKey: ['gatherings'] });
 			router.push('/');
 		},
 		onError: () => {

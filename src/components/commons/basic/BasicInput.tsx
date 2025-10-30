@@ -118,7 +118,7 @@ export default function BasicInput({
 
 	return (
 		<div className="flex flex-col gap-2">
-			<label className="mb-[4px] text-[16px] font-[600] text-gray-800" htmlFor={id}>
+			<label className="mb-[4px] text-[16px] font-[600] text-white" htmlFor={id}>
 				{label}
 			</label>
 			<div
@@ -149,7 +149,7 @@ export default function BasicInput({
 
 			{(() => {
 				const errorMessage = getErrorMessage();
-				return touched && errorMessage && <div className="text-sm text-highlight">{errorMessage}</div>;
+				return touched && errorMessage && <div className="text-highlight text-sm">{errorMessage}</div>;
 			})()}
 		</div>
 	);
