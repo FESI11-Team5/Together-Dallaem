@@ -98,7 +98,7 @@ export default function BasicInput({
 		if (!isValid) return 'border-highlight';
 		else if (required && touched && value.length === 0)
 			return 'border-highlight'; // register가 없을 때만 체크
-		else if (isFocused) return 'border-primary-300';
+		else if (isFocused) return 'border-primary-300 shadow-primary-500/50 shadow-lg';
 		return 'border-gray-50';
 	};
 
@@ -118,11 +118,11 @@ export default function BasicInput({
 
 	return (
 		<div className="flex flex-col gap-2">
-			<label className="mb-[4px] text-[16px] font-[600] text-gray-800" htmlFor={id}>
+			<label className="mb-[4px] text-[16px] font-[600] text-white" htmlFor={id}>
 				{label}
 			</label>
 			<div
-				className={`inputBox box-border flex items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
+				className={`inputBox border-primary-300 box-border flex items-center justify-between rounded-[12px] border-2 bg-black px-[16px] py-[10px] text-white placeholder-gray-300 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					id={id}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
@@ -149,7 +149,7 @@ export default function BasicInput({
 
 			{(() => {
 				const errorMessage = getErrorMessage();
-				return touched && errorMessage && <div className="text-sm text-highlight">{errorMessage}</div>;
+				return touched && errorMessage && <div className="text-highlight text-sm">{errorMessage}</div>;
 			})()}
 		</div>
 	);
