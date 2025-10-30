@@ -78,10 +78,7 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 				{/* 버튼 영역 */}
 				<div>
 					{!isPast && !gathering.isCompleted ? (
-						<BasicButton
-							outlined
-							className="hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700 !w-auto px-[22px] transition-colors"
-							onClick={handleCancelClick}>
+						<BasicButton outlined onClick={handleCancelClick}>
 							예약 취소하기
 						</BasicButton>
 					) : (

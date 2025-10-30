@@ -46,6 +46,7 @@ interface ProfileEditModalProps {
 export default function ProfileEditModal({ currentImage, currentCompanyName, onSubmit }: ProfileEditModalProps) {
 	const [file, setFile] = useState<File | null>(null);
 	const closeModal = useModalClose();
+	const MYPAGE_TITLE_GLOW = '[text-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB]';
 
 	const { register, handleSubmit, setValue, formState } = useForm<ProfileEditSchemaType>({
 		mode: 'onChange',
@@ -75,7 +76,7 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 
 	return (
 		<BasicModal onClose={closeModal} className="tb:min-w-118">
-			<h1 className="text-lg font-semibold">프로필 수정하기</h1>
+			<h1 className={`text-primary-100 text-lg font-semibold ${MYPAGE_TITLE_GLOW}`}>프로필 수정하기</h1>
 			<form onSubmit={handleSubmit(handleFormSubmit)} className="mt-6 flex flex-col items-start gap-6 self-stretch">
 				<div className="flex w-full flex-col items-start gap-6">
 					<ProfileImageUploader currentImage={currentImage} onChange={handleProfileImage} />

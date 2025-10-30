@@ -13,6 +13,8 @@ const TABS: { key: TabKey; label: string }[] = [
 	{ key: 'CreatedGathering', label: '내가 만든 모임' }
 ];
 
+const ACTIVITY_TEXT_GLOW =
+	'[text-shadow:0_0_2px_#D705F2,0_0_4px_#D705F2,0_0_8px_#D705F2,0_0_16px_#D705F2,0_0_32px_#D705F2,0_0_64px_#D705F2]';
 /**
  * 마이페이지 활동 영역 컨테이너
  * - "나의 모임", "나의 리뷰", "내가 만든 모임" 탭 제공
@@ -28,7 +30,7 @@ export default function MyActivityContainer() {
 	const [activeTab, setActiveTab] = useState<TabKey>('JoinedGathering');
 
 	return (
-		<div className="tb:px-6 flex flex-1 flex-col border-t-2 border-gray-900 px-4 py-6">
+		<section className="mb:px-6 flex flex-1 flex-col border-t-3 border-white px-4 py-6">
 			{/* 나의 모임, 나의 리뷰, 내가 만든 모임 탭 메뉴 */}
 			<div className="mb-6 flex gap-3 text-lg font-semibold tracking-normal">
 				{TABS.map(({ key, label }) => {
@@ -39,8 +41,8 @@ export default function MyActivityContainer() {
 							key={key}
 							type="button"
 							onClick={() => setActiveTab(key)}
-							className={`cursor-pointer border-b-2 pb-1.5 transition-colors ${
-								isActive ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-400'
+							className={`] cursor-pointer border-b-2 border-transparent pb-1.5 text-[#F7D2FB] transition-colors ${
+								isActive ? `${ACTIVITY_TEXT_GLOW} border-white` : 'text-white'
 							}`}>
 							{label}
 						</button>
@@ -52,6 +54,6 @@ export default function MyActivityContainer() {
 			{activeTab === 'JoinedGathering' && <JoinedGatherings />}
 			{activeTab === 'MyReview' && <MyReviews />}
 			{activeTab === 'CreatedGathering' && <CreatedGathering />}
-		</div>
+		</section>
 	);
 }

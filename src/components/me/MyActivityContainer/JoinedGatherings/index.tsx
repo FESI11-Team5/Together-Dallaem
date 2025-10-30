@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
-import { JoinedGathering } from '@/types/response/gatherings';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
+import type { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
+import NoDataMessage from '../common/NoDataMessage';
 import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
-
 /**
  * JoinedGatherings 컴포넌트
  *
@@ -32,6 +32,7 @@ import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
 export default function JoinedGatherings() {
 	const queryClient = useQueryClient();
 	const { handleError } = useErrorHandler();
+	const NO_GATHERING_TEXT_GLOW = '[text-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3]';
 	/**
 	 * React Query: joinedGatherings 캐시
 	 * - queryKey: ['joinedGatherings'] 로 캐싱/무효화에 사용됩니다.
@@ -56,14 +57,7 @@ export default function JoinedGatherings() {
 
 	if (isLoading) return <GatheringSkeleton />;
 
-	if (gatherings.length === 0) {
-		return (
-			<div className="flex h-full flex-1 flex-col items-center justify-center">
-				<Image src="/images/no_data.svg" alt="데이터 없음 이미지" width={171} height={136} />
-				<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
-			</div>
-		);
-	}
+	if (gatherings.length === 0) return <NoDataMessage text="신청한 모임이 아직 없어요" />;
 
 	/**
 	 * 리뷰 작성 성공 콜백
@@ -95,15 +89,16 @@ export default function JoinedGatherings() {
 	};
 
 	return (
-		<div className="flex flex-col gap-6">
+		<ul className="flex flex-col gap-6">
 			{gatherings.map(gathering => (
-				<GatheringCard
-					key={gathering.id}
-					gathering={gathering}
-					onReviewSuccess={() => handleReviewSuccess(gathering.id)}
-					onCancelSuccess={() => handleCancelSuccess(gathering.id)}
-				/>
+				<li key={gathering.id}>
+					<GatheringCard
+						gathering={gathering}
+						onReviewSuccess={() => handleReviewSuccess(gathering.id)}
+						onCancelSuccess={() => handleCancelSuccess(gathering.id)}
+					/>
+				</li>
 			))}
-		</div>
+		</ul>
 	);
 }
