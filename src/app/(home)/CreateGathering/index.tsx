@@ -14,9 +14,7 @@ function NormalCreateButton() {
 	const { openModal } = useModal();
 
 	return (
-		<GuardedButton
-			onClick={() => openModal(<GatheringModal />)}
-			className="rounded-md px-4 py-2 font-semibold text-white">
+		<GuardedButton onClick={() => openModal(<GatheringModal />)} className="rounded-md font-semibold text-white">
 			모임 만들기
 		</GuardedButton>
 	);
