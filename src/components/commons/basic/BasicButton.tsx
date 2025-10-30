@@ -60,6 +60,7 @@ export default function BasicButton({
 	...rest
 }: button) {
 	let classByStatus = '';
+
 	if (outlined) {
 		classByStatus = isActive
 			? `bg-black text-primary-400 border-2 border-primary-400`
@@ -74,7 +75,7 @@ export default function BasicButton({
 		<div className={`group ${className} relative ${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'} cursor-pointer`}>
 			{isActive && outlined && (
 				<div
-					className={`bg-primary-400 absolute -inset-1 rounded-lg opacity-40 blur transition duration-400 group-hover:opacity-100`}></div>
+					className={`bg-primary-400 absolute -inset-0.5 rounded-lg opacity-0 blur-sm transition duration-400 group-hover:opacity-70`}></div>
 			)}
 			{isActive && (
 				<div className="bg-primary-400 absolute -inset-1 rounded-lg opacity-20 blur-xl transition duration-400 group-hover:opacity-40 group-hover:blur-2xl"></div>

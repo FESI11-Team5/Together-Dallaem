@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { cn } from '@/utils/cn';
 /**
  * 탭 옵션의 타입 정의
  */
@@ -92,15 +92,19 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 							tabRefs.current[index] = el;
 						}}
 						onClick={() => onTabChange(option.value)}
-						className={`relative flex cursor-pointer items-center gap-1 pb-[3px] text-sm font-medium transition-colors duration-200 ${
-							selectedTab === option.value ? 'text-white' : 'text-gray-400 hover:text-gray-600'
-						} `}>
-						<span className="text-lg font-semibold text-white">{option.text}</span>
+						className={cn(
+							'hover:text-primary-400 relative mb-1 flex cursor-pointer items-center gap-1 pb-[3px] text-sm',
+							'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+							'hover:[text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]',
+							'font-medium transition-colors duration-200',
+							`${selectedTab === option.value ? 'text-primary-400' : 'text-white'}`
+						)}>
+						<span className="font-semibol text-lg">{option.text}</span>
 						{option.icon && (
 							<img
 								src={option.icon}
 								alt={option.text}
-								className={`h-8 w-8 transition-colors duration-200 ${
+								className={`h-6 w-6 transition-colors duration-200 ${
 									selectedTab === option.value ? 'opacity-100' : 'opacity-60'
 								}`}
 							/>

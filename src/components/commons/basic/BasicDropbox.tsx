@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-
+import { cn } from '@/utils/cn';
 /**
  * 드롭다운되는 선택 항목들의 타입
  */
@@ -73,7 +73,12 @@ export default function BasicDropbox({
 				<button
 					key={`${option.value}-${option.text}`}
 					type="button"
-					className="hover:bg-primary-100 w-full p-[4px] text-white first:rounded-t-[12px] last:rounded-b-[12px] hover:text-black"
+					className={cn(
+						'hover:text-primary-400 w-full p-[4px] text-white',
+						'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+						'hover:[text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]',
+						'first:rounded-t-[12px] last:rounded-b-[12px] hover:cursor-pointer'
+					)}
 					onClick={() => handleSelect(option.value)}
 					role="option"
 					aria-selected={selectedValue === option.value}

@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef, useMemo } from 'react';
+import { cn } from '@/utils/cn';
 
 interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
@@ -66,13 +67,17 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 		const buttonClasses = useMemo(() => {
 			// 너비 및 높이 설정
 			const widthHeight = expanded
-				? 'w-full h-[44px] border-none'
-				: 'w-[110px] h-[36px] mb:h-[40px] border-2 border-gray-100';
+				? 'w-full h-[44px] border-primary-400 border-primary-400'
+				: 'w-[110px] h-[36px] mb:h-[40px]';
 
 			// 배경색 설정
-			const backgroundColor = hasValue ? 'bg-root text-primary-400' : 'bg-root text-white';
+			const backgroundColor = hasValue
+				? 'text-primary-400 shadow-primary-500/50 shadow-lg border-primary-400'
+				: expanded
+					? 'text-white border-primary-400'
+					: 'text-white border-white';
 
-			return `${widthHeight} rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
+			return `${widthHeight} bg-root border-2 border-primary-300 rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
 				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
 			} flex items-center justify-between text-left ${backgroundColor}`;
 		}, [expanded, disabled, hasValue]);
@@ -94,7 +99,10 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 			<button
 				ref={ref}
 				type="button"
-				className={`${buttonClasses} ${className}`}
+				className={cn(
+					`${buttonClasses} ${className}`,
+					'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]'
+				)}
 				onClick={onClick}
 				disabled={disabled}
 				aria-expanded={isOpen}
