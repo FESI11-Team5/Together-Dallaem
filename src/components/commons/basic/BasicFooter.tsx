@@ -80,22 +80,25 @@ function GatheringNormalUserBtn() {
 	if (isLoading)
 		return (
 			<BasicButton className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold" disabled isActive={false}>
-				로딩 중...
+				...
 			</BasicButton>
 		);
 
 	return (
 		<>
 			{joinedUser ? (
-				<BasicButton onClick={handleCancel} className="rounded-md px-4 py-2 text-sm font-bold" outlined>
-					예약 취소하기
+				<BasicButton
+					onClick={handleCancel}
+					className="rounded-md px-4 py-2 text-sm font-bold"
+					outlined
+					isActive={!past}>
+					{past ? '모집 기간 종료' : '모임 참가 취소하기'}
 				</BasicButton>
 			) : (
 				<BasicButton
 					onClick={handleJoin}
 					className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold"
-					isActive={!(isFull || past)}
-					disabled={isFull || past}>
+					isActive={!(isFull || past)}>
 					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '모임 참가하기'}
 				</BasicButton>
 			)}

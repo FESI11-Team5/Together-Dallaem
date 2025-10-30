@@ -1,11 +1,14 @@
 'use client';
 
 import { Controller, useFormContext } from 'react-hook-form';
+
 import { useFunnelStore } from '@/stores/useFunnelStore';
+import { Step3Schema, Step3SchemaType } from '@/utils/schema';
+
+import SliderAnimationDiv from '../sliderAnimation/SliderAnimationDiv';
 
 import BasicButton from '@/components/commons/basic/BasicButton';
 import GatheringCalendar from '@/components/commons/GatheringCalendar';
-import { Step3Schema, Step3SchemaType } from '@/utils/schema';
 
 export default function Step3Funnel() {
 	const {
@@ -36,7 +39,7 @@ export default function Step3Funnel() {
 	};
 
 	return (
-		<div className="flex h-full flex-col justify-between">
+		<SliderAnimationDiv className="flex h-full flex-col justify-between">
 			<div className="mt-3 flex flex-col gap-3">
 				<div className="flex flex-col gap-2">
 					<Controller
@@ -46,7 +49,7 @@ export default function Step3Funnel() {
 						render={({ field }) => {
 							return (
 								<div className="flex flex-col gap-3">
-									<label className="leading-base flex text-base font-semibold text-gray-800">모임 날짜</label>
+									<label className="leading-base flex text-base font-semibold text-white">모임 날짜</label>
 									<GatheringCalendar
 										pageType="create"
 										value={field.value ? new Date(field.value) : undefined}
@@ -75,7 +78,7 @@ export default function Step3Funnel() {
 						render={({ field }) => {
 							return (
 								<div className="flex flex-col gap-3">
-									<label className="leading-base flex text-base font-semibold text-gray-800">마감 날짜</label>
+									<label className="leading-base flex text-base font-semibold text-white">마감 날짜</label>
 									<GatheringCalendar
 										pageType="create"
 										value={field.value ? new Date(field.value) : undefined}
@@ -104,6 +107,6 @@ export default function Step3Funnel() {
 					다음
 				</BasicButton>
 			</div>
-		</div>
+		</SliderAnimationDiv>
 	);
 }

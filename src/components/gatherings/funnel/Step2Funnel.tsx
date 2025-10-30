@@ -5,10 +5,12 @@ import { useFormContext, Controller } from 'react-hook-form';
 
 import { useFunnelStore } from '@/stores/useFunnelStore';
 
+import Image from 'next/image';
+import SliderAnimationDiv from '../sliderAnimation/SliderAnimationDiv';
+
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicInput from '@/components/commons/basic/BasicInput';
 import BasicCheckBox from '@/components/commons/basic/BasicCheckBox';
-import Image from 'next/image';
 
 export default function Step2Funnel() {
 	const {
@@ -39,7 +41,7 @@ export default function Step2Funnel() {
 	};
 
 	return (
-		<div className="flex h-full flex-col justify-between">
+		<SliderAnimationDiv className="flex h-full flex-col justify-between">
 			<div className="mt-3 flex flex-col gap-3">
 				<div className="flex flex-col gap-2">
 					<Controller
@@ -47,7 +49,7 @@ export default function Step2Funnel() {
 						control={control}
 						render={({ field }) => (
 							<div className="flex w-full flex-col gap-3">
-								<label className="font-semibold text-gray-900">선택 서비스</label>
+								<label className="font-semibold text-white">선택 서비스</label>
 								<div className="max-mb:flex-wrap flex w-full justify-between gap-3">
 									<BasicCheckBox
 										title="함께 플레이"
@@ -132,6 +134,6 @@ export default function Step2Funnel() {
 					다음
 				</BasicButton>
 			</div>
-		</div>
+		</SliderAnimationDiv>
 	);
 }

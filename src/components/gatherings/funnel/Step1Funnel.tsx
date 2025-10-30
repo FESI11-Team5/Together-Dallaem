@@ -1,7 +1,10 @@
 'use client';
 
 import { useFormContext } from 'react-hook-form';
+
 import { useFunnelStore } from '@/stores/useFunnelStore';
+
+import SliderAnimationDiv from '../sliderAnimation/SliderAnimationDiv';
 
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicInput from '@/components/commons/basic/BasicInput';
@@ -22,7 +25,7 @@ export default function Step1Funnel() {
 	};
 
 	return (
-		<div className="flex h-full flex-col justify-between">
+		<SliderAnimationDiv className="flex h-full flex-col justify-between">
 			<div className="mt-3 flex flex-col gap-3">
 				<div className="flex flex-col gap-2">
 					<BasicInput
@@ -61,6 +64,6 @@ export default function Step1Funnel() {
 			<BasicButton onClick={handleNext} className="max-mb:mt-6 w-full">
 				다음
 			</BasicButton>
-		</div>
+		</SliderAnimationDiv>
 	);
 }

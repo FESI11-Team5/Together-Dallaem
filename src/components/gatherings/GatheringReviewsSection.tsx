@@ -7,7 +7,8 @@ import { ReviewResponse } from '@/types/response/reviews';
 import { getReviews } from '@/apis/reviews/reviews';
 
 import Image from 'next/image';
-import BasicPagination from '../commons/basic/BasicPagination';
+
+import BasicPagination from '@/components/commons/basic/BasicPagination';
 
 export default function GatheringReviewSection({ gatheringId }: { gatheringId: number }) {
 	const [currentPage, setCurrentPage] = useState(1);

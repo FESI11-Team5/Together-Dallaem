@@ -10,6 +10,8 @@ import { GatheringType } from '@/types/response/gatherings';
 import { useModal, useModalClose } from '@/hooks/useModal';
 import { postGathering } from '@/apis/gatherings';
 
+import SliderAnimationDiv from '../sliderAnimation/SliderAnimationDiv';
+
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicInput from '@/components/commons/basic/BasicInput';
 import BasicPopup from '@/components/commons/basic/BasicPopup';
@@ -52,7 +54,7 @@ export default function Step4Funnel() {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="flex h-full flex-col gap-6">
-			<div className="flex h-full flex-col justify-between">
+			<SliderAnimationDiv className="flex h-full flex-col justify-between">
 				<div className="mt-3 flex h-full flex-col gap-2">
 					<BasicInput
 						id="gathering-capacity"
@@ -73,7 +75,7 @@ export default function Step4Funnel() {
 						{isPending ? '등록 중...' : '모임 생성하기'}
 					</BasicButton>
 				</div>
-			</div>
+			</SliderAnimationDiv>
 		</form>
 	);
 }

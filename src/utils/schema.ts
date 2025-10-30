@@ -1,6 +1,5 @@
 import { CREATE_GATHERING_ERRORS, SIGNIN_ERRORS } from '@/constants/error';
 import type { GatheringLocation, GatheringType } from '@/types/response/gatherings';
-import { isSameDay } from 'date-fns';
 
 import * as z from 'zod';
 
@@ -20,7 +19,10 @@ export const Step1Schema = z.object({
 		.nonempty({ error: CREATE_GATHERING_ERRORS.EMPTY.NAME })
 		.min(2, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.NAME })
 		.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.NAME })
-		.regex(/^(?!\s)[ㄱ-ㅎ가-힣a-zA-Z0-9\s]{2,20}(?<!\s)$/, CREATE_GATHERING_ERRORS.FORMAT.NAME),
+		.regex(
+			/^(?!\s)[ㄱ-ㅎ가-힣a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>~`'_=+\-\\/\[\];]+(?<!\s)$/,
+			CREATE_GATHERING_ERRORS.FORMAT.NAME
+		),
 
 	location: z.custom<GatheringLocation>(val => typeof val === 'string' && val.length > 0, {
 		error: CREATE_GATHERING_ERRORS.EMPTY.LOCATION
