@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { JoinedGathering } from '@/types/response/gatherings';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import GatheringCard from './GatheringCard';
 import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
 
@@ -9,38 +10,49 @@ import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
  * JoinedGatherings 컴포넌트
  *
  * 사용자가 참여한 모임 목록을 카드 리스트로 렌더링합니다. 이 컴포넌트는
- * - 로컬 모킹 데이터로 초기화되어 있으며(개발 편의), 실제 API와 연결할 경우 주석 처리된 useEffect를 활성화하면 됩니다.
- * - 각 카드에서 리뷰 작성 또는 모임 취소가 발생하면 목록 상태를 로컬에서 업데이트합니다.
+ * - API로부터 사용자가 참여한 모임을 조회하고
+ * - 취소된 모임을 뒤로 보내어 우선 표출합니다.
+ * - 자식 카드에서 리뷰 작성/취소 성공 시 상위 쿼리 캐시를 업데이트합니다.
  *
  * @component
  * @returns {JSX.Element} 참여한 모임 목록을 렌더링하는 React 컴포넌트
  * @example
  * <JoinedGatherings />
  */
-export default function JoinedGatherings() {
-	const [isLoading, setIsLoading] = useState(true);
-	const [gatherings, setGatherings] = useState<JoinedGathering[]>([]);
 
-	useEffect(() => {
-		const fetchGatherings = async () => {
+/**
+ * 에러 객체에서 사용자에게 보여줄 간단한 메시지를 추출합니다.
+ * - 문자열이나 Error 인스턴스, 기타 unknown 타입을 다룹니다.
+ * - 더 정교한 매핑(HTTP 상태 코드별 메시지 등)은 공통 유틸로 분리 권장.
+ *
+ * @param {unknown} err - 잡힌 에러 객체
+ * @returns {string} 사용자에게 표시할 에러 메시지
+ */
+
+export default function JoinedGatherings() {
+	const queryClient = useQueryClient();
+	const { handleError } = useErrorHandler();
+	/**
+	 * React Query: joinedGatherings 캐시
+	 * - queryKey: ['joinedGatherings'] 로 캐싱/무효화에 사용됩니다.
+	 * - queryFn: API에서 참여한 모임을 불러오고 취소된 모임을 뒤로 보냅니다.
+	 */
+	const { data: gatherings = [], isLoading } = useQuery<JoinedGathering[]>({
+		queryKey: ['joinedGatherings'],
+		queryFn: async () => {
 			try {
 				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
-
-				const sortedData = data.sort((a: JoinedGathering, b: JoinedGathering): number => {
+				return data.sort((a, b) => {
 					if (a.canceledAt === null && b.canceledAt !== null) return -1;
 					if (a.canceledAt !== null && b.canceledAt === null) return 1;
 					return 0;
 				});
-
-				setGatherings(sortedData);
 			} catch (err) {
-				console.error(err);
-			} finally {
-				setIsLoading(false);
+				handleError(err);
+				throw err;
 			}
-		};
-		fetchGatherings();
-	}, []);
+		}
+	});
 
 	if (isLoading) return <GatheringSkeleton />;
 
@@ -63,11 +75,9 @@ export default function JoinedGatherings() {
 	 * @returns {void}
 	 */
 	const handleReviewSuccess = (gatheringId: number) => {
-		try {
-			setGatherings(prev => prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)));
-		} catch (err) {
-			console.error(err);
-		}
+		queryClient.setQueryData<JoinedGathering[]>(['joinedGatherings'], prev =>
+			prev ? prev.map(g => (g.id === gatheringId ? { ...g, isReviewed: true } : g)) : []
+		);
 	};
 
 	/**
@@ -79,11 +89,9 @@ export default function JoinedGatherings() {
 	 * @returns {void}
 	 */
 	const handleCancelSuccess = (id: number) => {
-		try {
-			setGatherings(prev => prev.filter(g => g.id !== id));
-		} catch (err) {
-			console.error(err);
-		}
+		queryClient.setQueryData<JoinedGathering[]>(['joinedGatherings'], prev =>
+			prev ? prev.filter(g => g.id !== id) : []
+		);
 	};
 
 	return (
