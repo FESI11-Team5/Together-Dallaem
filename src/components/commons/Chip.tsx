@@ -27,7 +27,7 @@ export default function Chip({ text, isActive = false, onClick }: ChipProps) {
 		<div className="group relative cursor-pointer">
 			{isActive && (
 				<div
-					className={`from-primary-400 to-highlight absolute -inset-1.5 translate-x-0.5 translate-y-0.5 rounded-lg bg-gradient-to-tr opacity-30 blur-sm transition duration-400 group-hover:opacity-50`}></div>
+					className={`from-primary-400 to-highlight absolute inset-x-1 inset-y-1 translate-y-1.5 rounded-lg bg-gradient-to-tr opacity-70 blur-sm transition duration-400 group-hover:opacity-100`}></div>
 			)}
 			<div
 				className={`mb:px-[16px] mb:py-[10px] relative cursor-pointer rounded-[12px] px-[12px] py-[8px] leading-none transition duration-400 ${isActive ? 'bg-black text-white' : 'bg-gray-500 text-gray-50'}`}

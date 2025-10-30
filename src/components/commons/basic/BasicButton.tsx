@@ -71,14 +71,13 @@ export default function BasicButton({
 	}
 
 	return (
-		<div
-			className={`group ${className} relative h-10 ${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'} cursor-pointer`}>
+		<div className={`group ${className} relative ${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'} cursor-pointer`}>
 			{isActive && outlined && (
 				<div
-					className={`bg-primary-400 absolute -inset-0 translate-x-0.5 translate-y-0.5 rounded-lg opacity-40 blur transition duration-400 group-hover:opacity-100 ${isActive ? 'group-hover:translate-x-0 group-hover:translate-y-0' : ''}`}></div>
+					className={`bg-primary-400 absolute -inset-1 rounded-lg opacity-40 blur transition duration-400 group-hover:opacity-100`}></div>
 			)}
 			{isActive && (
-				<div className="bg-primary-400 absolute -inset-0 rounded-lg opacity-20 blur-xl transition duration-400 group-hover:opacity-40 group-hover:blur-2xl"></div>
+				<div className="bg-primary-400 absolute -inset-1 rounded-lg opacity-20 blur-xl transition duration-400 group-hover:opacity-40 group-hover:blur-2xl"></div>
 			)}
 			<button
 				onClick={onClick}
@@ -86,9 +85,7 @@ export default function BasicButton({
 				{...rest}
 				//prettier-ignore
 				className={`
-				w-full
-	
-				relative font-pretendard font-semibold box-border
+				w-full h-full relative font-pretendard font-semibold box-border
 				rounded-[12px] py-4 no-underline leading-none 
 				transition duration-400 text-white
 				${classByStatus}
