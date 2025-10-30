@@ -1,4 +1,5 @@
 'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,6 +19,8 @@ interface ProfileEditModalProps {
 	/** 수정 완료 시 호출되는 콜백 함수 — 새 회사명과 이미지 파일을 반환 */
 	onSubmit: (updated: { companyName?: string; image?: File }) => void;
 }
+
+const MYPAGE_TITLE_GLOW = '[text-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB]';
 
 /**
  * `ProfileEditModal` 컴포넌트
@@ -46,7 +49,6 @@ interface ProfileEditModalProps {
 export default function ProfileEditModal({ currentImage, currentCompanyName, onSubmit }: ProfileEditModalProps) {
 	const [file, setFile] = useState<File | null>(null);
 	const closeModal = useModalClose();
-	const MYPAGE_TITLE_GLOW = '[text-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB]';
 
 	const { register, handleSubmit, setValue, formState } = useForm<ProfileEditSchemaType>({
 		mode: 'onChange',

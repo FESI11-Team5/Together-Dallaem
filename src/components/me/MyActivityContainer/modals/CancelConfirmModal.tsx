@@ -1,8 +1,8 @@
 import { leaveGathering } from '@/apis/gatherings/[id]';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { useModalClose } from '@/hooks/useModal';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
-import { useModalClose } from '@/hooks/useModal';
-import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 interface CancelConfirmModalProps {
 	/** 예약 취소할 모임 ID */
@@ -45,13 +45,13 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 							outlined
 							onClick={closeModal}
 							type="button"
-							className="transition-colors hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700">
+							className="hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700 transition-colors">
 							닫기
 						</BasicButton>
 						<BasicButton
 							type="submit"
 							onClick={handleCancel}
-							className="transition-colors hover:bg-primary-700 active:bg-primary-800">
+							className="hover:bg-primary-700 active:bg-primary-800 transition-colors">
 							취소하기
 						</BasicButton>
 					</div>

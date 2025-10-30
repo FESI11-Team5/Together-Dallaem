@@ -15,6 +15,7 @@ const TABS: { key: TabKey; label: string }[] = [
 
 const ACTIVITY_TEXT_GLOW =
 	'[text-shadow:0_0_2px_#D705F2,0_0_4px_#D705F2,0_0_8px_#D705F2,0_0_16px_#D705F2,0_0_32px_#D705F2,0_0_64px_#D705F2]';
+
 /**
  * 마이페이지 활동 영역 컨테이너
  * - "나의 모임", "나의 리뷰", "내가 만든 모임" 탭 제공

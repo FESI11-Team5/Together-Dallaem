@@ -1,10 +1,10 @@
 import { useModal } from '@/hooks/useModal';
-import { JoinedGathering } from '@/types/response/gatherings';
+import type { JoinedGathering } from '@/types/response/gatherings';
 import BasicButton from '@/components/commons/basic/BasicButton';
-import CardLayout from '../common/CardLayout';
-import CancelConfirmModal from '../modals/CancelConfirmModal';
-import CanceledOverlay from '../common/CanceledOverlay';
 import GatheringBadge from './GatheringBadge';
+import CardLayout from '../common/CardLayout';
+import CanceledOverlay from '../common/CanceledOverlay';
+import CancelConfirmModal from '../modals/CancelConfirmModal';
 import ReviewWriteModal from '../modals/ReviewWriteModal';
 
 interface GatheringProps {

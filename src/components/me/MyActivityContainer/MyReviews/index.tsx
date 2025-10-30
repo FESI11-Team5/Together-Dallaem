@@ -2,15 +2,15 @@
 
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { JoinedGathering } from '@/types/response/gatherings';
-import { ReviewResponse, GetReviewsResponse } from '@/types/response/reviews';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { getReviews } from '@/apis/reviews/reviews';
 import { useUserStore } from '@/stores/user';
-import Chip from '@/components/commons/Chip';
-import NoDataMessage from '../common/NoDataMessage';
+import type { JoinedGathering } from '@/types/response/gatherings';
+import type { ReviewResponse, GetReviewsResponse } from '@/types/response/reviews';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';
+import NoDataMessage from '../common/NoDataMessage';
+import Chip from '@/components/commons/Chip';
 
 /**
  * MyReviews 컴포넌트

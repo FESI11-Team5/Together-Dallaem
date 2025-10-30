@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
@@ -32,7 +31,6 @@ import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
 export default function JoinedGatherings() {
 	const queryClient = useQueryClient();
 	const { handleError } = useErrorHandler();
-	const NO_GATHERING_TEXT_GLOW = '[text-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3]';
 	/**
 	 * React Query: joinedGatherings 캐시
 	 * - queryKey: ['joinedGatherings'] 로 캐싱/무효화에 사용됩니다.
