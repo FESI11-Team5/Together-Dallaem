@@ -22,7 +22,7 @@ export default function HomePage() {
 		type: '',
 		location: '',
 		date: undefined,
-		sort: 'deadlineLate'
+		sort: 'newest'
 	});
 
 	const deferredFilter = useDeferredValue(filterCriteria);
