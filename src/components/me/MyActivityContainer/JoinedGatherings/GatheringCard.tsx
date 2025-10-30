@@ -63,6 +63,8 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 	 * @returns {void}
 	 */
 	const handleAddReviewClick = () => {
+		if (gathering.isReviewed) return;
+
 		openModal(
 			<ReviewWriteModal gatheringId={gathering.id} onSuccess={(score, comment) => onReviewSuccess(score, comment)} />
 		);
@@ -78,15 +80,18 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 					{!isPast && !gathering.isCompleted ? (
 						<BasicButton
 							outlined
-							className="!w-auto px-[22px] transition-colors hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700"
+							className="hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700 !w-auto px-[22px] transition-colors"
 							onClick={handleCancelClick}>
 							예약 취소하기
 						</BasicButton>
 					) : (
 						<BasicButton
-							className="!w-auto px-[22px] transition-colors hover:bg-primary-700 active:bg-primary-800"
-							onClick={handleAddReviewClick}>
-							리뷰 작성하기
+							className={`w-auto min-w-30 px-[22px] transition-colors ${
+								gathering.isReviewed && 'cursor-not-allowed !bg-gray-200 !text-gray-500'
+							}`}
+							onClick={!gathering.isReviewed ? handleAddReviewClick : undefined}
+							isActive={!gathering.isReviewed}>
+							{!gathering.isReviewed ? '리뷰 추가하기' : '작성 완료'}
 						</BasicButton>
 					)}
 				</div>

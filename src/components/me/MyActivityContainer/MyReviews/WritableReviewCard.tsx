@@ -9,7 +9,7 @@ interface GatheringProps {
 	gathering: JoinedGathering;
 
 	/** 리뷰 작성 성공 시 호출되는 콜백 함수 */
-	onSuccess: () => void;
+	onSuccess: (score: number, comment: string) => void;
 }
 
 /**
