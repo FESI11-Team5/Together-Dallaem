@@ -71,7 +71,7 @@ export default function BasicButton({
 	}
 
 	return (
-		<div className="group relative cursor-pointer">
+		<div className={`group relative ${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'} cursor-pointer`}>
 			{isActive && outlined && (
 				<div
 					className={`bg-primary-400 absolute -inset-1 translate-x-0.5 translate-y-0.5 rounded-lg opacity-40 blur transition duration-400 group-hover:opacity-100 ${isActive ? 'group-hover:translate-x-0 group-hover:translate-y-0' : ''}`}></div>
@@ -85,10 +85,10 @@ export default function BasicButton({
 				{...rest}
 				//prettier-ignore
 				className={`
+					w-full
 				relative font-pretendard font-semibold box-border
 				rounded-[12px] py-4 no-underline leading-none 
 				transition duration-400 text-white
-				${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'}
 				${classByStatus}
 				${isActive ? 'cursor-pointer ' : 'cursor-default'}
 				${className}
