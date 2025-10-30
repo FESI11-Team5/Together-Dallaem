@@ -93,11 +93,11 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 						}}
 						onClick={() => onTabChange(option.value)}
 						className={cn(
-							'hover:text-primary-400 relative mb-1 flex cursor-pointer items-center gap-1 pb-[3px] text-sm',
+							'hover:text-highlight relative mb-1 flex cursor-pointer items-center gap-1 pb-[3px] text-sm',
 							'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
-							'hover:[text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]',
+							'hover:[text-shadow:0_0_4px_#d705f2,0_0_0px_#d705f2,0_0_0px_#d705f2,0_0_40px_#d705f2]',
 							'font-medium transition-colors duration-200',
-							`${selectedTab === option.value ? 'text-primary-400' : 'text-white'}`
+							`${selectedTab === option.value ? 'text-highlight font-extrabold [text-shadow:0_0_4px_#e34dfd,0_0_0px_#e34dfd,0_0_0px_#e34dfd,0_0_40px_#e34dfd]' : 'text-white'}`
 						)}>
 						<span className="font-semibol text-lg">{option.text}</span>
 						{option.icon && (
@@ -115,7 +115,7 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 
 			{/* 애니메이션 막대 */}
 			<div
-				className="bg-primary-400 absolute bottom-0 h-0.5 transition-all duration-300 ease-out"
+				className="bg-highlight absolute bottom-0 h-0.5 transition-all duration-300 ease-out"
 				style={{
 					left: `${indicatorStyle.left}px`,
 					width: `${indicatorStyle.width}px`
