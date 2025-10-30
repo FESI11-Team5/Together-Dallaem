@@ -28,8 +28,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 	return (
 		<div
 			onClick={onClick}
-			// TODO: 보더 색깔 임의 변경, 추후에 변경 가능성 있음
-			className="tb:gap-0 tb:h-[156px] border-primary-50 duration-0.5 tb:flex-row hover:shadow-primary-50/50 flex h-[316px] cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl border-2 transition-shadow hover:shadow-lg">
+			className="tb:gap-0 tb:h-[156px] border-primary-500 duration-0.5 tb:flex-row hover:shadow-primary-500/50 flex h-[316px] cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl border-2 transition-shadow hover:shadow-lg">
 			<div className="tb:w-[280px] relative block h-[156px] w-full overflow-hidden">
 				{deadlineLabel && <Tag text={deadlineLabel} />}
 				<Image priority src={image || '/images/example1.jpg'} alt={`모임 ${id} 이미지`} fill className="object-cover" />
@@ -40,7 +39,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 						<div className="text-primary-50 flex items-center gap-2 text-lg font-semibold">
 							<span>{name}</span>
 							<span>|</span>
-							<span className="text-sm font-medium text-gray-400">{location}</span>
+							<span className="text-primary-700 text-sm font-medium">{location}</span>
 						</div>
 						<div className="flex gap-2">
 							<ChipInfo text={date} textColor="white" />
