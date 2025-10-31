@@ -44,7 +44,16 @@ export default function Card({ gathering, onClick }: CardProps) {
 						<div className="text-primary-50 flex items-center gap-2 text-lg font-semibold">
 							<span>{name}</span>
 							<span>|</span>
-							<span className="text-primary-700 text-sm font-medium">{location}</span>
+							<span className="text-primary-700 text-sm font-medium">
+								{
+									{
+										건대입구: 'AOS',
+										을지로3가: 'Adventure',
+										신림: 'FPS',
+										홍대입구: 'RPG'
+									}[location]
+								}
+							</span>
 						</div>
 						<div className="flex gap-2">
 							<ChipInfo text={date} textColor="white" />
