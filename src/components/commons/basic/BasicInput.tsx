@@ -122,7 +122,7 @@ export default function BasicInput({
 				{label}
 			</label>
 			<div
-				className={`inputBox border-primary-300 box-border flex items-center justify-between rounded-[12px] border-2 bg-black px-[16px] py-[10px] text-white placeholder-gray-300 focus:outline-none ${getBorderClass()} ${className}`}>
+				className={`inputBox border-primary-300 bg-root box-border flex items-center justify-between rounded-[12px] border-2 px-[16px] py-[10px] text-white placeholder-gray-300 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					id={id}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
