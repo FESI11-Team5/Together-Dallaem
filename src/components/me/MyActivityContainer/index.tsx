@@ -15,6 +15,8 @@ const TABS: { key: TabKey; label: string }[] = [
 
 const ACTIVITY_TEXT_GLOW =
 	'[text-shadow:0_0_2px_#D705F2,0_0_4px_#D705F2,0_0_8px_#D705F2,0_0_16px_#D705F2,0_0_32px_#D705F2,0_0_64px_#D705F2]';
+const ACTIVITY_BOX_GLOW =
+	'[box-shadow:0_0_2px_#D705F2,0_0_4px_#D705F2,0_0_8px_#D705F2,0_0_16px_#D705F2,0_0_32px_#D705F2,0_0_64px_#D705F2]';
 
 /**
  * 마이페이지 활동 영역 컨테이너
@@ -38,15 +40,15 @@ export default function MyActivityContainer() {
 					const isActive = activeTab === key;
 
 					return (
-						<button
-							key={key}
-							type="button"
-							onClick={() => setActiveTab(key)}
-							className={`] cursor-pointer border-b-2 border-transparent pb-1.5 text-[#F7D2FB] transition-colors ${
-								isActive ? `${ACTIVITY_TEXT_GLOW} border-white` : 'text-white'
-							}`}>
-							{label}
-						</button>
+						<div key={key} className="flex flex-col gap-1.5">
+							<button
+								type="button"
+								onClick={() => setActiveTab(key)}
+								className={`cursor-pointer text-gray-300 transition-all ${isActive && `${ACTIVITY_TEXT_GLOW} text-white`}`}>
+								{label}
+							</button>
+							<div className={`h-[2px] w-full bg-transparent ${isActive && `${ACTIVITY_BOX_GLOW} bg-white/80`}`} />
+						</div>
 					);
 				})}
 			</div>

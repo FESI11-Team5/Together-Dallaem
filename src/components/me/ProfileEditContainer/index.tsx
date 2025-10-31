@@ -10,6 +10,8 @@ import { useModal } from '@/hooks/useModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import ProfileEditModal from './ProfileEditModal/ProfileEditModal';
 
+const PROFILE_IMAGE_GLOW = '[box-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB]';
+
 /**
  * @typedef {Object} ProfileUpdateData
  * @property {string} [companyName] - 업데이트할 회사명 (선택 사항).
@@ -96,7 +98,8 @@ export default function ProfileEditCard() {
 				/>
 
 				{/* 프로필 사진 표시 영역 */}
-				<div className="bg-root border-primary-100 absolute top-13 h-16 w-16 rounded-full border-2 [box-shadow:0_0_14px_rgba(5,242,219,0.9)]">
+				<div
+					className={`bg-root absolute top-13 h-16 w-16 rounded-full border-2 border-white/80 ${PROFILE_IMAGE_GLOW}`}>
 					<Image
 						src={user?.image || DEFAULT_PROFILE_SRC}
 						alt="프로필 사진 이미지"
