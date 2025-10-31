@@ -1,4 +1,5 @@
 import { SORT_CONFIG } from '@/constants/options';
+import { format } from 'date-fns';
 
 /**
  * 모임 데이터를 조회하기 위한 쿼리 문자열을 생성하는 유틸 함수
@@ -27,7 +28,7 @@ export const getGatheringQuery = (filters: {
 
 	if (filters.type) params.append('type', filters.type);
 	if (filters.location) params.append('location', String(filters.location));
-	if (filters.date) params.append('date', filters.date.toISOString().split('T')[0]);
+	if (filters.date) params.append('date', format(filters.date, 'yyyy-MM-dd'));
 	if (filters.sort) {
 		const sortConfig = SORT_CONFIG[filters.sort as keyof typeof SORT_CONFIG];
 		if (sortConfig) {

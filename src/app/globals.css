@@ -212,6 +212,7 @@ input[type='number']::-webkit-outer-spin-button {
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
+		@apply select-none;
 	}
 	body {
 		@apply bg-background text-foreground;
