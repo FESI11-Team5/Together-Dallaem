@@ -10,14 +10,6 @@ export const TABS: TabOption[] = [
 	{ value: 'JoinedGathering', text: '나의 크루' },
 	{ value: 'MyReview', text: '나의 리뷰' },
 	{ value: 'CreatedGathering', text: '내가 만든 크루' }
-	{ value: 'DALLAEMFIT', text: '함께 플레이', icon: '/icons/find_crew.svg' },
-	{ value: 'WORKATION', text: '교환/통신하기', icon: '/icons/exchange.svg' }
-] as const;
-
-export const TABS: TabOption[] = [
-	{ value: 'JoinedGathering', text: '나의 크루' },
-	{ value: 'MyReview', text: '나의 리뷰' },
-	{ value: 'CreatedGathering', text: '내가 만든 크루' }
 ] as const;
 
 export const SUB_TYPE_OPTIONS: TabOption[] = [
