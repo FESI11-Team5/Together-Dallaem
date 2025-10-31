@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CardList from './CardList';
+import CardSkeleton from './CardSkeleton';
 
 // TODO: 쿼리 상태 라이브러리 쓰는 걸로 변경하기
 /**
@@ -29,7 +30,7 @@ export default function HomePage() {
 	const queryString = useMemo(() => getGatheringQuery(deferredFilter), [deferredFilter]);
 
 	const LIMIT = 10;
-	const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+	const { data, isLoading, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
 		queryKey: ['gatherings', queryString],
 		queryFn: ({ pageParam = 0 }) => getGatherings(`${queryString}&limit=${LIMIT}&offset=${pageParam}`),
 		initialPageParam: 0,
@@ -71,6 +72,7 @@ export default function HomePage() {
 					</h2>
 				</div>
 			</div>
+			{/* // TODO: 리팩터링 */}
 			<div className="mb:gap-6 flex flex-1 flex-col gap-4">
 				<GatheringFilterBar setFilterCriteria={setFilterCriteria} />
 				{data && data?.length > 0 ? (
@@ -78,6 +80,12 @@ export default function HomePage() {
 						<CardList gatherings={data} />
 						{!isFetchingNextPage && <div ref={ref} />}
 					</>
+				) : isLoading ? (
+					<div className="flex flex-col gap-6">
+						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+							<CardSkeleton key={i} />
+						))}
+					</div>
 				) : (
 					<div className="flex flex-1 flex-col items-center justify-center text-sm font-medium text-gray-500">
 						<p>아직 크루가 없어요,</p>
