@@ -37,7 +37,7 @@ export default function HeartButton({ id }: HeartButtonProps) {
 		<button
 			onClick={handleClick}
 			className={cn(
-				'bg-root flex size-[48px] cursor-pointer items-center justify-center rounded-full border-2 transition-colors',
+				'flex size-[48px] cursor-pointer items-center justify-center rounded-full border-2 transition-colors',
 				isActive ? 'border-highlight shadow-highlight/50 shadow-xl' : 'border-gray-300',
 				'transition-transform duration-150 ease-in-out hover:scale-105 active:scale-90'
 			)}
