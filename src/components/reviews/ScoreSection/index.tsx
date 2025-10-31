@@ -33,20 +33,37 @@ export default function ScoreSection({ data }: { data?: scoreData | null }) {
 		data?.oneStar ?? 0
 	];
 
+	/** 평균 점수에 따른 하트 채움 비율(0~100%) */
+	const heartFillPercent = useMemo(() => {
+		const avg = data?.averageScore ?? 0;
+		const clamped = Math.max(0, Math.min(5, avg));
+		return (clamped / 5) * 100;
+	}, [data?.averageScore]);
+
 	//TODO: 우선은 반올림으로 하트 개수 처리했으나 나중에는 비율대로 하트 잘라서 표시하게 변경할 예정입니다.
 	return (
-		<div className="pc:gap-45 tb:gap-30 mb:gap-5 bg-root my-6 flex items-center justify-center gap-5 border-y-[2px] px-6 py-8">
+		<section className="pc:gap-45 tb:gap-30 mb:gap-5 bg-root my-6 flex items-center justify-center gap-5 border-y-[2px] px-6 py-8">
 			<div className="left-box flex flex-col items-center text-center">
 				<div className="text-2xl font-semibold text-gray-400">
 					<span className="text-highlight">{data?.averageScore ?? 0}</span>/5
 				</div>
-				<div className="flex gap-[2px]">
-					{Array.from({ length: heartNum }).map((_, index) => (
-						<img key={heartNum * 100 + index} src="/icons/heart_active.svg" alt="heart score" />
-					))}
-					{Array.from({ length: 5 - heartNum }).map((_, index) => (
-						<img key={(5 - heartNum) * 100 + index} src="/icons/heart.svg" alt="heart score" />
-					))}
+				<div className="relative">
+					{/* Base layer: empty (gray) hearts to define full width */}
+					<div className="flex gap-[2px]">
+						{Array.from({ length: 5 }).map((_, index) => (
+							<img key={`empty-${index}`} src="/icons/heart.svg" alt="heart score empty" />
+						))}
+					</div>
+					{/* Overlay layer: filled (pink) hearts clipped by percentage width */}
+					<div
+						className="pointer-events-none absolute top-0 left-0 overflow-hidden transition-all duration-300 ease-out"
+						style={{ width: `${heartFillPercent}%` }}>
+						<div className="flex gap-[2px]">
+							{Array.from({ length: 5 }).map((_, index) => (
+								<img key={`filled-${index}`} src="/icons/heart_active.svg" alt="heart score filled" />
+							))}
+						</div>
+					</div>
 				</div>
 			</div>
 			<div className="right-box flex flex-col gap-2 text-sm">
@@ -59,10 +76,9 @@ export default function ScoreSection({ data }: { data?: scoreData | null }) {
 								className="bg-highlight absolute top-0 left-0 h-full rounded-[2px] transition-all duration-500 ease-out"
 								style={{ width: `${totalCount > 0 ? (score / totalCount) * 100 : 0}%` }}></div>
 						</div>
-						{score ?? 0}
 					</div>
 				))}
 			</div>
-		</div>
+		</section>
 	);
 }
