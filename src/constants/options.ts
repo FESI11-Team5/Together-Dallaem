@@ -12,10 +12,10 @@ export const TABS: TabOption[] = [
 	{ value: 'CreatedGathering', text: '내가 만든 크루' }
 ] as const;
 
-export const SUB_TYPE_OPTIONS: OptionType[] = [
+export const SUB_TYPE_OPTIONS: TabOption[] = [
 	{ value: 'DALLAEMFIT', text: '전체' },
-	{ value: 'OFFICE_STRETCHING', text: '스팀' },
-	{ value: 'MINDFULNESS', text: '온라인' }
+	{ value: 'OFFICE_STRETCHING', text: '스팀', icon: '/icons/steam_logo.svg' },
+	{ value: 'MINDFULNESS', text: '온라인', icon: '/icons/online.svg' }
 ] as const;
 
 export const GENRE_OPTIONS: OptionType[] = [

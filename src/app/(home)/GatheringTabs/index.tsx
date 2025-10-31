@@ -40,11 +40,16 @@ export default function GatheringTabs({ setSelectedType, button }: GatheringTabs
 				<Tab options={TYPE_OPTIONS} selectedTab={type} onTabChange={setType} />
 				{button}
 			</div>
-			{/* TODO: CHIP className 추가 논의 */}
 			{/* TODO: Activity로 변경 */}
 			<div className={cn('flex gap-2', type === DEFAULT_TYPE ? 'opacity-100' : 'pointer-events-none opacity-0')}>
-				{SUB_TYPE_OPTIONS.map(({ value, text }) => (
-					<Chip key={value} text={text} isActive={subType === value} onClick={() => setSubType(value as string)} />
+				{SUB_TYPE_OPTIONS.map(({ value, text, icon }) => (
+					<Chip
+						key={value}
+						text={text}
+						isActive={subType === value}
+						imgUrl={icon}
+						onClick={() => setSubType(value as string)}
+					/>
 				))}
 			</div>
 		</div>
