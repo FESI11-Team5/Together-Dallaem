@@ -76,10 +76,7 @@ export default function GatheringFunnel() {
 		);
 	};
 	return (
-		<BasicModal
-			onClose={handleCloseWithPopup}
-			width="600px"
-			className="shadow-primary-500 animate-shadow-fade rounded-xl p-6 shadow-xl">
+		<BasicModal onClose={handleCloseWithPopup} width="600px" className="">
 			<FormProvider {...method}>
 				<div className="flex gap-3">
 					<h2 className="text-primary-500 text-xl font-bold [text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]">
@@ -92,7 +89,7 @@ export default function GatheringFunnel() {
 						{/* 프로그레스바 */}
 						<div className="relative h-2 w-full rounded-full bg-gray-200">
 							<div
-								className="from-primary-100 via-primary-300 to-primary-700 absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r transition-all duration-500"
+								className="from-primary-300 via-primary-700 to-highlight absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r transition-all duration-500"
 								style={{ width: `${(step / 4) * 100}%` }}
 							/>
 						</div>

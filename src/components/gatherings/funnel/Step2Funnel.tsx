@@ -119,8 +119,8 @@ export default function Step2Funnel() {
 							<p className="leading-sm text-highlight text-start text-sm font-semibold">{errors.image?.message}</p>
 						)}
 						{imagePreview && (
-							<div className="border-primar-dark mt-2 mb-4 h-[100px] w-[100px] overflow-hidden rounded-2xl border-2">
-								<Image src={imagePreview} alt="Preview" width={100} height={100} className="object-cover" />
+							<div className="m-auto mt-2 mb-4 h-[150px] w-[150px] overflow-hidden rounded-2xl border-2 shadow-md shadow-gray-400">
+								<Image src={imagePreview} alt="Preview" width={150} height={150} className="object-cover" />
 							</div>
 						)}
 					</div>

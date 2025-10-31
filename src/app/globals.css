@@ -246,7 +246,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .animate-shadow-fade {
-	animation: shadowFade 1s ease-in-out infinite;
+	animation: shadowFade 4s ease-in-out infinite;
 	/* 아이콘 글로우 효과 */
 
 	.icon-glow {

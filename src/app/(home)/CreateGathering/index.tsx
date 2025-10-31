@@ -13,10 +13,7 @@ function NormalCreateButton() {
 	const { openModal } = useModal();
 
 	return (
-		<GuardedButton
-			onClick={() => openModal(<GatheringFunnel />)}
-			className="bg-primary-500 flex items-center justify-center gap-3 rounded-md px-4 py-2 font-semibold text-white">
-			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="크루 생성" />
+		<GuardedButton onClick={() => openModal(<GatheringFunnel />)}>
 			<span className="pt-1">크루 생성</span>
 		</GuardedButton>
 	);
@@ -29,7 +26,7 @@ function FloatingCreateButton() {
 	return (
 		<GuardedButton
 			onClick={() => openModal(<GatheringFunnel />)}
-			className="group bg-primary-500 fixed right-8 bottom-8 z-10 flex h-14 w-14 items-center justify-center gap-3 rounded-full text-3xl text-white shadow-lg transition-opacity">
+			className="z-base fixed right-8 bottom-8 flex h-14 w-14 gap-3 rounded-full text-3xl">
 			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="크루 생성" />
 			<span className="pt-1">크루 생성</span>
 		</GuardedButton>
