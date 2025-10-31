@@ -89,7 +89,7 @@ export default function GatheringFunnel() {
 						{/* 프로그레스바 */}
 						<div className="relative h-2 w-full rounded-full bg-gray-200">
 							<div
-								className="from-primary-300 via-primary-700 to-highlight absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r transition-all duration-500"
+								className="from-primary-300 via-primary-300 to-highlight absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r transition-all duration-500"
 								style={{ width: `${(step / 4) * 100}%` }}
 							/>
 						</div>

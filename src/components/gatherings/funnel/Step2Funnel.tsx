@@ -49,7 +49,7 @@ export default function Step2Funnel() {
 						control={control}
 						render={({ field }) => (
 							<div className="flex w-full flex-col gap-3">
-								<label className="font-semibold text-white">선택 서비스</label>
+								<label className="font-semibold text-white">카테고리</label>
 								<div className="max-mb:flex-wrap flex w-full justify-between gap-3">
 									<BasicCheckBox
 										title="함께 플레이"
@@ -83,7 +83,7 @@ export default function Step2Funnel() {
 							<input
 								id="gathering-image"
 								type="file"
-								accept="image/*"
+								accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
 								className="hidden"
 								ref={fileInputRef}
 								onChange={e => {
@@ -106,12 +106,9 @@ export default function Step2Funnel() {
 									/>
 								</div>
 								<div className="flex items-end justify-end">
-									<button
-										type="button"
-										onClick={() => fileInputRef.current?.click()}
-										className="border-primary-600 text-primary-600 bg-root flex w-[100px] cursor-pointer items-center justify-center rounded-[12px] border-1 py-3">
+									<BasicButton type="button" onClick={() => fileInputRef.current?.click()} outlined>
 										파일 찾기
-									</button>
+									</BasicButton>
 								</div>
 							</div>
 						</div>
