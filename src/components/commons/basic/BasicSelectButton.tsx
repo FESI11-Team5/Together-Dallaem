@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef, useMemo } from 'react';
+import { cn } from '@/utils/cn';
 
 interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
@@ -66,43 +67,42 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 		const buttonClasses = useMemo(() => {
 			// 너비 및 높이 설정
 			const widthHeight = expanded
-				? 'w-full h-[44px] border-none'
-				: 'w-[110px] h-[36px] mb:h-[40px] border-2 border-gray-100';
+				? 'w-full h-[44px] border-primary-400 border-primary-400'
+				: 'w-[110px] h-[36px] mb:h-[40px]';
 
 			// 배경색 설정
-			const backgroundColor = expanded
-				? 'bg-gray-50'
-				: hasValue
-					? 'bg-gray-900 text-white border-none'
-					: 'bg-root text-gray-800';
+			const backgroundColor = hasValue
+				? 'text-primary-400 shadow-primary-500/50 shadow-lg border-primary-400'
+				: expanded
+					? 'text-white border-primary-400'
+					: 'text-white border-white';
 
-			return `${widthHeight} rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
+			return `${widthHeight} bg-root border-2 border-primary-300 rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
 				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
 			} flex items-center justify-between text-left ${backgroundColor}`;
 		}, [expanded, disabled, hasValue]);
 
 		const arrowClasses = useMemo(
 			() =>
-				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out ${
+				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out bg-[url('/icons/arrow_invert.svg')] ${
 					disabled ? 'hidden' : 'block'
-				} ${isOpen ? 'rotate-180' : 'rotate-0'} ${
-					hasValue && !expanded ? `bg-[url('/icons/arrow_invert.svg')]` : `bg-[url('/icons/arrow_down.svg')]`
+				} ${isOpen ? 'rotate-180' : 'rotate-0'}
 				}`,
 			[disabled, isOpen, hasValue, expanded]
 		);
 
 		const textColor = useMemo(() => {
-			if (expanded) {
-				return hasValue ? 'text-gray-800' : 'text-gray-400';
-			}
-			return hasValue ? 'text-white' : 'text-gray-800';
+			return hasValue ? 'text-primary-400' : 'text-white';
 		}, [expanded, hasValue]);
 
 		return (
 			<button
 				ref={ref}
 				type="button"
-				className={`${buttonClasses} ${className}`}
+				className={cn(
+					`${buttonClasses} ${className}`,
+					'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]'
+				)}
 				onClick={onClick}
 				disabled={disabled}
 				aria-expanded={isOpen}

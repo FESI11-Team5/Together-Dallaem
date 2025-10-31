@@ -3,8 +3,6 @@ interface ButtonProps {
 	children: React.ReactNode;
 	/** 버튼 클릭 시 실행될 함수, Form 사용시 button의 onClick이 자동으로 호출되므로 선택사항으로 둠 */
 	onClick?: () => void;
-	/** 버튼의 기본 색상 (primary-600, primary-700, primary-800 중 선택) */
-	mainColor?: 'primary-600' | 'primary-700' | 'primary-800';
 	/** 버튼을 부모 요소의 전체 너비로 확장할지 여부 */
 	isLarge?: boolean;
 	/** 버튼의 활성화 상태 (false일 경우 버튼이 비활성화됨) */
@@ -54,7 +52,6 @@ type button = ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
 export default function BasicButton({
 	children,
 	onClick = () => {},
-	mainColor = 'primary-600',
 	isLarge = false,
 	isActive = true,
 	outlined = false,
@@ -63,41 +60,42 @@ export default function BasicButton({
 	...rest
 }: button) {
 	let classByStatus = '';
+
 	if (outlined) {
 		classByStatus = isActive
-			? `border-${mainColor} text-${mainColor} bg-root`
-			: `border-gray-400 text-gray-400 bg-root`;
+			? `bg-black text-primary-400 border-2 border-primary-400`
+			: `border-gray-400 text-gray-400 bg-white`;
 	} else {
-		// tailwind css가 dynamic class를 인식하지 못하는 버그가 있어 prop별로 컬러 클래스 할당
-		if (isActive) {
-			if (mainColor === 'primary-600') {
-				classByStatus = isActive ? `bg-primary-600 text-white` : `bg-gray-400 text-white`;
-			} else if (mainColor === 'primary-700') {
-				classByStatus = isActive ? `bg-primary-700 text-white` : `bg-gray-400 text-white`;
-			} else if (mainColor === 'primary-800') {
-				classByStatus = isActive ? `bg-primary-800 text-white` : `bg-gray-400 text-white`;
-			}
-		} else {
-			classByStatus = `bg-gray-400 text-white`;
-		}
+		classByStatus = isActive
+			? `bg-primary-400 text-black shadow-[0_0_20px_rgba(5,242,219,0.5)] group-hover:shadow-[0_0_30px_rgba(5,242,219,0.7)]`
+			: `bg-gray-400 text-white`;
 	}
 
 	return (
-		<button
-			onClick={onClick}
-			disabled={!isActive}
-			{...rest}
-			//prettier-ignore
-			className={`
-				font-pretendard font-semibold box-border
-				rounded-[12px] border-1 py-[10px] no-underline
-				${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'}
+		<div className={`group ${className} relative ${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'} cursor-pointer`}>
+			{isActive && outlined && (
+				<div
+					className={`bg-primary-400 absolute -inset-0.5 rounded-lg opacity-0 blur-sm transition duration-400 group-hover:opacity-70`}></div>
+			)}
+			{isActive && (
+				<div className="bg-primary-400 absolute -inset-1 rounded-lg opacity-20 blur-xl transition duration-400 group-hover:opacity-40 group-hover:blur-2xl"></div>
+			)}
+			<button
+				onClick={onClick}
+				disabled={!isActive}
+				{...rest}
+				//prettier-ignore
+				className={`
+				w-full h-full relative font-pretendard font-semibold box-border
+				rounded-[12px] py-4 no-underline leading-none 
+				transition duration-400 text-white
 				${classByStatus}
-				${isActive ? 'cursor-pointer' : 'cursor-default'}
-				${className}
+				${isActive ? 'cursor-pointer ' : 'cursor-default'}
+		
 			`}
-			aria-label={ariaLabel}>
-			{children}
-		</button>
+				aria-label={ariaLabel}>
+				{children}
+			</button>
+		</div>
 	);
 }
