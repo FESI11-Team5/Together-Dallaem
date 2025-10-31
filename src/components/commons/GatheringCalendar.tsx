@@ -124,8 +124,15 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 							formatWeekdayName: (date, options) => format(date, 'EEE', { locale: options?.locale })
 						}}
 						classNames={{
-							day: 'text-sm',
-							today: 'text-primary-500 rounded-md hover:text-root'
+							day: 'text-white data-[today=true]:text-primary-500 text-sm hover:bg-primary-400 rounded-md transition-colors duration-200',
+							outside: 'text-white/50',
+							today: 'font-bold text-primary-500',
+							caption_label: 'text-primary-500',
+							button_next:
+								'text-primary-500 hover:cursor-pointer transition-colors  hover:bg-primary-500 hover:text-root rounded-sm p-2',
+							button_previous:
+								'text-primary-500 hover:cursor-pointer transition-colors   hover:bg-primary-500 hover:text-root rounded-sm p-2',
+							weekday: 'text-white flex-1 font-medium text-sm'
 						}}
 					/>
 
