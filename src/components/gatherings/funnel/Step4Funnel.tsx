@@ -72,7 +72,7 @@ export default function Step4Funnel() {
 						이전
 					</BasicButton>
 					<BasicButton type="submit" isActive={!isPending} className="w-full">
-						{isPending ? '등록 중...' : '모임 생성하기'}
+						{isPending ? '등록 중...' : '크루 생성하기'}
 					</BasicButton>
 				</div>
 			</SliderAnimationDiv>

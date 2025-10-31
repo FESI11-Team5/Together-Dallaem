@@ -92,14 +92,14 @@ function GatheringNormalUserBtn() {
 					className="rounded-md px-4 py-2 text-sm font-bold"
 					outlined
 					isActive={!past}>
-					{past ? '모집 기간 종료' : '모임 참가 취소하기'}
+					{past ? '모집 기간 종료' : '크루 참가 취소하기'}
 				</BasicButton>
 			) : (
 				<BasicButton
 					onClick={handleJoin}
 					className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold"
 					isActive={!(isFull || past)}>
-					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '모임 참가하기'}
+					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '크루 참가하기'}
 				</BasicButton>
 			)}
 		</>
