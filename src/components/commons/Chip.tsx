@@ -31,7 +31,7 @@ export default function Chip({ text, isActive = false, imgUrl, onClick }: ChipPr
 					className={`bg-primary-400 absolute -inset-1 rounded-lg bg-gradient-to-tr opacity-40 blur transition duration-400 group-hover:opacity-100`}></div>
 			)}
 			<div
-				className={`mb:px-[16px] mb:py-[10px] relative flex cursor-pointer items-center gap-2 rounded-[12px] px-[12px] py-[8px] leading-none transition duration-400 ${isActive ? 'bg-primary-500 text-white' : 'bg-gray-500 text-gray-50'}`}
+				className={`mb:px-[16px] mb:py-[10px] relative flex cursor-pointer items-center gap-2 rounded-[12px] px-[12px] py-[8px] leading-none transition duration-400 ${isActive ? 'bg-primary-500 text-white' : 'border-2 border-gray-500 text-gray-50'}`}
 				onClick={onClick}>
 				{imgUrl && <img src={imgUrl} alt="" className="h-5 w-5" />}
 				<span className={`text-sm font-medium`}>{text}</span>
