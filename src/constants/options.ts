@@ -32,7 +32,6 @@ export const SORT_CONFIG = {
 	manyParticipants: { sortBy: 'participantCount', sortOrder: 'desc' }
 } as const;
 
-
 export const DROPDOWN_MENU_OPTIONS: OptionType[] = [
 	{ value: 'myPage', text: '마이페이지' },
 	{ value: 'signout', text: '로그아웃' }
