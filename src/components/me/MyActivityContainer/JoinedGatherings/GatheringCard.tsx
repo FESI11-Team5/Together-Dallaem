@@ -83,9 +83,6 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 						</BasicButton>
 					) : (
 						<BasicButton
-							className={`w-auto min-w-30 px-[22px] transition-colors ${
-								gathering.isReviewed && 'cursor-not-allowed !bg-gray-200 !text-gray-500'
-							}`}
 							onClick={!gathering.isReviewed ? handleAddReviewClick : undefined}
 							isActive={!gathering.isReviewed}>
 							{!gathering.isReviewed ? '리뷰 추가하기' : '작성 완료'}

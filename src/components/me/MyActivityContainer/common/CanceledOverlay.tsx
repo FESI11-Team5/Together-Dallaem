@@ -6,9 +6,10 @@ interface CanceledOverlayProps {
 	canceledAt: string | null;
 }
 
-const CANCELED_OVERLAY_GLOW = '[box-shadow:0_0_8px_#D705F2,0_0_16px_#D705F2]';
+const CANCELED_OVERLAY_GLOW = '[box-shadow:0_0_8px_#B3B3B3,0_0_16px_#B3B3B3]';
 const CANCELED_TEXT_GLOW =
 	'[text-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3,0_0_32px_#B3B3B3,0_0_64px_#B3B3B3]';
+
 /**
  * 취소된 모임 위에 표시되는 오버레이 컴포넌트입니다.
  *
@@ -26,7 +27,7 @@ export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 
 	return (
 		<div
-			className={`tb:rounded-3xl z-floating bg-primary-dark/80 absolute inset-0 flex items-center justify-center rounded-xl border-3 border-[#F7D2FB] ${CANCELED_OVERLAY_GLOW} ${CANCELED_TEXT_GLOW}`}
+			className={`tb:rounded-3xl z-floating bg-primary-dark/80 absolute inset-0 flex items-center justify-center rounded-xl border-3 border-white ${CANCELED_OVERLAY_GLOW} ${CANCELED_TEXT_GLOW}`}
 			role="status"
 			aria-live="polite">
 			<div>

@@ -1,5 +1,36 @@
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/utils/cn';
 
+/**
+ * 글로우 효과가 있는 아이콘 컴포넌트
+ */
+function IconWithGlow({ iconUrl, isSelected }: { iconUrl: string; isSelected: boolean }) {
+	const glowFilter = 'drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7)';
+
+	return (
+		<span
+			className={`icon-glow-hover relative inline-block h-5 w-5 transition-all duration-200 ${
+				isSelected ? 'icon-glow' : ''
+			}`}
+			style={isSelected ? { filter: glowFilter } : undefined}>
+			<span
+				className={`block h-5 w-5 transition-colors duration-200 group-hover:bg-[#1ef5d7] group-hover:opacity-100 ${
+					isSelected ? 'bg-[#1ef5d7]' : 'bg-[#9ca3af] opacity-60'
+				}`}
+				style={{
+					WebkitMaskImage: `url(${iconUrl})`,
+					maskImage: `url(${iconUrl})`,
+					WebkitMaskRepeat: 'no-repeat',
+					maskRepeat: 'no-repeat',
+					WebkitMaskPosition: 'center',
+					maskPosition: 'center',
+					WebkitMaskSize: 'contain',
+					maskSize: 'contain'
+				}}
+			/>
+		</span>
+	);
+}
 /**
  * 탭 옵션의 타입 정의
  */
@@ -9,7 +40,7 @@ export interface TabOption {
 	/** 탭에 표시될 텍스트 */
 	text: string;
 	/** 탭에 표시될 아이콘 경로 */
-	icon: string;
+	icon?: string;
 }
 
 /**
@@ -92,26 +123,24 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 							tabRefs.current[index] = el;
 						}}
 						onClick={() => onTabChange(option.value)}
-						className={`relative flex cursor-pointer items-center gap-1 pb-[3px] text-sm font-medium transition-colors duration-200 ${
-							selectedTab === option.value ? 'text-gray-800' : 'text-gray-400 hover:text-gray-600'
-						} `}>
-						<span className="text-lg font-semibold text-gray-900">{option.text}</span>
-						{option.icon && (
-							<img
-								src={option.icon}
-								alt={option.text}
-								className={`h-8 w-8 transition-colors duration-200 ${
-									selectedTab === option.value ? 'opacity-100' : 'opacity-60'
-								}`}
-							/>
-						)}
+						className={cn(
+							'hover:text-primary-400 relative mb-1 flex cursor-pointer items-center gap-1 pb-[3px] text-sm hover:font-extrabold',
+							'[text-shadow:0_0_4px_#9ca3af,0_0_0px_#9ca3af,0_0_0px_#9ca3af,0_0_20px_#9ca3af]',
+							'hover:[text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]',
+							'group font-medium transition-colors duration-200',
+							`${selectedTab === option.value ? 'text-primary-400 font-extrabold [text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]' : 'text-gray-400'}`
+						)}>
+						<span className="font-semibol text-lg">{option.text}</span>
+
+						{/* SVG를 컴포넌트로 동적 로드하여 글로우 효과 적용 */}
+						{option.icon && <IconWithGlow iconUrl={option.icon} isSelected={selectedTab === option.value} />}
 					</button>
 				))}
 			</div>
 
 			{/* 애니메이션 막대 */}
 			<div
-				className="absolute bottom-0 h-0.5 bg-gray-800 transition-all duration-300 ease-out"
+				className="bg-primary-400 absolute bottom-0 h-0.5 transition-all duration-300 ease-out"
 				style={{
 					left: `${indicatorStyle.left}px`,
 					width: `${indicatorStyle.width}px`

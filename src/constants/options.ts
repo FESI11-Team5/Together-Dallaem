@@ -2,14 +2,20 @@ import type { OptionType } from '@/components/commons/basic/BasicDropbox';
 import type { TabOption } from '@/components/commons/Tab';
 
 export const TYPE_OPTIONS: TabOption[] = [
-	{ value: 'DALLAEMFIT', text: '달램핏', icon: '/icons/dalaemfit.svg' },
-	{ value: 'WORKATION', text: '워케이션', icon: '/icons/workation.svg' }
+	{ value: 'DALLAEMFIT', text: '함께 플레이', icon: '/icons/find_crew.svg' },
+	{ value: 'WORKATION', text: '교환/통신하기', icon: '/icons/exchange.svg' }
+] as const;
+
+export const TABS: TabOption[] = [
+	{ value: 'JoinedGathering', text: '나의 크루' },
+	{ value: 'MyReview', text: '나의 리뷰' },
+	{ value: 'CreatedGathering', text: '내가 만든 크루' }
 ] as const;
 
 export const SUB_TYPE_OPTIONS: OptionType[] = [
 	{ value: 'DALLAEMFIT', text: '전체' },
-	{ value: 'OFFICE_STRETCHING', text: '오피스 스트레칭' },
-	{ value: 'MINDFULNESS', text: '마인드풀니스' }
+	{ value: 'OFFICE_STRETCHING', text: '스팀' },
+	{ value: 'MINDFULNESS', text: '온라인' }
 ] as const;
 
 // TODO: 지역 전체로 다시 초기화 어떻게 할지 정하기
@@ -38,7 +44,6 @@ export const SORT_CONFIG = {
 	fewParticipants: { sortBy: 'participantCount', sortOrder: 'asc' },
 	manyParticipants: { sortBy: 'participantCount', sortOrder: 'desc' }
 } as const;
-
 
 export const DROPDOWN_MENU_OPTIONS: OptionType[] = [
 	{ value: 'myPage', text: '마이페이지' },
