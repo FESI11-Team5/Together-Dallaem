@@ -179,7 +179,9 @@ export default function BasicFooter() {
 	const gatheringOwnerId = gathering?.createdBy === user?.userId;
 
 	return (
-		<footer className="z-layout bg-base bg-root fixed right-2 bottom-0 left-0 mx-auto flex w-full min-w-[220px] items-center justify-center border-3 border-t-black px-4 py-5">
+		<footer className="z-layout bg-root fixed right-2 bottom-0 left-0 mx-auto flex w-full min-w-[220px] items-center justify-center px-4 py-5">
+			{/* border-top 그라데이션 */}
+			<div className="absolute top-0 right-0 left-0 h-[3px] bg-gradient-to-r from-[var(--color-highlight)] via-[var(--color-primary-500)] to-[var(--color-primary-300)]" />
 			{user && gatheringOwnerId ? (
 				<div className="max-mb:w-[696px] max-mb:flex-col flex w-[996px] flex-row items-center justify-between">
 					<div className="pr-4">

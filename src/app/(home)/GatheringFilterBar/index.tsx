@@ -9,7 +9,7 @@ import { GENRE_OPTIONS, SORT_OPTIONS } from '@/constants/options';
 
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
-import CreateGatheringButton from '../CreateGathering';
+import CreateGatheringButton from '../CreateGatheringButton';
 
 export interface FilterCriteria {
 	/** 선택된 모임 유형 */
