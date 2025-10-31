@@ -3,7 +3,7 @@ import type { TabOption } from '@/components/commons/Tab';
 
 export const TYPE_OPTIONS: TabOption[] = [
 	{ value: 'DALLAEMFIT', text: '함께 플레이', icon: '/icons/find_crew.svg' },
-	{ value: 'WORKATION', text: '교환하기', icon: '/icons/exchange.svg' }
+	{ value: 'WORKATION', text: '교환/통신하기', icon: '/icons/exchange.svg' }
 ] as const;
 
 export const TABS: TabOption[] = [
