@@ -5,16 +5,7 @@ import JoinedGatherings from './JoinedGatherings';
 import MyReviews from './MyReviews';
 import CreatedGathering from './CreatedGathering';
 import Tab from '@/components/commons/Tab';
-import type { TabOption } from '@/components/commons/Tab';
-
-type TabKey = 'JoinedGathering' | 'MyReview' | 'CreatedGathering';
-
-const TABS: TabOption[] = [
-	{ value: 'JoinedGathering', text: '나의 모임' },
-	{ value: 'MyReview', text: '나의 리뷰' },
-	{ value: 'CreatedGathering', text: '내가 만든 모임' }
-];
-
+import { TABS } from '@/constants/options';
 /**
  * 마이페이지 활동 영역 컨테이너
  * - "나의 모임", "나의 리뷰", "내가 만든 모임" 탭 제공
@@ -25,6 +16,8 @@ const TABS: TabOption[] = [
  * - 나의 리뷰: 사용자가 작성한 리뷰 리스트
  * - TODO : 내가 만든 모임: 사용자가 생성한 모임 리스트
  */
+type TabKey = 'JoinedGathering' | 'MyReview' | 'CreatedGathering';
+
 export default function MyActivityContainer() {
 	/** 현재 활성화된 탭 */
 	const [activeTab, setActiveTab] = useState<TabKey>('JoinedGathering');
