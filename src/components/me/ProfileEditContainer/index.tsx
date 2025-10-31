@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import * as motion from 'motion/react-client';
 import { useCallback, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { getUserInfo, updateUserInfo } from '@/apis/auths/user';
 import { PROFILE_PATHS } from '@/constants/assetPath';
 import { useUserStore } from '@/stores/user';

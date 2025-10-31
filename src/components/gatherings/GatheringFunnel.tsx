@@ -1,5 +1,6 @@
 'use client';
-import { motion } from 'framer-motion';
+
+import * as motion from 'motion/react-client';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Step, useFunnelStore } from '@/stores/useFunnelStore';
