@@ -2,7 +2,7 @@
 // 마이페이지
 import Image from 'next/image';
 import Tab from '@/components/commons/Tab';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Chip from '@/components/commons/Chip';
 import ScoreSection from '@/components/reviews/ScoreSection';
 import { getReviews } from '@/apis/reviews/reviews';
@@ -11,6 +11,9 @@ import { getScores } from '@/apis/reviews/scores';
 import { GatheringType } from '@/types/response/gatherings';
 import ReviewSection from '@/components/reviews/ReviewSection';
 import { FilterData } from '@/components/reviews/FilterSection';
+import { SUB_TYPE_OPTIONS, TYPE_OPTIONS } from '@/constants/options';
+import { REVIEWS_MESSAGE } from '@/constants/messages';
+import { cn } from '@/utils/cn';
 
 /**
  * 빈 값들을 제거한 필터 객체를 반환하는 헬퍼 함수
@@ -54,6 +57,11 @@ export default function Reviews() {
 		[filterValues]
 	);
 
+	const iconMap = {
+		OFFICE_STRETCHING: '/icons/steam_logo.svg',
+		MINDFULNESS: '/icons/online.svg'
+	} as const;
+
 	const handlePageChange = useCallback((page: number) => {
 		setCurrentPage(page);
 	}, []);
@@ -90,21 +98,18 @@ export default function Reviews() {
 	}, [selectedCategory, filterValues, currentPage]);
 
 	return (
-		<div className="box-border bg-gray-100" style={{ fontFamily: 'var(--font-pretendard)' }}>
-			<div className="tb:px-6 tb:pt-8 pc:max-w-300 pc:px-25 m-auto min-h-[100vh] bg-gray-50 px-4 pt-6">
+		<div className="box-border bg-white/15" style={{ fontFamily: 'var(--font-pretendard)' }}>
+			<div className="tb:px-6 tb:pt-8 pc:max-w-300 pc:px-25 bg-root m-auto min-h-[100vh] px-4 pt-6">
 				<section className="mb-[38px] flex items-center gap-1.5">
 					<Image src="/images/review.svg" alt="review icon" width={72} height={72} />
 					<div>
-						<h1 className="mb-2 text-2xl font-semibold text-gray-900">모든 리뷰</h1>
-						<h3 className="text-sm font-medium text-gray-700">같이달램을 이용한 분들은 이렇게 느꼈어요 🫶</h3>
+						<h1 className={cn('text-primary-500 mb-2 text-2xl font-semibold')}>{REVIEWS_MESSAGE.title}</h1>
+						<h3 className="text-sm font-medium text-white">{REVIEWS_MESSAGE.subtitle}</h3>
 					</div>
 				</section>
-				<div className="pl-4">
+				<section>
 					<Tab
-						options={[
-							{ text: '달램핏', value: 'DALLAEMFIT', icon: '/icons/dalaemfit.svg' },
-							{ text: '워케이션', value: 'WORKATION', icon: '/icons/workation.svg' }
-						]}
+						options={TYPE_OPTIONS}
 						selectedTab={activeTab}
 						onTabChange={(tabId: string) => {
 							if (tabId === 'DALLAEMFIT') {
@@ -117,26 +122,25 @@ export default function Reviews() {
 						className="mb-4"
 					/>
 					{activeTab === 'DALLAEMFIT' && (
-						<div className="flex gap-2 transition-all duration-300">
-							<Chip
-								text="전체"
-								isActive={selectedCategory === 'DALLAEMFIT'}
-								onClick={() => setSelectedCategory('DALLAEMFIT')}
-							/>
-							<Chip
-								text="오피스 스트레칭"
-								isActive={selectedCategory === 'OFFICE_STRETCHING'}
-								onClick={() => setSelectedCategory('OFFICE_STRETCHING')}
-							/>
-							<Chip
-								text="마인드풀니스"
-								isActive={selectedCategory === 'MINDFULNESS'}
-								onClick={() => setSelectedCategory('MINDFULNESS')}
-							/>
+						<div key="dallaemfit" className="flex gap-2">
+							{SUB_TYPE_OPTIONS.map(({ value, text }) => (
+								<Chip
+									key={value}
+									text={text}
+									isActive={selectedCategory === value}
+									imgUrl={iconMap[value as keyof typeof iconMap]}
+									onClick={() => setSelectedCategory(value as GatheringType)}
+								/>
+							))}
+						</div>
+					)}
+					{activeTab === 'WORKATION' && (
+						<div key="workation" className="flex gap-2">
+							<Chip text="전체" isActive />
 						</div>
 					)}
 					<div className="divider mt-4 h-[2px] w-full bg-gray-200"></div>
-				</div>
+				</section>
 				<ScoreSection data={scoreData} />
 				<ReviewSection
 					reviewData={reviewsData}

@@ -105,3 +105,8 @@ export const CANCELED_GATHERING_MESSAGE = {
 export const REVIEW_SECTION_TITLE = {
 	title: '이용자들은 이 프로그램을 이렇게 느꼈어요!'
 };
+
+export const REVIEWS_MESSAGE = {
+	title: '모든 리뷰',
+	subtitle: 'Gameow 유저들은 이렇게 말했어요 👾'
+};
