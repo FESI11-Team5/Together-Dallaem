@@ -32,7 +32,7 @@ export default function HomePage() {
 	const queryString = useMemo(() => getGatheringQuery(deferredFilter), [deferredFilter]);
 
 	const LIMIT = 10;
-	const { data, isLoading, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+	const { data, isLoading, fetchNextPage } = useInfiniteQuery({
 		queryKey: ['gatherings', queryString],
 		queryFn: ({ pageParam = 0 }) => getGatherings(`${queryString}&limit=${LIMIT}&offset=${pageParam}`),
 		initialPageParam: 0,
@@ -80,7 +80,7 @@ export default function HomePage() {
 				{data && data?.length > 0 ? (
 					<>
 						<CardList gatherings={data} />
-						{!isFetchingNextPage && <div ref={ref} />}
+						<div ref={ref} />
 					</>
 				) : isLoading ? (
 					<div className="flex flex-col gap-6">
