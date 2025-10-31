@@ -3,7 +3,6 @@
 import Chip from '@/components/commons/Chip';
 import Tab from '@/components/commons/Tab';
 import { SUB_TYPE_OPTIONS, TYPE_OPTIONS } from '@/constants/options';
-import { cn } from '@/utils/cn';
 import { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react';
 
 interface GatheringTabsProps {
@@ -40,12 +39,21 @@ export default function GatheringTabs({ setSelectedType, button }: GatheringTabs
 				<Tab options={TYPE_OPTIONS} selectedTab={type} onTabChange={setType} />
 				{button}
 			</div>
-			{/* TODO: CHIP className 추가 논의 */}
 			{/* TODO: Activity로 변경 */}
-			<div className={cn('flex gap-2', type === DEFAULT_TYPE ? 'opacity-100' : 'pointer-events-none opacity-0')}>
-				{SUB_TYPE_OPTIONS.map(({ value, text }) => (
-					<Chip key={value} text={text} isActive={subType === value} onClick={() => setSubType(value as string)} />
-				))}
+			<div className="flex gap-2">
+				{type === DEFAULT_TYPE ? (
+					SUB_TYPE_OPTIONS.map(({ value, text, icon }) => (
+						<Chip
+							key={value}
+							text={text}
+							isActive={subType === value}
+							imgUrl={icon}
+							onClick={() => setSubType(value as string)}
+						/>
+					))
+				) : (
+					<Chip text={'전체'} isActive={true} />
+				)}
 			</div>
 		</div>
 	);
