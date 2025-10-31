@@ -5,6 +5,8 @@ import GatheringFilterBar, { type FilterCriteria } from '@/app/(home)/GatheringF
 import { cn } from '@/utils/cn';
 import { getGatheringQuery } from '@/utils/query';
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
+// TODO: motion import 최적화
+import * as motion from 'motion/react-client';
 import Image from 'next/image';
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -87,10 +89,17 @@ export default function HomePage() {
 						))}
 					</div>
 				) : (
-					<div className="flex flex-1 flex-col items-center justify-center text-sm font-medium text-gray-500">
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{
+							duration: 0.4
+						}}
+						className="flex flex-1 flex-col items-center justify-center text-sm font-medium text-gray-500">
 						<p>아직 크루가 없어요,</p>
 						<p>지금 바로 크루를 만들어보세요</p>
-					</div>
+					</motion.div>
 				)}
 			</div>
 		</div>
