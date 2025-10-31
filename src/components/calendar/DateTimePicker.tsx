@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import BasicButton from '../commons/basic/BasicButton';
 
 /**
  * 시간 선택을 위한 상태 인터페이스
@@ -97,7 +98,7 @@ export default function DateTimePicker({
 				{/* Hour */}
 				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
 					<div className="mb:flex-col mb:w-auto flex p-2">
-						{hours.reverse().map(h => (
+						{hours.map(h => (
 							<Button
 								key={h}
 								size="default"
@@ -114,7 +115,7 @@ export default function DateTimePicker({
 				{/* Minute */}
 				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
 					<div className="mb:flex-col flex p-2">
-						{[...minutes].reverse().map(m => (
+						{minutes.map(m => (
 							<Button
 								key={m}
 								size="default"
@@ -147,16 +148,12 @@ export default function DateTimePicker({
 
 			{/* 적용 버튼 */}
 			<div className="flex w-full">
-				<button
-					className={`flex-1 rounded-lg p-2 ${
-						date && timeSelection.hour && timeSelection.minute && timeSelection.ampm
-							? 'bg-primary-600 text-white'
-							: 'cursor-not-allowed bg-gray-300 text-gray-500'
-					}`}
+				<BasicButton
+					isLarge
 					onClick={handleApply}
 					disabled={!date || !timeSelection.hour || !timeSelection.minute || !timeSelection.ampm}>
 					적용
-				</button>
+				</BasicButton>
 			</div>
 		</div>
 	);

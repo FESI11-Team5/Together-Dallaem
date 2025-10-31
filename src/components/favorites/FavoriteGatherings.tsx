@@ -75,7 +75,7 @@ export default function FavoriteGatherings() {
 	};
 
 	return (
-		<div className="flex h-auto flex-col items-center py-20">
+		<div className="flex h-auto flex-col items-center pt-10">
 			<div className="w-full max-w-[996px]">
 				{/* 타이틀 */}
 				<section className="flex w-full items-start justify-start gap-[13px]">

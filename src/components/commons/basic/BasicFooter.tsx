@@ -80,23 +80,26 @@ function GatheringNormalUserBtn() {
 	if (isLoading)
 		return (
 			<BasicButton className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold" disabled isActive={false}>
-				로딩 중...
+				...
 			</BasicButton>
 		);
 
 	return (
 		<>
 			{joinedUser ? (
-				<BasicButton onClick={handleCancel} className="rounded-md px-4 py-2 text-sm font-bold" outlined>
-					예약 취소하기
+				<BasicButton
+					onClick={handleCancel}
+					className="rounded-md px-4 py-2 text-sm font-bold"
+					outlined
+					isActive={!past}>
+					{past ? '모집 기간 종료' : '크루 참가 취소하기'}
 				</BasicButton>
 			) : (
 				<BasicButton
 					onClick={handleJoin}
 					className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold"
-					isActive={!(isFull || past)}
-					disabled={isFull || past}>
-					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '모임 참가하기'}
+					isActive={!(isFull || past)}>
+					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '크루 참가하기'}
 				</BasicButton>
 			)}
 		</>
@@ -113,7 +116,7 @@ function GatheringOwnerUserBtn() {
 	const { mutate } = useMutation({
 		mutationFn: putGatheringCancel,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['gatherings'], exact: false });
+			queryClient.invalidateQueries({ queryKey: ['gatherings'] });
 			router.push('/');
 		},
 		onError: () => {
@@ -159,17 +162,10 @@ function GatheringOwnerUserBtn() {
 
 	return (
 		<div className="flex gap-2">
-			<BasicButton
-				outlined
-				onClick={handleCancelClick}
-				className="flex-1 rounded-md border border-primary-500 px-6 py-2 text-sm font-bold text-primary-500 hover:bg-primary-50">
+			<BasicButton outlined onClick={handleCancelClick}>
 				취소하기
 			</BasicButton>
-			<BasicButton
-				onClick={copyURL}
-				className="flex-1 rounded-md bg-primary-500 px-6 py-2 text-sm font-bold text-white hover:bg-primary-600">
-				공유하기
-			</BasicButton>
+			<BasicButton onClick={copyURL}>공유하기</BasicButton>
 		</div>
 	);
 }
@@ -183,7 +179,9 @@ export default function BasicFooter() {
 	const gatheringOwnerId = gathering?.createdBy === user?.userId;
 
 	return (
-		<footer className="z-layout fixed right-2 bottom-0 left-0 m-auto flex w-full items-center justify-center border-3 border-t-black bg-root px-4 py-5">
+		<footer className="z-layout bg-root fixed right-2 bottom-0 left-0 mx-auto flex w-full min-w-[220px] items-center justify-center px-4 py-5">
+			{/* border-top 그라데이션 */}
+			<div className="absolute top-0 right-0 left-0 h-[3px] bg-gradient-to-r from-[var(--color-highlight)] via-[var(--color-primary-500)] to-[var(--color-primary-300)]" />
 			{user && gatheringOwnerId ? (
 				<div className="max-mb:w-[696px] max-mb:flex-col flex w-[996px] flex-row items-center justify-between">
 					<div className="pr-4">

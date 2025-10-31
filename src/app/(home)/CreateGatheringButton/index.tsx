@@ -1,21 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useModal } from '@/hooks/useModal';
 import { withGuard } from '@/components/hoc/withAuthGuard';
 
-import BasicButton from '@/components/commons/basic/BasicButton';
-import GatheringModal from '@/components/gatherings/GatheringModal';
 import Image from 'next/image';
+import BasicButton from '@/components/commons/basic/BasicButton';
+import GatheringFunnel from '@/components/gatherings/GatheringFunnel';
 
 function NormalCreateButton() {
 	const GuardedButton = withGuard(BasicButton);
 	const { openModal } = useModal();
 
 	return (
-		<GuardedButton onClick={() => openModal(<GatheringModal />)} className="rounded-md font-semibold text-white">
-			모임 만들기
+		<GuardedButton onClick={() => openModal(<GatheringFunnel />)}>
+			<span className="pt-1">크루 생성</span>
 		</GuardedButton>
 	);
 }
@@ -26,10 +25,10 @@ function FloatingCreateButton() {
 
 	return (
 		<GuardedButton
-			onClick={() => openModal(<GatheringModal />)}
-			className="group fixed right-8 bottom-8 z-10 flex h-14 w-14 items-center justify-center rounded-full text-3xl text-white shadow-lg transition-opacity">
-			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="모임 만들기" />
-			<span className="ml-2">모임 만들기</span>
+			onClick={() => openModal(<GatheringFunnel />)}
+			className="z-base fixed right-8 bottom-8 flex h-14 w-14 gap-3 rounded-full text-3xl">
+			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="크루 생성" />
+			<span className="pt-1">크루 생성</span>
 		</GuardedButton>
 	);
 }

@@ -97,9 +97,9 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 				<Button
 					variant="outline"
 					className={cn(
-						'h-[40px] w-full justify-start rounded-md border-gray-300 text-left font-normal',
+						'bg-root border-primary-500 h-[40px] w-full justify-between rounded-md border-2 text-left font-normal',
 
-						!date && 'text-gray-400'
+						!date && 'text-white'
 					)}>
 					{date
 						? pageType === 'create'
@@ -108,11 +108,13 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 						: pageType === 'create'
 							? 'yyyy-MM-dd HH:mm a'
 							: '날짜 선택'}
-					{pageType === 'create' && <Image src="/icons/calendar.svg" alt="calendar" width={18} height={20} />}
+					{pageType === 'create' && (
+						<Image src="/icons/calendar.svg" alt="calendar" width={20} height={20} className="invert" />
+					)}
 				</Button>
 			</PopoverTrigger>
 
-			<PopoverContent className="w-auto" align="start">
+			<PopoverContent className="bg-root w-auto" align="start">
 				<div className={`${pageType === 'create' ? 'mb:flex w-auto' : 'flex flex-col'}`}>
 					<Calendar
 						mode="single"
@@ -122,9 +124,15 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 							formatWeekdayName: (date, options) => format(date, 'EEE', { locale: options?.locale })
 						}}
 						classNames={{
-							day: 'text-sm hover:bg-gray-100',
-							today: 'text-primary-500 rounded-md',
-							weekday: 'font-bold text-black flex-1'
+							day: 'text-white data-[today=true]:text-primary-500 text-sm hover:bg-primary-400 rounded-md transition-colors duration-200',
+							outside: 'text-white/50',
+							today: 'font-bold text-primary-500',
+							caption_label: 'text-primary-500',
+							button_next:
+								'text-primary-500 hover:cursor-pointer transition-colors  hover:bg-primary-500 hover:text-root rounded-sm p-2',
+							button_previous:
+								'text-primary-500 hover:cursor-pointer transition-colors   hover:bg-primary-500 hover:text-root rounded-sm p-2',
+							weekday: 'text-white flex-1 font-medium text-sm'
 						}}
 					/>
 

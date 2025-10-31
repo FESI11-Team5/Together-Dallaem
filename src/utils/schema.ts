@@ -13,52 +13,48 @@ export const signinSchema = z.object({
 
 // TODO: SignupValidator 정리 후 signupSchema 해당 파일로 이동
 
-/** 모임 생성 스키마 */
-export const CreateGatheringSchema = z
-	.object({
-		name: z
-			.string()
-			.nonempty({ error: CREATE_GATHERING_ERRORS.EMPTY.NAME })
-			.min(2, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.NAME })
-			.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.NAME })
-			.regex(/^(?!\s)[ㄱ-ㅎ가-힣a-zA-Z0-9\s]{2,20}(?<!\s)$/, CREATE_GATHERING_ERRORS.FORMAT.NAME),
+export const Step1Schema = z.object({
+	name: z
+		.string()
+		.nonempty({ error: CREATE_GATHERING_ERRORS.EMPTY.NAME })
+		.min(2, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.NAME })
+		.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.NAME })
+		.regex(
+			/^(?!\s)[ㄱ-ㅎ가-힣a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>~`'_=+\-\\/\[\];]+(?<!\s)$/,
+			CREATE_GATHERING_ERRORS.FORMAT.NAME
+		),
 
-		location: z.custom<GatheringLocation>(val => typeof val === 'string' && val.length > 0, {
-			error: CREATE_GATHERING_ERRORS.EMPTY.LOCATION
-		}),
-
-		type: z
-			.custom<GatheringType>(val => typeof val === 'string' && val.length > 0, {
-				error: CREATE_GATHERING_ERRORS.EMPTY.TYPE
-			})
-			.nullable(),
-
-		dateTime: z.string().nonempty({ message: CREATE_GATHERING_ERRORS.EMPTY.DATE_TIME }),
-
-		registrationEnd: z.string().nonempty({ message: CREATE_GATHERING_ERRORS.EMPTY.REGISTRATION_END }),
-
-		capacity: z
-			.number({ error: CREATE_GATHERING_ERRORS.EMPTY.CAPACITY })
-			.min(5, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.CAPACITY })
-			.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.CAPACITY }),
-
-		image: z
-			.instanceof(File, { message: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
-			.refine(file => file.size > 0, {
-				message: CREATE_GATHERING_ERRORS.EMPTY.IMAGE
-			})
-			.refine(file => file.size <= MAX_FILE_SIZE, {
-				message: CREATE_GATHERING_ERRORS.LIMIT.MAX.IMAGE
-			}),
-
-		imageFileName: z.string().optional()
+	location: z.custom<GatheringLocation>(val => typeof val === 'string' && val.length > 0, {
+		error: CREATE_GATHERING_ERRORS.EMPTY.LOCATION
 	})
-	.superRefine((data, ctx) => {
-		const now = new Date(); // 현재 시간
-		const selectedDateTime = new Date(data.dateTime); // 사용자가 선택한 모임 날짜
-		const registrationEndDate = new Date(data.registrationEnd); // 사용자가 선택한 마감 날짜
+});
 
-		if (selectedDateTime <= now) {
+export const Step2Schema = z.object({
+	type: z.custom<GatheringType>(val => typeof val === 'string' && val.length > 0, {
+		error: CREATE_GATHERING_ERRORS.EMPTY.TYPE
+	}),
+	image: z
+		.instanceof(File, { message: CREATE_GATHERING_ERRORS.EMPTY.IMAGE })
+		.refine(file => file.size > 0, {
+			message: CREATE_GATHERING_ERRORS.EMPTY.IMAGE
+		})
+		.refine(file => file.size <= MAX_FILE_SIZE, {
+			message: CREATE_GATHERING_ERRORS.LIMIT.MAX.IMAGE
+		})
+});
+
+export const Step3Schema = z
+	.object({
+		dateTime: z.string().nonempty({ message: CREATE_GATHERING_ERRORS.EMPTY.DATE_TIME }),
+		registrationEnd: z.string().nonempty({ message: CREATE_GATHERING_ERRORS.EMPTY.REGISTRATION_END })
+	})
+	.superRefine((value, ctx) => {
+		const now = new Date();
+		const { dateTime, registrationEnd } = value;
+		const selected = new Date(dateTime);
+		const end = new Date(registrationEnd);
+
+		if (selected <= now) {
 			ctx.addIssue({
 				code: 'custom',
 				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.DATE_TIME,
@@ -66,7 +62,7 @@ export const CreateGatheringSchema = z
 			});
 		}
 
-		if (registrationEndDate >= selectedDateTime) {
+		if (end >= selected) {
 			ctx.addIssue({
 				code: 'custom',
 				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.REGISTRATION_END,
@@ -74,7 +70,7 @@ export const CreateGatheringSchema = z
 			});
 		}
 
-		if (registrationEndDate <= now) {
+		if (end <= now) {
 			ctx.addIssue({
 				code: 'custom',
 				message: CREATE_GATHERING_ERRORS.INVALID_VALUES.DATE_TIME,
@@ -83,9 +79,29 @@ export const CreateGatheringSchema = z
 		}
 	});
 
+export const Step4Schema = z.object({
+	capacity: z
+		.number({ error: CREATE_GATHERING_ERRORS.EMPTY.CAPACITY })
+		.min(5, { error: CREATE_GATHERING_ERRORS.LIMIT.MIN.CAPACITY })
+		.max(20, { error: CREATE_GATHERING_ERRORS.LIMIT.MAX.CAPACITY })
+});
+
+/** 모임 생성 스키마 */
+export const CreateGatheringSchema = z.object({
+	...Step1Schema.shape,
+	...Step2Schema.shape,
+	...Step3Schema.shape,
+	...Step4Schema.shape
+});
+
 export const profileEditSchema = z.object({
 	companyName: z.string().min(2, { error: '회사명을 입력해주세요.' })
 });
+
+export type Step1SchemaType = z.infer<typeof Step1Schema>;
+export type Step2SchemaType = z.infer<typeof Step2Schema>;
+export type Step3SchemaType = z.infer<typeof Step3Schema>;
+export type Step4SchemaType = z.infer<typeof Step4Schema>;
 
 export type GatheringSchemaType = z.infer<typeof CreateGatheringSchema>;
 export type ProfileEditSchemaType = z.infer<typeof profileEditSchema>;
