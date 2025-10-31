@@ -42,7 +42,7 @@ function StepIndicator({ step }: { step: Step }) {
 					</motion.span>
 				</AnimatePresence>
 			</div>
-			<div className="flex gap-1 pb-1">
+			<div className="flex gap-1 pb-[4.5px]">
 				<span>/</span>
 				<span>4</span>
 			</div>
@@ -76,7 +76,10 @@ export default function GatheringFunnel() {
 		);
 	};
 	return (
-		<BasicModal onClose={handleCloseWithPopup} width="600px">
+		<BasicModal
+			onClose={handleCloseWithPopup}
+			width="600px"
+			className="shadow-primary-500 animate-shadow-fade rounded-xl p-6 shadow-xl">
 			<FormProvider {...method}>
 				<div className="flex gap-3">
 					<h2 className="text-primary-500 text-xl font-bold [text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]">
@@ -87,7 +90,7 @@ export default function GatheringFunnel() {
 						<StepIndicator step={step} />
 
 						{/* 프로그레스바 */}
-						<div className="relative h-2 max-w-[400px] rounded-full bg-gray-200">
+						<div className="relative h-2 w-full rounded-full bg-gray-200">
 							<div
 								className="from-primary-100 via-primary-300 to-primary-700 absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r transition-all duration-500"
 								style={{ width: `${(step / 4) * 100}%` }}

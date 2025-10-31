@@ -21,7 +21,7 @@ export default function Step3Funnel() {
 
 	// 이 step만 zodResolver를 임시로 실행
 	// 일단 동작은 되서 냅둡니다,,
-	// 구현한 이유: react-hook-form의 resolver는 form 전체에 대해서만 동작하기 때문에 각 step마다 validation을 다르게 주고 싶을 때 사용
+	// 구현한 이유: react-hook-form의 resolver는 form 전체에 대해서만 동작하기 때문에 각 step마다 validation을 다르게 주고 싶어서
 	const handleNext = async () => {
 		const values = getValues();
 		const result = Step3Schema.safeParse(values);

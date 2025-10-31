@@ -109,7 +109,7 @@ export default function Step2Funnel() {
 									<button
 										type="button"
 										onClick={() => fileInputRef.current?.click()}
-										className="border-primary-600 text-primary-600 flex w-[100px] cursor-pointer items-center justify-center rounded-[12px] border-1 bg-black py-3">
+										className="border-primary-600 text-primary-600 bg-root flex w-[100px] cursor-pointer items-center justify-center rounded-[12px] border-1 py-3">
 										파일 찾기
 									</button>
 								</div>
