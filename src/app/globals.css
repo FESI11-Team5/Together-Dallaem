@@ -246,5 +246,14 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .animate-shadow-fade {
-	animation: shadowFade 2s ease-in-out infinite;
+	animation: shadowFade 1s ease-in-out infinite;
+	/* 아이콘 글로우 효과 */
+
+	.icon-glow {
+		filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
+	}
+
+	.group:hover .icon-glow-hover:not(.icon-glow) {
+		filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
+	}
 }
