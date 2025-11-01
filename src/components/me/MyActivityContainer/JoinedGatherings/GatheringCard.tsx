@@ -3,7 +3,7 @@ import type { JoinedGathering } from '@/types/response/gatherings';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import GatheringBadge from './GatheringBadge';
 import CardLayout from '../common/CardLayout/CardLayout';
-import CanceledOverlay from '../common/CanceledOverlay';
+import CanceledOverlay from '../common/CanceledOverlay/CanceledOverlay';
 import CancelConfirmModal from '../modals/CancelConfirmModal';
 import ReviewWriteModal from '../modals/ReviewWriteModal';
 
