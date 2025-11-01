@@ -76,7 +76,7 @@ export default function DebouncedInput({
 				{label}
 			</label>
 			<div
-				className={`inputBox bg-root box-border flex w-full items-center justify-between rounded-[12px] border-2 px-[16px] py-[10px] text-white placeholder-gray-300 focus:outline-none ${getBorderClass()} ${className}`}>
+				className={`mb:h-11 inputBox bg-root box-border flex h-10 w-full items-center justify-between rounded-[12px] border-2 px-[16px] py-[10px] text-white placeholder-gray-300 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					id={label}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
