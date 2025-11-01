@@ -11,6 +11,9 @@ interface CancelConfirmModalProps {
 	onSuccess: () => void;
 }
 
+const REVIEW_MODAL_TEXT_GLOW =
+	'[text-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3,0_0_32px_#B3B3B3]';
+
 /**
  * 모임 예약 취소 확인 모달 컴포넌트
  * - "정말 예약을 취소하시겠습니까?" 문구와 버튼 제공
@@ -39,7 +42,7 @@ export default function CancelConfirmModal({ gatheringId, onSuccess }: CancelCon
 		<BasicModal onClose={closeModal} className="tb:min-w-[402px]">
 			<div className="mt-12">
 				<form onSubmit={handleCancel} className="flex flex-col items-center gap-6">
-					<p className="font-medium text-white">정말 예약을 취소하시겠습니까?</p>
+					<p className={`${REVIEW_MODAL_TEXT_GLOW} font-medium text-white`}>정말 예약을 취소하시겠습니까?</p>
 					<div className="flex gap-2 font-semibold">
 						<BasicButton outlined onClick={closeModal} type="button">
 							닫기

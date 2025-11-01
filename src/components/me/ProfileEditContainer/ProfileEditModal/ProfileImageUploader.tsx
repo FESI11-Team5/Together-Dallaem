@@ -11,6 +11,8 @@ interface ProfileImageUploaderProps {
 	onChange: (file: File, preview: string) => void;
 }
 
+const EDIT_MODAL_BOX_GLOW = '[box-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB]';
+
 /**
  * 프로필 이미지를 업로드하고 미리보기를 제공하는 컴포넌트입니다.
  *
@@ -55,10 +57,11 @@ export default function ProfileImageUploader({ currentImage, onChange }: Profile
 		<>
 			<button
 				type="button"
-				className="bg-root border-primary-100 relative h-16 w-16 cursor-pointer rounded-full border-2 [box-shadow:0_0_14px_rgba(5,242,219,0.9)]"
+				className={`bg-root relative h-16 w-16 cursor-pointer rounded-full border-3 border-white duration-200 ${EDIT_MODAL_BOX_GLOW} hover:border-primary-500 transition-colors`}
 				onClick={handleButtonClick}>
 				<Image src={preview || DEFAULT_PROFILE_SRC} alt="프로필 사진" fill className="rounded-full object-fill" />
-				<div className="absolute right-0 bottom-0 flex items-center justify-center rounded-full [box-shadow:0_0_14px_rgba(5,242,219,0.8)]">
+				<div
+					className={`absolute right-0 bottom-0 flex items-center justify-center rounded-full ${EDIT_MODAL_BOX_GLOW}`}>
 					<Image src={EDIT_ICON_SRC} alt="프로필 변경 아이콘" width={18} height={18} />
 				</div>
 			</button>

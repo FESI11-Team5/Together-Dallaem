@@ -84,7 +84,7 @@ export const CreateGatheringSchema = z
 	});
 
 export const profileEditSchema = z.object({
-	companyName: z.string().min(2, { error: '회사명을 입력해주세요.' })
+	companyName: z.string().min(2, { error: '닉네임은 2글자 이상 적어주세요.' })
 });
 
 export type GatheringSchemaType = z.infer<typeof CreateGatheringSchema>;

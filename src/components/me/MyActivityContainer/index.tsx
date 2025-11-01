@@ -23,7 +23,7 @@ export default function MyActivityContainer() {
 	const [activeTab, setActiveTab] = useState<TabKey>('JoinedGathering');
 
 	return (
-		<section className="mb:px-6 flex flex-1 flex-col border-t-3 border-white px-4 py-6">
+		<section className="mb:px-6 flex flex-1 flex-col px-4 py-6">
 			{/* 나의 모임, 나의 리뷰, 내가 만든 모임 탭 메뉴 */}
 			<Tab
 				options={TABS}

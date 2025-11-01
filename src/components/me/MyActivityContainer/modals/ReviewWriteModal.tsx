@@ -2,11 +2,16 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { postReviews } from '@/apis/reviews/reviews';
-import { useModal, useModalClose } from '@/hooks/useModal';
+import { useModalClose } from '@/hooks/useModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import BasicModal from '@/components/commons/basic/BasicModal';
-import BasicPopup from '@/components/commons/basic/BasicPopup';
 import BasicTextArea from '@/components/commons/basic/BasicTextArea';
+
+const REVIEW_MODAL_TITLE_GLOW =
+	'[text-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB,0_0_32px_#05F2DB,0_0_64px_#05F2DB]';
+const REVIEW_MODAL_TEXT_GLOW =
+	'[text-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3,0_0_32px_#B3B3B3]';
 
 interface ReviewWriteModalProps {
 	/** 리뷰를 작성할 모임 ID */
@@ -23,8 +28,8 @@ interface FormValues {
 }
 
 export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWriteModalProps) {
-	const { openModal } = useModal();
 	const closeModal = useModalClose();
+	const { handleError } = useErrorHandler();
 	const [rating, setRating] = useState(0);
 	const [animatingIndex, setAnimatingIndex] = useState<number | null>(null);
 
@@ -34,16 +39,6 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 			comment: ''
 		}
 	});
-
-	/**
-	 * 에러 객체에서 사용자용 메시지를 추출합니다.
-	 */
-	const getErrorMessage = (err: unknown) => {
-		if (!err) return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-		if (typeof err === 'string') return err;
-		if (err instanceof Error) return err.message;
-		return '요청을 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-	};
 
 	const comment = watch('comment');
 	const isFormValid = rating > 0 && comment.trim().length > 0;
@@ -60,22 +55,19 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 			onSuccess(rating, data.comment);
 			closeModal();
 		} catch (err) {
-			// 개발에서는 콘솔에 남기고, 사용자에게는 팝업으로 안내합니다.
-			if (process.env.NODE_ENV !== 'production') console.error(err);
-			const message = getErrorMessage(err);
-			openModal(<BasicPopup title="" subTitle={message} confirmText="닫기" />);
+			handleError(err);
 		}
 	};
 
 	return (
 		<BasicModal onClose={closeModal} className="tb:min-w-[472px] min-w-[290px]">
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<div>
-					<p className="text-start text-lg font-semibold">리뷰 쓰기</p>
+				<div className="text-white">
+					<h3 className={`text-start text-lg font-semibold ${REVIEW_MODAL_TITLE_GLOW}`}>리뷰 쓰기</h3>
 					<div className="mt-6 flex w-full flex-col gap-6">
 						<div className="flex flex-col gap-3 font-semibold">
 							<div className="flex flex-col items-start gap-3">
-								<p>만족스러운 경험이었나요?</p>
+								<p className={`${REVIEW_MODAL_TEXT_GLOW}`}>만족스러운 경험이었나요?</p>
 								<div className="flex gap-0.5">
 									{Array.from({ length: 5 }).map((_, index) => (
 										<button
@@ -97,7 +89,7 @@ export default function ReviewWriteModal({ gatheringId, onSuccess }: ReviewWrite
 								</div>
 							</div>
 							<div className="flex w-full flex-col items-stretch gap-3">
-								<p className="text-start">경험에 대해 남겨주세요.</p>
+								<p className={`text-start ${REVIEW_MODAL_TEXT_GLOW}`}>경험에 대해 남겨주세요.</p>
 								<BasicTextArea
 									register={register('comment', { required: true })}
 									isValid={comment.trim().length > 0}

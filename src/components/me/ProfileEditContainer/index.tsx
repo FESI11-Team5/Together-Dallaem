@@ -10,7 +10,9 @@ import { useModal } from '@/hooks/useModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import ProfileEditModal from './ProfileEditModal/ProfileEditModal';
 
-const PROFILE_IMAGE_GLOW = '[box-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB]';
+const EDIT_CONTAINER_GLOW = '[box-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3]';
+const PROFILE_SECTION_SEPARATOR =
+	'[box-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB,0_0_32px_#05F2DB,0_0_64px_#05F2DB]';
 
 /**
  * @typedef {Object} ProfileUpdateData
@@ -85,56 +87,60 @@ export default function ProfileEditCard() {
 	}, [openModal, user?.companyName, user?.image, handleUpdateUserInfo]);
 
 	return (
-		<section className="tb:mb-7.5 shadow-primary-500 border-primary-100 mb-4 overflow-hidden rounded-3xl border-3 text-white shadow-md">
-			{/* 프로필 수정 카드 배경 이미지 섹션*/}
-			<div className="before:bg-primary-100 relative flex items-center justify-between px-6 py-4 before:absolute before:bottom-[6px] before:left-0 before:h-[2.5px] before:w-full before:content-['']">
-				{/* 배경 이미지 */}
-				<Image
-					src={PROFILE_BACKGROUND_SRC}
-					alt="배경 이미지"
-					width={100}
-					height={38}
-					className="mb:right-[100px] absolute right-15 bottom-[6.5px]"
-				/>
-
-				{/* 프로필 사진 표시 영역 */}
-				<div
-					className={`bg-root absolute top-13 h-16 w-16 rounded-full border-2 border-white/80 ${PROFILE_IMAGE_GLOW}`}>
+		<section>
+			<div
+				className={`tb:mb-7.5 mb-4 overflow-hidden rounded-3xl border-3 border-white text-white ${EDIT_CONTAINER_GLOW}`}>
+				{/* 프로필 수정 카드 배경 이미지 섹션*/}
+				<div className="relative flex items-center justify-between px-6 py-4 before:absolute before:bottom-[6px] before:left-0 before:h-[2.5px] before:w-full before:bg-white before:content-['']">
+					{/* 배경 이미지 */}
 					<Image
-						src={user?.image || DEFAULT_PROFILE_SRC}
-						alt="프로필 사진 이미지"
-						fill
-						className="h-14 w-14 rounded-full object-fill"
+						src={PROFILE_BACKGROUND_SRC}
+						alt="배경 이미지"
+						width={100}
+						height={38}
+						className="mb:right-[100px] absolute right-15 bottom-[6.5px]"
 					/>
+
+					{/* 프로필 사진 표시 영역 */}
+					<div
+						className={`bg-root absolute top-13 h-16 w-16 rounded-full border-3 border-white ${EDIT_CONTAINER_GLOW}`}>
+						<Image
+							src={user?.image || DEFAULT_PROFILE_SRC}
+							alt="프로필 사진 이미지"
+							fill
+							className="h-14 w-14 rounded-full object-fill"
+						/>
+					</div>
+
+					<p className="z-base font-semibold">{user?.name}&apos;s Profile</p>
+
+					{/* 프로필 수정 버튼 (버튼 클릭 시 모달 오픈) */}
+					<motion.button
+						type="button"
+						onClick={handleOpenEditModal}
+						className="z-base cursor-pointer rounded-full [box-shadow:0_0_14px_rgba(5,242,219,0.9)] transition duration-50"
+						whileHover={{ scale: 1.05, boxShadow: '0 0 10px 2px #05F2DB, 0 0 20px 5px rgba(5,242,219,0.4)' }}
+						whileTap={{ scale: 0.95, boxShadow: '0 0 8px #05F2DB' }}
+						transition={{ type: 'spring', stiffness: 400, damping: 10 }}>
+						<Image src={EDIT_ICON_SRC} alt="회사명 수정 이미지" width={32} height={32} />
+					</motion.button>
 				</div>
 
-				<p className="z-base font-semibold">{user?.name}&apos;s Profile</p>
-
-				{/* 프로필 수정 버튼 (버튼 클릭 시 모달 오픈) */}
-				<motion.button
-					type="button"
-					onClick={handleOpenEditModal}
-					className="z-base cursor-pointer rounded-full [box-shadow:0_0_14px_rgba(5,242,219,0.9)] transition duration-50"
-					whileHover={{ scale: 1.05, boxShadow: '0 0 10px 2px #05F2DB, 0 0 20px 5px rgba(5,242,219,0.4)' }}
-					whileTap={{ scale: 0.95, boxShadow: '0 0 8px #05F2DB' }}
-					transition={{ type: 'spring', stiffness: 400, damping: 10 }}>
-					<Image src={EDIT_ICON_SRC} alt="회사명 수정 이미지" width={32} height={32} />
-				</motion.button>
+				{/* 프로필 정보 섹션*/}
+				<div>
+					<dl className="pt-4 pb-4.5 pl-28">
+						<div className="flex gap-2 text-sm">
+							<dt className="font-medium">E-mail.</dt>
+							<dd className="font-normal opacity-80">{user?.email}</dd>
+						</div>
+						<div className="flex gap-2 text-sm">
+							<dt className="font-medium">Nickname.</dt>
+							<dd className="font-normal opacity-80">{user?.companyName}</dd>
+						</div>
+					</dl>
+				</div>
 			</div>
-
-			{/* 프로필 정보 섹션*/}
-			<div>
-				<dl className="pt-4 pb-4.5 pl-28">
-					<div className="flex gap-2 text-sm">
-						<dt className="font-medium">E-mail.</dt>
-						<dd className="font-normal opacity-80">{user?.email}</dd>
-					</div>
-					<div className="flex gap-2 text-sm">
-						<dt className="font-medium">Nickname.</dt>
-						<dd className="font-normal opacity-80">{user?.companyName}</dd>
-					</div>
-				</dl>
-			</div>
+			<hr className={`h-[3px] w-full bg-white ${PROFILE_SECTION_SEPARATOR}`} />
 		</section>
 	);
 }

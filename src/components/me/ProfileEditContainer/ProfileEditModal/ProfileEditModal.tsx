@@ -20,7 +20,8 @@ interface ProfileEditModalProps {
 	onSubmit: (updated: { companyName?: string; image?: File }) => void;
 }
 
-const MYPAGE_TITLE_GLOW = '[text-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB]';
+const EDIT_MODAL_TITLE_GLOW =
+	'[text-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB,0_0_32px_#05F2DB,0_0_64px_#05F2DB]';
 
 /**
  * `ProfileEditModal` 컴포넌트
@@ -78,15 +79,15 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 
 	return (
 		<BasicModal onClose={closeModal} className="tb:min-w-118">
-			<h1 className={`text-lg font-semibold text-white ${MYPAGE_TITLE_GLOW}`}>프로필 수정하기</h1>
+			<h1 className={`text-lg font-semibold text-white ${EDIT_MODAL_TITLE_GLOW}`}>프로필 수정하기</h1>
 			<form onSubmit={handleSubmit(handleFormSubmit)} className="mt-6 flex flex-col items-start gap-6 self-stretch">
 				<div className="flex w-full flex-col items-start gap-6">
 					<ProfileImageUploader currentImage={currentImage} onChange={handleProfileImage} />
 					<div className="w-full">
 						<BasicInput
 							id="companyName"
-							label="회사"
-							placeholder="회사명"
+							label="닉네임"
+							placeholder="닉네임을 입력해주세요"
 							register={register('companyName')}
 							isValid={isCompanyNameValid}
 							invalidText={formState.errors.companyName?.message}

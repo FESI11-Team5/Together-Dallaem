@@ -9,7 +9,7 @@ import type { JoinedGathering } from '@/types/response/gatherings';
 import type { ReviewResponse, GetReviewsResponse } from '@/types/response/reviews';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';
-import NoDataMessage from '../common/NoDataMessage';
+import NoDataMessage from '../common/NoDataMessage/NoDataMessage';
 import Chip from '@/components/commons/Chip';
 
 /**
