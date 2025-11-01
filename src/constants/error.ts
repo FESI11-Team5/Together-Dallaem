@@ -12,8 +12,8 @@ export const SIGNUP_ERRORS = {
 	INVALID_EMAIL: '이메일 형식이 올바르지 않습니다',
 	/** 이미 사용 중인 이메일일 때 표시되는 메시지 */
 	DUPLICATED_EMAIL: '중복된 이메일입니다',
-	/** 회사명이 비어 있을 때 표시되는 메시지 */
-	REQUIRED_COMPANY_NAME: '회사명을 입력해 주세요',
+	/** 닉네임이 비어 있을 때 표시되는 메시지 */
+	REQUIRED_COMPANY_NAME: '닉네임을 입력해 주세요',
 	/** 비밀번호 길이가 8자 미만일 때 표시되는 메시지 */
 	TOO_SHORT_PASSWORD: '비밀번호가 8자 이상이 되도록 해 주세요',
 	/** 비밀번호와 비밀번호 확인이 일치하지 않을 때 표시되는 메시지 */

@@ -15,12 +15,12 @@ describe.each([
 		expect(fieldErrors.name).toBe('이름을 입력해 주세요');
 	});
 
-	test('회사명이 존재하지 않으면 "회사명을 입력해 주세요" 메시지가 반환된다', () => {
+	test('닉네임이 존재하지 않으면 "닉네임을 입력해 주세요" 메시지가 반환된다', () => {
 		const values = { ...DEFAULT_VALUES, companyName: '' };
 
 		const { fieldErrors } = validator.validate(values);
 
-		expect(fieldErrors.companyName).toBe('회사명을 입력해 주세요');
+		expect(fieldErrors.companyName).toBe('닉네임을 입력해 주세요');
 	});
 
 	test('비밀번호가 8자 이상이 아니면 "비밀번호가 8자 이상이 되도록 해 주세요" 메시지가 반환된다', () => {

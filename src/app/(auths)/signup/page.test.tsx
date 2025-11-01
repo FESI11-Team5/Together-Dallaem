@@ -84,7 +84,7 @@ describe('SignupPage 통합 테스트', () => {
 			await user.type(emailInput, DEFAULT_VALUES.email);
 			await user.tab();
 
-			const companyInput = screen.getByLabelText('회사명');
+			const companyInput = screen.getByLabelText('닉네임');
 			expect(companyInput).toHaveFocus();
 			await user.type(companyInput, DEFAULT_VALUES.companyName);
 			await user.tab();
@@ -148,7 +148,7 @@ describe('SignupPage 통합 테스트', () => {
 async function fillAndSubmitForm(user: UserEvent, values = DEFAULT_VALUES) {
 	await user.type(screen.getByLabelText('이름'), values.name);
 	await user.type(screen.getByLabelText('이메일'), values.email);
-	await user.type(screen.getByLabelText('회사명'), values.companyName);
+	await user.type(screen.getByLabelText('닉네임'), values.companyName);
 	await user.type(screen.getByLabelText('비밀번호'), values.password);
 	await user.type(screen.getByLabelText('비밀번호 확인'), values.confirm);
 
