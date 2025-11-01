@@ -60,9 +60,10 @@ export default function DebouncedInput({
 	};
 
 	const getBorderClass = () => {
+		if (invalidText && isFocused) return 'border-highlight shadow-highlight/50 shadow-lg';
 		if (invalidText) return 'border-highlight';
-		if (isFocused) return 'border-primary-300';
-		return 'border-gray-50';
+		if (isFocused) return 'border-primary-300 shadow-primary-500/50 shadow-lg';
+		return 'border-primary-300';
 	};
 
 	useEffect(() => {
@@ -71,11 +72,11 @@ export default function DebouncedInput({
 
 	return (
 		<div className="flex w-full flex-col gap-2">
-			<label className="text-sm font-semibold" htmlFor={label}>
+			<label className="text-primary-50 text-sm font-semibold" htmlFor={label}>
 				{label}
 			</label>
 			<div
-				className={`inputBox box-border flex w-full items-center justify-between rounded-[12px] border-2 bg-gray-50 px-[16px] py-[10px] placeholder-gray-400 focus:outline-none ${getBorderClass()} ${className}`}>
+				className={`inputBox bg-root box-border flex w-full items-center justify-between rounded-[12px] border-2 px-[16px] py-[10px] text-white placeholder-gray-300 focus:outline-none ${getBorderClass()} ${className}`}>
 				<input
 					id={label}
 					type={isPassword ? (isShowPw ? 'text' : 'password') : 'text'}
@@ -98,7 +99,7 @@ export default function DebouncedInput({
 				)}
 				{children}
 			</div>
-			{invalidText && <div className="text-sm text-highlight">{invalidText}</div>}
+			{invalidText && <div className="text-highlight text-sm">{invalidText}</div>}
 		</div>
 	);
 }
