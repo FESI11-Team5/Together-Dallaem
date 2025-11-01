@@ -37,9 +37,9 @@ export default function HeartButton({ id }: HeartButtonProps) {
 		<button
 			onClick={handleClick}
 			className={cn(
-				'flex size-[48px] items-center justify-center rounded-full transition-colors',
-				isActive ? 'bg-primary-50 hover:bg-primary-100' : 'border-2 border-gray-200 bg-root hover:bg-gray-50',
-				'transition-transform duration-150 ease-in-out hover:scale-105 active:scale-50'
+				'flex size-[48px] cursor-pointer items-center justify-center rounded-full border-2 transition-colors',
+				isActive ? 'border-highlight shadow-highlight/50 shadow-xl' : 'border-gray-300',
+				'transition-transform duration-150 ease-in-out hover:scale-105 active:scale-90'
 			)}
 			aria-pressed={isActive}
 			aria-label={isActive ? '찜한 상태' : '찜하지 않은 상태'}>

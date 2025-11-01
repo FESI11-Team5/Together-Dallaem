@@ -5,11 +5,11 @@ import SearchCalendar from '@/app/(home)/SearchCalendar';
 
 import SelectBox from '@/components/commons/SelectBox';
 import SortButton from '@/components/commons/SortButton';
-import { LOCATION_OPTIONS, SORT_OPTIONS } from '@/constants/options';
+import { GENRE_OPTIONS, SORT_OPTIONS } from '@/constants/options';
 
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm, type UseFormRegisterReturn } from 'react-hook-form';
-import CreateGatheringButton from '../CreateGathering';
+import CreateGatheringButton from '../CreateGatheringButton';
 
 export interface FilterCriteria {
 	/** 선택된 모임 유형 */
@@ -45,7 +45,7 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 	const [selectedDate, setSelectedDate] = useState<Date>();
 
 	const methods = useForm<SortFormValues>({
-		defaultValues: { sort: 'deadlineLate' }
+		defaultValues: { sort: 'newest' }
 	});
 	const { control, watch } = methods;
 	const selectedSort = watch('sort');
@@ -63,11 +63,11 @@ export default function GatheringFilterBar({ setFilterCriteria }: GatheringFilte
 		<FormProvider {...methods}>
 			<div className="flex w-full flex-col gap-4">
 				<GatheringTabs setSelectedType={setSelectedType} button={<CreateGatheringButton />} />
-				<hr />
+				<hr className="bg-primary-500 h-[1px] border-0" />
 
 				<div className="flex w-full justify-between">
 					<div className="flex gap-2">
-						<SelectBox options={LOCATION_OPTIONS} placeholder="지역 전체" onChange={setSelectedLocation} />
+						<SelectBox options={GENRE_OPTIONS} placeholder="장르 전체" onChange={setSelectedLocation} />
 						<SearchCalendar date={selectedDate} setDate={setSelectedDate} />
 					</div>
 					<Controller

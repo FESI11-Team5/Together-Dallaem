@@ -42,7 +42,7 @@ export default function CardList({ data }: CardListProps) {
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={data.image} alt={data.name} fill className="object-cover" />
-				<div className="absolute top-0 right-0 z-base">{!isClosed && <Tag text={tagText} />}</div>
+				<div className="z-base absolute top-0 right-0">{!isClosed && <Tag text={tagText} />}</div>
 			</div>
 
 			{/* 모임 정보 영역 */}
@@ -81,7 +81,7 @@ export default function CardList({ data }: CardListProps) {
 			{/* 마감된 카드 오버레이 */}
 			{isClosed && (
 				<div
-					className="absolute inset-0 flex flex-col items-center justify-center rounded-[24px] bg-black/80 text-white"
+					className="bg-root/80 absolute inset-0 flex flex-col items-center justify-center rounded-[24px] text-white"
 					onClick={e => {
 						e.preventDefault(); // 링크 이동 방지
 					}}>
@@ -92,10 +92,10 @@ export default function CardList({ data }: CardListProps) {
 							{CLOSED_GATHERING_MESSAGE.subTitle}
 						</p>
 
-						<div className="mb:hidden flex items-center gap-2.5 rounded-[12px] bg-primary-50 px-3 py-1.5">
+						<div className="mb:hidden bg-primary-50 flex items-center gap-2.5 rounded-[12px] px-3 py-1.5">
 							<Image src="/icons/bye.svg" alt="찜한 영역" width={24} height={24} />
 							<button
-								className="leading-xs cursor-pointer text-xs font-semibold text-primary-600"
+								className="leading-xs text-primary-600 cursor-pointer text-xs font-semibold"
 								onClick={e => {
 									e.preventDefault(); // 링크 이동 방지
 									removeWish(data.id);
@@ -106,7 +106,7 @@ export default function CardList({ data }: CardListProps) {
 					</div>
 
 					<div
-						className="max-mb:hidden absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-primary-50"
+						className="max-mb:hidden bg-primary-50 absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full"
 						onClick={() => console.log('버튼클릭')}>
 						<button className="cursor-pointer">
 							<Image

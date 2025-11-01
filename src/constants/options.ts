@@ -12,36 +12,29 @@ export const TABS: TabOption[] = [
 	{ value: 'CreatedGathering', text: '내가 만든 크루' }
 ] as const;
 
-export const SUB_TYPE_OPTIONS: OptionType[] = [
+export const SUB_TYPE_OPTIONS: TabOption[] = [
 	{ value: 'DALLAEMFIT', text: '전체' },
-	{ value: 'OFFICE_STRETCHING', text: '스팀' },
-	{ value: 'MINDFULNESS', text: '온라인' }
+	{ value: 'OFFICE_STRETCHING', text: '스팀', icon: '/icons/steam_logo.svg' },
+	{ value: 'MINDFULNESS', text: '온라인', icon: '/icons/online.svg' }
 ] as const;
 
-// TODO: 지역 전체로 다시 초기화 어떻게 할지 정하기
-export const LOCATION_OPTIONS: OptionType[] = [
-	// { value: '', text: '전체' },
-	{ value: '건대입구', text: '건대 입구' },
-	{ value: '을지로3가', text: '을지로 3가' },
-	{ value: '신림', text: '신림' },
-	{ value: '홍대입구', text: '홍대 입구' }
+export const GENRE_OPTIONS: OptionType[] = [
+	{ value: '', text: '장르 전체' },
+	{ value: '건대입구', text: 'AOS' },
+	{ value: '을지로3가', text: 'Adventure' },
+	{ value: '신림', text: 'FPS' },
+	{ value: '홍대입구', text: 'RPG' }
 ] as const;
 
 export const SORT_OPTIONS: OptionType[] = [
 	{ value: 'newest', text: '최신순' },
-	{ value: 'oldest', text: '오래된순' },
-	{ value: 'deadlineSoon', text: '마감 임박순' },
-	{ value: 'deadlineLate', text: '마감 늦은순' },
-	{ value: 'fewParticipants', text: '참여자 적은순' },
-	{ value: 'manyParticipants', text: '참여자 많은순' }
+	{ value: 'deadlineSoon', text: '마감 임박' },
+	{ value: 'manyParticipants', text: '인기순' }
 ] as const;
 
 export const SORT_CONFIG = {
 	newest: { sortBy: 'dateTime', sortOrder: 'desc' },
-	oldest: { sortBy: 'dateTime', sortOrder: 'asc' },
 	deadlineSoon: { sortBy: 'registrationEnd', sortOrder: 'asc' },
-	deadlineLate: { sortBy: 'registrationEnd', sortOrder: 'desc' },
-	fewParticipants: { sortBy: 'participantCount', sortOrder: 'asc' },
 	manyParticipants: { sortBy: 'participantCount', sortOrder: 'desc' }
 } as const;
 

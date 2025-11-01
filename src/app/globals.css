@@ -212,6 +212,7 @@ input[type='number']::-webkit-outer-spin-button {
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
+		@apply select-none;
 	}
 	body {
 		@apply bg-background text-foreground;
@@ -233,11 +234,27 @@ input[type='number']::-webkit-outer-spin-button {
 	animation: heart-bounce 0.6s ease-in-out infinite;
 }
 
-/* 아이콘 글로우 효과 */
-.icon-glow {
-	filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
+@keyframes shadowFade {
+	0% {
+		box-shadow: 0 0 0 rgba(95, 247, 230, 0);
+	}
+	50% {
+		box-shadow: 0 0 50px rgba(95, 247, 230, 0.4);
+	}
+	100% {
+		box-shadow: 0 0 0 rgba(95, 247, 230, 0);
+	}
 }
 
-.group:hover .icon-glow-hover:not(.icon-glow) {
-	filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
+.animate-shadow-fade {
+	animation: shadowFade 4s ease-in-out infinite;
+	/* 아이콘 글로우 효과 */
+
+	.icon-glow {
+		filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
+	}
+
+	.group:hover .icon-glow-hover:not(.icon-glow) {
+		filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
+	}
 }

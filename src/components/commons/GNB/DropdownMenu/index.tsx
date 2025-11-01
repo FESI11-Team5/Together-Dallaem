@@ -88,7 +88,7 @@ function DropdownMenuContent({ options, onClick }: DropdownMenuContentProps) {
 		<BasicDropbox
 			className={cn(
 				'pc:left-0 transition-all duration-200 ease-out',
-				isOpen ? 'animate-in fade-in-0 zoom-in-95 opacity-100' : 'animate-out fade-out-0 zoom-out-95 opacity-0'
+				isOpen ? 'animate-in fade-in-0 zoom-in-95 visible' : 'animate-out fade-out-0 zoom-out-95 invisible'
 			)}
 			ref={ref as RefObject<HTMLDivElement>}
 			options={options}

@@ -151,7 +151,8 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 					value={displayValue}
 					displayText={selectedOption?.text}
 					isOpen={isOpen}
-					onClick={handleToggle}>
+					onClick={handleToggle}
+					className="overflow-hidden">
 					{children}
 				</BasicSelectButton>
 
