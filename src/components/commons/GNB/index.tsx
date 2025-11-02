@@ -6,6 +6,7 @@ import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
 import { DROPDOWN_MENU_OPTIONS, NAVBAR_MENU_LINKS } from '@/constants/options';
 import { useAuth } from '@/hooks/useAuth';
 import { useScreenSize } from '@/hooks/useScreenSize';
+import { useTokenStore } from '@/stores/token';
 import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
@@ -21,6 +22,7 @@ export default function GNB() {
 	const router = useRouter();
 	const pathname = usePathname();
 	const user = useUserStore(state => state.user);
+	const signoutToken = useTokenStore(state => state.signoutUser);
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const { isAuthenticated } = useAuth();
 	const screenSize = useScreenSize();
@@ -35,18 +37,21 @@ export default function GNB() {
 			return;
 		}
 
-		if (pathname.startsWith('/me')) {
-			router.replace('/');
-			// TODO: 이게 최선인가? 시간되면 useTransition 시도해보기
-			setTimeout(async () => {
-				await postSignout();
-				signoutUser();
-			}, 800);
+		if (!pathname.startsWith('/me')) {
+			await postSignout();
+			signoutToken();
+			signoutUser();
 			return;
 		}
 
-		await postSignout();
-		signoutUser();
+		router.replace('/');
+		// TODO: 이게 최선인가? 시간되면 useTransition 시도해보기
+		setTimeout(async () => {
+			await postSignout();
+			// TODO: 추후에 단일 스토어들 합쳐서 사용
+			signoutToken();
+			signoutUser();
+		}, 800);
 	};
 
 	/**
@@ -102,7 +107,7 @@ export default function GNB() {
 								<div className="relative size-[40px] overflow-hidden rounded-full">
 									<Image
 										priority
-										src={user?.image || '/images/profile.svg'}
+										src={user?.image || '/images/profile_logo.svg'}
 										alt="프로필 사진"
 										fill
 										className="object-cover"

@@ -39,7 +39,7 @@ export const decodeToken = (token: string): JWTPayload | null => {
 /**
  * 토큰의 만료 여부를 확인합니다.
  *
- * @param {string} token - 확인할 JWT 토큰
+ * @param {number} exp - 확인할 JWT 토큰
  * @param {number} [thresholdSec=0] - 만료 임박 여부를 판단할 임계 시간(초). (예: 300 → 5분 이내면 'IMMINENT')
  * @returns {TokenStatus} 토큰 상태 ('VALID' | 'IMMINENT' | 'EXPIRED')
  *
@@ -47,9 +47,8 @@ export const decodeToken = (token: string): JWTPayload | null => {
  * - 'IMMINENT': 아직 만료되진 않았지만 thresholdSec 이내로 만료 예정
  * - 'VALID': 아직 충분히 유효한 상태
  */
-export const isTokenExpired = (token: string, thresholdSec = 0): TokenStatus => {
-	const exp = decodeToken(token)?.exp;
-	if (typeof exp !== 'number') return 'EXPIRED';
+export const isTokenExpired = (exp?: number, thresholdSec = 0): TokenStatus => {
+	if (!exp) return 'EXPIRED';
 
 	const now = Math.floor(Date.now() / 1000);
 
@@ -57,18 +56,4 @@ export const isTokenExpired = (token: string, thresholdSec = 0): TokenStatus => 
 	if (exp < now + thresholdSec) return 'IMMINENT';
 
 	return 'VALID';
-};
-
-/**
- * 현재 사용자가 인증된 상태인지 확인합니다.
- *
- * @returns {boolean}
- * - true: 로컬 스토리지에 토큰이 있고, 만료되지 않은 경우
- * - false: 토큰이 없거나 만료된 경우
- */
-export const isAuthenticated = (): boolean => {
-	const token = getToken();
-	if (!token) return false;
-
-	return isTokenExpired(token) !== 'EXPIRED';
 };

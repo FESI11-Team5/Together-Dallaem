@@ -4,8 +4,6 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 export interface UserData {
 	/** 유저 고유 ID */
 	userId: number;
-	/** 인증 토큰 */
-	token: string;
 	/** 이메일 (선택) */
 	email?: string;
 	/** 이름 (선택) */
@@ -25,13 +23,6 @@ interface UserState {
 
 interface UserActions {
 	/**
-	 * 유저 로그인 (userId와 token만 설정)
-	 * @param userId 유저 고유 ID
-	 * @param token 인증 토큰
-	 */
-	signinUser: ({ userId, token }: Pick<UserData, 'userId' | 'token'>) => void;
-
-	/**
 	 * 유저 로그아웃 (스토어 초기화)
 	 */
 	signoutUser: () => void;
@@ -49,7 +40,7 @@ export type UserStore = UserState & UserActions;
 const initialState: UserState = { user: null, hasHydrated: false };
 
 /**
- * 사용자 상태 및 인증 관련 zustand 스토어
+ * 유저 정보 zustand 스토어
  * - devtools: Redux DevTools 연동
  * - persist: sessionStorage에 유저 상태 영속화
  */
@@ -59,19 +50,6 @@ export const useUserStore = create<UserStore>()(
 			set => {
 				return {
 					...initialState,
-					signinUser: ({ userId, token }: Pick<UserData, 'userId' | 'token'>) =>
-						set(
-							state => ({
-								user: {
-									...(state.user ?? {}),
-									userId,
-									token
-								},
-								hasHydrated: true
-							}),
-							false,
-							'signinUser'
-						),
 					signoutUser: () => set({ user: null, hasHydrated: true }, false, 'signoutUser'),
 					updateUser: (user: Partial<UserData>) =>
 						set(

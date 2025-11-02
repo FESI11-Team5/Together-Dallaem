@@ -5,6 +5,7 @@ import { getUserInfo } from '@/apis/auths/user';
 import ServerErrorPopup from '@/components/auth/Popup/ServerErrorPopup';
 import { SigninForm, type SigninFormValues } from '@/components/auth/SigninForm';
 import { useModal } from '@/hooks/useModal';
+import { useTokenStore } from '@/stores/token';
 import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/cn';
 import { ApiError } from '@/utils/fetch';
@@ -17,7 +18,7 @@ function SigninPageContent() {
 	const searchParams = useSearchParams();
 	const next = searchParams.get('next') ?? '/';
 
-	const signinUser = useUserStore(state => state.signinUser);
+	const signinUser = useTokenStore(state => state.signinUser);
 	const updateUser = useUserStore(state => state.updateUser);
 	const router = useRouter();
 	const { openModal } = useModal();
@@ -40,10 +41,11 @@ function SigninPageContent() {
 			const decodedToken = decodeToken(token);
 			if (!decodedToken) throw new Error('Invalid token');
 
-			signinUser({ userId: decodedToken.userId as number, token });
+			signinUser({ userId: decodedToken.userId as number, token, exp: decodedToken.exp });
 
 			const userInfo = await getUserInfo();
 			updateUser({
+				userId: userInfo.id,
 				email: userInfo.email,
 				name: userInfo.name,
 				companyName: userInfo.companyName,
@@ -57,6 +59,7 @@ function SigninPageContent() {
 					openModal(<ServerErrorPopup />);
 					return;
 				}
+				console.log(error);
 				throw error;
 			}
 		}

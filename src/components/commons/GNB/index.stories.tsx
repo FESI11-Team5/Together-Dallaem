@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores/user';
+import { useTokenStore } from '@/stores/token';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import GNB from './index';
 
@@ -22,7 +22,7 @@ export const LoggedOut: Story = {
 export const LoggedIn: Story = {
 	name: '로그인 상태',
 	render: () => {
-		useUserStore.setState({ user: { token: 'token', userId: 1 } });
+		useTokenStore.setState({ token: 'token', userId: 1 });
 		return <GNB />;
 	}
 };
