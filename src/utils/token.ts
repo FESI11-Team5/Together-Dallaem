@@ -6,8 +6,8 @@ import { JWTPayload, TokenStatus } from '@/types/token';
  * @returns {string | null} 저장된 토큰. 없으면 null 반환
  */
 export const getToken = () => {
-	const persistedUser = localStorage.getItem('user-store-persist');
-	const token = persistedUser ? JSON.parse(persistedUser).state.user?.token : null;
+	const persistedToken = sessionStorage.getItem('token-store-persist');
+	const token = persistedToken ? JSON.parse(persistedToken).state.token : null;
 	return token;
 };
 
@@ -15,7 +15,7 @@ export const getToken = () => {
  * 로컬 스토리지에 저장된 토큰을 제거합니다.
  */
 export const removeToken = () => {
-	localStorage.removeItem('user-store-persist');
+	sessionStorage.removeItem('token-store-persist');
 };
 
 /**

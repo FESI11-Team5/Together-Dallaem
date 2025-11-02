@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 export interface UserData {
 	/** 유저 고유 ID */
@@ -51,7 +51,7 @@ const initialState: UserState = { user: null, hasHydrated: false };
 /**
  * 사용자 상태 및 인증 관련 zustand 스토어
  * - devtools: Redux DevTools 연동
- * - persist: localStorage에 유저 상태 영속화
+ * - persist: sessionStorage에 유저 상태 영속화
  */
 export const useUserStore = create<UserStore>()(
 	devtools(
@@ -89,8 +89,7 @@ export const useUserStore = create<UserStore>()(
 			},
 			{
 				name: 'user-store-persist',
-				// TODO: 세션 스토리지로 변경
-				// storage: createJSONStorage(() => sessionStorage),
+				storage: createJSONStorage(() => sessionStorage),
 				merge: (persistedState, currentState) => {
 					return {
 						...currentState,
