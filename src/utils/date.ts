@@ -87,7 +87,21 @@ export const getDeadlineLabel = (dateString?: string) => {
  * @param formatStr 출력 포맷 (예 :"2025-10-23T01:13:29.482Z" -> "2025-10-23 10:13")
  */
 
-export const formatUTCToKST = (dateString: string, formatStr = 'yyyy-MM-dd HH:mm') {
+export const formatUTCToKST = (dateString: string, formatStr = 'yyyy-MM-dd HH:mm') => {
 	if (!dateString) return '';
 	return formatInTimeZone(dateString, 'Asia/Seoul', formatStr);
-}
+};
+
+/**
+ * 남은 시간을 "MM:SS" 형식의 문자열로 변환합니다.
+ * @param {number | null} sec - 초 단위 시간 (또는 `null`)
+ * @returns {string | null} `"MM:SS"` 형식의 문자열 또는 `null`
+ */
+export const formatTime = (sec: number | null) => {
+	if (sec === null) return null;
+
+	const pad = (n: number) => String(n).padStart(2, '0');
+	const min = Math.floor(sec / 60);
+	const s = sec % 60;
+	return `${pad(min)}:${pad(s)}`;
+};

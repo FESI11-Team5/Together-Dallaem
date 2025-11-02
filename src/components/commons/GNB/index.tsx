@@ -12,7 +12,7 @@ import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-
+import SessionTimer from './SessionTimer';
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -102,20 +102,23 @@ export default function GNB() {
 					</div>
 
 					{isAuthenticated ? (
-						<DropdownMenu>
-							<DropdownMenu.Trigger>
-								<div className="relative size-[40px] overflow-hidden rounded-full">
-									<Image
-										priority
-										src={user?.image || '/images/profile_logo.svg'}
-										alt="프로필 사진"
-										fill
-										className="object-cover"
-									/>
-								</div>
-							</DropdownMenu.Trigger>
-							<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
-						</DropdownMenu>
+						<div className="mb:gap-2 flex items-center justify-between gap-1">
+							<SessionTimer />
+							<DropdownMenu>
+								<DropdownMenu.Trigger>
+									<div className="relative size-[40px] overflow-hidden rounded-full">
+										<Image
+											priority
+											src={user?.image || '/images/profile_logo.svg'}
+											alt="프로필 사진"
+											fill
+											className="object-cover"
+										/>
+									</div>
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
+							</DropdownMenu>
+						</div>
 					) : (
 						// TODO: button or Link로 바꿀지 고민해서 수정
 						<div
