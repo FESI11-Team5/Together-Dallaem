@@ -69,8 +69,6 @@ export default function BasicButton({
 		classByStatus = isActive
 			? `bg-primary-400 text-black shadow-[0_0_20px_rgba(5,242,219,0.5)] group-hover:shadow-[0_0_30px_rgba(5,242,219,0.7)]`
 			: `bg-gray-800 text-white`;
-		// TODO: 바꾼거 허락 받기
-		// : `bg-gray-400 text-white`;
 	}
 
 	return (

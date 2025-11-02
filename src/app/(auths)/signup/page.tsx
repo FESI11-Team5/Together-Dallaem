@@ -54,11 +54,11 @@ export default function SignupPage() {
 
 	return (
 		<>
-			<h1 className="sr-only">같이 달램 회원가입 페이지</h1>
+			<h1 className="sr-only">Gameow 회원가입 페이지</h1>
 			<h2
 				className={cn(
 					'tb:text-2xl text-primary-500 text-center text-xl font-semibold',
-					'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]'
+					'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_10px_#5ff7e6]'
 				)}>
 				회원가입
 			</h2>

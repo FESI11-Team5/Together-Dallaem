@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 					<div
 						className={cn(
 							'text-primary-50 flex flex-col gap-2 text-center',
-							'[text-shadow:0_0_1px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_2px_#e6fffa]'
+							'[text-shadow:0_0_2px_#b3b3b3,0_0_4px_#b3b3b3,0_0_8px_#b3b3b3,0_0_16px_#b3b3b3,0_0_32px_#b3b3b3]'
 						)}>
 						<h2 className="mb:text-2xl text-xl font-semibold">Gameow에 오신 걸 환영해요!</h2>
 						<p className="mb:text-base text-sm font-medium">게임도 친구도, 같이 즐겨요 🎮</p>
