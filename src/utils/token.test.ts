@@ -24,26 +24,26 @@ describe('token 관련 유틸 테스트', () => {
 	});
 
 	describe('isTokenExpried 테스트', () => {
-		const base64UrlEncode = (obj: Record<string, unknown>): string => {
-			const json = JSON.stringify(obj);
-			const base64 = btoa(json);
-			return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-		};
+		// const base64UrlEncode = (obj: Record<string, unknown>): string => {
+		// 	const json = JSON.stringify(obj);
+		// 	const base64 = btoa(json);
+		// 	return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+		// };
 
-		const header = base64UrlEncode({ alg: 'HS256', typ: 'JWT' });
-		const payload = base64UrlEncode({
-			teamId: '1105',
-			userId: 2239,
-			iat: 1700000000,
-			exp: 1700000000
-		});
-		const signature = base64UrlEncode({ sig: 'signature' });
-		const token = `${header}.${payload}.${signature}`;
+		// const header = base64UrlEncode({ alg: 'HS256', typ: 'JWT' });
+		// const payload = base64UrlEncode({
+		// 	teamId: '1105',
+		// 	userId: 2239,
+		// 	iat: 1700000000,
+		// 	exp: 1700000000
+		// });
+		// const signature = base64UrlEncode({ sig: 'signature' });
+		// const token = `${header}.${payload}.${signature}`;
 
 		test('만료되지 않은 토큰을 넣으면 "VALID"를 반환한다', () => {
 			Date.now = jest.fn(() => 1700000000000);
 
-			const result = isTokenExpired(token);
+			const result = isTokenExpired(1700000000);
 
 			expect(result).toEqual('VALID');
 		});
@@ -51,7 +51,7 @@ describe('token 관련 유틸 테스트', () => {
 		test('만료된 토큰을 넣으면 null을 반환한다', () => {
 			Date.now = jest.fn(() => 1800000000000);
 
-			const result = isTokenExpired(token);
+			const result = isTokenExpired(1700000000);
 
 			expect(result).toEqual('EXPIRED');
 		});
@@ -59,15 +59,15 @@ describe('token 관련 유틸 테스트', () => {
 		test('토큰 만료까지 100초 이하로 남았다면 "IMMINENT"를 반환한다', () => {
 			Date.now = jest.fn(() => 1699999910000);
 
-			const result = isTokenExpired(token, 100);
+			const result = isTokenExpired(1700000000, 100);
 
 			expect(result).toEqual('IMMINENT');
 		});
 
 		test('비정상 토큰을 넣으면 "EXPIRED"을 반환한다', () => {
-			const token = '비정상 토큰';
+			// const token = '비정상 토큰';
 
-			const result = isTokenExpired(token);
+			const result = isTokenExpired(1700000000);
 
 			expect(result).toEqual('EXPIRED');
 		});

@@ -54,7 +54,7 @@ export default function SignupPage() {
 
 	return (
 		<>
-			<h1 className="sr-only">Gameow 회원가입 페이지</h1>
+			<h1 className="sr-only">GAMEOW 회원가입 페이지</h1>
 			<h2
 				className={cn(
 					'tb:text-2xl text-primary-500 text-center text-xl font-semibold',
