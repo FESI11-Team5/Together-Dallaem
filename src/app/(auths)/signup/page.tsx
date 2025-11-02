@@ -5,6 +5,7 @@ import SignupFailurePopup from '@/components/auth/Popup/SignupFailurePopup';
 import SignupSuccessPopup from '@/components/auth/Popup/SignupSuccessPopup';
 import { SignupForm, type SignupFormValues } from '@/components/auth/SignupForm';
 import { useModal } from '@/hooks/useModal';
+import { cn } from '@/utils/cn';
 import { ApiError } from '@/utils/fetch';
 
 // TODO: 데스크톱 시 줄어들면 배경 여백이 좁아지는 현상 개선
@@ -53,8 +54,14 @@ export default function SignupPage() {
 
 	return (
 		<>
-			<h1 className="sr-only">같이 달램 회원가입 페이지</h1>
-			<h2 className="tb:text-2xl text-center text-xl font-semibold">회원가입</h2>
+			<h1 className="sr-only">Gameow 회원가입 페이지</h1>
+			<h2
+				className={cn(
+					'tb:text-2xl text-primary-500 text-center text-xl font-semibold',
+					'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_10px_#5ff7e6]'
+				)}>
+				회원가입
+			</h2>
 			<SignupForm onSubmit={onSubmit} />
 		</>
 	);

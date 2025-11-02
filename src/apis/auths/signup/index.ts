@@ -11,7 +11,7 @@ import { signupRequest, signupResponse } from '@/types/response/auths';
  * @param data.email - 이메일
  * @param data.password - 비밀번호
  * @param data.name - 이름
- * @param data.companyName - 회사명
+ * @param data.companyName - 닉네임
  *
  * @returns 서버로부터 응답 메시지를 포함한 Promise
  */

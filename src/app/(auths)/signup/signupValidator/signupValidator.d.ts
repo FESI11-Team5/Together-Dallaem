@@ -10,7 +10,7 @@ export interface SignupFormValues {
 	confirm: string;
 	/** 사용자 이름 */
 	name: string;
-	/** 회사명 */
+	/** 닉네임 */
 	companyName: string;
 }
 

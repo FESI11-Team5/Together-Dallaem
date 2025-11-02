@@ -211,7 +211,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 @layer base {
 	* {
-		@apply border-border outline-ring/50;
+		@apply outline-ring/50 box-border;
 		@apply select-none;
 	}
 	body {
@@ -257,4 +257,11 @@ input[type='number']::-webkit-outer-spin-button {
 	.group:hover .icon-glow-hover:not(.icon-glow) {
 		filter: drop-shadow(0 0 4px #1ef5d7) drop-shadow(0 0 10px #1ef5d7) !important;
 	}
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	-webkit-box-shadow: 0 0 0px 1000px #0d0d15 inset !important;
+	-webkit-text-fill-color: var(--color-white) !important;
 }
