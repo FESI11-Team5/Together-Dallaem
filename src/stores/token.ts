@@ -14,9 +14,10 @@ interface TokenState {
 
 interface TokenActions {
 	/**
-	 * 유저 로그인 (userId token만 설정)
-	 * @param userId 유저 고유 ID
+	 * 유저 로그인
+	 * @param userId 유저 ID
 	 * @param token 인증 토큰
+	 * @param exp 토큰 만료 식단
 	 */
 	signinUser: ({ userId, token, exp }: Partial<TokenState>) => void;
 
