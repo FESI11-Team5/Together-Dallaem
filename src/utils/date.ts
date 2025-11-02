@@ -1,5 +1,5 @@
-import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 import { differenceInDays, format, isPast, startOfDay } from 'date-fns';
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 import { ko } from 'date-fns/locale';
 
 type DateFormat = 'M월 D일 · HH:mm' | 'yyyy.MM.dd';
@@ -87,7 +87,7 @@ export const getDeadlineLabel = (dateString?: string) => {
  * @param formatStr 출력 포맷 (예 :"2025-10-23T01:13:29.482Z" -> "2025-10-23 10:13")
  */
 
-export function formatUTCToKST(dateString: string, formatStr = 'yyyy-MM-dd HH:mm') {
+export const formatUTCToKST = (dateString: string, formatStr = 'yyyy-MM-dd HH:mm') {
 	if (!dateString) return '';
 	return formatInTimeZone(dateString, 'Asia/Seoul', formatStr);
 }
