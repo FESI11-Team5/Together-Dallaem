@@ -12,7 +12,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 							'text-primary-50 flex flex-col gap-2 text-center',
 							'[text-shadow:0_0_2px_#b3b3b3,0_0_4px_#b3b3b3,0_0_8px_#b3b3b3,0_0_16px_#b3b3b3,0_0_32px_#b3b3b3]'
 						)}>
-						<h2 className="mb:text-2xl text-xl font-semibold">Gameow에 오신 걸 환영해요!</h2>
+						<h2 className="mb:text-2xl text-xl font-semibold">GAMEOW에 오신 걸 환영해요!</h2>
 						<p className="mb:text-base text-sm font-medium">게임도 친구도, 같이 즐겨요 🎮</p>
 					</div>
 					<div className="pc:h-[388px] pc:w-[350px] mb:h-[333px] mb:w-[300px] relative h-[222px] w-[200px]">
