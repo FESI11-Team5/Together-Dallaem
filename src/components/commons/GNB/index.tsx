@@ -60,7 +60,7 @@ export default function GNB() {
 	 */
 	const handleSigninClick = () => {
 		if (pathname === '/signin') return;
-		const path = pathname !== '/' ? '/signin?next=' + encodeURIComponent(pathname) : '/signin';
+		const path = pathname !== '/' ? '/signin?redirectTo=' + encodeURIComponent(pathname) : '/signin';
 		router.push(path);
 	};
 

@@ -16,7 +16,7 @@ import { Suspense } from 'react';
 // TODO: 반응형 고치기
 function SigninPageContent() {
 	const searchParams = useSearchParams();
-	const next = searchParams.get('next') ?? '/';
+	const redirectTo = searchParams.get('redirectTo') ?? '/';
 
 	const signinUser = useTokenStore(state => state.signinUser);
 	const updateUser = useUserStore(state => state.updateUser);
@@ -52,7 +52,7 @@ function SigninPageContent() {
 				image: userInfo.image ?? ''
 			});
 
-			router.replace(next);
+			router.replace(redirectTo);
 		} catch (error) {
 			if (error instanceof ApiError) {
 				if (error.status === 500) {

@@ -130,7 +130,7 @@ export const _fetch = async <T = unknown>({ path, method, options, data }: Fetch
 			if (response.status === 401) {
 				removeToken();
 				if (typeof window !== 'undefined' && window.location.pathname !== '/signin') {
-					window.location.href = '/signin?next=' + encodeURIComponent(window.location.pathname);
+					window.location.href = '/signin?redirectTo=' + encodeURIComponent(window.location.pathname);
 				}
 			}
 			throw new ApiError(response.status, response.statusText, errorBody);
