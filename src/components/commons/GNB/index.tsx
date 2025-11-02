@@ -3,6 +3,7 @@
 import { postSignout } from '@/apis/auths/signout';
 
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { PROFILE_PATHS } from '@/constants/assetPath';
 import { DROPDOWN_MENU_OPTIONS, NAVBAR_MENU_LINKS } from '@/constants/options';
 import { useAuth } from '@/hooks/useAuth';
 import { useScreenSize } from '@/hooks/useScreenSize';
@@ -13,6 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import SessionTimer from './SessionTimer';
+
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -109,7 +111,7 @@ export default function GNB() {
 									<div className="relative size-[40px] overflow-hidden rounded-full">
 										<Image
 											priority
-											src={user?.image || '/images/profile_logo.svg'}
+											src={user?.image || PROFILE_PATHS.DEFAULT_PROFILE_SRC}
 											alt="프로필 사진"
 											fill
 											className="object-cover"
