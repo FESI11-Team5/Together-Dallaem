@@ -56,7 +56,7 @@ export default function CardList({ data }: CardListProps) {
 	}
 
 	return (
-		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-3xl mb:rounded-r-3xl max-mb:rounded-t-3xl max-mb:rounded-b-3xl relative flex flex-row items-center overflow-hidden border-2 border-gray-100">
+		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-3xl mb:rounded-r-3xl max-mb:rounded-t-3xl max-mb:rounded-b-3xl border-primary-500 hover:shadow-primary-500/50 relative flex flex-row items-center overflow-hidden border-2 transition-shadow hover:shadow-lg">
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
 				<Image src={image} alt={name} fill className="object-cover" />
@@ -65,27 +65,32 @@ export default function CardList({ data }: CardListProps) {
 
 			{/* 모임 정보 영역 */}
 			<div className="flex w-full flex-col">
-				<div className="flex flex-col p-[16px_16px_21px_24px]">
+				<div className="flex flex-col pt-4 pr-4 pb-[21px] pl-6">
 					{/* 제목 + 장소 + 찜 아이콘 */}
 					<div className="flex justify-between">
-						<div className="flex items-center gap-2">
-							<h2 className="leading-lg text-lg font-semibold text-gray-800">{name}</h2>
-							<span className="leading-lg text-lg font-semibold text-gray-800">|</span>
-							<p className="leading-sm text-sm font-medium text-gray-700">{category}</p>
+						<div className="flex flex-col gap-2">
+							<div className="flex items-center gap-2">
+								<h2 className="leading-lg text-lg font-semibold text-white">{name}</h2>
+								<span className="leading-lg text-lg font-semibold text-white">|</span>
+								<p className="leading-sm text-primary-600 text-sm font-medium">{category}</p>
+							</div>
+
+							{/* 칩 인포 (날짜 + 시간) */}
+							<div className="mt-2 flex items-start gap-2">
+								<ChipInfo text={date} textColor="white" />
+								<ChipInfo text={time} textColor="primary" />
+							</div>
 						</div>
-
-						{!isClosed && <HeartButton id={id} />}
-					</div>
-
-					{/* 칩 인포 (날짜 + 시간) */}
-					<div className="mt-2 flex items-start gap-2">
-						<ChipInfo text={date} textColor="white" />
-						<ChipInfo text={time} textColor="primary" />
+						{!isClosed && (
+							<div className="flex items-center">
+								<HeartButton id={id} />
+							</div>
+						)}
 					</div>
 				</div>
 
 				{/* 참가인원 프로그래스바 */}
-				<div className="p-[8px_24px_16px_24px]">
+				<div className="px-6 pt-2 pb-4">
 					<ClassProgressBar
 						data={{
 							currentNumber: participantCount,
@@ -110,10 +115,10 @@ export default function CardList({ data }: CardListProps) {
 							{CLOSED_GATHERING_MESSAGE.subTitle}
 						</p>
 
-						<div className="mb:hidden bg-primary-50 flex items-center gap-2.5 rounded-[12px] px-3 py-1.5">
+						<div className="mb:hidden bg-primary-500 flex items-center gap-2.5 rounded-[12px] px-3 py-1.5">
 							<Image src="/icons/bye.svg" alt="찜한 영역" width={24} height={24} />
 							<button
-								className="leading-xs text-primary-600 cursor-pointer text-xs font-semibold"
+								className="leading-xs cursor-pointer text-xs font-semibold text-white"
 								onClick={e => {
 									e.stopPropagation(); // 부모 요소의 클릭 이벤트 전파 방지
 									removeWish(id);
@@ -123,9 +128,7 @@ export default function CardList({ data }: CardListProps) {
 						</div>
 					</div>
 
-					<div
-						className="max-mb:hidden bg-primary-50 absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full"
-						onClick={() => console.log('버튼클릭')}>
+					<div className="max-mb:hidden bg-primary-500 absolute top-4 right-5 flex h-12 w-12 items-center justify-center rounded-full">
 						<button className="cursor-pointer">
 							<Image
 								src="/icons/bye.svg"

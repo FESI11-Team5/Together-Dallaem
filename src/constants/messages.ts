@@ -72,8 +72,8 @@ export const AUTH_GUIDE_MESSAGES = {
  * 찜한 모임 페이지 메시지
  */
 export const LIKED_GATHERING_MESSAGE = {
-	title: '찜한 크루',
-	subTitle: '마감되기 전에 지금 바로 참여해보세요 👀',
+	title: '⚡ 찜한 크루 ON AIR',
+	subTitle: '늦기 전에 합류해 — 지금이 타이밍이야 💫',
 	noData: '아직 찜한 크루가 없어요'
 };
 

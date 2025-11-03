@@ -88,11 +88,11 @@ function GatheringNormalUserBtn() {
 		<>
 			{joinedUser ? (
 				<BasicButton onClick={handleCancel} outlined isActive={!past}>
-					{past ? '모집 기간 종료' : '크루 참가 취소하기'}
+					{past ? '모집 기간 종료' : '참가 취소'}
 				</BasicButton>
 			) : (
 				<BasicButton onClick={handleJoin} className="cursor-not-allowed" isActive={!(isFull || past)}>
-					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '크루 참가하기'}
+					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '크루 참가'}
 				</BasicButton>
 			)}
 		</>

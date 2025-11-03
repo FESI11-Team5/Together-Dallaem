@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { withGuard } from '@/components/hoc/withAuthGuard';
 
-import Image from 'next/image';
 import BasicButton from '@/components/commons/basic/BasicButton';
 import GatheringFunnel from '@/components/gatherings/GatheringFunnel';
 
@@ -14,7 +13,7 @@ function NormalCreateButton() {
 
 	return (
 		<GuardedButton onClick={() => openModal(<GatheringFunnel />)}>
-			<span className="pt-1">크루 생성</span>
+			<span>크루 생성</span>
 		</GuardedButton>
 	);
 }
@@ -25,10 +24,10 @@ function FloatingCreateButton() {
 
 	return (
 		<GuardedButton
+			id="floating-button"
 			onClick={() => openModal(<GatheringFunnel />)}
-			className="z-base fixed right-8 bottom-8 flex h-14 w-14 gap-3 rounded-full text-3xl">
-			<Image src="/icons/plus_gathering.svg" width={13} height={13} alt="크루 생성" />
-			<span className="pt-1">크루 생성</span>
+			className="z-layout fixed right-8 bottom-8 flex">
+			<span>크루 생성</span>
 		</GuardedButton>
 	);
 }
@@ -38,14 +37,11 @@ export default function CreateGatheringButton() {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			const screenScrollY = window.scrollY;
-
-			screenScrollY > 300 ? setShowFloating(true) : setShowFloating(false);
+			console.log(window.scrollY);
+			setShowFloating(window.scrollY > 300);
 		};
 		window.addEventListener('scroll', handleScroll);
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
+		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
-	return <div className="relative">{showFloating ? <FloatingCreateButton /> : <NormalCreateButton />}</div>;
+	return <>{showFloating ? <FloatingCreateButton /> : <NormalCreateButton />}</>;
 }

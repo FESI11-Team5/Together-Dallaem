@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { getGatherings } from '@/apis/gatherings';
@@ -14,54 +14,62 @@ import Tab from '../commons/Tab';
 import Chip from '../commons/Chip';
 import CardList from './cardList/CardList';
 import BasicPagination from '../commons/basic/BasicPagination';
+import { useQuery } from '@tanstack/react-query';
+import CardSkeleton from '@/app/(home)/CardSkeleton';
+import NoDataMessage from '../commons/NoDataMessage/NoDataMessage';
+import { cn } from '@/utils/cn';
 
 const ITEMS_PER_PAGE = 4;
 
 export default function FavoriteGatherings() {
 	const [selectedTab, setSelectedTab] = useState<'DALLAEMFIT' | 'WORKATION'>('DALLAEMFIT');
 	const [selectedChip, setSelectedChip] = useState<GatheringType>('DALLAEMFIT');
-	const { wishlist } = useWishlistStore();
-	const hasHydrated = useWishlistStore(state => state.hasHydrated);
-	const [favoriteGatherings, setFavoriteGatherings] = useState<Gathering[]>([]);
-	const [pageState, setPageState] = useState({
-		DALLAEMFIT: 1,
-		WORKATION: 1
-	});
+	const [pageState, setPageState] = useState({ DALLAEMFIT: 1, WORKATION: 1 });
+
+	const { wishlist, hasHydrated } = useWishlistStore();
 	const router = useRouter();
-	useEffect(() => {
-		if (!hasHydrated) return;
-		if (wishlist.size === 0) {
-			setFavoriteGatherings([]);
-			return;
+
+	/** 찜한 모임 목록 쿼리 */
+	const { data: favoriteGatherings = [], isLoading } = useQuery({
+		queryKey: ['favoriteGatherings', Array.from(wishlist)],
+		queryFn: async () => {
+			if (!hasHydrated || wishlist.size === 0) return [];
+			const ids = Array.from(wishlist).join(',');
+			return await getGatherings(`id=${ids}`);
 		}
-
-		const fetchData = async () => {
-			try {
-				const ids = Array.from(wishlist).join(',');
-				const data = await getGatherings(`id=${ids}`);
-				setFavoriteGatherings(data);
-			} catch (err) {
-				console.error('찜한 모임 불러오기 실패:', err);
-				setFavoriteGatherings([]);
-			}
-		};
-
-		fetchData();
-	}, [wishlist, hasHydrated]);
-
-	const wishlistIds = Array.from(wishlist);
-	const likedGatherings = favoriteGatherings.filter(g => wishlistIds.includes(g.id));
-	const filteredGatherings = likedGatherings.filter(g => {
-		if (selectedTab === 'WORKATION') return g.type === 'WORKATION';
-
-		if (selectedTab === 'DALLAEMFIT') {
-			if (selectedChip === 'DALLAEMFIT') return g.type !== 'WORKATION';
-			if (selectedChip === 'OFFICE_STRETCHING') return g.type === 'OFFICE_STRETCHING';
-			if (selectedChip === 'MINDFULNESS') return g.type === 'MINDFULNESS';
-		}
-
-		return false;
 	});
+
+	/** 필터링 */
+	const filteredGatherings = useMemo(() => {
+		const wishlistIds = Array.from(wishlist);
+		const likedGatherings = favoriteGatherings.filter(g => wishlistIds.includes(g.id));
+
+		const result = likedGatherings.filter(g => {
+			if (selectedTab === 'WORKATION') return g.type === 'WORKATION';
+			if (selectedTab === 'DALLAEMFIT') {
+				if (selectedChip === 'DALLAEMFIT') return g.type !== 'WORKATION';
+				if (selectedChip === 'OFFICE_STRETCHING') return g.type === 'OFFICE_STRETCHING';
+				if (selectedChip === 'MINDFULNESS') return g.type === 'MINDFULNESS';
+			}
+			return false;
+		});
+
+		return result.sort((a, b) => {
+			const now = new Date();
+			const aEndDate = new Date(a.registrationEnd);
+			const bEndDate = new Date(b.registrationEnd);
+
+			const aIsExpired = aEndDate < now;
+			const bIsExpired = bEndDate < now;
+
+			// 만료된 모임은 뒤로 보내기
+			if (aIsExpired === bIsExpired) {
+				// 둘 다 같은 상태라면 날짜순 정렬 (가까운 순)
+				return aEndDate.getTime() - bEndDate.getTime();
+			}
+			return aIsExpired ? 1 : -1;
+		});
+	}, [favoriteGatherings, wishlist, selectedTab, selectedChip]);
 
 	const currentPage = pageState[selectedTab];
 	const totalPages = Math.ceil(filteredGatherings.length / ITEMS_PER_PAGE);
@@ -77,7 +85,7 @@ export default function FavoriteGatherings() {
 	};
 
 	return (
-		<div className="flex h-auto flex-col items-center pt-10">
+		<div className="max-mb:px-4 flex h-auto flex-col items-center pt-6">
 			<div className="w-full max-w-[996px]">
 				{/* 타이틀 */}
 				<section className="flex w-full items-start justify-start gap-[13px]">
@@ -92,8 +100,20 @@ export default function FavoriteGatherings() {
 						/>
 					</div>
 					<div className="flex flex-col items-start justify-center gap-2">
-						<h1 className="leading-sm text-primary-500 text-sm font-bold">{LIKED_GATHERING_MESSAGE.title}</h1>
-						<p className="leading-lg text-primary-50 text-lg font-bold">{LIKED_GATHERING_MESSAGE.subTitle}</p>
+						<h1
+							className={cn(
+								'text-primary-500 text-sm font-medium',
+								'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]'
+							)}>
+							{LIKED_GATHERING_MESSAGE.title}
+						</h1>
+						<p
+							className={cn(
+								'mb:text-2xl text-primary-50 text-lg font-semibold',
+								'[text-shadow:0_0_1px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_2px_#e6fffa]'
+							)}>
+							{LIKED_GATHERING_MESSAGE.subTitle}
+						</p>
 					</div>
 				</section>
 
@@ -150,26 +170,29 @@ export default function FavoriteGatherings() {
 				<div className="max-mb:min-h-[1500px] flex min-h-[820px] flex-col justify-between">
 					{/* 카드 리스트 */}
 					<div className="mt-6 flex grow flex-col gap-6">
-						{paginatedGatherings.length === 0 ? (
-							<div className="leading-sm flex flex-col items-center justify-center text-sm font-medium text-gray-500">
-								<Image src={'/images/no_data.svg'} alt={'No Data'} width={171} height={136} className="object-cover" />
-								{LIKED_GATHERING_MESSAGE.noData}
-							</div>
+						{isLoading ? (
+							// 로딩 중일 때: 스켈레톤 4개 렌더링
+							Array.from({ length: 4 }).map((_, idx) => <CardSkeleton key={idx} />)
+						) : paginatedGatherings.length === 0 ? (
+							<NoDataMessage text="찜한 크루가 없네요" />
 						) : (
 							paginatedGatherings.map(gathering => (
-								<div
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									transition={{ duration: 0.8 }}
 									key={gathering.id}
 									onClick={() => router.push(`/gatherings/${gathering.id}`)}
 									className="hover:cursor-pointer">
 									<CardList data={gathering} />
-								</div>
+								</motion.div>
 							))
 						)}
 					</div>
 
 					{/* 페이지네이션 */}
 					{totalPages > 1 && (
-						<div className="mt-12 flex justify-center">
+						<div className="my-12 flex justify-center">
 							<BasicPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
 						</div>
 					)}

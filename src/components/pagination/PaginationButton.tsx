@@ -20,7 +20,7 @@ const paginationButtonVariants = cva(
 	{
 		variants: {
 			variant: {
-				active: 'text-primary-500 font-semibold',
+				active: 'text-root font-semibold bg-primary-500 rounded-lg',
 				inactive: 'text-white font-regular'
 			},
 

@@ -3,7 +3,7 @@ import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
-import NoDataMessage from '../common/NoDataMessage/NoDataMessage';
+import NoDataMessage from '../../../commons/NoDataMessage/NoDataMessage';
 import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
 /**
  * JoinedGatherings 컴포넌트

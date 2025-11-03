@@ -15,6 +15,7 @@ import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
 
 import Image from 'next/image';
 import GatheringInfoSectionSkeleton from './skeleton/GatheringInfoSectionSkeleton';
+import { PROFILE_PATHS } from '@/constants/assetPath';
 
 /** 모임 상세페이지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
@@ -71,8 +72,8 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 			<div className="flex justify-between">
 				<div className="flex flex-col gap-3">
 					<div className="flex flex-col gap-0.5">
-						<h1 className="leading-lg text-lg font-semibold text-white">{name}</h1>
-						<div className="leading-sm text-primary-600 text-sm font-bold">{category}</div>
+						<h1 className="leading-lg text-lg font-semibold text-white text-shadow-white">{name}</h1>
+						<div className="leading-sm text-primary-600 font-regular text-sm">{category}</div>
 					</div>
 
 					<div className="flex gap-2">
@@ -110,10 +111,10 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 								className={`group/name transition-all duration-300 ease-in-out ${idx !== 0 ? '-ml-3 group-hover/images:-ml-1' : ''} relative`}>
 								<div className="flex h-[30px] w-[30px] items-center justify-center overflow-hidden rounded-full">
 									<Image
-										src={participant?.User?.image || '/images/profile.svg'}
+										src={participant?.User?.image || PROFILE_PATHS.DEFAULT_PROFILE_SRC}
 										alt={participant?.User?.name || '참가자'}
 										fill
-										className="rounded-full border-2 border-gray-100 object-cover"
+										className="bg-root rounded-full border-2 border-gray-100 object-cover"
 									/>
 								</div>
 								<span
