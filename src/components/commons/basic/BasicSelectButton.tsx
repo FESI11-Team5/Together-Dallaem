@@ -64,7 +64,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 		},
 		ref
 	) => {
-		const hasValue = Boolean(value || displayText);
+		const hasValue = Boolean(value && value !== '');
 
 		//props에 따른 selectbutton 클래스 설정
 		const buttonClasses = useMemo(() => {

@@ -75,10 +75,8 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 		const [selectedValue, setSelectedValue] = useState<string | number>('');
 		const containerRef = useRef<HTMLDivElement>(null);
 
-		// React Hook Form 연동
 		const formContext = useFormContext();
 		const currentValue = register?.name && formContext ? formContext.watch(register.name) : defaultValue;
-
 		const displayValue = useMemo(() => selectedValue || currentValue || '', [selectedValue, currentValue]);
 
 		const selectedOption = useMemo(
@@ -107,20 +105,17 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 			}
 		}, [currentValue]);
 
-		// 옵션 선택 처리
 		const handleSelect = useCallback(
 			(optionValue: string | number) => {
 				setSelectedValue(optionValue);
 				setIsOpen(false);
 
-				// React Hook Form 연동
 				if (register?.onChange) {
 					register.onChange({
 						target: { name: register.name, value: optionValue }
 					});
 				}
 
-				// 외부 콜백 호출
 				onChange?.(optionValue);
 			},
 			[register, onChange]
