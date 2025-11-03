@@ -23,9 +23,13 @@ export default function CreatedGatherings() {
 		return <NoDataMessage text="아직 만든 크루가 없어요" />;
 	}
 
-	return gatherings.map(gathering => (
-		<div onClick={() => router.push(`/gatherings/${gathering.id}`)} key={gathering.id} className="cursor-pointer">
-			<CardLayout gathering={gathering}></CardLayout>
+	return (
+		<div className="flex flex-1 cursor-pointer flex-col gap-6">
+			{gatherings.map(gathering => (
+				<div onClick={() => router.push(`/gatherings/${gathering.id}`)} key={gathering.id}>
+					<CardLayout gathering={gathering}></CardLayout>
+				</div>
+			))}
 		</div>
-	));
+	);
 }
