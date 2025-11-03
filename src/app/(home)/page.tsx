@@ -51,6 +51,9 @@ export default function HomePage() {
 		}
 	}, [inView, fetchNextPage]);
 
+	const hasData = data && data.length > 0;
+	const isEmpty = !isLoading && !hasData;
+
 	return (
 		<div className="mb:px-6 mb:pt-10 pc:max-w-300 pc:px-25 mb:gap-8 bg-root m-auto flex w-full flex-1 flex-col gap-6 px-4 pt-6">
 			{/* TODO: 이 부분도 공통 부분으로 컴포넌트 빼도 될듯 */}
@@ -77,18 +80,20 @@ export default function HomePage() {
 			{/* // TODO: 리팩터링 */}
 			<div className="mb:gap-6 flex flex-1 flex-col gap-4">
 				<GatheringFilterBar setFilterCriteria={setFilterCriteria} />
-				{data && data?.length > 0 ? (
+				{hasData && (
 					<>
 						<CardList gatherings={data} />
 						<div ref={ref} />
 					</>
-				) : isLoading ? (
+				)}
+				{isLoading && (
 					<div className="flex flex-col gap-6">
 						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
 							<CardSkeleton key={i} />
 						))}
 					</div>
-				) : (
+				)}
+				{isEmpty && (
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
