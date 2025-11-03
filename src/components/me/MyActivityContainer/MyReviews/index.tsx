@@ -1,15 +1,15 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { JoinedGathering } from '@/types/response/gatherings';
-import { ReviewResponse, GetReviewsResponse } from '@/types/response/reviews';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { getReviews } from '@/apis/reviews/reviews';
 import { useUserStore } from '@/stores/user';
+import type { JoinedGathering } from '@/types/response/gatherings';
+import type { ReviewResponse, GetReviewsResponse } from '@/types/response/reviews';
 import WritableReviewCard from './WritableReviewCard';
 import WrittenReviewCard from './WrittenReviewCard';
+import NoDataMessage from '../common/NoDataMessage/NoDataMessage';
 import Chip from '@/components/commons/Chip';
 
 /**
@@ -82,18 +82,12 @@ export default function MyReviews() {
 						/>
 					))
 				) : (
-					<div className="flex h-full flex-1 flex-col items-center justify-center">
-						<Image src="/images/no_data.svg" alt="데이터 없음 이미지" width={171} height={136} />
-						<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
-					</div>
+					<NoDataMessage text="작성 가능한 리뷰가 아직 없어요" />
 				)
 			) : writtenReviewsData.length > 0 ? (
 				writtenReviewsData.map(review => <WrittenReviewCard key={review.id} review={review} />)
 			) : (
-				<div className="flex h-full flex-1 flex-col items-center justify-center">
-					<Image src="/images/no_data.svg" alt="데이터 없음 이미지" width={171} height={136} />
-					<p className="text-sm text-gray-500">신청한 모임이 아직 없어요</p>
-				</div>
+				<NoDataMessage text="작성한 리뷰가 아직 없어요" />
 			)}
 		</div>
 	);

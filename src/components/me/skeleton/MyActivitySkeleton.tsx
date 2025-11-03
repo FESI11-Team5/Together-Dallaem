@@ -12,10 +12,10 @@ import GatheringSkeleton from './GatheringSkeleton';
  */
 export default function MyActivitySkeleton() {
 	return (
-		<div className="tb:px-6 flex flex-1 flex-col gap-6 border-t-2 border-gray-200 px-4 py-6">
+		<div className="tb:px-6 flex flex-1 flex-col gap-6 border-t-2 border-gray-600 px-4 py-6">
 			<div className="flex gap-3">
 				{Array.from({ length: 3 }).map((_, index) => (
-					<div key={index} className="h-7 w-17 rounded-3xl bg-gray-200"></div>
+					<div key={index} className="h-7 w-17 rounded-3xl bg-gray-600"></div>
 				))}
 			</div>
 			<GatheringSkeleton />

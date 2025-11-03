@@ -1,8 +1,8 @@
-import { JoinedGathering } from '@/types/response/gatherings';
-import CardLayout from '../common/CardLayout';
 import { useModal } from '@/hooks/useModal';
-import BasicButton from '@/components/commons/basic/BasicButton';
+import type { JoinedGathering } from '@/types/response/gatherings';
+import CardLayout from '../common/CardLayout/CardLayout';
 import ReviewWriteModal from '../modals/ReviewWriteModal';
+import BasicButton from '@/components/commons/basic/BasicButton';
 
 interface GatheringProps {
 	/** 리뷰 작성이 가능한 모임 객체 */
@@ -30,11 +30,7 @@ export default function WritableReviewCard({ gathering, onSuccess }: GatheringPr
 
 	return (
 		<CardLayout gathering={gathering}>
-			<BasicButton
-				className="!w-fit px-[22px] transition-colors hover:bg-primary-700 active:bg-primary-800"
-				onClick={handleClick}>
-				리뷰 작성하기
-			</BasicButton>
+			<BasicButton onClick={handleClick}>리뷰 작성하기</BasicButton>
 		</CardLayout>
 	);
 }

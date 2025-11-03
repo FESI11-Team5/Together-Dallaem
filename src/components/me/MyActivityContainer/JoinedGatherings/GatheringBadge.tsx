@@ -1,4 +1,4 @@
-import { JoinedGathering } from '@/types/response/gatherings';
+import type { JoinedGathering } from '@/types/response/gatherings';
 import ChipState from '@/components/commons/ChipState';
 
 interface GatheringBadgeProps {
