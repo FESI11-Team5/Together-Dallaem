@@ -1,0 +1,24 @@
+<!-- <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="32px" height="32px"><path d="M 24 4 C 12.972066 4 4 12.972074 4 24 C 4 35.027926 12.972066 44 24 44 C 35.027934 44 44 35.027926 44 24 C 44 12.972074 35.027934 4 24 4 z M 24 7 C 33.406615 7 41 14.593391 41 24 C 41 33.406609 33.406615 41 24 41 C 14.593385 41 7 33.406609 7 24 C 7 14.593391 14.593385 7 24 7 z M 23.476562 11.978516 A 1.50015 1.50015 0 0 0 22 13.5 L 22 25.5 A 1.50015 1.50015 0 0 0 23.5 27 L 31.5 27 A 1.50015 1.50015 0 1 0 31.5 24 L 25 24 L 25 13.5 A 1.50015 1.50015 0 0 0 23.476562 11.978516 z" fill="#b2fff3"/></svg> -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+    <defs>
+        <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+        <!-- 부드럽게 퍼지는 3단계 블러 -->
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur1"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur2"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur3"/>
+        <feMerge>
+            <feMergeNode in="blur3"/>
+            <feMergeNode in="blur2"/>
+            <feMergeNode in="blur1"/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+        </filter>
+    </defs>
+
+    <g transform="scale(0.75) translate(6, 6)" filter="url(#glow)">
+        <path d="M24 4C12.97 4 4 12.97 4 24s8.97 20 20 20 20-8.97 20-20S35.03 4 24 4zm0 3C33.41 7 41 14.59 41 24S33.41 41 24 41 7 33.41 7 24 14.59 7 24 7zm-.52 4.98A1.5 1.5 0 0 0 22 13.5v12a1.5 1.5 0 0 0 1.5 1.5h8a1.5 1.5 0 1 0 0-3H25V13.5a1.5 1.5 0 0 0-1.52-1.52z" fill="#b7fff6"
+    />
+    </g>
+</svg>
+
+

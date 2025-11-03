@@ -3,14 +3,17 @@
 import { postSignout } from '@/apis/auths/signout';
 
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { PROFILE_PATHS } from '@/constants/assetPath';
 import { DROPDOWN_MENU_OPTIONS, NAVBAR_MENU_LINKS } from '@/constants/options';
 import { useAuth } from '@/hooks/useAuth';
 import { useScreenSize } from '@/hooks/useScreenSize';
+import { useTokenStore } from '@/stores/token';
 import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import SessionTimer from './SessionTimer';
 
 /**
  * GNB(Global Navigation Bar)
@@ -21,6 +24,7 @@ export default function GNB() {
 	const router = useRouter();
 	const pathname = usePathname();
 	const user = useUserStore(state => state.user);
+	const signoutToken = useTokenStore(state => state.signoutUser);
 	const signoutUser = useUserStore(state => state.signoutUser);
 	const { isAuthenticated } = useAuth();
 	const screenSize = useScreenSize();
@@ -35,18 +39,21 @@ export default function GNB() {
 			return;
 		}
 
-		if (pathname.startsWith('/me')) {
-			router.replace('/');
-			// TODO: 이게 최선인가? 시간되면 useTransition 시도해보기
-			setTimeout(async () => {
-				await postSignout();
-				signoutUser();
-			}, 800);
+		if (!pathname.startsWith('/me')) {
+			await postSignout();
+			signoutToken();
+			signoutUser();
 			return;
 		}
 
-		await postSignout();
-		signoutUser();
+		router.replace('/');
+		// TODO: 이게 최선인가? 시간되면 useTransition 시도해보기
+		setTimeout(async () => {
+			await postSignout();
+			// TODO: 추후에 단일 스토어들 합쳐서 사용
+			signoutToken();
+			signoutUser();
+		}, 800);
 	};
 
 	/**
@@ -55,7 +62,7 @@ export default function GNB() {
 	 */
 	const handleSigninClick = () => {
 		if (pathname === '/signin') return;
-		const path = pathname !== '/' ? '/signin?next=' + encodeURIComponent(pathname) : '/signin';
+		const path = pathname !== '/' ? '/signin?redirectTo=' + encodeURIComponent(pathname) : '/signin';
 		router.push(path);
 	};
 
@@ -97,20 +104,23 @@ export default function GNB() {
 					</div>
 
 					{isAuthenticated ? (
-						<DropdownMenu>
-							<DropdownMenu.Trigger>
-								<div className="relative size-[40px] overflow-hidden rounded-full">
-									<Image
-										priority
-										src={user?.image || '/images/profile.svg'}
-										alt="프로필 사진"
-										fill
-										className="object-cover"
-									/>
-								</div>
-							</DropdownMenu.Trigger>
-							<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
-						</DropdownMenu>
+						<div className="mb:gap-2 flex items-center justify-between gap-1">
+							<SessionTimer />
+							<DropdownMenu>
+								<DropdownMenu.Trigger>
+									<div className="relative size-[40px] overflow-hidden rounded-full">
+										<Image
+											priority
+											src={user?.image || PROFILE_PATHS.DEFAULT_PROFILE_SRC}
+											alt="프로필 사진"
+											fill
+											className="object-cover"
+										/>
+									</div>
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content options={DROPDOWN_MENU_OPTIONS} onClick={handleDropdownMenuClick} />
+							</DropdownMenu>
+						</div>
 					) : (
 						// TODO: button or Link로 바꿀지 고민해서 수정
 						<div

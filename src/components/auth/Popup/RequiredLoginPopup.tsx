@@ -29,7 +29,7 @@ export default function RequiredLoginPopup({ next }: RequiredLoginPopupProps) {
 
 	const handleClick = () => {
 		closeModal();
-		router.push('/signin?next=' + encodeURIComponent(next));
+		router.push('/signin?redirectTo=' + encodeURIComponent(next));
 	};
 
 	return <BasicPopup title={POPUP_MESSAGE.REQUIRED_LOGIN.title} onConfirm={handleClick} />;

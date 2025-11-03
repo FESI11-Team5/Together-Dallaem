@@ -64,8 +64,8 @@ export const FOOTER_MESSAGE = {
  * form 하단에 들어가는 Auth 가이드 메시지
  */
 export const AUTH_GUIDE_MESSAGES = {
-	EXISTING_MEMBER: '이미 회원이신가요?',
-	NEW_MEMBER: '같이 달램이 처음이신가요?'
+	EXISTING_MEMBER: '이미 플레이어신가요?',
+	NEW_MEMBER: 'GAMEOW는 처음이신가요?'
 };
 
 /**

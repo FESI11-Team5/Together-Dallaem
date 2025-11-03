@@ -23,8 +23,8 @@ describe('SignupForm 통합 테스트', () => {
 		runValidationScenarios('이메일', SIGNUP_ERRORS.INVALID_EMAIL, 'viscacha@');
 	});
 
-	describe('회사명을 입력하지 않으면 "회사명을 입력해 주세요"라는 에러 메시지가 표시된다', () => {
-		runValidationScenarios('회사명', SIGNUP_ERRORS.REQUIRED_COMPANY_NAME);
+	describe('닉네임을 입력하지 않으면 "닉네임을 입력해 주세요"라는 에러 메시지가 표시된다', () => {
+		runValidationScenarios('닉네임', SIGNUP_ERRORS.REQUIRED_COMPANY_NAME);
 	});
 
 	describe('비밀번호가 8자 이상이 아니면 "비밀번호가 8자 이상이 되도록 해 주세요"라는 에러 메시지가 표시된다', () => {
@@ -44,7 +44,7 @@ describe('SignupForm 통합 테스트', () => {
 		test('모든 필드가 유효하면 폼이 제출된다', async () => {
 			const nameInput = screen.getByLabelText('이름');
 			const emailInput = screen.getByLabelText('이메일');
-			const companyInput = screen.getByLabelText('회사명');
+			const companyInput = screen.getByLabelText('닉네임');
 			const passwordInput = screen.getByLabelText('비밀번호');
 			const passwordConfirmInput = screen.getByLabelText('비밀번호 확인');
 			const button = screen.getByRole('button', { name: '회원가입 확인' });
