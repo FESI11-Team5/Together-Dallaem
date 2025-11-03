@@ -34,7 +34,8 @@ function GatheringNormalUserBtn() {
 		onSuccess: async () => {
 			await Promise.all([
 				queryClient.invalidateQueries({ queryKey: ['gathering', gathering.id] }),
-				queryClient.invalidateQueries({ queryKey: ['participants', gathering.id] })
+				queryClient.invalidateQueries({ queryKey: ['participants', gathering.id] }),
+				queryClient.invalidateQueries({ queryKey: ['favoriteGatherings'] })
 			]);
 			openModal(<BasicPopup title="모임에 참가되었습니다" />, 'join-gathering-popup');
 		},
@@ -50,7 +51,8 @@ function GatheringNormalUserBtn() {
 		onSuccess: async () => {
 			await Promise.all([
 				queryClient.invalidateQueries({ queryKey: ['gathering', gathering.id] }),
-				queryClient.invalidateQueries({ queryKey: ['participants', gathering.id] })
+				queryClient.invalidateQueries({ queryKey: ['participants', gathering.id] }),
+				queryClient.invalidateQueries({ queryKey: ['favoriteGatherings'] })
 			]);
 			openModal(<BasicPopup title="모임 참가가 취소되었습니다." />, 'leave-gathering-popup');
 		},

@@ -50,7 +50,7 @@ export default function HomePage() {
 			fetchNextPage();
 		}
 	}, [inView, fetchNextPage]);
-
+	console.log(data);
 	return (
 		<div className="mb:px-6 mb:pt-10 pc:max-w-300 pc:px-25 mb:gap-8 bg-root m-auto flex w-full flex-1 flex-col gap-6 px-4 pt-6">
 			{/* TODO: 이 부분도 공통 부분으로 컴포넌트 빼도 될듯 */}

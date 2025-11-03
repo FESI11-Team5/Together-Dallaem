@@ -85,6 +85,12 @@ export const CLOSED_GATHERING_MESSAGE = {
 	subTitle: '다음 기회에 만나요 🙏'
 };
 
+/** 정원이 가득 찬 모임 카드 메세지 */
+export const FULL_GATHERING_MESSAGE = {
+	title: '이 크루는 만석이에요 🔐',
+	subTitle: '다른 크루를 찾아볼까요?'
+};
+
 /**
  * 모집 취소된 모임 메세지
  */

@@ -37,7 +37,6 @@ export default function CreateGatheringButton() {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			console.log(window.scrollY);
 			setShowFloating(window.scrollY > 300);
 		};
 		window.addEventListener('scroll', handleScroll);

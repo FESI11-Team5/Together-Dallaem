@@ -3,7 +3,7 @@
 import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
 
 import { formatDateAndTime } from '@/utils/date';
-import { CLOSED_GATHERING_MESSAGE } from '@/constants/messages';
+import { CLOSED_GATHERING_MESSAGE, FULL_GATHERING_MESSAGE } from '@/constants/messages';
 import { useWishlistStore } from '@/stores/wishlist';
 import type { Gathering } from '@/types/response/gatherings';
 
@@ -23,10 +23,11 @@ interface CardListProps {
  */
 export default function CardList({ data }: CardListProps) {
 	const { id, image, name, location, participantCount, capacity, registrationEnd, dateTime } = data;
+	const { date, time } = formatDateAndTime(dateTime);
 	const now = new Date();
 	const endDate = new Date(registrationEnd);
 	const isClosed = participantCount >= capacity || isPast(new Date(registrationEnd));
-	const { date, time } = formatDateAndTime(dateTime);
+	const isFull = participantCount === capacity;
 	const removeWish = useWishlistStore(state => state.removeWish);
 	let tagText = '';
 	let category = '';
@@ -109,12 +110,19 @@ export default function CardList({ data }: CardListProps) {
 						e.stopPropagation(); // 부모 요소의 클릭 이벤트 전파 방지
 					}}>
 					<div className="flex flex-col gap-6">
-						<p className="leading-sm text-center text-sm font-medium">
-							{CLOSED_GATHERING_MESSAGE.title}
-							<br />
-							{CLOSED_GATHERING_MESSAGE.subTitle}
-						</p>
-
+						{isFull ? (
+							<p className="leading-sm text-center text-sm font-medium">
+								{FULL_GATHERING_MESSAGE.title}
+								<br />
+								{FULL_GATHERING_MESSAGE.subTitle}
+							</p>
+						) : (
+							<p className="leading-sm text-center text-sm font-medium">
+								{CLOSED_GATHERING_MESSAGE.title}
+								<br />
+								{CLOSED_GATHERING_MESSAGE.subTitle}
+							</p>
+						)}
 						<div className="mb:hidden bg-primary-500 flex items-center gap-2.5 rounded-[12px] px-3 py-1.5">
 							<Image src="/icons/bye.svg" alt="찜한 영역" width={24} height={24} />
 							<button
