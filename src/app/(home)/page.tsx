@@ -12,6 +12,8 @@ import { useDeferredValue, useMemo, useState } from 'react';
 import CardList from './CardList';
 import CardSkeleton from './CardSkeleton';
 
+const SKELETON_ITEMS = Array.from({ length: 10 }, (_, i) => i);
+
 // TODO: 쿼리 상태 라이브러리 쓰는 걸로 변경하기
 /**
  * 홈 페이지 컴포넌트
@@ -65,7 +67,7 @@ export default function HomePage() {
 				)}
 				{isLoading && (
 					<div className="flex flex-col gap-6">
-						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+						{SKELETON_ITEMS.map(i => (
 							<CardSkeleton key={i} />
 						))}
 					</div>
