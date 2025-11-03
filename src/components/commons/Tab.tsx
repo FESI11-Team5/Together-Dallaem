@@ -129,7 +129,7 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 							'group font-medium transition-colors duration-200',
 							`${selectedTab === option.value ? 'text-shadow-primary font-extrabold text-white' : 'text-gray-400'}`
 						)}>
-						<span className="text-lg font-semibold">{option.text}</span>
+						<span className="font-semibol mb:block hidden text-lg">{option.text}</span>
 
 						{/* SVG를 컴포넌트로 동적 로드하여 글로우 효과 적용 */}
 						{option.icon && <IconWithGlow iconUrl={option.icon} isSelected={selectedTab === option.value} />}
