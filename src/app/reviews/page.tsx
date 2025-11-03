@@ -99,12 +99,24 @@ export default function Reviews() {
 
 	return (
 		<div className="box-border bg-white/15" style={{ fontFamily: 'var(--font-pretendard)' }}>
-			<div className="tb:px-6 tb:pt-8 pc:max-w-300 pc:px-25 bg-root m-auto min-h-[100vh] px-4 pt-6">
-				<section className="mb-[38px] flex items-center gap-1.5">
+			<div className="tb:px-6 tb:pt-10 pc:max-w-300 pc:px-25 bg-root m-auto min-h-[100vh] px-4 pt-6">
+				<section className="mb-[38px] flex gap-4">
 					<Image src="/images/review.svg" alt="review icon" width={72} height={72} />
-					<div>
-						<h1 className={cn('text-primary-500 mb-2 text-2xl font-semibold')}>{REVIEWS_MESSAGE.title}</h1>
-						<h3 className="text-sm font-medium text-white">{REVIEWS_MESSAGE.subtitle}</h3>
+					<div className="flex flex-col gap-2">
+						<p
+							className={cn(
+								'text-primary-500 text-sm font-medium',
+								'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_2px_#5ff7e6]'
+							)}>
+							{REVIEWS_MESSAGE.title}
+						</p>
+						<h2
+							className={cn(
+								'mb:text-2xl text-primary-50 text-lg font-semibold',
+								'[text-shadow:0_0_1px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_2px_#e6fffa]'
+							)}>
+							{REVIEWS_MESSAGE.subtitle}
+						</h2>
 					</div>
 				</section>
 				<section>

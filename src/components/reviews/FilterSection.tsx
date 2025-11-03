@@ -51,7 +51,7 @@ export default function FilterSection({ onFilterChange }: { onFilterChange?: Fil
 					}}
 				/>
 			</div>
-			<SortButton options={SORT_OPTIONS} register={register('sort')} defaultValue={'createdAt'} />
+			<SortButton options={SORT_OPTIONS} register={register('sort')} defaultValue={'newest'} />
 		</div>
 	);
 }
