@@ -1,9 +1,57 @@
 'use client';
 
+import { forwardRef } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 import { forwardRef, useMemo } from 'react';
 
-interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+const basicSelectButtonVariants = cva(
+	'bg-root border-2 rounded-[12px] font-medium outline-none box-border flex items-center justify-between text-left transition-all cursor-pointer',
+	{
+		variants: {
+			expanded: {
+				true: 'w-full h-[44px] border-primary-400 px-[12px] py-[6px] mb:py-[8px]',
+				false: 'w-[110px] h-[36px] mb:h-[40px] px-[12px] py-[6px] mb:py-[8px] border-primary-300'
+			},
+			hasValue: {
+				true: 'text-primary-400 shadow-primary-500/50 shadow-lg border-primary-400',
+				false: ''
+			}
+		},
+		compoundVariants: [
+			{
+				expanded: false,
+				hasValue: false,
+				class: 'border-white text-white'
+			},
+			{
+				expanded: true,
+				hasValue: false,
+				class: 'border-primary-400 text-white'
+			}
+		],
+		defaultVariants: {
+			expanded: false,
+			hasValue: false
+		}
+	}
+);
+
+const arrowVariants = cva('ml-[-2px] transition-transform duration-200 ease-in-out', {
+	variants: {
+		isOpen: {
+			true: 'rotate-180',
+			false: 'rotate-0'
+		}
+	},
+	defaultVariants: {
+		isOpen: false
+	}
+});
+
+interface BasicSelectButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+		VariantProps<typeof basicSelectButtonVariants> {
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
 	expanded?: boolean;
 	/** 기본 placeholder 텍스트 */
@@ -65,48 +113,17 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 		ref
 	) => {
 		const hasValue = Boolean(value && value !== '');
-
-		//props에 따른 selectbutton 클래스 설정
-		const buttonClasses = useMemo(() => {
-			// 너비 및 높이 설정
-			const widthHeight = expanded
-				? 'w-full h-[44px] border-primary-400 border-primary-400'
-				: 'w-[110px] h-[36px] mb:h-[40px]';
-
-			// 배경색 설정
-			const backgroundColor = hasValue
-				? 'text-primary-400 shadow-primary-500/50 shadow-lg border-primary-400'
-				: expanded
-					? 'text-white border-primary-400'
-					: 'text-white border-white';
-
-			return `${widthHeight} bg-root border-2 border-primary-300 rounded-[12px] px-[12px] py-[6px] mb:py-[8px] font-medium outline-none box-border ${
-				disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-			} flex items-center justify-between text-left ${backgroundColor}`;
-		}, [expanded, disabled, hasValue]);
-
-		const arrowClasses = useMemo(
-			() =>
-				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out bg-[url('/icons/arrow_invert.svg')] ${
-					disabled ? 'hidden' : 'block'
-				}
-				${side === 'bottom' && (isOpen ? 'rotate-180' : 'rotate-0')}
-				${side === 'right' && (isOpen ? 'rotate-90' : 'rotate-270')}
-				}`,
-			[disabled, isOpen, hasValue, expanded, side]
-		);
-
-		const textColor = useMemo(() => {
-			return hasValue ? 'text-primary-400' : 'text-white';
-		}, [expanded, hasValue]);
+		const textColor = hasValue ? 'text-primary-400' : 'text-white';
 
 		return (
 			<button
 				ref={ref}
 				type="button"
 				className={cn(
-					`${buttonClasses} ${className}`,
-					'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]'
+					basicSelectButtonVariants({ expanded, hasValue }),
+					disabled && 'cursor-not-allowed opacity-50',
+					'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+					className
 				)}
 				onClick={onClick}
 				disabled={disabled}
@@ -114,11 +131,17 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 				aria-haspopup="listbox"
 				aria-label={displayText ? `선택됨: ${displayText}` : placeholder}
 				{...rest}>
-				<span className={`${textColor} text-[14px]`}>
+				<span className={cn(textColor, 'text-[14px]')}>
 					{children}
 					{displayText || placeholder}
 				</span>
-				<div className={arrowClasses} />
+				{!disabled && (
+					<img
+						src="/icons/arrow_invert.svg"
+						alt="arrow"
+						className={cn(arrowVariants({ isOpen }), 'h-[24px] w-[24px]')}
+					/>
+				)}
 			</button>
 		);
 	}
