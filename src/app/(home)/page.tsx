@@ -1,17 +1,18 @@
 'use client';
 
-import { getGatherings } from '@/apis/gatherings';
 import GatheringFilterBar, { type FilterCriteria } from '@/app/(home)/GatheringFilterBar';
 import { cn } from '@/utils/cn';
 import { getGatheringQuery } from '@/utils/query';
-import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 // TODO: motion import 최적화
+import { useInfiniteGatheringsQuery } from '@/hooks/useInfiniteGatheringsQuery';
+import { Gathering } from '@/types/response/gatherings';
 import * as motion from 'motion/react-client';
 import Image from 'next/image';
-import { useDeferredValue, useEffect, useMemo, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useDeferredValue, useMemo, useState } from 'react';
 import CardList from './CardList';
 import CardSkeleton from './CardSkeleton';
+
+const SKELETON_ITEMS = Array.from({ length: 10 }, (_, i) => i);
 
 // TODO: 쿼리 상태 라이브러리 쓰는 걸로 변경하기
 /**
@@ -30,27 +31,8 @@ export default function HomePage() {
 
 	const deferredFilter = useDeferredValue(filterCriteria);
 	const queryString = useMemo(() => getGatheringQuery(deferredFilter), [deferredFilter]);
+	const { data, isLoading, ref, hasData, isEmpty } = useInfiniteGatheringsQuery(queryString);
 
-	const LIMIT = 10;
-	const { data, isLoading, fetchNextPage } = useInfiniteQuery({
-		queryKey: ['gatherings', queryString],
-		queryFn: ({ pageParam = 0 }) => getGatherings(`${queryString}&limit=${LIMIT}&offset=${pageParam}`),
-		initialPageParam: 0,
-		getNextPageParam: (lastPage, pages) => (lastPage.length < LIMIT ? undefined : pages.length * LIMIT),
-		select: data => data.pages.flat() ?? [],
-		placeholderData: keepPreviousData
-	});
-
-	const { ref, inView } = useInView({
-		rootMargin: '400px'
-	});
-
-	useEffect(() => {
-		if (inView) {
-			fetchNextPage();
-		}
-	}, [inView, fetchNextPage]);
-	console.log(data);
 	return (
 		<div className="mb:px-6 mb:pt-10 pc:max-w-300 pc:px-25 mb:gap-8 bg-root m-auto flex w-full flex-1 flex-col gap-6 px-4 pt-6">
 			{/* TODO: 이 부분도 공통 부분으로 컴포넌트 빼도 될듯 */}
@@ -77,18 +59,20 @@ export default function HomePage() {
 			{/* // TODO: 리팩터링 */}
 			<div className="mb:gap-6 flex flex-1 flex-col gap-4">
 				<GatheringFilterBar setFilterCriteria={setFilterCriteria} />
-				{data && data?.length > 0 ? (
+				{hasData && (
 					<>
-						<CardList gatherings={data} />
+						<CardList gatherings={data as Gathering[]} />
 						<div ref={ref} />
 					</>
-				) : isLoading ? (
+				)}
+				{isLoading && (
 					<div className="flex flex-col gap-6">
-						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+						{SKELETON_ITEMS.map(i => (
 							<CardSkeleton key={i} />
 						))}
 					</div>
-				) : (
+				)}
+				{isEmpty && (
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}

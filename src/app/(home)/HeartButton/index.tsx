@@ -3,7 +3,6 @@
 import { useWishlistStore } from '@/stores/wishlist';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 interface HeartButtonProps {
 	/** 모임 ID */
@@ -18,17 +17,11 @@ interface HeartButtonProps {
  * @param {HeartButtonProps} props - 모임 ID를 포함한 props
  */
 export default function HeartButton({ id }: HeartButtonProps) {
-	const { wishlist, toggleWish } = useWishlistStore.getState();
-	const hasHydrated = useWishlistStore.persist.hasHydrated();
-	const [isActive, setIsActive] = useState(() => wishlist.has(id));
-
-	useEffect(() => {
-		if (hasHydrated) setIsActive(wishlist.has(id));
-	}, [hasHydrated, wishlist, id]);
+	const isInWishlist = useWishlistStore(state => state.wishlist.has(id));
+	const toggleWish = useWishlistStore(state => state.toggleWish);
 
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		setIsActive(prev => !prev);
 		toggleWish(id);
 	};
 
@@ -38,15 +31,15 @@ export default function HeartButton({ id }: HeartButtonProps) {
 			onClick={handleClick}
 			className={cn(
 				'flex size-[48px] cursor-pointer items-center justify-center rounded-full border-2 transition-colors',
-				isActive ? 'border-highlight shadow-highlight/50 shadow-xl' : 'border-gray-300',
+				isInWishlist ? 'border-highlight shadow-highlight/50 shadow-xl' : 'border-gray-300',
 				'transition-transform duration-150 ease-in-out hover:scale-105 active:scale-90'
 			)}
-			aria-pressed={isActive}
-			aria-label={isActive ? '찜한 상태' : '찜하지 않은 상태'}>
+			aria-pressed={isInWishlist}
+			aria-label={isInWishlist ? '찜한 상태' : '찜하지 않은 상태'}>
 			<Image
 				priority
-				src={isActive ? '/icons/heart_active.svg' : '/icons/heart.svg'}
-				alt={isActive ? '꽉찬 하트 아이콘' : '빈 하트 아이콘'}
+				src={isInWishlist ? '/icons/heart_active.svg' : '/icons/heart.svg'}
+				alt={isInWishlist ? '꽉찬 하트 아이콘' : '빈 하트 아이콘'}
 				width={24}
 				height={24}
 			/>

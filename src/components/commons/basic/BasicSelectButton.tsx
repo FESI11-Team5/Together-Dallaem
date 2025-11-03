@@ -1,7 +1,7 @@
 'use client';
 
-import { forwardRef, useMemo } from 'react';
 import { cn } from '@/utils/cn';
+import { forwardRef, useMemo } from 'react';
 
 interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/** 사이즈 Props, expanded: 너비 부모 컨텐츠를 꽉 채움, 높이 44px, large: 너비 120px 높이 40px, small: 너비 110px 높이 30px */
@@ -16,6 +16,8 @@ interface BasicSelectButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 	isOpen?: boolean;
 	/** 셀렉트박스 내부에 삽입할 콘텐츠(sortSelectBox의 아이콘 같은 것) */
 	children?: React.ReactNode;
+	/** 드롭박스 오픈 시 어느 쪽으로 열리는지 */
+	side?: 'bottom' | 'right';
 }
 
 /**
@@ -55,6 +57,7 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 			value,
 			displayText,
 			isOpen = false,
+			side = 'bottom',
 			children,
 			onClick,
 			...rest
@@ -86,9 +89,11 @@ const BasicSelectButton = forwardRef<HTMLButtonElement, BasicSelectButtonProps>(
 			() =>
 				`h-[24px] w-[24px] bg-[length:24px_24px] ml-[-2px] bg-center bg-no-repeat transition-transform duration-200 ease-in-out bg-[url('/icons/arrow_invert.svg')] ${
 					disabled ? 'hidden' : 'block'
-				} ${isOpen ? 'rotate-180' : 'rotate-0'}
+				}
+				${side === 'bottom' && (isOpen ? 'rotate-180' : 'rotate-0')}
+				${side === 'right' && (isOpen ? 'rotate-90' : 'rotate-270')}
 				}`,
-			[disabled, isOpen, hasValue, expanded]
+			[disabled, isOpen, hasValue, expanded, side]
 		);
 
 		const textColor = useMemo(() => {
