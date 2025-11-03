@@ -57,12 +57,14 @@ export default function SearchCalendar({ date, setDate }: SearchCalendarProps) {
 					value={formattedDate}
 					displayText={formattedDate}
 					isOpen={isOpen}
+					side="right"
 					onClick={() => setIsOpen(prev => !prev)}
 				/>
 			</PopoverTrigger>
 			<PopoverContent
 				className="bg-root mr-4 flex min-w-[300px] flex-col items-center justify-center rounded-[12px] border-2 border-gray-200"
 				align="start"
+				side="right"
 				isModal={false}>
 				<div className="flex w-[250px] flex-col">
 					<Calendar

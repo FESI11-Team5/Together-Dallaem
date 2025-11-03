@@ -4,6 +4,7 @@ import HeartButton from '@/app/(home)/HeartButton';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
+import { GENRE_BY_LOCATION, type Location } from '@/constants/options';
 import type { Gathering } from '@/types/response/gatherings';
 import { formatDateAndTime, getDeadlineLabel } from '@/utils/date';
 import * as motion from 'motion/react-client';
@@ -44,16 +45,7 @@ export default function Card({ gathering, onClick }: CardProps) {
 						<div className="text-primary-50 flex items-center gap-2 text-lg font-semibold">
 							<span>{name}</span>
 							<span>|</span>
-							<span className="text-primary-700 text-sm font-medium">
-								{
-									{
-										건대입구: 'AOS',
-										을지로3가: 'Adventure',
-										신림: 'FPS',
-										홍대입구: 'RPG'
-									}[location]
-								}
-							</span>
+							<span className="text-primary-700 text-sm font-medium">{GENRE_BY_LOCATION[location as Location]}</span>
 						</div>
 						<div className="flex gap-2">
 							<ChipInfo text={date} textColor="white" />
