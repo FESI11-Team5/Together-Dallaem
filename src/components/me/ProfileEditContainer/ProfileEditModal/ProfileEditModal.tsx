@@ -1,4 +1,5 @@
 'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -75,15 +76,15 @@ export default function ProfileEditModal({ currentImage, currentCompanyName, onS
 
 	return (
 		<BasicModal onClose={closeModal} className="tb:min-w-118">
-			<h1 className="text-lg font-semibold">프로필 수정하기</h1>
+			<h1 className="text-shadow-primary text-lg font-semibold text-white">프로필 수정하기</h1>
 			<form onSubmit={handleSubmit(handleFormSubmit)} className="mt-6 flex flex-col items-start gap-6 self-stretch">
 				<div className="flex w-full flex-col items-start gap-6">
 					<ProfileImageUploader currentImage={currentImage} onChange={handleProfileImage} />
 					<div className="w-full">
 						<BasicInput
 							id="companyName"
-							label="회사"
-							placeholder="회사명"
+							label="닉네임"
+							placeholder="닉네임을 입력해주세요"
 							register={register('companyName')}
 							isValid={isCompanyNameValid}
 							invalidText={formState.errors.companyName?.message}

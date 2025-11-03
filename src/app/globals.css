@@ -265,3 +265,56 @@ input:-webkit-autofill:focus {
 	-webkit-box-shadow: 0 0 0px 1000px #0d0d15 inset !important;
 	-webkit-text-fill-color: var(--color-white) !important;
 }
+
+@layer utilities {
+	:root {
+		--glow-primary: var(--color-primary-500);
+		--glow-accent: var(--color-highlight);
+		--glow-gray: #b3b3b3;
+	}
+
+	.box-shadow-primary {
+		box-shadow:
+			0 0 2px var(--glow-primary),
+			0 0 4px var(--glow-primary),
+			0 0 8px var(--glow-primary),
+			0 0 16px var(--glow-primary),
+			0 0 32px var(--glow-primary);
+	}
+
+	.box-shadow-accent {
+		box-shadow:
+			0 0 2px var(--glow-accent),
+			0 0 4px var(--glow-accent),
+			0 0 8px var(--glow-accent),
+			0 0 16px var(--glow-accent),
+			0 0 32px var(--glow-accent);
+	}
+
+	.box-shadow-white {
+		box-shadow:
+			0 0 2px var(--glow-gray),
+			0 0 4px var(--glow-gray),
+			0 0 8px var(--glow-gray),
+			0 0 16px var(--glow-gray),
+			0 0 32px var(--glow-gray);
+	}
+
+	.text-shadow-primary {
+		text-shadow:
+			0 0 2px var(--glow-primary),
+			0 0 4px var(--glow-primary),
+			0 0 8px var(--glow-primary),
+			0 0 16px var(--glow-primary),
+			0 0 32px var(--glow-primary);
+	}
+
+	.text-shadow-white {
+		text-shadow:
+			0 0 2px var(--glow-gray),
+			0 0 4px var(--glow-gray),
+			0 0 8px var(--glow-gray),
+			0 0 16px var(--glow-gray),
+			0 0 32px var(--glow-gray);
+	}
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import CardLayout from '../common/CardLayout';
+import CardLayout from '../common/CardLayout/CardLayout';
+import NoDataMessage from '../common/NoDataMessage/NoDataMessage';
 import { getGatherings } from '@/apis/gatherings';
 import { Gathering } from '@/types/response/gatherings';
 import { useUserStore } from '@/stores/user';
@@ -19,11 +20,7 @@ export default function CreatedGatherings() {
 	}, []);
 
 	if (gatherings.length === 0) {
-		return (
-			<div className="flex h-full flex-1 items-center justify-center">
-				<p className="text-sm text-gray-500">아직 만든 모임이 없어요</p>
-			</div>
-		);
+		return <NoDataMessage text="아직 만든 크루가 없어요" />;
 	}
 
 	return gatherings.map(gathering => (

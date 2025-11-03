@@ -1,10 +1,10 @@
 import { useModal } from '@/hooks/useModal';
-import { JoinedGathering } from '@/types/response/gatherings';
+import type { JoinedGathering } from '@/types/response/gatherings';
 import BasicButton from '@/components/commons/basic/BasicButton';
-import CardLayout from '../common/CardLayout';
-import CancelConfirmModal from '../modals/CancelConfirmModal';
-import CanceledOverlay from '../common/CanceledOverlay';
 import GatheringBadge from './GatheringBadge';
+import CardLayout from '../common/CardLayout/CardLayout';
+import CanceledOverlay from '../common/CanceledOverlay/CanceledOverlay';
+import CancelConfirmModal from '../modals/CancelConfirmModal';
 import ReviewWriteModal from '../modals/ReviewWriteModal';
 
 interface GatheringProps {
@@ -78,17 +78,11 @@ export default function GatheringCard({ gathering, onReviewSuccess, onCancelSucc
 				{/* 버튼 영역 */}
 				<div>
 					{!isPast && !gathering.isCompleted ? (
-						<BasicButton
-							outlined
-							className="hover:border-primary-500 hover:text-primary-500 active:border-primary-700 active:text-primary-700 !w-auto px-[22px] transition-colors"
-							onClick={handleCancelClick}>
+						<BasicButton outlined onClick={handleCancelClick}>
 							예약 취소하기
 						</BasicButton>
 					) : (
 						<BasicButton
-							className={`w-auto min-w-30 px-[22px] transition-colors ${
-								gathering.isReviewed && 'cursor-not-allowed !bg-gray-200 !text-gray-500'
-							}`}
 							onClick={!gathering.isReviewed ? handleAddReviewClick : undefined}
 							isActive={!gathering.isReviewed}>
 							{!gathering.isReviewed ? '리뷰 추가하기' : '작성 완료'}

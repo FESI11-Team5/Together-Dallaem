@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import SessionTimer from './SessionTimer';
 
+const PROFILE_BOX_GLOW = '[box-shadow:0_0_2px_#b3b3b3,0_0_4px_#b3b3b3,0_0_8px_#b3b3b3,0_0_16px_#b3b3b3]';
 /**
  * GNB(Global Navigation Bar)
  * - 로그인 상태에 따라 다른 UI를 렌더링함
@@ -108,7 +109,8 @@ export default function GNB() {
 							<SessionTimer />
 							<DropdownMenu>
 								<DropdownMenu.Trigger>
-									<div className="relative size-[40px] overflow-hidden rounded-full">
+									<div
+										className={`${PROFILE_BOX_GLOW} relative size-[40px] overflow-hidden rounded-full border-2 border-white`}>
 										<Image
 											priority
 											src={user?.image || PROFILE_PATHS.DEFAULT_PROFILE_SRC}

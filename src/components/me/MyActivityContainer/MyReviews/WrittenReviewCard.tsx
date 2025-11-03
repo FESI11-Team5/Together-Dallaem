@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { ReviewResponse } from '@/types/response/reviews';
 import { formatKoreanDate } from '@/utils/date';
+import type { ReviewResponse } from '@/types/response/reviews';
 
 interface WrittenReviewCardProps {
 	/** 렌더링할 리뷰 객체 */
@@ -35,7 +35,7 @@ interface WrittenReviewCardProps {
  */
 export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 	return (
-		<div>
+		<div className="text-white">
 			<div className="tb:flex-row relative flex w-full flex-col gap-6">
 				{/* 모임 이미지 */}
 				<div className="tb:w-70 relative h-39 w-full min-w-[280px] overflow-hidden rounded-3xl">
@@ -43,13 +43,13 @@ export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 						src={review.Gathering.image}
 						alt="모임 이미지"
 						fill
-						className="rounded-3xl bg-primary-100 object-cover"
+						className="bg-primary-100 rounded-3xl object-cover"
 					/>
 				</div>
 
 				{/* 리뷰 정보 */}
-				<div className="tb:border-b-2 tb:border-dashed tb:border-gray-200 flex w-full flex-col gap-2 font-medium">
-					<div className="flex w-full flex-col gap-2.5 text-gray-700">
+				<div className="flex w-full flex-col justify-between gap-2 font-medium">
+					<div className="flex w-full flex-col gap-2.5">
 						<div className="flex gap-0.5">
 							{Array.from({ length: 5 }).map((_, index) => (
 								<Image
@@ -62,13 +62,15 @@ export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 							))}
 						</div>
 						<p className="text-sm">{review.comment}</p>
-						<p className="text-xs">
+						<p className="text-xs opacity-80">
 							{review.Gathering.name} 이용 · {review.Gathering.location}
 						</p>
 					</div>
-					<p className="text-xs text-gray-500">{formatKoreanDate(review.Gathering.dateTime, 'yyyy.MM.dd')}</p>
+					<p className="text-xs">{formatKoreanDate(review.Gathering.dateTime, 'yyyy.MM.dd')}</p>
+					<hr className="tb:h-px tb:w-full tb:block box-shadow-white hidden" />
 				</div>
-				<div className="tb:hidden border-b-2 border-dashed border-gray-200" />
+
+				<hr className="tb:hidden box-shadow-white h-px w-full border-white" />
 			</div>
 		</div>
 	);
