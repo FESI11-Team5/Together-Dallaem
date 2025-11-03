@@ -56,8 +56,8 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 
 /** 푸터 메세지 */
 export const FOOTER_MESSAGE = {
-	title: '더 건강한 나와 팀을 위한 프로그램 🏃🏻',
-	subTitle: '모임을 공유해서 더 많은 사람들이 참여할 수 있도록 독려해봐요'
+	title: '더 강해지는 나와 팀을 위한 플레이',
+	subTitle: '친구들과 공유하고 더 많은 게이머를 불러보세요 🔥'
 };
 
 /**

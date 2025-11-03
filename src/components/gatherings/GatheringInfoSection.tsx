@@ -48,12 +48,12 @@ function GatheringMainInfo({ data }: { data: Gathering }) {
 	const { date, time } = formatDateAndTime(dateTime);
 
 	return (
-		<div className="tb:pb-[43px] max-tb:pb-[20px] flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">
+		<div className="tb:pb-[43px] max-tb:pb-5 flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">
 			<div className="flex justify-between">
 				<div className="flex flex-col gap-3">
 					<div className="flex flex-col gap-0.5">
-						<h1 className="leading-lg text-lg font-semibold text-black">{name}</h1>
-						<div className="leading-sm text-sm font-medium text-gray-700">{location}</div>
+						<h1 className="leading-lg text-lg font-semibold text-white">{name}</h1>
+						<div className="leading-sm text-sm font-medium text-white">{location}</div>
 					</div>
 
 					<div className="flex gap-2">
@@ -82,7 +82,7 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 		<div className="flex w-full flex-col justify-center gap-3 px-6">
 			<div className="flex items-end justify-between">
 				<div className="flex items-center gap-3">
-					<p className="leading-sm text-sm font-semibold">모집 정원 {capacity}명</p>
+					<p className="leading-sm text-sm font-semibold text-white">모집 정원 {capacity}명</p>
 
 					<div className="group/images flex items-center">
 						{participants.map((participant, idx) => (
@@ -118,8 +118,8 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 			<div className="flex w-full flex-col items-start gap-2">
 				<BasicProgressBar data={{ totalNumber: capacity, currentNumber: participantCount }} />
 				<div className="flex w-full justify-between">
-					<p className="leading-xs text-xs font-medium text-gray-700">최소인원 5명</p>
-					<p className="leading-xs text-xs font-medium text-gray-700">최대인원 20명</p>
+					<p className="leading-xs text-xs font-medium text-white">최소인원 5명</p>
+					<p className="leading-xs text-xs font-medium text-white">최대인원 20명</p>
 				</div>
 			</div>
 		</div>
@@ -143,12 +143,12 @@ export default function GatheringInfoSection({ gatheringId }: { gatheringId: num
 	return (
 		<section className="tb:flex-row max-mb:flex-col flex gap-6 pt-6">
 			{/* 이미지정보 */}
-			<div className="relative aspect-[16/9] flex-1 overflow-hidden rounded-[24px]">
+			<div className="relative aspect-video flex-1 overflow-hidden rounded-3xl">
 				<GatheringMainImage data={data} />
 			</div>
 
 			{/* 모임정보 */}
-			<div className="flex flex-1 flex-col items-start rounded-[24px] border-2 border-gray-200">
+			<div className="flex flex-1 flex-col items-start rounded-3xl border-2 border-gray-200">
 				<div className="tb:gap-6 max-tb:gap-3 flex w-full flex-col items-start py-6">
 					<GatheringMainInfo data={data} />
 					<GatheringSubInfo data={data} />

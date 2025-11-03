@@ -79,7 +79,7 @@ function GatheringNormalUserBtn() {
 
 	if (isLoading)
 		return (
-			<BasicButton className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold" disabled isActive={false}>
+			<BasicButton className="cursor-not-allowed" disabled isActive={false}>
 				...
 			</BasicButton>
 		);
@@ -87,18 +87,11 @@ function GatheringNormalUserBtn() {
 	return (
 		<>
 			{joinedUser ? (
-				<BasicButton
-					onClick={handleCancel}
-					className="rounded-md px-4 py-2 text-sm font-bold"
-					outlined
-					isActive={!past}>
+				<BasicButton onClick={handleCancel} outlined isActive={!past}>
 					{past ? '모집 기간 종료' : '크루 참가 취소하기'}
 				</BasicButton>
 			) : (
-				<BasicButton
-					onClick={handleJoin}
-					className="cursor-not-allowed rounded-md px-4 py-2 text-sm font-bold"
-					isActive={!(isFull || past)}>
+				<BasicButton onClick={handleJoin} className="cursor-not-allowed" isActive={!(isFull || past)}>
 					{isFull ? '정원 마감' : past ? '모집 기간 종료' : '크루 참가하기'}
 				</BasicButton>
 			)}
@@ -181,12 +174,12 @@ export default function BasicFooter() {
 	return (
 		<footer className="z-layout bg-root fixed right-2 bottom-0 left-0 mx-auto flex w-full min-w-[220px] items-center justify-center px-4 py-5">
 			{/* border-top 그라데이션 */}
-			<div className="absolute top-0 right-0 left-0 h-[3px] bg-gradient-to-r from-[var(--color-highlight)] via-[var(--color-primary-500)] to-[var(--color-primary-300)]" />
+			<div className="from-highlight via-primary-500 to-primary-300 absolute top-0 right-0 left-0 h-[3px] bg-linear-to-r" />
 			{user && gatheringOwnerId ? (
 				<div className="max-mb:w-[696px] max-mb:flex-col flex w-[996px] flex-row items-center justify-between">
 					<div className="pr-4">
-						<h1 className="text-sm font-bold">{FOOTER_MESSAGE.title}</h1>
-						<p className="text-xs text-gray-600">{FOOTER_MESSAGE.subTitle}</p>
+						<h1 className="text-sm font-bold text-white">{FOOTER_MESSAGE.title}</h1>
+						<p className="text-xs text-white">{FOOTER_MESSAGE.subTitle}</p>
 					</div>
 
 					<div className="max-mb:w-full shrink-0">
@@ -196,8 +189,8 @@ export default function BasicFooter() {
 			) : (
 				<div className="flex w-[996px] items-center justify-between">
 					<div className="flex-1 pr-4">
-						<h1 className="text-sm font-bold">{FOOTER_MESSAGE.title}</h1>
-						<p className="text-xs text-gray-600">{FOOTER_MESSAGE.subTitle}</p>
+						<h1 className="text-sm font-bold text-white">{FOOTER_MESSAGE.title}</h1>
+						<p className="text-xs text-white">{FOOTER_MESSAGE.subTitle}</p>
 					</div>
 
 					<div className="shrink-0">

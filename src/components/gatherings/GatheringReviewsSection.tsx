@@ -34,8 +34,8 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 	const currentReviews = reviewData.slice(startIndex, startIndex + pageSize);
 
 	return (
-		<section className="bg-root border-gray-200 p-6">
-			<h2 className="leading-lg mb-4 text-lg font-semibold text-gray-900">{REVIEW_SECTION_TITLE.title}</h2>
+		<section className="bg-root rounded-3xl border-2 border-white p-6">
+			<h2 className="leading-lg mb-4 text-lg font-semibold text-white">{REVIEW_SECTION_TITLE.title}</h2>
 			<div className="flex h-full flex-col">
 				{/* 리뷰가 없을 때 */}
 				{reviewData.length === 0 ? (
@@ -64,7 +64,7 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 										</div>
 
 										{/* 리뷰 내용 */}
-										<p className="text-sm text-gray-800">{review.comment}</p>
+										<p className="text-sm text-white">{review.comment}</p>
 									</div>
 
 									{/* 작성자 정보 */}
@@ -74,11 +74,11 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 											alt={review.User.name}
 											width={24}
 											height={24}
-											className="mb:w-[20px] mb:h-[20px] rounded-full"
+											className="mb:w-5 mb:h-5 rounded-full"
 										/>
-										<span className="text-xs font-medium text-gray-700">{review.User.name}</span>
-										<span className="text-xs font-medium text-gray-700"> | </span>
-										<span className="text-xs font-medium text-gray-500">
+										<span className="text-xs font-medium text-white">{review.User.name}</span>
+										<span className="text-xs font-medium text-white"> | </span>
+										<span className="text-xs font-medium text-white">
 											{new Date(review.createdAt).toLocaleDateString()}
 										</span>
 									</div>
@@ -87,7 +87,7 @@ export default function GatheringReviewSection({ gatheringId }: { gatheringId: n
 						</ul>
 
 						{/* 페이지네이션 */}
-						<div className="max-mb:mb-60 mb-20 flex justify-center">
+						<div className="max-mb:pb-25 flex justify-center pb-20">
 							<BasicPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 						</div>
 					</>

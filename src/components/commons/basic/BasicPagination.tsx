@@ -37,7 +37,7 @@ export default function BasicPagination({ currentPage, totalPages, onPageChange,
 						width={24}
 						height={24}
 						alt="◀︎"
-						className={`${currentPage === 1 ? 'cursor-not-allowed' : 'hover:invert'}`}
+						className={`${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
 					/>
 				</PaginationButton>
 
@@ -49,7 +49,7 @@ export default function BasicPagination({ currentPage, totalPages, onPageChange,
 							{page}
 						</PaginationButton>
 					) : (
-						<span key={idx} className="flex h-[48px] w-[48px] items-center justify-center text-gray-400">
+						<span key={idx} className="flex h-12 w-12 items-center justify-center text-white">
 							{page}
 						</span>
 					)
@@ -62,7 +62,7 @@ export default function BasicPagination({ currentPage, totalPages, onPageChange,
 						width={24}
 						height={24}
 						alt="▶︎"
-						className={`rotate-180 ${currentPage === totalPages ? 'cursor-not-allowed' : 'hover:invert'}`}
+						className={`rotate-180 ${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
 					/>
 				</PaginationButton>
 			</div>

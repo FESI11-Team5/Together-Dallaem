@@ -15,12 +15,13 @@ interface PaginationButtonProps {
 /** 버튼의 스타일 변형 */
 const paginationButtonVariants = cva(
 	//기본 버튼 클래스
-	'flex items-center justify-center rounded-[8px]  text-base leading-lg ' + 'h-[34px] w-[34px] md:h-[48px] md:w-[48px]',
+	'flex items-center justify-center rounded-[8px] text-base leading-lg mt-2 hover:bg-gray-700 transition-bg duration-200 ease-in-out' +
+		'h-[34px] w-[34px] md:h-12 md:w-12',
 	{
 		variants: {
 			variant: {
-				active: 'text-black font-semibold',
-				inactive: 'text-gray-200 font-regular hover:text-black'
+				active: 'text-white font-semibold',
+				inactive: 'text-white font-regular'
 			},
 
 			state: {
