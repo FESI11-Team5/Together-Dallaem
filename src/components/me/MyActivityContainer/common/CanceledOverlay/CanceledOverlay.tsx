@@ -6,13 +6,6 @@ interface CanceledOverlayProps {
 	canceledAt: string | null;
 }
 
-const CANCELED_OVERLAY_GLOW =
-	'[box-shadow:0_0_2px_#D705F2,0_0_4px_#D705F2,0_0_8px_#D705F2,0_0_16px_#D705F2,0_0_32px_#D705F2]';
-const CANCELED_BUTTON_GLOW =
-	'[box-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB,0_0_32px_#05F2DB]';
-const CANCELED_TEXT_GLOW =
-	'[text-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3,0_0_32px_#B3B3B3]';
-
 /**
  * 취소된 모임 위에 표시되는 오버레이 컴포넌트입니다.
  *
@@ -24,7 +17,7 @@ export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 
 	return (
 		<div
-			className={`tb:rounded-3xl z-floating bg-primary-dark/80 absolute inset-0 flex items-center justify-center rounded-xl border-3 border-white ${CANCELED_OVERLAY_GLOW} ${CANCELED_TEXT_GLOW}`}
+			className="tb:rounded-3xl z-floating bg-primary-dark/80 box-shadow-accent absolute inset-0 flex items-center justify-center rounded-xl border-3 border-white text-shadow-white"
 			role="status"
 			aria-live="polite">
 			<div>
@@ -34,7 +27,7 @@ export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 				<button
 					type="button"
 					aria-label="취소된 모임 보내주기"
-					className={`tb:p-3 tb:rounded-full tb:absolute tb:top-0 tb:right-6 bg-primary-500 mt-6 flex items-center gap-0.5 rounded-xl px-3 py-2 ${CANCELED_BUTTON_GLOW}`}>
+					className="tb:p-3 tb:rounded-full tb:absolute tb:top-0 tb:right-6 bg-primary-500 box-shadow-primary mt-6 flex items-center gap-0.5 rounded-xl px-3 py-2">
 					<Image src="/icons/bye.svg" alt="취소된 모임 손바닥 아이콘" width={24} height={24} />
 					<p className="tb:hidden text-sm font-semibold text-white">모임 보내주기</p>
 				</button>

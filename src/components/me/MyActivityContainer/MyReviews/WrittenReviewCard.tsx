@@ -7,8 +7,6 @@ interface WrittenReviewCardProps {
 	review: ReviewResponse;
 }
 
-const WRITTEN_REVIEW_BOX_GLOW = '[box-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3]';
-
 /**
  * WrittenReviewCard 컴포넌트
  *
@@ -69,10 +67,10 @@ export default function WrittenReviewCard({ review }: WrittenReviewCardProps) {
 						</p>
 					</div>
 					<p className="text-xs">{formatKoreanDate(review.Gathering.dateTime, 'yyyy.MM.dd')}</p>
-					<div className={`tb:bg-white tb:h-[1px] tb:w-full tb:block hidden ${WRITTEN_REVIEW_BOX_GLOW}`} />
+					<hr className="tb:h-px tb:w-full tb:block box-shadow-white hidden" />
 				</div>
 
-				<div className={`tb:hidden h-[1px] w-full bg-white ${WRITTEN_REVIEW_BOX_GLOW} `} />
+				<hr className="tb:hidden box-shadow-white h-px w-full border-white" />
 			</div>
 		</div>
 	);

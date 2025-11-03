@@ -10,10 +10,6 @@ import { useModal } from '@/hooks/useModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import ProfileEditModal from './ProfileEditModal/ProfileEditModal';
 
-const EDIT_CONTAINER_GLOW = '[box-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3,0_0_16px_#B3B3B3]';
-const PROFILE_SECTION_SEPARATOR =
-	'[box-shadow:0_0_2px_#05F2DB,0_0_4px_#05F2DB,0_0_8px_#05F2DB,0_0_16px_#05F2DB,0_0_32px_#05F2DB,0_0_64px_#05F2DB]';
-
 /**
  * @typedef {Object} ProfileUpdateData
  * @property {string} [companyName] - 업데이트할 회사명 (선택 사항).
@@ -88,10 +84,9 @@ export default function ProfileEditCard() {
 
 	return (
 		<section>
-			<div
-				className={`tb:mb-7.5 mb-4 overflow-hidden rounded-3xl border-3 border-white text-white ${EDIT_CONTAINER_GLOW}`}>
+			<div className="tb:mb-7.5 box-shadow-white mb-4 overflow-hidden rounded-3xl border-3 border-white text-white">
 				{/* 프로필 수정 카드 배경 이미지 섹션*/}
-				<div className="relative flex items-center justify-between px-6 py-4 before:absolute before:bottom-[6px] before:left-0 before:h-[2.5px] before:w-full before:bg-white before:content-['']">
+				<div className="relative flex items-center justify-between px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-[2.5px] before:w-full before:bg-white before:content-['']">
 					{/* 배경 이미지 */}
 					<Image
 						src={PROFILE_BACKGROUND_SRC}
@@ -102,8 +97,7 @@ export default function ProfileEditCard() {
 					/>
 
 					{/* 프로필 사진 표시 영역 */}
-					<div
-						className={`bg-root absolute top-13 h-16 w-16 rounded-full border-3 border-white ${EDIT_CONTAINER_GLOW}`}>
+					<div className="bg-root box-shadow-white absolute top-13 h-16 w-16 rounded-full border-3 border-white">
 						<Image
 							src={user?.image || DEFAULT_PROFILE_SRC}
 							alt="프로필 사진 이미지"
@@ -140,7 +134,7 @@ export default function ProfileEditCard() {
 					</dl>
 				</div>
 			</div>
-			<hr className={`h-[3px] w-full bg-white ${PROFILE_SECTION_SEPARATOR}`} />
+			<hr className="box-shadow-primary h-[3px] w-full border-white bg-white" />
 		</section>
 	);
 }

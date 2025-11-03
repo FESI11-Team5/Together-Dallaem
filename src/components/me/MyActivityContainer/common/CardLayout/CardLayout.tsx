@@ -14,8 +14,6 @@ interface GatheringProps {
 	children?: ReactNode;
 }
 
-const JOINED_GATHERING_BOX_GLOW = '[box-shadow:0_0_2px_#B3B3B3,0_0_4px_#B3B3B3,0_0_8px_#B3B3B3]';
-
 /**
  * 모임 카드 레이아웃 컴포넌트
  * - 모임 이미지, 이름, 장소, 날짜/시간, 인원 정보 표시
@@ -60,7 +58,7 @@ export default function CardLayout({ gathering, badgeContent, children }: Gather
 					{children}
 				</div>
 			</div>
-			<div className={`h-[1px] w-full bg-white ${JOINED_GATHERING_BOX_GLOW}`} />
+			<hr className="box-shadow-white h-px w-full border-white" />
 		</article>
 	);
 }
