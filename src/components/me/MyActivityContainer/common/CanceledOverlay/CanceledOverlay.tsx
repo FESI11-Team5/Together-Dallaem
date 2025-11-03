@@ -1,5 +1,5 @@
-import { CANCELED_GATHERING_MESSAGE } from '@/constants/messages';
 import Image from 'next/image';
+import { CANCELED_GATHERING_MESSAGE } from '@/constants/messages';
 
 interface CanceledOverlayProps {
 	/** 모임 취소일시, 취소되지 않은 경우 null */
@@ -11,25 +11,25 @@ interface CanceledOverlayProps {
  *
  * - `canceledAt`이 null이면 아무것도 렌더링하지 않습니다.
  * - 취소된 모임이면 검정 반투명 배경과 안내 문구, "모임 보내주기" 버튼을 표시합니다.
- *
- * @param {CanceledOverlayProps} props - 컴포넌트 props
- * @returns {JSX.Element | null} 모임 취소 오버레이
- *
- * @example
- * <CanceledOverlay canceledAt="2025-09-30T23:59:59" />
  */
 export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 	if (!canceledAt) return null;
 
 	return (
-		<div className="tb:rounded-3xl z-floating absolute inset-0 flex items-center justify-center rounded-xl bg-black/80">
+		<div
+			className="tb:rounded-3xl z-floating bg-primary-dark/80 box-shadow-accent absolute inset-0 flex items-center justify-center rounded-xl border-3 border-white text-shadow-white"
+			role="status"
+			aria-live="polite">
 			<div>
 				<p className="text-center text-sm font-medium whitespace-pre-line text-white">
 					{`${CANCELED_GATHERING_MESSAGE.title}\n${CANCELED_GATHERING_MESSAGE.subTitle}`}
 				</p>
-				<button className="tb:p-3 tb:rounded-full tb:absolute tb:top-0 tb:right-6 mt-6 flex items-center gap-0.5 rounded-xl bg-primary-50 px-3 py-1.5">
+				<button
+					type="button"
+					aria-label="취소된 모임 보내주기"
+					className="tb:p-3 tb:rounded-full tb:absolute tb:top-0 tb:right-6 bg-primary-500 box-shadow-primary mt-6 flex items-center gap-0.5 rounded-xl px-3 py-2">
 					<Image src="/icons/bye.svg" alt="취소된 모임 손바닥 아이콘" width={24} height={24} />
-					<p className="tb:hidden text-sm font-semibold text-primary-600">모임 보내주기</p>
+					<p className="tb:hidden text-sm font-semibold text-white">모임 보내주기</p>
 				</button>
 			</div>
 		</div>

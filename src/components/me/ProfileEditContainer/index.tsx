@@ -83,55 +83,58 @@ export default function ProfileEditCard() {
 	}, [openModal, user?.companyName, user?.image, handleUpdateUserInfo]);
 
 	return (
-		<section className="tb:mb-7.5 shadow-primary-500 mb-4 overflow-hidden rounded-3xl border-2 border-gray-200 bg-white/15 text-white shadow-lg">
-			{/* 프로필 수정 카드 배경 이미지 섹션*/}
-			<div className="relative flex items-center justify-between px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-[2px] before:w-full before:bg-white before:content-['']">
-				{/* 배경 이미지 */}
-				<Image
-					src={PROFILE_BACKGROUND_SRC}
-					alt="배경 이미지"
-					width={100}
-					height={38}
-					className="mb:right-[100px] absolute right-15 bottom-[6.5px]"
-				/>
-
-				{/* 프로필 사진 표시 영역 */}
-				<div className="bg-root absolute top-13 h-16 w-16 rounded-full ring-4">
+		<section>
+			<div className="tb:mb-7.5 box-shadow-white mb-4 overflow-hidden rounded-3xl border-3 border-white text-white">
+				{/* 프로필 수정 카드 배경 이미지 섹션*/}
+				<div className="relative flex items-center justify-between px-6 py-4 before:absolute before:bottom-1.5 before:left-0 before:h-[2.5px] before:w-full before:bg-white before:content-['']">
+					{/* 배경 이미지 */}
 					<Image
-						src={user?.image || DEFAULT_PROFILE_SRC}
-						alt="프로필 사진 이미지"
-						fill
-						className="h-14 w-14 rounded-full object-fill"
+						src={PROFILE_BACKGROUND_SRC}
+						alt="배경 이미지"
+						width={100}
+						height={38}
+						className="mb:right-[100px] absolute right-15 bottom-[6.5px]"
 					/>
+
+					{/* 프로필 사진 표시 영역 */}
+					<div className="bg-root box-shadow-white absolute top-13 h-16 w-16 rounded-full border-3 border-white">
+						<Image
+							src={user?.image || DEFAULT_PROFILE_SRC}
+							alt="프로필 사진 이미지"
+							fill
+							className="h-14 w-14 rounded-full object-fill"
+						/>
+					</div>
+
+					<p className="z-base font-semibold">{user?.name}&apos;s Profile</p>
+
+					{/* 프로필 수정 버튼 (버튼 클릭 시 모달 오픈) */}
+					<motion.button
+						type="button"
+						onClick={handleOpenEditModal}
+						className="z-base cursor-pointer rounded-full [box-shadow:0_0_14px_rgba(5,242,219,0.9)] transition duration-50"
+						whileHover={{ scale: 1.05, boxShadow: '0 0 10px 2px #05F2DB, 0 0 20px 5px rgba(5,242,219,0.4)' }}
+						whileTap={{ scale: 0.95, boxShadow: '0 0 8px #05F2DB' }}
+						transition={{ type: 'spring', stiffness: 400, damping: 10 }}>
+						<Image src={EDIT_ICON_SRC} alt="회사명 수정 이미지" width={32} height={32} />
+					</motion.button>
 				</div>
 
-				<p className="z-base font-semibold">{user?.name}&apos;s Profile</p>
-
-				{/* 프로필 수정 버튼 (버튼 클릭 시 모달 오픈) */}
-				<motion.button
-					type="button"
-					onClick={handleOpenEditModal}
-					className="z-base cursor-pointer rounded-full transition duration-50"
-					whileHover={{ scale: 1.05, boxShadow: '0 0 10px 2px #05F2DB, 0 0 20px 5px rgba(5,242,219,0.4)' }}
-					whileTap={{ scale: 0.95, boxShadow: '0 0 8px #05F2DB' }}
-					transition={{ type: 'spring', stiffness: 400, damping: 10 }}>
-					<Image src={EDIT_ICON_SRC} alt="회사명 수정 이미지" width={32} height={32} />
-				</motion.button>
+				{/* 프로필 정보 섹션*/}
+				<div>
+					<dl className="pt-4 pb-4.5 pl-28">
+						<div className="flex gap-2 text-sm">
+							<dt className="font-medium">E-mail.</dt>
+							<dd className="font-normal opacity-80">{user?.email}</dd>
+						</div>
+						<div className="flex gap-2 text-sm">
+							<dt className="font-medium">Nickname.</dt>
+							<dd className="font-normal opacity-80">{user?.companyName}</dd>
+						</div>
+					</dl>
+				</div>
 			</div>
-
-			{/* 프로필 정보 섹션*/}
-			<div>
-				<dl className="pt-4 pb-4.5 pl-28">
-					<div className="flex gap-2 text-sm">
-						<dt className="font-medium">E-mail.</dt>
-						<dd className="font-normal opacity-80">{user?.email}</dd>
-					</div>
-					<div className="flex gap-2 text-sm">
-						<dt className="font-medium">Nickname.</dt>
-						<dd className="font-normal opacity-80">{user?.companyName}</dd>
-					</div>
-				</dl>
-			</div>
+			<hr className="box-shadow-primary h-[3px] w-full border-white bg-white" />
 		</section>
 	);
 }
