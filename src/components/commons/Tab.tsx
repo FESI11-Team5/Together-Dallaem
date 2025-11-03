@@ -14,8 +14,8 @@ function IconWithGlow({ iconUrl, isSelected }: { iconUrl: string; isSelected: bo
 			}`}
 			style={isSelected ? { filter: glowFilter } : undefined}>
 			<span
-				className={`block h-5 w-5 transition-colors duration-200 group-hover:bg-[#1ef5d7] group-hover:opacity-100 ${
-					isSelected ? 'bg-[#1ef5d7]' : 'bg-[#9ca3af] opacity-60'
+				className={`group-hover:bg-primary-400 block h-5 w-5 transition-colors duration-200 ${
+					isSelected ? 'bg-white' : 'bg-gray-400/80'
 				}`}
 				style={{
 					WebkitMaskImage: `url(${iconUrl})`,
@@ -125,12 +125,11 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 						onClick={() => onTabChange(option.value)}
 						className={cn(
 							'hover:text-primary-400 relative mb-1 flex cursor-pointer items-center gap-1 pb-[3px] text-sm hover:font-extrabold',
-							'[text-shadow:0_0_4px_#9ca3af,0_0_0px_#9ca3af,0_0_0px_#9ca3af,0_0_20px_#9ca3af]',
-							'hover:[text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]',
+							'hover:[text-shadow:0_0_2px_#1ef5d7,0_0_4px_#1ef5d7,0_0_8px_#1ef5d7]',
 							'group font-medium transition-colors duration-200',
-							`${selectedTab === option.value ? 'text-primary-400 font-extrabold [text-shadow:0_0_4px_#1ef5d7,0_0_0px_#1ef5d7,0_0_0px_#1ef5d7,0_0_40px_#1ef5d7]' : 'text-gray-400'}`
+							`${selectedTab === option.value ? 'text-shadow-primary font-extrabold text-white' : 'text-gray-400'}`
 						)}>
-						<span className="font-semibol text-lg">{option.text}</span>
+						<span className="text-lg font-semibold">{option.text}</span>
 
 						{/* SVG를 컴포넌트로 동적 로드하여 글로우 효과 적용 */}
 						{option.icon && <IconWithGlow iconUrl={option.icon} isSelected={selectedTab === option.value} />}
@@ -140,7 +139,7 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 
 			{/* 애니메이션 막대 */}
 			<div
-				className="bg-primary-400 absolute bottom-0 h-0.5 transition-all duration-300 ease-out"
+				className="box-shadow-primary absolute bottom-0 h-0.5 bg-white transition-all duration-300 ease-out"
 				style={{
 					left: `${indicatorStyle.left}px`,
 					width: `${indicatorStyle.width}px`
