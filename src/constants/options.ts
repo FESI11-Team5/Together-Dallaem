@@ -48,3 +48,12 @@ export const NAVBAR_MENU_LINKS = [
 	{ href: '/favorites', label: '찜한 크루' },
 	{ href: '/reviews', label: '모든 리뷰' }
 ] as const;
+
+export type Location = '건대입구' | '을지로3가' | '신림' | '홍대입구';
+
+export const GENRE_BY_LOCATION = {
+	건대입구: 'AOS',
+	을지로3가: 'Adventure',
+	신림: 'FPS',
+	홍대입구: 'RPG'
+} as const;
