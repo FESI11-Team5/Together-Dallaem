@@ -122,7 +122,7 @@ export default function BasicButton({
 	const variant = outlined ? 'outlined' : 'solid';
 
 	return (
-		<div className={`group ${className} relative ${isLarge ? 'w-full' : 'w-[120px]'}`}>
+		<div className={`group ${className} ${isLarge ? 'w-full' : 'w-[120px]'}`}>
 			<div className={buttonShadowVariants({ variant: variant as 'solid' | 'outlined' })}></div>
 			<button
 				onClick={onClick}
