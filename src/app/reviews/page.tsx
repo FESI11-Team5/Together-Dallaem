@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Tab from '@/components/commons/Tab';
 import { useEffect, useState, useCallback } from 'react';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import Chip from '@/components/commons/Chip';
 import ScoreSection from '@/components/reviews/ScoreSection';
 import { getReviews } from '@/apis/reviews/reviews';
@@ -89,7 +89,7 @@ export default function Reviews() {
 				offset: (currentPage - 1) * 10,
 				...setReviewParams(filterValues)
 			}),
-		placeholderData: keepPreviousData
+		placeholderData: prev => prev
 	});
 
 	return (
@@ -151,6 +151,7 @@ export default function Reviews() {
 				<ScoreSection data={scoreData} />
 				<ReviewSection
 					reviewData={reviewsData}
+					isLoading={isLoadingReviews}
 					callbackOnFilterChange={handleFilterChange}
 					callBackOnPageChange={handlePageChange}
 				/>
