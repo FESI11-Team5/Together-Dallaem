@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Tab from '@/components/commons/Tab';
 import { useEffect, useState, useCallback } from 'react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import Chip from '@/components/commons/Chip';
 import ScoreSection from '@/components/reviews/ScoreSection';
 import { getReviews } from '@/apis/reviews/reviews';
@@ -42,8 +43,6 @@ const setReviewParams = (filterValues: FilterData): Record<string, string> => {
  */
 export default function Reviews() {
 	const [activeTab, setActiveTab] = useState('DALLAEMFIT');
-	const [scoreData, setScoreData] = useState<scoreData | null>(null);
-	const [reviewsData, setReviewsData] = useState<GetReviewsResponse | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<GatheringType>('DALLAEMFIT');
 	const [filterValues, setFilterValues] = useState<FilterData>({});
 	const [currentPage, setCurrentPage] = useState(1);
@@ -66,36 +65,32 @@ export default function Reviews() {
 		setCurrentPage(page);
 	}, []);
 
-	useEffect(() => {
-		const getScoreData = async () => {
-			try {
-				const scores = await getScores({ type: selectedCategory });
-				setScoreData(scores[0]);
-			} catch (error) {
-				//TODO: 모달창 띄우기
-				console.error(error);
-			}
-		};
-		getScoreData();
-	}, [selectedCategory]);
+	const {
+		data: scores,
+		isLoading: isLoadingScores,
+		isError: isErrorScores
+	} = useQuery({
+		queryKey: ['scores', selectedCategory],
+		queryFn: () => getScores({ type: selectedCategory })
+	});
 
-	useEffect(() => {
-		const getReviewsData = async () => {
-			try {
-				const reviews = await getReviews({
-					type: selectedCategory,
-					sortOrder: 'desc',
-					offset: (currentPage - 1) * 10,
-					...setReviewParams(filterValues)
-				});
-				setReviewsData(reviews);
-			} catch (error) {
-				//TODO: 모달창 띄우기
-				console.error(error);
-			}
-		};
-		getReviewsData();
-	}, [selectedCategory, filterValues, currentPage]);
+	const scoreData: scoreData | null = scores && scores.length > 0 ? scores[0] : null;
+
+	const {
+		data: reviewsData,
+		isLoading: isLoadingReviews,
+		isError: isErrorReviews
+	} = useQuery({
+		queryKey: ['reviews', selectedCategory, filterValues, currentPage],
+		queryFn: () =>
+			getReviews({
+				type: selectedCategory,
+				sortOrder: 'desc',
+				offset: (currentPage - 1) * 10,
+				...setReviewParams(filterValues)
+			}),
+		placeholderData: keepPreviousData
+	});
 
 	return (
 		<div className="box-border bg-white/15" style={{ fontFamily: 'var(--font-pretendard)' }}>
