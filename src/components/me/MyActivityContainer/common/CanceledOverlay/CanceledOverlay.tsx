@@ -24,7 +24,7 @@ export default function CanceledOverlay({ canceledAt }: CanceledOverlayProps) {
 
 	return (
 		<div
-			className={`tb:rounded-3xl z-floating bg-primary-dark/80 absolute inset-0 flex items-center justify-center rounded-xl border-3 ${CANCELED_OVERLAY_GLOW} ${CANCELED_TEXT_GLOW}`}
+			className={`tb:rounded-3xl z-floating bg-primary-dark/80 absolute inset-0 flex items-center justify-center rounded-xl border-3 border-white ${CANCELED_OVERLAY_GLOW} ${CANCELED_TEXT_GLOW}`}
 			role="status"
 			aria-live="polite">
 			<div>
