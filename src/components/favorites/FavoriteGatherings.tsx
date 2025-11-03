@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import { cn } from '@/utils/cn';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getGatherings } from '@/apis/gatherings';
 import { useWishlistStore } from '@/stores/wishlist';
 import { LIKED_GATHERING_MESSAGE } from '@/constants/messages';
-import type { Gathering, GatheringType } from '@/types/response/gatherings';
+import type { GatheringType } from '@/types/response/gatherings';
 
 import * as motion from 'motion/react-client';
 import Image from 'next/image';
@@ -14,10 +16,8 @@ import Tab from '../commons/Tab';
 import Chip from '../commons/Chip';
 import CardList from './cardList/CardList';
 import BasicPagination from '../commons/basic/BasicPagination';
-import { useQuery } from '@tanstack/react-query';
 import CardSkeleton from '@/app/(home)/CardSkeleton';
 import NoDataMessage from '../commons/NoDataMessage/NoDataMessage';
-import { cn } from '@/utils/cn';
 
 const ITEMS_PER_PAGE = 4;
 
@@ -36,7 +36,8 @@ export default function FavoriteGatherings() {
 			if (!hasHydrated || wishlist.size === 0) return [];
 			const ids = Array.from(wishlist).join(',');
 			return await getGatherings(`id=${ids}`);
-		}
+		},
+		placeholderData: keepPreviousData
 	});
 
 	/** 필터링 */
