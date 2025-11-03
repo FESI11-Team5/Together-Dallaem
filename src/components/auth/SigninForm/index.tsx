@@ -83,7 +83,7 @@ export function SigninForm({ onSubmit }: SigninFormProps) {
 					로그인
 				</BasicButton>
 				<div className="flex items-center justify-center gap-1">
-					<p className="text-base font-medium">{AUTH_GUIDE_MESSAGES.NEW_MEMBER}</p>
+					<p className="text-base font-medium text-gray-100">{AUTH_GUIDE_MESSAGES.NEW_MEMBER}</p>
 					<Link href="/signup" className="text-primary-600 underline">
 						회원가입
 					</Link>

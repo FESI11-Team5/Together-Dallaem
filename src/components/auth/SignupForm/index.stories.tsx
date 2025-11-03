@@ -13,7 +13,7 @@ const meta: Meta<typeof SignupForm> = {
 				component: `### 🧾 SignupForm
 				React Hook Form + Zod 기반의 회원가입 폼입니다.
 
-				- 필드: 이름, 이메일, 회사명, 비밀번호, 비밀번호 확인
+				- 필드: 이름, 이메일, 닉네임, 비밀번호, 비밀번호 확인
 				- 유효성 검사: \`zodResolver\`
 				- 제출 버튼 활성화 조건: \`isValid && isDirty && !isSubmitting\`
 				- 디자인 시스템 버튼: \`<BasicButton />\`

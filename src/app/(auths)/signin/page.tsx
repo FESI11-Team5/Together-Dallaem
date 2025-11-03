@@ -5,18 +5,19 @@ import { getUserInfo } from '@/apis/auths/user';
 import ServerErrorPopup from '@/components/auth/Popup/ServerErrorPopup';
 import { SigninForm, type SigninFormValues } from '@/components/auth/SigninForm';
 import { useModal } from '@/hooks/useModal';
+import { useTokenStore } from '@/stores/token';
 import { useUserStore } from '@/stores/user';
+import { cn } from '@/utils/cn';
 import { ApiError } from '@/utils/fetch';
 import { decodeToken } from '@/utils/token';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
-// TODO: 반응형 고치기
 function SigninPageContent() {
 	const searchParams = useSearchParams();
-	const next = searchParams.get('next') ?? '/';
+	const redirectTo = searchParams.get('redirectTo') ?? '/';
 
-	const signinUser = useUserStore(state => state.signinUser);
+	const signinUser = useTokenStore(state => state.signinUser);
 	const updateUser = useUserStore(state => state.updateUser);
 	const router = useRouter();
 	const { openModal } = useModal();
@@ -39,23 +40,25 @@ function SigninPageContent() {
 			const decodedToken = decodeToken(token);
 			if (!decodedToken) throw new Error('Invalid token');
 
-			signinUser({ userId: decodedToken.userId as number, token });
+			signinUser({ userId: decodedToken.userId as number, token, exp: decodedToken.exp });
 
 			const userInfo = await getUserInfo();
 			updateUser({
+				userId: userInfo.id,
 				email: userInfo.email,
 				name: userInfo.name,
 				companyName: userInfo.companyName,
 				image: userInfo.image ?? ''
 			});
 
-			router.replace(next);
+			router.replace(redirectTo);
 		} catch (error) {
 			if (error instanceof ApiError) {
 				if (error.status === 500) {
 					openModal(<ServerErrorPopup />);
 					return;
 				}
+				console.log(error);
 				throw error;
 			}
 		}
@@ -63,8 +66,14 @@ function SigninPageContent() {
 
 	return (
 		<>
-			<h1 className="sr-only">같이 달램 로그인 페이지</h1>
-			<h2 className="tb:text-2xl text-center text-xl font-semibold">로그인</h2>
+			<h1 className="sr-only">GAMEOW 로그인 페이지</h1>
+			<h2
+				className={cn(
+					'tb:text-2xl text-primary-500 text-center text-xl font-semibold',
+					'[text-shadow:0_0_1px_#5ff7e6,0_0_0px_#5ff7e6,0_0_0px_#5ff7e6,0_0_10px_#5ff7e6]'
+				)}>
+				로그인
+			</h2>
 			<SigninForm onSubmit={handleSigninAndRedirect} />
 		</>
 	);

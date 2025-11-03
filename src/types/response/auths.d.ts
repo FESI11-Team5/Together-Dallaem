@@ -5,7 +5,7 @@ export interface signupRequest {
 	password: string;
 	/** 이름 */
 	name: string;
-	/** 회사명 */
+	/** 닉네임 */
 	companyName: string;
 }
 
