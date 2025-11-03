@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getJoinedGathering } from '@/apis/gatherings/joined';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
@@ -5,6 +6,7 @@ import type { JoinedGathering } from '@/types/response/gatherings';
 import GatheringCard from './GatheringCard';
 import NoDataMessage from '../common/NoDataMessage/NoDataMessage';
 import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
+import Chip from '@/components/commons/Chip';
 /**
  * JoinedGatherings 컴포넌트
  *
@@ -31,6 +33,8 @@ import GatheringSkeleton from '@/components/me/skeleton/GatheringSkeleton';
 export default function JoinedGatherings() {
 	const queryClient = useQueryClient();
 	const { handleError } = useErrorHandler();
+	const [showFilteredOnly, setShowFilteredOnly] = useState(false);
+
 	/**
 	 * React Query: joinedGatherings 캐시
 	 * - queryKey: ['joinedGatherings'] 로 캐싱/무효화에 사용됩니다.
@@ -40,12 +44,7 @@ export default function JoinedGatherings() {
 		queryKey: ['joinedGatherings'],
 		queryFn: async () => {
 			try {
-				const data = await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
-				return data.sort((a, b) => {
-					if (a.canceledAt === null && b.canceledAt !== null) return -1;
-					if (a.canceledAt !== null && b.canceledAt === null) return 1;
-					return 0;
-				});
+				return await getJoinedGathering({ sortBy: 'dateTime', sortOrder: 'asc' });
 			} catch (err) {
 				handleError(err);
 				throw err;
@@ -54,6 +53,10 @@ export default function JoinedGatherings() {
 	});
 
 	if (isLoading) return <GatheringSkeleton />;
+
+	const filteredGatherings = showFilteredOnly
+		? gatherings.filter(g => !g.isCompleted && !g.isReviewed && g.canceledAt === null)
+		: gatherings;
 
 	if (gatherings.length === 0) return <NoDataMessage text="신청한 모임이 아직 없어요" />;
 
@@ -87,16 +90,30 @@ export default function JoinedGatherings() {
 	};
 
 	return (
-		<ul className="flex flex-col gap-6">
-			{gatherings.map(gathering => (
-				<li key={gathering.id}>
-					<GatheringCard
-						gathering={gathering}
-						onReviewSuccess={() => handleReviewSuccess(gathering.id)}
-						onCancelSuccess={() => handleCancelSuccess(gathering.id)}
-					/>
-				</li>
-			))}
-		</ul>
+		<div className="flex flex-1 flex-col gap-6">
+			<div className="flex">
+				<Chip
+					isActive={showFilteredOnly}
+					text="이용 예정인 모임만 보기"
+					onClick={() => setShowFilteredOnly(prev => !prev)}
+				/>
+			</div>
+
+			{filteredGatherings.length === 0 ? (
+				<NoDataMessage text="이용 예정인 모임이 없어요" />
+			) : (
+				<ul className="flex flex-col gap-6">
+					{filteredGatherings.map(gathering => (
+						<li key={gathering.id}>
+							<GatheringCard
+								gathering={gathering}
+								onReviewSuccess={() => handleReviewSuccess(gathering.id)}
+								onCancelSuccess={() => handleCancelSuccess(gathering.id)}
+							/>
+						</li>
+					))}
+				</ul>
+			)}
+		</div>
 	);
 }
