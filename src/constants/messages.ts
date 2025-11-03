@@ -72,9 +72,9 @@ export const AUTH_GUIDE_MESSAGES = {
  * 찜한 모임 페이지 메시지
  */
 export const LIKED_GATHERING_MESSAGE = {
-	title: '찜한 모임',
-	subTitle: '마감되기 전에 지금 바로 참여해보세요👀',
-	noData: '아직 찜한 모임이 없어요'
+	title: '찜한 크루',
+	subTitle: '마감되기 전에 지금 바로 참여해보세요 👀',
+	noData: '아직 찜한 크루가 없어요'
 };
 
 /**

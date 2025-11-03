@@ -1,14 +1,17 @@
+'use client';
+
+import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
+
+import { formatDateAndTime } from '@/utils/date';
 import { CLOSED_GATHERING_MESSAGE } from '@/constants/messages';
+import { useWishlistStore } from '@/stores/wishlist';
 import type { Gathering } from '@/types/response/gatherings';
 
+import Image from 'next/image';
 import HeartButton from '@/app/(home)/HeartButton';
 import ChipInfo from '@/components/commons/ChipInfo';
 import ClassProgressBar from '@/components/commons/ClassProgressBar';
 import Tag from '@/components/commons/Tag';
-import { useWishlistStore } from '@/stores/wishlist';
-import { formatDateAndTime } from '@/utils/date';
-import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
-import Image from 'next/image';
 
 interface CardListProps {
 	data: Gathering;
@@ -19,13 +22,28 @@ interface CardListProps {
  * @param data - 모임 정보
  */
 export default function CardList({ data }: CardListProps) {
+	const { id, image, name, location, participantCount, capacity, registrationEnd, dateTime } = data;
 	const now = new Date();
-	const endDate = new Date(data.registrationEnd);
-	const isClosed = data.participantCount >= data.capacity || isPast(new Date(data.registrationEnd));
-	const { date, time } = formatDateAndTime(data.dateTime);
-
+	const endDate = new Date(registrationEnd);
+	const isClosed = participantCount >= capacity || isPast(new Date(registrationEnd));
+	const { date, time } = formatDateAndTime(dateTime);
 	const removeWish = useWishlistStore(state => state.removeWish);
 	let tagText = '';
+	let category = '';
+	switch (location) {
+		case '건대입구':
+			category = 'AOS';
+			break;
+		case '을지로3가':
+			category = 'Adventure';
+			break;
+		case '신림':
+			category = 'FPS';
+			break;
+		case '홍대입구':
+			category = 'RPG';
+			break;
+	}
 
 	if (isPast(endDate)) {
 		tagText = '모집 마감';
@@ -38,10 +56,10 @@ export default function CardList({ data }: CardListProps) {
 	}
 
 	return (
-		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-[24px] mb:rounded-r-[24px] max-mb:rounded-t-[24px] max-mb:rounded-b-[24px] relative flex flex-row items-center overflow-hidden border-2 border-gray-100">
+		<div className="mb:h-[156px] max-mb:h-[316px] max-mb:flex-col mb:rounded-l-3xl mb:rounded-r-3xl max-mb:rounded-t-3xl max-mb:rounded-b-3xl relative flex flex-row items-center overflow-hidden border-2 border-gray-100">
 			{/* 이미지 영역 */}
 			<div className="mb:max-w-[280px] max-mb:w-full relative h-[156px] w-full">
-				<Image src={data.image} alt={data.name} fill className="object-cover" />
+				<Image src={image} alt={name} fill className="object-cover" />
 				<div className="z-base absolute top-0 right-0">{!isClosed && <Tag text={tagText} />}</div>
 			</div>
 
@@ -51,12 +69,12 @@ export default function CardList({ data }: CardListProps) {
 					{/* 제목 + 장소 + 찜 아이콘 */}
 					<div className="flex justify-between">
 						<div className="flex items-center gap-2">
-							<h2 className="leading-lg text-lg font-semibold text-gray-800">{data.name}</h2>
+							<h2 className="leading-lg text-lg font-semibold text-gray-800">{name}</h2>
 							<span className="leading-lg text-lg font-semibold text-gray-800">|</span>
-							<p className="leading-sm text-sm font-medium text-gray-700">{data.location}</p>
+							<p className="leading-sm text-sm font-medium text-gray-700">{category}</p>
 						</div>
 
-						{!isClosed && <HeartButton id={data.id} />}
+						{!isClosed && <HeartButton id={id} />}
 					</div>
 
 					{/* 칩 인포 (날짜 + 시간) */}
@@ -70,8 +88,8 @@ export default function CardList({ data }: CardListProps) {
 				<div className="p-[8px_24px_16px_24px]">
 					<ClassProgressBar
 						data={{
-							currentNumber: data.participantCount,
-							totalNumber: data.capacity
+							currentNumber: participantCount,
+							totalNumber: capacity
 						}}
 						isConfirmed={isClosed}
 					/>
@@ -81,9 +99,9 @@ export default function CardList({ data }: CardListProps) {
 			{/* 마감된 카드 오버레이 */}
 			{isClosed && (
 				<div
-					className="bg-root/80 absolute inset-0 flex flex-col items-center justify-center rounded-[24px] text-white"
+					className="bg-root/80 absolute inset-0 flex flex-col items-center justify-center rounded-3xl text-white"
 					onClick={e => {
-						e.preventDefault(); // 링크 이동 방지
+						e.stopPropagation(); // 부모 요소의 클릭 이벤트 전파 방지
 					}}>
 					<div className="flex flex-col gap-6">
 						<p className="leading-sm text-center text-sm font-medium">
@@ -97,8 +115,8 @@ export default function CardList({ data }: CardListProps) {
 							<button
 								className="leading-xs text-primary-600 cursor-pointer text-xs font-semibold"
 								onClick={e => {
-									e.preventDefault(); // 링크 이동 방지
-									removeWish(data.id);
+									e.stopPropagation(); // 부모 요소의 클릭 이벤트 전파 방지
+									removeWish(id);
 								}}>
 								모임 보내주기
 							</button>
@@ -116,7 +134,7 @@ export default function CardList({ data }: CardListProps) {
 								height={24}
 								onClick={e => {
 									e.preventDefault(); // 링크 이동 방지
-									removeWish(data.id);
+									removeWish(id);
 								}}
 							/>
 						</button>

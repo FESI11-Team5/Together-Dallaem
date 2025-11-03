@@ -1,5 +1,6 @@
 'use client';
 
+import * as motion from 'motion/react-client';
 import { differenceInDays, isPast, isSameDay, startOfDay } from 'date-fns';
 
 import { getGatheringId, getGatheringParticipant } from '@/apis/gatherings/[id]';
@@ -11,7 +12,9 @@ import HeartButton from '@/app/(home)/HeartButton';
 import ChipInfo from '@/components/commons/ChipInfo';
 import Tag from '@/components/commons/Tag';
 import BasicProgressBar from '@/components/commons/basic/BasicProgressBar';
+
 import Image from 'next/image';
+import GatheringInfoSectionSkeleton from './skeleton/GatheringInfoSectionSkeleton';
 
 /** 모임 상세페이지 - 이미지 + 마감정보 */
 function GatheringMainImage({ data }: { data: Gathering }) {
@@ -33,7 +36,7 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 	}
 
 	return (
-		<div className="relative h-full w-full overflow-hidden rounded-[24px] border-2 border-gray-200">
+		<div className="relative h-full w-full overflow-hidden rounded-3xl border-2 border-gray-200">
 			<Image src={image} alt="사진" fill className="object-cover" />
 			<div className="z-base absolute top-0 right-0">
 				<Tag text={tagText} />
@@ -46,14 +49,30 @@ function GatheringMainImage({ data }: { data: Gathering }) {
 function GatheringMainInfo({ data }: { data: Gathering }) {
 	const { name, location, dateTime, id } = data;
 	const { date, time } = formatDateAndTime(dateTime);
+	let category = '';
+
+	switch (location) {
+		case '건대입구':
+			category = 'AOS';
+			break;
+		case '을지로3가':
+			category = 'Adventure';
+			break;
+		case '신림':
+			category = 'FPS';
+			break;
+		case '홍대입구':
+			category = 'RPG';
+			break;
+	}
 
 	return (
-		<div className="tb:pb-[43px] max-tb:pb-5 flex w-full flex-col gap-2.5 border-b-2 border-dashed px-6">
+		<div className="tb:pb-[43px] max-tb:pb-5 flex w-full flex-col gap-2.5 border-b-2 border-dashed border-white px-6">
 			<div className="flex justify-between">
 				<div className="flex flex-col gap-3">
 					<div className="flex flex-col gap-0.5">
 						<h1 className="leading-lg text-lg font-semibold text-white">{name}</h1>
-						<div className="leading-sm text-sm font-medium text-white">{location}</div>
+						<div className="leading-sm text-primary-600 text-sm font-bold">{category}</div>
 					</div>
 
 					<div className="flex gap-2">
@@ -100,7 +119,7 @@ function GatheringSubInfo({ data }: { data: Gathering }) {
 								<span
 									className="leading-xs invisible absolute z-10 rounded-full bg-gray-600 px-1.5 py-2 text-center text-xs font-medium text-white group-hover/images:opacity-80 group-hover/name:visible"
 									style={{ top: '100%', left: '-50%', transform: 'translateY(-50px)', whiteSpace: 'nowrap' }}>
-									{participant.User?.name}
+									{participant.User?.companyName}
 								</span>
 							</div>
 						))}
@@ -137,23 +156,35 @@ export default function GatheringInfoSection({ gatheringId }: { gatheringId: num
 				registrationEnd: formatUTCToKST(res.registrationEnd, 'yyyy-MM-dd HH:mm')
 			}))
 	});
-
+	if (isLoading) return <GatheringInfoSectionSkeleton />;
 	if (!data) return <div className="py-20 text-center text-gray-500">로딩 중...</div>;
 
 	return (
 		<section className="tb:flex-row max-mb:flex-col flex gap-6 pt-6">
 			{/* 이미지정보 */}
-			<div className="relative aspect-video flex-1 overflow-hidden rounded-3xl">
+			<motion.div
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{
+					duration: 0.8
+				}}
+				className="relative aspect-video flex-1 overflow-hidden rounded-3xl">
 				<GatheringMainImage data={data} />
-			</div>
+			</motion.div>
 
 			{/* 모임정보 */}
-			<div className="flex flex-1 flex-col items-start rounded-3xl border-2 border-gray-200">
+			<motion.div
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{
+					duration: 0.8
+				}}
+				className="flex flex-1 flex-col items-start rounded-3xl border-2 border-gray-200">
 				<div className="tb:gap-6 max-tb:gap-3 flex w-full flex-col items-start py-6">
 					<GatheringMainInfo data={data} />
 					<GatheringSubInfo data={data} />
 				</div>
-			</div>
+			</motion.div>
 		</section>
 	);
 }

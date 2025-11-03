@@ -1,5 +1,5 @@
 import GatheringInfoSection from '@/components/gatherings/GatheringInfoSection';
-import GatheringReviewsSection from '@/components/gatherings/GatheringReviewsSection';
+import GatheringReviewSection from '@/components/gatherings/GatheringReviewSection';
 
 export default async function Page({ params }: { params: Promise<{ id: number }> }) {
 	const { id } = await params;
@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
 			<div className="bg-root w-full max-w-[1200px]">
 				<div className="mx-auto flex max-w-[996px] flex-col gap-6">
 					<GatheringInfoSection gatheringId={gatheringId} />
-					<GatheringReviewsSection gatheringId={gatheringId} />
+					<GatheringReviewSection gatheringId={gatheringId} />
 				</div>
 			</div>
 		</div>

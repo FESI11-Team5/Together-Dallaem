@@ -1,44 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { REVIEW_SECTION_TITLE } from '@/constants/messages';
 import { ReviewResponse } from '@/types/response/reviews';
 import { getReviews } from '@/apis/reviews/reviews';
 
-import Image from 'next/image';
-
 import BasicPagination from '@/components/commons/basic/BasicPagination';
+
+import Image from 'next/image';
+import GatheringReviewSectionSkeleton from './skeleton/GatheringReviewSectionSkeleton';
 
 export default function GatheringReviewSection({ gatheringId }: { gatheringId: number }) {
 	const [currentPage, setCurrentPage] = useState(1);
-	const [reviewData, setReviewData] = useState<ReviewResponse[]>([]);
 	const pageSize = 4;
 
-	useEffect(() => {
-		const fetchReviews = async () => {
-			try {
-				const data = await getReviews({ gatheringId });
+	const { data, isLoading } = useQuery({
+		queryKey: ['gatheringReviews', gatheringId],
+		queryFn: () => getReviews({ gatheringId }),
+		select: res => res.data
+	});
 
-				setReviewData(data.data);
-			} catch (error) {
-				console.log('리뷰 불러오기 실패', error);
-			}
-		};
-
-		fetchReviews();
-	}, [gatheringId]);
-
+	const reviewData: ReviewResponse[] = data ?? [];
 	const totalPages = Math.ceil(reviewData.length / pageSize);
 	const startIndex = (currentPage - 1) * pageSize;
 	const currentReviews = reviewData.slice(startIndex, startIndex + pageSize);
 
 	return (
 		<section className="bg-root rounded-3xl border-2 border-white p-6">
-			<h2 className="leading-lg mb-4 text-lg font-semibold text-white">{REVIEW_SECTION_TITLE.title}</h2>
+			<h2 className="leading-lg mb-4 border-b-2 border-dashed border-b-gray-200 text-lg font-semibold text-white">
+				{REVIEW_SECTION_TITLE.title}
+			</h2>
+
 			<div className="flex h-full flex-col">
 				{/* 리뷰가 없을 때 */}
-				{reviewData.length === 0 ? (
+				{isLoading ? (
+					<ul className="flex flex-col gap-4">
+						{Array.from({ length: 3 }).map((_, idx) => (
+							<GatheringReviewSectionSkeleton key={idx} />
+						))}
+					</ul>
+				) : reviewData.length === 0 ? (
 					<div className="flex h-full flex-col items-center justify-center">
 						<Image src="/images/no_data.svg" alt="데이터 없음" width={171} height={136} />
 						<p className="text-sm text-gray-500">등록된 리뷰가 없습니다.</p>

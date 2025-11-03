@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import { getGatherings } from '@/apis/gatherings';
 import { useWishlistStore } from '@/stores/wishlist';
 import { LIKED_GATHERING_MESSAGE } from '@/constants/messages';
 import type { Gathering, GatheringType } from '@/types/response/gatherings';
 
-import Link from 'next/link';
+import * as motion from 'motion/react-client';
 import Image from 'next/image';
 import Tab from '../commons/Tab';
 import Chip from '../commons/Chip';
@@ -25,7 +27,7 @@ export default function FavoriteGatherings() {
 		DALLAEMFIT: 1,
 		WORKATION: 1
 	});
-
+	const router = useRouter();
 	useEffect(() => {
 		if (!hasHydrated) return;
 		if (wishlist.size === 0) {
@@ -79,12 +81,19 @@ export default function FavoriteGatherings() {
 			<div className="w-full max-w-[996px]">
 				{/* 타이틀 */}
 				<section className="flex w-full items-start justify-start gap-[13px]">
-					<div className="flex h-18 w-18 items-center justify-center rounded-full border-2 border-gray-800 bg-primary-50">
-						<Image src="/icons/heart_to_heart.svg" alt="찜한 모임" width={32} height={30} />
+					<div className="flex h-18 w-18 items-center justify-center rounded-full">
+						<Image
+							priority
+							src="/icons/favorite_cat.svg"
+							alt={'찜한 크루 이미지'}
+							width={72}
+							height={72}
+							className="object-cover"
+						/>
 					</div>
 					<div className="flex flex-col items-start justify-center gap-2">
-						<h1 className="leading-2xl text-2xl font-semibold text-gray-900">{LIKED_GATHERING_MESSAGE.title}</h1>
-						<p className="leading-sm text-sm font-medium text-gray-700">{LIKED_GATHERING_MESSAGE.subTitle}</p>
+						<h1 className="leading-sm text-primary-500 text-sm font-bold">{LIKED_GATHERING_MESSAGE.title}</h1>
+						<p className="leading-lg text-primary-50 text-lg font-bold">{LIKED_GATHERING_MESSAGE.subTitle}</p>
 					</div>
 				</section>
 
@@ -92,8 +101,8 @@ export default function FavoriteGatherings() {
 				<div className="mt-6 mb-3">
 					<Tab
 						options={[
-							{ value: 'DALLAEMFIT', text: '달램핏', icon: '/icons/dalaemfit.svg' },
-							{ value: 'WORKATION', text: '워케이션', icon: '/icons/workation.svg' }
+							{ value: 'DALLAEMFIT', text: '함께 플레이', icon: '/icons/find_crew.svg' },
+							{ value: 'WORKATION', text: '교환/통신하기', icon: '/icons/exchange.svg' }
 						]}
 						selectedTab={selectedTab}
 						onTabChange={tabValue => {
@@ -114,7 +123,8 @@ export default function FavoriteGatherings() {
 								onClick={() => setSelectedChip('DALLAEMFIT')}
 							/>
 							<Chip
-								text="오피스 트레이닝"
+								text="스팀"
+								imgUrl="/icons/steam_logo.svg"
 								isActive={selectedChip === 'OFFICE_STRETCHING'}
 								onClick={() => {
 									setSelectedChip('OFFICE_STRETCHING');
@@ -122,7 +132,8 @@ export default function FavoriteGatherings() {
 								}}
 							/>
 							<Chip
-								text="마인드풀니스"
+								text="온라인"
+								imgUrl="/icons/online.svg"
 								isActive={selectedChip === 'MINDFULNESS'}
 								onClick={() => {
 									setSelectedChip('MINDFULNESS');
@@ -138,16 +149,20 @@ export default function FavoriteGatherings() {
 				{/* 카드 리스트 + 페이지네이션 영역 */}
 				<div className="max-mb:min-h-[1500px] flex min-h-[820px] flex-col justify-between">
 					{/* 카드 리스트 */}
-					<div className="mt-6 flex flex-grow flex-col gap-6">
+					<div className="mt-6 flex grow flex-col gap-6">
 						{paginatedGatherings.length === 0 ? (
-							<div className="leading-sm flex items-center justify-center text-sm font-medium text-gray-500">
+							<div className="leading-sm flex flex-col items-center justify-center text-sm font-medium text-gray-500">
+								<Image src={'/images/no_data.svg'} alt={'No Data'} width={171} height={136} className="object-cover" />
 								{LIKED_GATHERING_MESSAGE.noData}
 							</div>
 						) : (
 							paginatedGatherings.map(gathering => (
-								<Link key={gathering.id} href={`/gatherings/${gathering.id}`}>
+								<div
+									key={gathering.id}
+									onClick={() => router.push(`/gatherings/${gathering.id}`)}
+									className="hover:cursor-pointer">
 									<CardList data={gathering} />
-								</Link>
+								</div>
 							))
 						)}
 					</div>

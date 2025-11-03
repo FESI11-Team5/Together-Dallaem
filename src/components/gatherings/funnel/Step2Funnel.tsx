@@ -117,7 +117,7 @@ export default function Step2Funnel() {
 						)}
 						{imagePreview && (
 							<div className="m-auto mt-2 mb-4 h-[150px] w-[150px] overflow-hidden rounded-2xl border-2 shadow-md shadow-gray-400">
-								<Image src={imagePreview} alt="Preview" width={150} height={150} className="object-cover" />
+								<Image src={imagePreview} alt="미리보기 이미지" width={150} height={150} className="object-cover" />
 							</div>
 						)}
 					</div>
