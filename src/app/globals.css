@@ -4,9 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-	/* font family */
-	--font-pretendard: 'Pretendard', sans-serif;
-
 	/* 기본 컬러색상 */
 	--color-black: #00010d;
 	--color-white: #ffffff;
@@ -216,7 +213,7 @@ input[type='number']::-webkit-outer-spin-button {
 	}
 	body {
 		@apply bg-background text-foreground;
-		@apply font-pretendard;
+		font-family: var(--font-pretendard);
 	}
 }
 
