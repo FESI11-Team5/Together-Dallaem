@@ -5,6 +5,8 @@ import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import BasicDropbox, { OptionType } from './basic/BasicDropbox';
 import BasicSelectButton from './basic/BasicSelectButton';
 import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { cn } from '@/utils/cn';
 
 interface SelectBoxProps {
 	/** 선택 항목들의 배열 */
@@ -133,22 +135,28 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 		return (
 			<div ref={ref} className={`relative ${className}`}>
 				{register && <input type="hidden" {...register} value={displayValue} readOnly />}
-				<DropdownMenu>
-					<DropdownMenu.Trigger>
-						<BasicSelectButton
-							expanded={expanded}
-							placeholder={placeholder}
-							disabled={disabled}
-							value={displayValue}
-							displayText={selectedOption?.text}
-							isOpen={isOpen}
-							onClick={handleToggle}
-							className="relative">
-							{children}
-						</BasicSelectButton>
-					</DropdownMenu.Trigger>
-					<DropdownMenu.Content options={options} onClick={handleSelect} />
-				</DropdownMenu>
+				<BasicSelectButton
+					expanded={expanded}
+					placeholder={placeholder}
+					disabled={disabled}
+					value={displayValue}
+					displayText={selectedOption?.text}
+					isOpen={isOpen}
+					onClick={handleToggle}
+					className="relative">
+					{children}
+				</BasicSelectButton>
+				<BasicDropbox
+					ref={containerRef as React.RefObject<HTMLDivElement>}
+					options={options}
+					callbackOnclick={handleSelect}
+					selectedValue={selectedValue || defaultValue}
+					isLarge={expanded}
+					className={cn(
+						'pc:left-0 transition-all duration-200 ease-out',
+						isOpen ? 'animate-in fade-in-0 zoom-in-95 visible' : 'animate-out fade-out-0 zoom-out-95 invisible'
+					)}
+				/>
 			</div>
 		);
 	}
