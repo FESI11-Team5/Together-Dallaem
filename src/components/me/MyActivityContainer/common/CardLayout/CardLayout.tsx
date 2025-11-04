@@ -20,6 +20,22 @@ interface GatheringProps {
  * - badgeContent와 children을 통해 확장 가능
  */
 export default function CardLayout({ gathering, badgeContent, children }: GatheringProps) {
+	const { location } = gathering;
+	let genre = '';
+	switch (location) {
+		case '건대입구':
+			genre = 'AOS';
+			break;
+		case '을지로3가':
+			genre = 'Adventure';
+			break;
+		case '신림':
+			genre = 'FPS';
+			break;
+		case '홍대입구':
+			genre = 'RPG';
+			break;
+	}
 	return (
 		<article key={gathering.id}>
 			<div className="tb:flex-row relative mb-6 flex flex-col gap-4">
@@ -36,12 +52,12 @@ export default function CardLayout({ gathering, badgeContent, children }: Gather
 							<div className="flex items-center gap-2 text-lg font-semibold">
 								<h3 id={`gathering-title-${gathering.id}`}>{gathering.name}</h3>
 								<p className="text-sm">|</p>
-								<p className="text-sm font-medium">{gathering.location}</p>
+								<p className="text-primary-600 text-sm font-medium">{genre}</p>
 							</div>
 
 							<dl className="flex gap-3 text-sm font-medium text-white">
 								<dt className="sr-only">날짜 및 시간</dt>
-								<dd className="text-primary-500">
+								<dd className="text-primary-600">
 									<time>{formatKoreanDate(gathering.dateTime)}</time>
 								</dd>
 

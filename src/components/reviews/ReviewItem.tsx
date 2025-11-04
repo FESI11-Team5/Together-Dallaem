@@ -15,6 +15,22 @@ import { ReviewResponse } from '@/types/response/reviews';
  * <WrittenReviewCard gathering={gatheringData} />
  */
 export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse | null }) {
+	const { location } = reviewData?.Gathering || {};
+	let genre = '';
+	switch (location) {
+		case '건대입구':
+			genre = 'AOS';
+			break;
+		case '을지로3가':
+			genre = 'Adventure';
+			break;
+		case '신림':
+			genre = 'FPS';
+			break;
+		case '홍대입구':
+			genre = 'RPG';
+			break;
+	}
 	return (
 		<div key={reviewData?.id} className="w-full">
 			<div className="tb:flex-row relative flex flex-col content-between gap-6">
@@ -62,7 +78,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 						)}
 						<p className="text-sm">{reviewData?.comment}</p>
 						<p className="text-xs">
-							{reviewData?.Gathering?.name} 이용 · {reviewData?.Gathering?.location}
+							{reviewData?.Gathering?.name} 이용 · {genre}
 						</p>
 					</div>
 					<div className="flex items-center gap-2 text-xs text-gray-500">
@@ -77,7 +93,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 								/>
 							</div>
 						) : (
-							<Image src="images/profile_edit.svg" width={24} height={24} alt="빈 사용자 프로필 이미지"></Image>
+							<Image src="images/profile_logo.svg" width={24} height={24} alt="빈 사용자 프로필 이미지"></Image>
 						)}
 						{reviewData?.User?.name}
 						<span className="mr-1"> | </span>
