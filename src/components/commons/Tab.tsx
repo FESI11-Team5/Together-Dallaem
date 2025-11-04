@@ -9,12 +9,12 @@ function IconWithGlow({ iconUrl, isSelected }: { iconUrl: string; isSelected: bo
 
 	return (
 		<span
-			className={`icon-glow-hover relative inline-block h-5 w-5 transition-all duration-200 ${
+			className={`icon-glow-hover mb:h-5 mb:w-5 relative inline-block h-4 w-4 transition-all duration-200 ${
 				isSelected ? 'icon-glow' : ''
 			}`}
 			style={isSelected ? { filter: glowFilter } : undefined}>
 			<span
-				className={`group-hover:bg-primary-400 block h-5 w-5 transition-colors duration-200 ${
+				className={`group-hover:bg-primary-400 mb:h-5 mb:w-5 block h-4 w-4 transition-colors duration-200 ${
 					isSelected ? 'bg-white' : 'bg-gray-400/80'
 				}`}
 				style={{
@@ -129,7 +129,7 @@ export default function Tab({ options, selectedTab, onTabChange, className }: Ta
 							'group font-medium transition-colors duration-200',
 							`${selectedTab === option.value ? 'text-shadow-primary font-extrabold text-white' : 'text-gray-400'}`
 						)}>
-						<span className="text-lg font-semibold">{option.text}</span>
+						<span className="font-semibol mb:text-lg text-sm">{option.text}</span>
 
 						{/* SVG를 컴포넌트로 동적 로드하여 글로우 효과 적용 */}
 						{option.icon && <IconWithGlow iconUrl={option.icon} isSelected={selectedTab === option.value} />}

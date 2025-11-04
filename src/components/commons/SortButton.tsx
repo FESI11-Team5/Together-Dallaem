@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFormContext, UseFormRegisterReturn } from 'react-hook-form';
 import BasicDropbox, { OptionType } from './basic/BasicDropbox';
 import { cn } from '@/utils/cn';
+import { DropdownMenu } from './GNB/DropdownMenu';
 
 /**
  * SortButton 컴포넌트의 Props 인터페이스
@@ -84,30 +85,25 @@ export default function SortButton({ options, register, defaultValue, className 
 
 	return (
 		<div className="relative">
-			<button
-				onClick={(e: React.MouseEvent) => {
-					// TODO: 추가사항 논의
-					e?.stopPropagation();
-					setIsOpen(!isOpen);
-				}}
-				className={cn(
-					'mb:w-auto mb:px-3 mb:py-2 relative box-border flex w-[36px]',
-					'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
-					'cursor-pointer items-center justify-between gap-[4px] rounded-[12px] border-2',
-					'border-gray-100 p-1.5 text-white',
-					`${className}`
-				)}>
-				<img src="/icons/sort_invert.svg" alt="sort button" className="h-[24px] w-[24px]" />
-				<span className="mb:inline font-gray-800 hidden text-[14px]">{selectedOption && selectedOption.text}</span>
-			</button>
-			{isOpen && (
-				<BasicDropbox
-					ref={containerRef as React.RefObject<HTMLDivElement>}
-					options={options}
-					callbackOnclick={handleSelect}
-					selectedValue={selectedValue || defaultValue}
-				/>
-			)}
+			<DropdownMenu>
+				<DropdownMenu.Trigger>
+					<button
+						onClick={() => {
+							setIsOpen(!isOpen);
+						}}
+						className={cn(
+							'mb:w-auto mb:px-3 mb:py-2 relative box-border flex w-[36px]',
+							'[text-shadow:0_0_4px_#e6fffa,0_0_0px_#e6fffa,0_0_0px_#e6fffa,0_0_40px_#e6fffa]',
+							'cursor-pointer items-center justify-between gap-[4px] rounded-[12px] border-2',
+							'border-gray-100 p-1.5 text-white',
+							`${className}`
+						)}>
+						<img src="/icons/sort_invert.svg" alt="sort button" className="h-[24px] w-[24px]" />
+						<span className="mb:inline font-gray-800 hidden text-[14px]">{selectedOption && selectedOption.text}</span>
+					</button>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content options={options} onClick={handleSelect} />
+			</DropdownMenu>
 		</div>
 	);
 }

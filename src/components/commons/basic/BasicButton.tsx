@@ -1,3 +1,63 @@
+import { cn } from '@/utils/cn';
+import { cva } from 'class-variance-authority';
+
+export const basicButtonVariants = cva(
+	// base classes applied to the <button>
+	'w-full h-full relative font-pretendard font-semibold box-border rounded-[12px] py-2.5 no-underline leading-none transition duration-400',
+	{
+		variants: {
+			variant: {
+				solid: 'text-white',
+				outlined: 'bg-root'
+			},
+			active: {
+				true: 'cursor-pointer',
+				false: 'cursor-default'
+			},
+			size: {
+				md: 'text-sm',
+				lg: 'text-base'
+			}
+		},
+		compoundVariants: [
+			{
+				variant: 'solid',
+				active: true,
+				class: 'bg-primary-600 shadow-[0_0_20px_rgba(5,242,219,0.5)] group-hover:shadow-[0_0_30px_rgba(5,242,219,0.7)]'
+			},
+			{
+				variant: 'solid',
+				active: false,
+				class: 'bg-gray-400'
+			},
+			{
+				variant: 'outlined',
+				active: true,
+				class: 'text-primary-400 border-2 border-primary-400'
+			},
+			{
+				variant: 'outlined',
+				active: false,
+				class: 'border-gray-400 text-gray-400'
+			}
+		],
+		defaultVariants: {
+			variant: 'solid',
+			active: true,
+			size: 'md'
+		}
+	}
+);
+
+const buttonShadowVariants = cva('absolute rounded-lg transition duration-400 bg-primary-400', {
+	variants: {
+		variant: {
+			solid: '-inset-1 opacity-20 group-hover:blur-2xl blur-xl',
+			outlined: '-inset-0.5 opacity-0 group-hover:opacity-70 blur-sm'
+		}
+	}
+});
+
 interface ButtonProps {
 	/** 버튼 내부에 표시될 텍스트 또는 요소 */
 	children: React.ReactNode;
@@ -59,40 +119,22 @@ export default function BasicButton({
 	ariaLabel = '',
 	...rest
 }: button) {
-	let classByStatus = '';
-
-	if (outlined) {
-		classByStatus = isActive
-			? `bg-black text-primary-400 border-2 border-primary-400`
-			: `border-gray-400 text-gray-400 bg-white`;
-	} else {
-		classByStatus = isActive
-			? `bg-primary-400 text-black shadow-[0_0_20px_rgba(5,242,219,0.5)] group-hover:shadow-[0_0_30px_rgba(5,242,219,0.7)]`
-			: `bg-gray-800 text-white`;
-	}
+	const variant = outlined ? 'outlined' : 'solid';
 
 	return (
-		<div className={`group ${className} relative ${isLarge ? 'w-full text-base' : 'w-[120px] text-sm'} cursor-pointer`}>
-			{isActive && outlined && (
-				<div
-					className={`bg-primary-400 absolute -inset-0.5 rounded-lg opacity-0 blur-sm transition duration-400 group-hover:opacity-70`}></div>
-			)}
-			{isActive && (
-				<div className="bg-primary-400 absolute -inset-1 rounded-lg opacity-20 blur-xl transition duration-400 group-hover:opacity-40 group-hover:blur-2xl"></div>
-			)}
+		<div className={`group relative ${className} ${isLarge ? 'w-full' : 'mb:w-[115px] w-[80px]'}`}>
+			<div className={buttonShadowVariants({ variant: variant as 'solid' | 'outlined' })}></div>
 			<button
 				onClick={onClick}
 				disabled={!isActive}
 				{...rest}
-				//prettier-ignore
-				className={`
-				w-full h-full relative font-pretendard font-semibold box-border
-				rounded-[12px] py-4 no-underline leading-none 
-				transition duration-400 text-white
-				${classByStatus}
-				${isActive ? 'cursor-pointer ' : 'cursor-default'}
-		
-			`}
+				className={cn(
+					basicButtonVariants({
+						variant: variant as 'solid' | 'outlined',
+						active: isActive,
+						size: isLarge ? 'lg' : 'md'
+					})
+				)}
 				aria-label={ariaLabel}>
 				{children}
 			</button>

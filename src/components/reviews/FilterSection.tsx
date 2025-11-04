@@ -4,6 +4,7 @@ import DateFilter from './DateFilter';
 import SortButton from '../commons/SortButton';
 import { format } from 'date-fns';
 import { useForm } from 'react-hook-form';
+import { GENRE_OPTIONS, SORT_OPTIONS } from '@/constants/options';
 
 /**
  * 필터 데이터 타입 정의
@@ -29,12 +30,6 @@ export default function FilterSection({ onFilterChange }: { onFilterChange?: Fil
 	const location = watch('location');
 	const sortBy = watch('sort');
 
-	const sortOptions = [
-		{ value: 'createdAt', text: '최신순' },
-		{ value: 'score', text: '리뷰 높은 순' },
-		{ value: 'participantCount', text: '참여 인원 순' }
-	];
-
 	// 필터 값이 변경될 때마다 외부로 전달
 	useEffect(() => {
 		const filterData: FilterData = {
@@ -48,17 +43,7 @@ export default function FilterSection({ onFilterChange }: { onFilterChange?: Fil
 	return (
 		<div className="flex w-full items-center justify-between gap-2">
 			<div className="flex items-center gap-2">
-				<SelectBox
-					register={register('location')}
-					options={[
-						{ value: '', text: '지역 전체' },
-						{ value: '건대입구', text: '건대입구' },
-						{ value: '을지로3가', text: '을지로3가' },
-						{ value: '신림', text: '신림' },
-						{ value: '홍대입구', text: '홍대입구' }
-					]}
-					placeholder="지역 선택"
-				/>
+				<SelectBox register={register('location')} options={GENRE_OPTIONS} placeholder="장르 선택" />
 				<DateFilter
 					onChange={date => {
 						const formatted = date ? format(date.toString(), 'yyyy-MM-dd') : '';
@@ -66,7 +51,7 @@ export default function FilterSection({ onFilterChange }: { onFilterChange?: Fil
 					}}
 				/>
 			</div>
-			<SortButton options={sortOptions} register={register('sort')} defaultValue={'createdAt'} />
+			<SortButton options={SORT_OPTIONS} register={register('sort')} defaultValue={'newest'} />
 		</div>
 	);
 }

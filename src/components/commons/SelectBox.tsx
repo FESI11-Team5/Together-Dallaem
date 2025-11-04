@@ -4,6 +4,9 @@ import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'r
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import BasicDropbox, { OptionType } from './basic/BasicDropbox';
 import BasicSelectButton from './basic/BasicSelectButton';
+import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { cn } from '@/utils/cn';
 
 interface SelectBoxProps {
 	/** 선택 항목들의 배열 */
@@ -75,10 +78,8 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 		const [selectedValue, setSelectedValue] = useState<string | number>('');
 		const containerRef = useRef<HTMLDivElement>(null);
 
-		// React Hook Form 연동
 		const formContext = useFormContext();
 		const currentValue = register?.name && formContext ? formContext.watch(register.name) : defaultValue;
-
 		const displayValue = useMemo(() => selectedValue || currentValue || '', [selectedValue, currentValue]);
 
 		const selectedOption = useMemo(
@@ -107,43 +108,33 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 			}
 		}, [currentValue]);
 
-		// 옵션 선택 처리
 		const handleSelect = useCallback(
 			(optionValue: string | number) => {
 				setSelectedValue(optionValue);
 				setIsOpen(false);
 
-				// React Hook Form 연동
 				if (register?.onChange) {
 					register.onChange({
 						target: { name: register.name, value: optionValue }
 					});
 				}
 
-				// 외부 콜백 호출
 				onChange?.(optionValue);
 			},
 			[register, onChange]
 		);
 
 		// 토글 처리
-		const handleToggle = useCallback(
-			(e: React.MouseEvent) => {
-				// TODO: 드롭박스 안열려서 추가 (논의 필요)
-				e?.stopPropagation();
-				if (!disabled) {
-					setIsOpen(prev => !prev);
-				}
-			},
-			[disabled]
-		);
+		const handleToggle = useCallback(() => {
+			if (!disabled) {
+				setIsOpen(prev => !prev);
+				console.log('setIsOpen', isOpen);
+			}
+		}, [disabled]);
 
 		return (
 			<div ref={ref} className={`relative ${className}`}>
-				{/* React Hook Form을 위한 hidden input */}
 				{register && <input type="hidden" {...register} value={displayValue} readOnly />}
-
-				{/* 셀렉트 버튼 */}
 				<BasicSelectButton
 					expanded={expanded}
 					placeholder={placeholder}
@@ -152,21 +143,20 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 					displayText={selectedOption?.text}
 					isOpen={isOpen}
 					onClick={handleToggle}
-					className="overflow-hidden">
+					className="relative">
 					{children}
 				</BasicSelectButton>
-
-				{/* 드롭다운 */}
-				{isOpen && (
-					<BasicDropbox
-						ref={containerRef as React.RefObject<HTMLDivElement>}
-						options={options}
-						callbackOnclick={handleSelect}
-						selectedValue={displayValue}
-						isLarge={expanded}
-						className="left-0"
-					/>
-				)}
+				<BasicDropbox
+					ref={containerRef as React.RefObject<HTMLDivElement>}
+					options={options}
+					callbackOnclick={handleSelect}
+					selectedValue={selectedValue || defaultValue}
+					isLarge={expanded}
+					className={cn(
+						'pc:left-0 transition-all duration-200 ease-out',
+						isOpen ? 'animate-in fade-in-0 zoom-in-95 visible' : 'animate-out fade-out-0 zoom-out-95 invisible'
+					)}
+				/>
 			</div>
 		);
 	}

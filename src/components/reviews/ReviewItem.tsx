@@ -29,7 +29,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 							className="bg-primary-100"
 						/>
 					) : (
-						<div className="tb:w-70 flex h-39 w-full items-center justify-center rounded-3xl bg-primary-100">
+						<div className="tb:w-70 bg-primary-100 flex h-39 w-full items-center justify-center rounded-3xl">
 							<span className="text-sm text-gray-500">이미지 없음</span>
 						</div>
 					)}
@@ -37,7 +37,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 
 				{/* 리뷰 정보 */}
 				<div className="tb:border-b-2 tb:border-dashed tb:border-gray-200 flex grow flex-col gap-2 font-medium">
-					<div className="flex flex-col gap-2.5 text-gray-700">
+					<div className="flex flex-col gap-2.5 text-gray-200">
 						{reviewData?.score && (
 							<div className="flex gap-0.5">
 								{Array.from({ length: reviewData?.score }).map((_, index) => (
@@ -65,7 +65,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 							{reviewData?.Gathering?.name} 이용 · {reviewData?.Gathering?.location}
 						</p>
 					</div>
-					<div className="flex items-center gap-2 text-xs text-gray-700">
+					<div className="flex items-center gap-2 text-xs text-gray-500">
 						{reviewData?.User?.image ? (
 							<div className="relative h-6 w-6">
 								<Image
@@ -81,7 +81,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 						)}
 						{reviewData?.User?.name}
 						<span className="mr-1"> | </span>
-						<span className="text-gray-500">{formatKoreanDate(reviewData?.createdAt || '', 'yyyy.MM.dd')}</span>
+						<span className="text-gray-400">{formatKoreanDate(reviewData?.createdAt || '', 'yyyy.MM.dd')}</span>
 					</div>
 				</div>
 				<div className="tb:hidden border-b-2 border-dashed border-gray-200" />

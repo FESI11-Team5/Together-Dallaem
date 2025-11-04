@@ -71,7 +71,7 @@ export default function BasicCheckBox({
 
 	return (
 		<div
-			className={`flex h-[70px] w-full cursor-pointer items-start gap-2 rounded-[8px] border-2 ${isChecked ? 'border-primary-400 shadow-primary-500/50 shadow-lg' : 'border-black'} ${isLarge ? 'pt-[12px] pr-[20px] pb-[16px] pl-[16px]' : 'pt-[6px] pr-[20px] pb-[30px] pl-[6px]'}`}
+			className={`bg-root flex h-[70px] w-full max-w-[160px] cursor-pointer items-start gap-2 rounded-[8px] border-2 ${isChecked ? 'border-primary-400 shadow-primary-500/50 shadow-lg' : 'border-gray-500'} ${isLarge ? 'pt-[12px] pr-[20px] pb-[16px] pl-[16px]' : 'pt-[6px] pr-[20px] pb-[30px] pl-[6px]'}`}
 			onClick={handleClick}>
 			<input type="checkbox" className="hidden" checked={isChecked} {...rest} {...register} readOnly />
 			<div
@@ -83,13 +83,13 @@ export default function BasicCheckBox({
 			<div className="flex flex-col gap-1">
 				{title && (
 					<span
-						className={`text-base font-semibold break-keep text-gray-700 ${isChecked ? 'text-white' : 'text-gray-700'}`}>
+						className={`text-base font-semibold break-keep text-gray-700 ${isChecked ? 'text-white' : 'text-gray-500'}`}>
 						{title}
 					</span>
 				)}
 				{content && (
 					<span
-						className={`text-xs font-semibold break-keep text-gray-700 ${isChecked ? 'text-white' : 'text-gray-700'}`}>
+						className={`text-xs font-semibold break-keep text-gray-700 ${isChecked ? 'text-white' : 'text-gray-500'}`}>
 						{content}
 					</span>
 				)}
