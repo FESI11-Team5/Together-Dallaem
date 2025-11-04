@@ -42,7 +42,6 @@ export default function BasicPagination({ currentPage, totalPages, onPageChange,
 				</PaginationButton>
 
 				{/* 페이지 번호 버튼 */}
-				{/* 페이지 번호 버튼이 Number면은 숫자를 보여주고 아니면 '...' 보여줌 */}
 				{pages.map((page, idx) =>
 					typeof page === 'number' ? (
 						<PaginationButton key={idx} isActive={currentPage === page} onClick={() => onPageChange(page)}>

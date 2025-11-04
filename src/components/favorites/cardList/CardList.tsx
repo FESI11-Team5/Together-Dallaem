@@ -27,7 +27,7 @@ export default function CardList({ data }: CardListProps) {
 	const now = new Date();
 	const endDate = new Date(registrationEnd);
 	const isClosed = participantCount >= capacity || isPast(new Date(registrationEnd));
-	const isFull = participantCount === capacity;
+
 	const removeWish = useWishlistStore(state => state.removeWish);
 	let tagText = '';
 	let category = '';
@@ -77,7 +77,7 @@ export default function CardList({ data }: CardListProps) {
 							</div>
 
 							{/* 칩 인포 (날짜 + 시간) */}
-							<div className="mt-2 flex items-start gap-2">
+							<div className="flex items-start gap-2">
 								<ChipInfo text={date} textColor="white" />
 								<ChipInfo text={time} textColor="primary" />
 							</div>
@@ -110,13 +110,7 @@ export default function CardList({ data }: CardListProps) {
 						e.stopPropagation(); // 부모 요소의 클릭 이벤트 전파 방지
 					}}>
 					<div className="flex flex-col gap-6">
-						{isFull ? (
-							<p className="leading-sm text-center text-sm font-medium">
-								{FULL_GATHERING_MESSAGE.title}
-								<br />
-								{FULL_GATHERING_MESSAGE.subTitle}
-							</p>
-						) : (
+						{isClosed && (
 							<p className="leading-sm text-center text-sm font-medium">
 								{CLOSED_GATHERING_MESSAGE.title}
 								<br />

@@ -26,7 +26,7 @@ function FloatingCreateButton() {
 		<GuardedButton
 			id="floating-button"
 			onClick={() => openModal(<GatheringFunnel />)}
-			className="z-layout fixed right-8 bottom-8 flex">
+			className="z-layout fixed! right-8 bottom-8">
 			<span>크루 생성</span>
 		</GuardedButton>
 	);

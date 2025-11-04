@@ -9,6 +9,7 @@ import { getGatherings } from '@/apis/gatherings';
 import { useWishlistStore } from '@/stores/wishlist';
 import { LIKED_GATHERING_MESSAGE } from '@/constants/messages';
 import type { GatheringType } from '@/types/response/gatherings';
+import { TYPE_OPTIONS } from '@/constants/options';
 
 import * as motion from 'motion/react-client';
 import Image from 'next/image';
@@ -86,20 +87,12 @@ export default function FavoriteGatherings() {
 	};
 
 	return (
-		<div className="max-mb:px-4 flex h-auto flex-col items-center pt-6">
+		<div className="max-mb:px-4 max-mb:pt-6 flex h-auto flex-col items-center pt-[46px]">
 			<div className="w-full max-w-[996px]">
 				{/* 타이틀 */}
-				<section className="flex w-full items-start justify-start gap-[13px]">
-					<div className="flex h-18 w-18 items-center justify-center rounded-full">
-						<Image
-							priority
-							src="/icons/favorite_cat.svg"
-							alt={'찜한 크루 이미지'}
-							width={72}
-							height={72}
-							className="object-cover"
-						/>
-					</div>
+				<section className="flex gap-4">
+					<Image priority src="/icons/favorite_cat.svg" alt={'찜한 크루 이미지'} width={72} height={72} />
+
 					<div className="flex flex-col items-start justify-center gap-2">
 						<h1
 							className={cn(
@@ -121,10 +114,7 @@ export default function FavoriteGatherings() {
 				{/* 탭 */}
 				<div className="mt-6 mb-3">
 					<Tab
-						options={[
-							{ value: 'DALLAEMFIT', text: '함께 플레이', icon: '/icons/find_crew.svg' },
-							{ value: 'WORKATION', text: '교환/통신하기', icon: '/icons/exchange.svg' }
-						]}
+						options={TYPE_OPTIONS}
 						selectedTab={selectedTab}
 						onTabChange={tabValue => {
 							setSelectedTab(tabValue as 'DALLAEMFIT' | 'WORKATION');

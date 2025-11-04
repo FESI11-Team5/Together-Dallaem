@@ -16,7 +16,7 @@ interface PaginationButtonProps {
 const paginationButtonVariants = cva(
 	//기본 버튼 클래스
 	'flex items-center justify-center rounded-[8px] text-base leading-lg mt-2 hover:bg-primary-600 transition-bg duration-200 ease-in-out' +
-		'h-[34px] w-[34px] md:h-12 md:w-12',
+		'max-mb:h-8 max-mb:w-8 mb:h-12 mb:w-12',
 	{
 		variants: {
 			variant: {
