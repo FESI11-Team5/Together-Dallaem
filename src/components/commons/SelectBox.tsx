@@ -4,6 +4,7 @@ import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'r
 import { UseFormRegisterReturn, useFormContext } from 'react-hook-form';
 import BasicDropbox, { OptionType } from './basic/BasicDropbox';
 import BasicSelectButton from './basic/BasicSelectButton';
+import { DropdownMenu } from '@/components/commons/GNB/DropdownMenu';
 
 interface SelectBoxProps {
 	/** 선택 항목들의 배열 */
@@ -122,46 +123,32 @@ const SelectBox = forwardRef<HTMLDivElement, SelectBoxProps>(
 		);
 
 		// 토글 처리
-		const handleToggle = useCallback(
-			(e: React.MouseEvent) => {
-				// TODO: 드롭박스 안열려서 추가 (논의 필요)
-				e?.stopPropagation();
-				if (!disabled) {
-					setIsOpen(prev => !prev);
-				}
-			},
-			[disabled]
-		);
+		const handleToggle = useCallback(() => {
+			if (!disabled) {
+				setIsOpen(prev => !prev);
+				console.log('setIsOpen', isOpen);
+			}
+		}, [disabled]);
 
 		return (
 			<div ref={ref} className={`relative ${className}`}>
-				{/* React Hook Form을 위한 hidden input */}
 				{register && <input type="hidden" {...register} value={displayValue} readOnly />}
-
-				{/* 셀렉트 버튼 */}
-				<BasicSelectButton
-					expanded={expanded}
-					placeholder={placeholder}
-					disabled={disabled}
-					value={displayValue}
-					displayText={selectedOption?.text}
-					isOpen={isOpen}
-					onClick={handleToggle}
-					className="overflow-hidden">
-					{children}
-				</BasicSelectButton>
-
-				{/* 드롭다운 */}
-				{isOpen && (
-					<BasicDropbox
-						ref={containerRef as React.RefObject<HTMLDivElement>}
-						options={options}
-						callbackOnclick={handleSelect}
-						selectedValue={displayValue}
-						isLarge={expanded}
-						className="left-0"
-					/>
-				)}
+				<DropdownMenu>
+					<DropdownMenu.Trigger>
+						<BasicSelectButton
+							expanded={expanded}
+							placeholder={placeholder}
+							disabled={disabled}
+							value={displayValue}
+							displayText={selectedOption?.text}
+							isOpen={isOpen}
+							onClick={handleToggle}
+							className="relative">
+							{children}
+						</BasicSelectButton>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content options={options} onClick={handleSelect} />
+				</DropdownMenu>
 			</div>
 		);
 	}
