@@ -3,7 +3,6 @@
 import { forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
-import { forwardRef, useMemo } from 'react';
 
 const basicSelectButtonVariants = cva(
 	'bg-root border-2 rounded-[12px] font-medium outline-none box-border flex items-center justify-between text-left transition-all cursor-pointer',
