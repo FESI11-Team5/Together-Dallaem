@@ -4,6 +4,7 @@ import ReviewItem from './ReviewItem';
 import BasicPagination from '../commons/basic/BasicPagination';
 import Image from 'next/image';
 import MyActivitySkeleton from '../me/skeleton/MyActivitySkeleton';
+import NoDataMessage from '../commons/NoDataMessage/NoDataMessage';
 
 export default function ReviewSection({
 	reviewData,
@@ -45,10 +46,7 @@ export default function ReviewSection({
 					/>
 				</>
 			) : (
-				<div className="flex h-full flex-col items-center justify-center">
-					<Image src="/images/no_data.svg" alt="데이터 없음" width={171} height={136} />
-					<p className="text-sm text-gray-500">등록된 리뷰가 없습니다.</p>
-				</div>
+				<NoDataMessage text="등록된 리뷰가 없어요!" />
 			)}
 		</div>
 	);
