@@ -93,7 +93,7 @@ export default function Reviews() {
 	});
 
 	return (
-		<div className="box-border bg-white/15" style={{ fontFamily: 'var(--font-pretendard)' }}>
+		<div className="box-border bg-gray-900" style={{ fontFamily: 'var(--font-pretendard)' }}>
 			<div className="tb:px-6 tb:pt-10 pc:max-w-300 pc:px-25 bg-root m-auto min-h-[100vh] px-4 pt-6">
 				<section className="mb-[38px] flex gap-4">
 					<Image src="/images/review.svg" alt="review icon" width={72} height={72} />

@@ -15,6 +15,18 @@ import { ReviewResponse } from '@/types/response/reviews';
  * <WrittenReviewCard gathering={gatheringData} />
  */
 export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse | null }) {
+	const switchCategory = function (location: string) {
+		switch (location) {
+			case '건대입구':
+				return 'AOS';
+			case '을지로3가':
+				return 'Adventure';
+			case '신림':
+				return 'FPS';
+			case '홍대입구':
+				return 'RPG';
+		}
+	};
 	return (
 		<div key={reviewData?.id} className="w-full">
 			<div className="tb:flex-row relative flex flex-col content-between gap-6">
@@ -62,7 +74,7 @@ export default function ReviewItem({ reviewData }: { reviewData: ReviewResponse 
 						)}
 						<p className="text-sm">{reviewData?.comment}</p>
 						<p className="text-xs">
-							{reviewData?.Gathering?.name} 이용 · {reviewData?.Gathering?.location}
+							{reviewData?.Gathering?.name} 이용 · {switchCategory(reviewData?.Gathering?.location || '')}
 						</p>
 					</div>
 					<div className="flex items-center gap-2 text-xs text-gray-500">
