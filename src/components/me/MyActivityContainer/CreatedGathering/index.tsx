@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CardLayout from '../common/CardLayout/CardLayout';
-import NoDataMessage from '../common/NoDataMessage/NoDataMessage';
+import NoDataMessage from '../../../commons/NoDataMessage/NoDataMessage';
 import { getGatherings } from '@/apis/gatherings';
 import { Gathering } from '@/types/response/gatherings';
 import { useUserStore } from '@/stores/user';

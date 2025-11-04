@@ -97,7 +97,7 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 				<Button
 					variant="outline"
 					className={cn(
-						'bg-root border-primary-500 h-[40px] w-full justify-between rounded-md border-2 text-left font-normal',
+						'bg-root border-primary-500 h-10 w-full justify-between rounded-md border-2 text-left font-normal',
 
 						!date && 'text-white'
 					)}>
@@ -114,7 +114,7 @@ export default function GatheringCalendar({ value, pageType, onChange }: Gatheri
 				</Button>
 			</PopoverTrigger>
 
-			<PopoverContent className="bg-root w-auto" align="start">
+			<PopoverContent className="bg-root w-auto border-2 border-white" align="start">
 				<div className={`${pageType === 'create' ? 'mb:flex w-auto' : 'flex flex-col'}`}>
 					<Calendar
 						mode="single"

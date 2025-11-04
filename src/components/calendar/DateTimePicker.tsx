@@ -96,7 +96,7 @@ export default function DateTimePicker({
 		<div className="flex flex-col gap-4">
 			<div className="mb:h-[230px] mb:flex-row mb:divide-x mb:w-full flex flex-col">
 				{/* Hour */}
-				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
+				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-r-0 border-l-0 border-white">
 					<div className="mb:flex-col mb:w-auto flex p-2">
 						{hours.map(h => (
 							<Button
@@ -113,7 +113,7 @@ export default function DateTimePicker({
 				</ScrollArea>
 
 				{/* Minute */}
-				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0">
+				<ScrollArea className="mb:w-auto mb:border-t-0 mb:border-l w-64 border-t border-l-0 border-white">
 					<div className="mb:flex-col flex p-2">
 						{minutes.map(m => (
 							<Button

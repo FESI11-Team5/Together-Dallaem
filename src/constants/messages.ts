@@ -56,8 +56,8 @@ export const POPUP_MESSAGE: Record<PopupMessageKey, PopupMessage> = {
 
 /** 푸터 메세지 */
 export const FOOTER_MESSAGE = {
-	title: '더 건강한 나와 팀을 위한 프로그램 🏃🏻',
-	subTitle: '모임을 공유해서 더 많은 사람들이 참여할 수 있도록 독려해봐요'
+	title: '더 강해지는 나와 팀을 위한 플레이',
+	subTitle: '친구들과 공유하고 더 많은 게이머를 불러보세요 🔥'
 };
 
 /**
@@ -72,9 +72,9 @@ export const AUTH_GUIDE_MESSAGES = {
  * 찜한 모임 페이지 메시지
  */
 export const LIKED_GATHERING_MESSAGE = {
-	title: '찜한 모임',
-	subTitle: '마감되기 전에 지금 바로 참여해보세요👀',
-	noData: '아직 찜한 모임이 없어요'
+	title: '⚡ 찜한 크루 ON AIR',
+	subTitle: '늦기 전에 합류해 — 지금이 타이밍이야 💫',
+	noData: '아직 찜한 크루가 없어요'
 };
 
 /**
@@ -83,6 +83,12 @@ export const LIKED_GATHERING_MESSAGE = {
 export const CLOSED_GATHERING_MESSAGE = {
 	title: '마감된 챌린지예요,',
 	subTitle: '다음 기회에 만나요 🙏'
+};
+
+/** 정원이 가득 찬 모임 카드 메세지 */
+export const FULL_GATHERING_MESSAGE = {
+	title: '이 크루는 만석이에요 🔐',
+	subTitle: '다른 크루를 찾아볼까요?'
 };
 
 /**

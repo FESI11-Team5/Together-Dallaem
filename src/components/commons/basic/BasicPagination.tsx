@@ -37,19 +37,18 @@ export default function BasicPagination({ currentPage, totalPages, onPageChange,
 						width={24}
 						height={24}
 						alt="◀︎"
-						className={`${currentPage === 1 ? 'cursor-not-allowed' : 'hover:invert'}`}
+						className={`${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
 					/>
 				</PaginationButton>
 
 				{/* 페이지 번호 버튼 */}
-				{/* 페이지 번호 버튼이 Number면은 숫자를 보여주고 아니면 '...' 보여줌 */}
 				{pages.map((page, idx) =>
 					typeof page === 'number' ? (
 						<PaginationButton key={idx} isActive={currentPage === page} onClick={() => onPageChange(page)}>
 							{page}
 						</PaginationButton>
 					) : (
-						<span key={idx} className="flex h-[48px] w-[48px] items-center justify-center text-gray-400">
+						<span key={idx} className="flex h-12 w-12 items-center justify-center text-white">
 							{page}
 						</span>
 					)
@@ -62,7 +61,7 @@ export default function BasicPagination({ currentPage, totalPages, onPageChange,
 						width={24}
 						height={24}
 						alt="▶︎"
-						className={`rotate-180 ${currentPage === totalPages ? 'cursor-not-allowed' : 'hover:invert'}`}
+						className={`rotate-180 ${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
 					/>
 				</PaginationButton>
 			</div>
