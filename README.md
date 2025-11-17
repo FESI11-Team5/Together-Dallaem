@@ -21,7 +21,7 @@
     </td>
     <td align="center">
       <img width="full" height="200" alt="이미지 로고" src="https://github.com/user-attachments/assets/b068a653-3630-4ef1-ae32-3f94224ff7ae" /><br/>
-      <b>김철수</b><br/>
+      <b>김정운</b><br/>
       <b>공통 컴포넌트, 리뷰 페이지</b><br/>
       <a href="https://github.com/annann23">GitHub Profile</a>
     </td>
@@ -35,7 +35,7 @@
     </td>
     <td align="center">
       <img width="full" height="200" alt="이미지 로고" src="https://github.com/user-attachments/assets/57977b85-fb14-4ef5-9e3a-b4f3930d3647" /><br/>
-      <b>박민수 – Frontend Developer</b><br/>
+      <b>박지훈</b><br/>
       <b>마이페이지, 프로젝트 로고 디자인, 자동배포</b><br/>
       <a href="https://github.com/bbagbbagn2">GitHub Profile</a>
     </td>
